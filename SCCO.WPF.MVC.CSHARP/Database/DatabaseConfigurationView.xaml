@@ -92,6 +92,22 @@
 					<TextBlock Foreground="#7FFFFFFF"
 						Text="This will set the branch dedicated for this application's database."
 						TextWrapping="Wrap" /></StackPanel>
+				<StackPanel x:Name="AdvancePanel" Orientation="Vertical" Margin="0,12,0,0" Visibility="Collapsed">
+					<StackPanel Margin="0,12,0,0">
+						<Label Content="Password" />
+						<PasswordBox x:Name="DatabasePassword" Height="28"></PasswordBox>
+						<TextBlock Foreground="#7FFFFFFF"
+							Text="The password used to connect with the database"
+							TextWrapping="Wrap" />
+					</StackPanel>
+					<StackPanel Margin="0,12,0,0">
+						<Label Content="Port" />
+						<TextBox x:Name="DatabasePort" Style="{StaticResource RoundedTextBox}" />
+						<TextBlock Foreground="#7FFFFFFF"
+							Text="The dedicated port for the database"
+							TextWrapping="Wrap" />
+					</StackPanel>
+				</StackPanel>
             </StackPanel>
             <Button x:Name="UpdateButton"
                     Grid.Row="2"
