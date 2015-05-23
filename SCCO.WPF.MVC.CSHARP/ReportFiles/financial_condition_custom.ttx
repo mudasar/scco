@@ -1,0 +1,8 @@
+order_no	Number		3
+description	String	100	          Cash on Hand
+account_code	String	10	101
+end_balance	Number		287978.7
+group_balance	Number		
+is_end_balance_underlined	Boolean		1
+is_group_balance_underlined	Boolean		
+as_of	Date		2014-04-30

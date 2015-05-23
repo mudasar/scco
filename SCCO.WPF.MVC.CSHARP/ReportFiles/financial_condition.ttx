@@ -1,0 +1,10 @@
+account_type_id	  Number 1
+type	String	20	Assets
+account_category_id	 Number 1
+category	String	30	Current Assets
+group_code	String	3	101
+group_name	String	70	Cash on Hand
+account_code	String	10	101
+account_title	String	100	Cash on Hand
+ending_balance	Number		44829.34
+as_of	Date		2014-02-18

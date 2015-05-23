@@ -1,0 +1,1736 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{1BBE9AB1-D118-4955-8EA2-8B0F82955243}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SCCO.WPF.MVC.CS</RootNamespace>
+    <AssemblyName>SCCO.WPF.MVC.CS</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <Utf8Output>true</Utf8Output>
+    <ExpressionBlendVersion>4.0.20525.0</ExpressionBlendVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>2.1.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <SccProjectName>Svn</SccProjectName>
+    <SccLocalPath>Svn</SccLocalPath>
+    <SccAuxPath>Svn</SccAuxPath>
+    <SccProvider>SubversionScc</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>SCCO.WPF.MVC.CS.App</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>chart.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Prerequisites\CrystalDecisions.CrystalReports.Engine.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="CrystalDecisions.ReportSource, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.Shared, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>COM\CrystalDecisions.Shared.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="mysql.data, Version=6.3.6.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>COM\mysql.data.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationFramework.Aero" />
+    <Reference Include="PresentationFramework.Classic" />
+    <Reference Include="SAPBusinessObjects.WPF.Viewer, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>COM\SAPBusinessObjects.WPF.Viewer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="AboutProject\AboutView.xaml.cs">
+      <DependentUpon>AboutView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AboutProject\Controller.cs" />
+    <Compile Include="AboutProject\AboutViewModel.cs" />
+    <Compile Include="Controllers\ActionController.cs" />
+    <Compile Include="Controllers\BudgetsController.cs" />
+    <Compile Include="Controllers\LoanAmortizationController.cs" />
+    <Compile Include="Controllers\ReportController.cs" />
+    <Compile Include="Controllers\SavingsDepositController.cs" />
+    <Compile Include="Database\DatabaseConfigurationView.xaml.cs">
+      <DependentUpon>DatabaseConfigurationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AModelBase.cs" />
+    <Compile Include="Models\Budget.cs" />
+    <Compile Include="Models\GeneralLedgerBalance.cs" />
+    <Compile Include="Models\GlobalSettings.cs" />
+    <Compile Include="Models\Collections\Collections.cs" />
+    <Compile Include="Models\Loan\ComputationDetail.cs" />
+    <Compile Include="Models\Loan\LoanAmortizationHeader.cs" />
+    <Compile Include="Models\Loan\ModeOfPayments.cs" />
+    <Compile Include="Models\Loan\OutstandingLoan.cs" />
+    <Compile Include="Models\MemberAccountMontlyEndBalance.cs" />
+    <Compile Include="Models\ModelBase.cs" />
+    <Compile Include="Models\TimeDeposit\TimeDeposit.cs" />
+    <Compile Include="Models\VoucherLog.cs" />
+    <Compile Include="Models\VoucherDocument.cs" />
+    <Compile Include="Models\VoucherTypes.cs" />
+    <Compile Include="ReportFiles\aging_of_loans.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>aging_of_loans.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="ReportFiles\borrower_makers.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>borrower_makers.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="ReportFiles\cv_attachment.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cv_attachment.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="ReportFiles\cv_detailed.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cv_detailed.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="ReportFiles\cv_form.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cv_form.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="ReportFiles\cv_per_account.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cv_per_account.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="ReportFiles\cv_summary.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cv_summary.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="ReportFiles\daily_collection_detailed.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>daily_collection_detailed.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="ReportFiles\daily_collection_summary.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>daily_collection_summary.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="ReportFiles\financial_condition.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>financial_condition.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="ReportFiles\financial_condition_custom.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>financial_condition_custom.rpt</DependentUpon>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="ReportFiles\financial_operation.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>financial_operation.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="ReportFiles\fines_rebate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>fines_rebate.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="ReportFiles\jv_attachment.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>jv_attachment.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="ReportFiles\jv_detailed.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>jv_detailed.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="ReportFiles\jv_form.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>jv_form.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="ReportFiles\jv_per_account.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>jv_per_account.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="ReportFiles\jv_summary.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>jv_summary.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="ReportFiles\loan_amortization_schedule.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>loan_amortization_schedule.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="ReportFiles\loan_computation.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>loan_computation.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="ReportFiles\loan_non_performing.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>loan_non_performing.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="ReportFiles\loan_released_detail.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>loan_released_detail.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="ReportFiles\loan_released_summary.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>loan_released_summary.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="ReportFiles\mis_report.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>mis_report.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="ReportFiles\notice_comakers.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>notice_comakers.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="ReportFiles\notice_loan_near_maturity.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>notice_loan_near_maturity.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="ReportFiles\notice_loan_non_performing.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>notice_loan_non_performing.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="ReportFiles\notice_loan_overdue.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>notice_loan_overdue.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="ReportFiles\notice_loan_overdue_non_responsive.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>notice_loan_overdue_non_responsive.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="ReportFiles\or_collector_summary.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>or_collector_summary.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="ReportFiles\or_detailed.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>or_detailed.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="ReportFiles\or_form.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>or_form.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="ReportFiles\or_per_account.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>or_per_account.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="ReportFiles\or_summary.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>or_summary.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="ReportFiles\schedule.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>schedule.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="ReportFiles\schedule_loan.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>schedule_loan.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="ReportFiles\schedule_time_deposit.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>schedule_time_deposit.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="ReportFiles\soa_detailed.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>soa_detailed.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="ReportFiles\soa_summary.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>soa_summary.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="ReportFiles\teller_collector_form.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>teller_collector_form.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="ReportFiles\withdrawal_validation.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>withdrawal_validation.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Resources\AccountNatureConverter.cs" />
+    <Compile Include="Resources\CharBooleanConverter.cs" />
+    <Compile Include="Utilities\DataTableHelper.cs" />
+    <Compile Include="Views\AccountModule\AccountCategoryView.xaml.cs">
+      <DependentUpon>AccountCategoryView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AccountModule\AccountListDetailView.xaml.cs">
+      <DependentUpon>AccountListDetailView.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Views\AccountModule\AccountViewModel.cs" />
+    <Compile Include="Views\AccountModule\AddAccountView.xaml.cs">
+      <DependentUpon>AddAccountView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AccountModule\EditAccountView.xaml.cs">
+      <DependentUpon>EditAccountView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AccountModule\AccountsPerGroupView.xaml.cs">
+      <DependentUpon>AccountsPerGroupView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AccountVerifierModule\AccountVerifierGeneralLedgerViewModel.cs" />
+    <Compile Include="Views\AccountVerifierModule\AccountVerifierViewModel.cs" />
+    <Compile Include="Views\AccountVerifierModule\AccountVerifierGLWindow.xaml.cs">
+      <DependentUpon>AccountVerifierGLWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AdministratorModule\AdministratorWindow.xaml.cs">
+      <DependentUpon>AdministratorWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\InitialSetupModule\BranchNameSetupWindow.xaml.cs">
+      <DependentUpon>BranchNameSetupWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AdministratorModule\DividendDistributionViewModel.cs" />
+    <Compile Include="Views\AdministratorModule\InterestOnSavingsDepositViewModel.cs" />
+    <Compile Include="Views\AdministratorModule\GlobalVariablesView.xaml.cs">
+      <DependentUpon>GlobalVariablesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AdministratorModule\DividendDistributionWindow.xaml.cs">
+      <DependentUpon>DividendDistributionWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AdministratorModule\GlobalVariablesViewModel.cs" />
+    <Compile Include="Views\AdministratorModule\PatronageRefundViewModel.cs" />
+    <Compile Include="Views\AdministratorModule\UnearnedInterestFromLoansViewModel.cs" />
+    <Compile Include="Views\AdministratorModule\InterestOnSavingsDepositWindow.xaml.cs">
+      <DependentUpon>InterestOnSavingsDepositWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AdministratorModule\PatronageRefundWindow.xaml.cs">
+      <DependentUpon>PatronageRefundWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AdministratorModule\UnearnedInterestFromLoansWindow.xaml.cs">
+      <DependentUpon>UnearnedInterestFromLoansWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AdministratorModule\UpdateBeginningBalanceViewModel.cs" />
+    <Compile Include="Views\AdministratorModule\UpdateBeginningBalanceWindow.xaml.cs">
+      <DependentUpon>UpdateBeginningBalanceWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AreaModule\AddAreaView.xaml.cs">
+      <DependentUpon>AddAreaView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AreaModule\AreaListDetailView.xaml.cs">
+      <DependentUpon>AreaListDetailView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AreaModule\AreaViewModel.cs" />
+    <Compile Include="Views\AreaModule\EditAreaView.xaml.cs">
+      <DependentUpon>EditAreaView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BudgetModule\BudgetAddView.xaml.cs">
+      <DependentUpon>BudgetAddView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BudgetModule\BudgetViewModel.cs" />
+    <Compile Include="Views\BudgetModule\BudgetsListView.xaml.cs">
+      <DependentUpon>BudgetsListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BudgetModule\BudgetEditView.xaml.cs">
+      <DependentUpon>BudgetEditView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CompanyView.xaml.cs">
+      <DependentUpon>CompanyView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ForwardedBalanceModule\AddForwardedBalanceView.xaml.cs">
+      <DependentUpon>AddForwardedBalanceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ForwardedBalanceModule\ForwardedBalanceViewModel.cs" />
+    <Compile Include="Views\BranchModule\AddBranchView.xaml.cs">
+      <DependentUpon>AddBranchView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BranchModule\BranchListDetailView.xaml.cs">
+      <DependentUpon>BranchListDetailView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BranchModule\BranchViewModel.cs" />
+    <Compile Include="Views\BranchModule\EditBranchView.xaml.cs">
+      <DependentUpon>EditBranchView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ClassificationModule\AddClassificationView.xaml.cs">
+      <DependentUpon>AddClassificationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ClassificationModule\ClassificationListDetailView.xaml.cs">
+      <DependentUpon>ClassificationListDetailView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ClassificationModule\ClassificationViewModel.cs" />
+    <Compile Include="Views\ClassificationModule\EditClassificationView.xaml.cs">
+      <DependentUpon>EditClassificationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CollectorModule\AddCollectorView.xaml.cs">
+      <DependentUpon>AddCollectorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CollectorModule\EditCollectorView.xaml.cs">
+      <DependentUpon>EditCollectorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CollectorModule\CollectorListDetailView.xaml.cs">
+      <DependentUpon>CollectorListDetailView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CollectorModule\CollectorViewModel.cs" />
+    <Compile Include="Views\GeneralLedgerBalanceModule\GeneralLedgerBalanceView.xaml.cs">
+      <DependentUpon>GeneralLedgerBalanceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GeneralLedgerBalanceModule\GeneralLedgerBalanceListView.xaml.cs">
+      <DependentUpon>GeneralLedgerBalanceListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GeneralLedgerBalanceModule\GeneralLedgerBalanceViewModel.cs" />
+    <Compile Include="Views\LoanModule\FinesRebateCalculatorViewModel.cs" />
+    <Compile Include="Views\LoanModule\FinesRebateCalculatorWindow.xaml.cs">
+      <DependentUpon>FinesRebateCalculatorWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AccountVerifierModule\LoanNoticesView.xaml.cs">
+      <DependentUpon>LoanNoticesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LoanModule\LoanDetailsWindow.xaml.cs">
+      <DependentUpon>LoanDetailsWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PostJournalVoucherView.xaml.cs">
+      <DependentUpon>PostJournalVoucherView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ProductImageModule\AddProductImageView.xaml.cs">
+      <DependentUpon>AddProductImageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ProductImageModule\EditProductImageView.xaml.cs">
+      <DependentUpon>EditProductImageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ProductImageModule\ProductImageListDetailView.xaml.cs">
+      <DependentUpon>ProductImageListDetailView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ProductImageModule\ProductImageViewModel.cs" />
+    <Compile Include="Views\LoanModule\LoanProductViewModel.cs" />
+    <Compile Include="Views\ReportItemModule\AddReportItemView.xaml.cs">
+      <DependentUpon>AddReportItemView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ReportItemModule\EditReportItemView.xaml.cs">
+      <DependentUpon>EditReportItemView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ReportItemModule\ReportItemsView.xaml.cs">
+      <DependentUpon>ReportItemsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ReportItemModule\ReportItemViewModel.cs" />
+    <Compile Include="Views\AdministratorModule\PostInterestOnSavingsDepositView.xaml.cs">
+      <DependentUpon>PostInterestOnSavingsDepositView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ReportsModule\LoanNoticesView.xaml.cs">
+      <DependentUpon>LoanNoticesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AccountVerifierModule\LoanNoticesViewModel.cs" />
+    <Compile Include="Views\ReportsModule\LoanReportsView.xaml.cs">
+      <DependentUpon>LoanReportsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SalaryAdvanceModule\SalaryAdvanceView.xaml.cs">
+      <DependentUpon>SalaryAdvanceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SavingsDepositModule\PostSavingsDepositView.xaml.cs">
+      <DependentUpon>PostSavingsDepositView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SearchModule\SearchViewModel.cs" />
+    <Compile Include="Views\TimeDepositModule\PostTimeDepositView.xaml.cs">
+      <DependentUpon>PostTimeDepositView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserModule\EditUserViewModel.cs" />
+    <Compile Include="Views\DepartmentModule\AddDepartmentView.xaml.cs">
+      <DependentUpon>AddDepartmentView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DepartmentModule\DepartmentListDetailView.xaml.cs">
+      <DependentUpon>DepartmentListDetailView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DepartmentModule\DepartmentViewModel.cs" />
+    <Compile Include="Views\DepartmentModule\EditDepartmentView.xaml.cs">
+      <DependentUpon>EditDepartmentView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\IListDetailView.cs" />
+    <Compile Include="Views\LoanModule\EditLoanProductView.xaml.cs">
+      <DependentUpon>EditLoanProductView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LoanModule\LoanProductsListWindow.xaml.cs">
+      <DependentUpon>LoanProductsListWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AccountVerifier\AccountDetail.cs" />
+    <Compile Include="Models\AccountVerifier\AccountSummary.cs" />
+    <Compile Include="Models\Enums.cs" />
+    <Compile Include="Models\Loan\LoanDetails.cs" />
+    <Compile Include="Models\Loan\LoanDeduction.cs" />
+    <Compile Include="Models\Loan\LoanPostingDetails.cs" />
+    <Compile Include="Models\ProductImage.cs" />
+    <Compile Include="Models\TimeDeposit\TimeDepositDetails.cs" />
+    <Compile Include="Models\ForwardedBalance.cs" />
+    <Compile Include="Models\CashVoucher.cs" />
+    <Compile Include="Models\CashAndCheckBreakDown.cs" />
+    <Compile Include="Models\JournalVoucher.cs" />
+    <Compile Include="Models\Nfmb.cs" />
+    <Compile Include="Models\OfficialReceipt.cs" />
+    <Compile Include="Models\TellerCollector.cs" />
+    <Compile Include="Resources\DateConverter.cs" />
+    <Compile Include="Resources\DatePickerConverter.cs" />
+    <Compile Include="Resources\DecimalConverter.cs" />
+    <Compile Include="Resources\IntegerConverter.cs" />
+    <Compile Include="Resources\PercentageConverter.cs" />
+    <Compile Include="UserControls\TextBoxSearchControl.xaml.cs">
+      <DependentUpon>TextBoxSearchControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Utilities\Converter.cs" />
+    <Compile Include="Utilities\ImageTool.cs" />
+    <Compile Include="Utilities\Logger.cs" />
+    <Compile Include="Controllers\ModelController.cs" />
+    <Compile Include="Controllers\Result.cs" />
+    <Compile Include="CrystalReportViewer\AReport.cs" />
+    <Compile Include="CrystalReportViewer\ILoanAmortization.cs" />
+    <Compile Include="CrystalReportViewer\IReport.cs" />
+    <Compile Include="CrystalReportViewer\LoanAmortizationReportViewer.cs" />
+    <Compile Include="CrystalReportViewer\MainReportWindow.xaml.cs">
+      <DependentUpon>MainReportWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CrystalReportViewer\ReportViewer.cs" />
+    <Compile Include="CrystalReportViewer\ReportWindowForm.cs" />
+    <Compile Include="Models\AccessLevel.cs" />
+    <Compile Include="Models\AccountVerifierDetail.cs" />
+    <Compile Include="Models\AccountVerifierSummary.cs" />
+    <Compile Include="Models\AMappingDetails.cs" />
+    <Compile Include="Models\Branch.cs" />
+    <Compile Include="Models\CashDenomination.cs" />
+    <Compile Include="Models\FbDetailMapping.cs" />
+    <Compile Include="Models\Loan\LoanCharge.cs" />
+    <Compile Include="Models\CheckDenomination.cs" />
+    <Compile Include="Models\Classification.cs" />
+    <Compile Include="Models\Collector.cs" />
+    <Compile Include="Models\CoMaker.cs" />
+    <Compile Include="Models\Company.cs" />
+    <Compile Include="Models\Department.cs" />
+    <Compile Include="Models\Area.cs" />
+    <Compile Include="Models\ForwardedBalanceOld.cs" />
+    <Compile Include="Models\GlobalVariable.cs" />
+    <Compile Include="Models\IModel.cs" />
+    <Compile Include="Models\Loan\LoanAmortization.cs" />
+    <Compile Include="Models\Loan\LoanComputation.cs" />
+    <Compile Include="Models\Loan\Payment.cs" />
+    <Compile Include="Models\ModeOfPayment.cs" />
+    <Compile Include="Models\ReportSchedule.cs" />
+    <Compile Include="Models\Reports\ReportModule.cs" />
+    <Compile Include="Models\SavingsDeposit\DailyWithdrawalSettings.cs" />
+    <Compile Include="Models\SavingsDeposit\Withdrawal.cs" />
+    <Compile Include="Models\SearchItem.cs" />
+    <Compile Include="Models\Loan\LoanProduct.cs" />
+    <Compile Include="Models\MembershipType.cs" />
+    <Compile Include="Models\Module.cs" />
+    <Compile Include="Models\Notice.cs" />
+    <Compile Include="Controllers\ReportCreator.cs" />
+    <Compile Include="Models\ReportItem.cs" />
+    <Compile Include="Models\ShareCapital\ExtensionMethod.cs" />
+    <Compile Include="Models\Contact.cs" />
+    <Compile Include="Models\TransactionDetail.cs" />
+    <Compile Include="Models\TransactionHeader.cs" />
+    <Compile Include="Models\Account.cs" />
+    <Compile Include="Models\ShareCapital\ShareCapital.cs" />
+    <Compile Include="Models\TrDetailMapping.cs" />
+    <Compile Include="Database\DatabaseUtility.cs" />
+    <Compile Include="Models\Voucher.cs" />
+    <Compile Include="Utilities\Password.cs" />
+    <Compile Include="Views\AccountVerifierModule\AccountVerifierWindow.xaml.cs">
+      <DependentUpon>AccountVerifierWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Database\DatabaseBackUpWindow.xaml.cs">
+      <DependentUpon>DatabaseBackUpWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BaseWindow.cs" />
+    <Compile Include="Views\CashAndCheckBreakdownWindow.xaml.cs">
+      <DependentUpon>CashAndCheckBreakdownWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ConfirmRequired.cs" />
+    <Compile Include="Views\InputWindow.xaml.cs">
+      <DependentUpon>InputWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AccountVerifierModule\LoanDetailsWindow.xaml.cs">
+      <DependentUpon>LoanDetailsWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CashVoucherWindow.xaml.cs">
+      <DependentUpon>CashVoucherWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ExplanationWindow.xaml.cs">
+      <DependentUpon>ExplanationWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ForwardedBalanceModule\EditForwardedBalanceView.xaml.cs">
+      <DependentUpon>EditForwardedBalanceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ForwardedBalanceModule\ForwardedBalanceListDetailView.xaml.cs">
+      <DependentUpon>ForwardedBalanceListDetailView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GeneralLedgerReportsWindow.xaml.cs">
+      <DependentUpon>GeneralLedgerReportsWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\IDataEntry.cs" />
+    <Compile Include="Views\InitialSetupModule\InitialSetupWindow.xaml.cs">
+      <DependentUpon>InitialSetupWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\IVoucher.cs" />
+    <Compile Include="Views\JournalVoucherWindow.xaml.cs">
+      <DependentUpon>JournalVoucherWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MembershipTypeModule\AddMembershipTypeView.xaml.cs">
+      <DependentUpon>AddMembershipTypeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MembershipTypeModule\EditMembershipView.xaml.cs">
+      <DependentUpon>EditMembershipView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MembershipTypeModule\MembershipTypeListDetailView.xaml.cs">
+      <DependentUpon>MembershipTypeListDetailView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MembershipTypeModule\MembershipTypeViewModel.cs" />
+    <Compile Include="Views\Sandbox\LoanAmortizationWindow.xaml.cs">
+      <DependentUpon>LoanAmortizationWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LoanModule\LoanApplicationWindow.xaml.cs">
+      <DependentUpon>LoanApplicationWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LoanModule\LoanComputationWindow.xaml.cs">
+      <DependentUpon>LoanComputationWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Sandbox\LoanChargesMaintenanceWindow.xaml.cs">
+      <DependentUpon>LoanChargesMaintenanceWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\OfficialReceiptWindow.xaml.cs">
+      <DependentUpon>OfficialReceiptWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ReportsModule\ReportPickerWindow.xaml.cs">
+      <DependentUpon>ReportPickerWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MemberInformationWindow.xaml.cs">
+      <DependentUpon>MemberInformationWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MemberValidationWindow.xaml.cs">
+      <DependentUpon>MemberValidationWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MessageWindow.xaml.cs">
+      <DependentUpon>MessageWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ReportsModule\ReportsWindow.xaml.cs">
+      <DependentUpon>ReportsWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SavingsDepositModule\DailyWithdrawalSetupView.xaml.cs">
+      <DependentUpon>DailyWithdrawalSetupView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SavingsDepositModule\WithdrawalView.xaml.cs">
+      <DependentUpon>WithdrawalView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SearchModule\SearchByCodeWindow.xaml.cs">
+      <DependentUpon>SearchByCodeWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SearchModule\SearchWindow.xaml.cs">
+      <DependentUpon>SearchWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TellerCollectorWindow.xaml.cs">
+      <DependentUpon>TellerCollectorWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TimeDepositModule\OpenTimeDepositView.xaml.cs">
+      <DependentUpon>OpenTimeDepositView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TimeDepositModule\TimeDepositDetailsWindow.xaml.cs">
+      <DependentUpon>TimeDepositDetailsWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LoanModule\LoanPostingWindow.xaml.cs">
+      <DependentUpon>LoanPostingWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TimeDepositModule\TimeDepositEditWindow.xaml.cs">
+      <DependentUpon>TimeDepositEditWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TimeDepositModule\TimeDepositEntryWindow.xaml.cs">
+      <DependentUpon>TimeDepositEntryWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TimeDepositModule\TimeDepositViewModel.cs" />
+    <Compile Include="Views\TransactionDatePickerWindow.xaml.cs">
+      <DependentUpon>TransactionDatePickerWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserModule\AddUserView.xaml.cs">
+      <DependentUpon>AddUserView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserModule\EditUserView.xaml.cs">
+      <DependentUpon>EditUserView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserModule\ChangePasswordView.xaml.cs">
+      <DependentUpon>ChangePasswordView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserModule\UserListDetailView.xaml.cs">
+      <DependentUpon>UserListDetailView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserModule\UserViewModel.cs" />
+    <Compile Include="Views\UserTransactionDateWindow.xaml.cs">
+      <DependentUpon>UserTransactionDateWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ViewModelBase.cs" />
+    <Compile Include="Views\VoucherReportViewModel.cs" />
+    <Compile Include="Views\VoucherReportWindow.xaml.cs">
+      <DependentUpon>VoucherReportWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Window1.xaml.cs">
+      <DependentUpon>Window1.xaml</DependentUpon>
+    </Compile>
+    <Page Include="AboutProject\AboutView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CrystalReportViewer\MainReportWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Database\DatabaseConfigurationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AccountModule\AccountCategoryView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AccountModule\AccountListDetailView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AccountModule\AddAccountView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AccountModule\EditAccountView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AccountModule\AccountsPerGroupView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\AccountVerifierModule\AccountVerifierGLWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\AdministratorModule\AdministratorWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\InitialSetupModule\BranchNameSetupWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\AdministratorModule\GlobalVariablesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\AdministratorModule\DividendDistributionWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AdministratorModule\InterestOnSavingsDepositWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AdministratorModule\PatronageRefundWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AdministratorModule\UnearnedInterestFromLoansWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AdministratorModule\UpdateBeginningBalanceWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AreaModule\AddAreaView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AreaModule\AreaListDetailView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AreaModule\EditAreaView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\BranchModule\AddBranchView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\BranchModule\BranchListDetailView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\BranchModule\EditBranchView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\BudgetModule\BudgetAddView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\BudgetModule\BudgetsListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\BudgetModule\BudgetEditView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ClassificationModule\AddClassificationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ClassificationModule\ClassificationListDetailView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ClassificationModule\EditClassificationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CollectorModule\AddCollectorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CollectorModule\EditCollectorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CollectorModule\CollectorListDetailView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CompanyView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DepartmentModule\AddDepartmentView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DepartmentModule\DepartmentListDetailView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DepartmentModule\EditDepartmentView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ForwardedBalanceModule\AddForwardedBalanceView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GeneralLedgerBalanceModule\GeneralLedgerBalanceView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GeneralLedgerBalanceModule\GeneralLedgerBalanceListView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\LoanModule\FinesRebateCalculatorWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AccountVerifierModule\LoanNoticesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LoanModule\LoanDetailsWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\PostJournalVoucherView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ProductImageModule\AddProductImageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LoanModule\EditLoanProductView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LoanModule\LoanProductsListWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Properties\DesignTimeResources.xaml" Condition="'$(DesignTime)'=='true' OR ('$(SolutionPath)'!='' AND Exists('$(SolutionPath)') AND '$(BuildingInsideVisualStudio)'!='true' AND '$(BuildingInsideExpressionBlend)'!='true')">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+      <ContainsDesignTimeResources>true</ContainsDesignTimeResources>
+    </Page>
+    <Page Include="UserControls\TextBoxSearchControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AccountVerifierModule\AccountVerifierWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Database\DatabaseBackUpWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\CashAndCheckBreakdownWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\InputWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AccountVerifierModule\LoanDetailsWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\CashVoucherWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ExplanationWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ForwardedBalanceModule\EditForwardedBalanceView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ForwardedBalanceModule\ForwardedBalanceListDetailView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GeneralLedgerReportsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\InitialSetupModule\InitialSetupWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\JournalVoucherWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\MembershipTypeModule\AddMembershipTypeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MembershipTypeModule\EditMembershipView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MembershipTypeModule\MembershipTypeListDetailView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ProductImageModule\EditProductImageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ProductImageModule\ProductImageListDetailView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ReportItemModule\AddReportItemView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ReportItemModule\EditReportItemView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ReportItemModule\ReportItemsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ReportsModule\LoanNoticesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ReportsModule\LoanReportsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\SalaryAdvanceModule\SalaryAdvanceView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Sandbox\LoanAmortizationWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LoanModule\LoanApplicationWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LoanModule\LoanComputationWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Sandbox\LoanChargesMaintenanceWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\LoginWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Controllers\MainController.cs" />
+    <Compile Include="Models\User.cs" />
+    <Compile Include="Database\SqlParameter.cs" />
+    <Compile Include="Properties\Settings.cs" />
+    <Compile Include="Views\LoginWindow.xaml.cs">
+      <DependentUpon>LoginWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="SccoResourceDictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\OfficialReceiptWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ReportsModule\ReportPickerWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MemberInformationWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MemberValidationWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MessageWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ReportsModule\ReportsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AdministratorModule\PostInterestOnSavingsDepositView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\SavingsDepositModule\DailyWithdrawalSetupView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SavingsDepositModule\WithdrawalView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\SearchModule\SearchByCodeWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SearchModule\SearchWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TellerCollectorWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SavingsDepositModule\PostSavingsDepositView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\TimeDepositModule\OpenTimeDepositView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TimeDepositModule\PostTimeDepositView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TimeDepositModule\TimeDepositDetailsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LoanModule\LoanPostingWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TimeDepositModule\TimeDepositEditWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TimeDepositModule\TimeDepositEntryWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TransactionDatePickerWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserModule\AddUserView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserModule\EditUserView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserModule\ChangePasswordView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UserModule\UserListDetailView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserTransactionDateWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\VoucherReportWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Window1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Database\DatabaseController.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ReportFiles\borrower_makers.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>borrower_makers.cs</LastGenOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <None Include="ReportFiles\financial_condition_custom.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>financial_condition_custom.cs</LastGenOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReportFiles\aging_of_loans.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>aging_of_loans.cs</LastGenOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReportFiles\borrower_makers.ttx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReportFiles\cv_attachment.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cv_attachment.cs</LastGenOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReportFiles\cv_detailed.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cv_detailed.cs</LastGenOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReportFiles\cv_form.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cv_form.cs</LastGenOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReportFiles\cv_per_account.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cv_per_account.cs</LastGenOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReportFiles\cv_summary.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cv_summary.cs</LastGenOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReportFiles\daily_collection_detailed.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>daily_collection_detailed.cs</LastGenOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReportFiles\daily_collection_summary.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>daily_collection_summary.cs</LastGenOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReportFiles\financial_condition.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>financial_condition.cs</LastGenOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReportFiles\financial_condition_custom.ttx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReportFiles\financial_operation.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>financial_operation.cs</LastGenOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReportFiles\fines_rebate.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>fines_rebate.cs</LastGenOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReportFiles\jv_attachment.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>jv_attachment.cs</LastGenOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReportFiles\jv_detailed.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>jv_detailed.cs</LastGenOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReportFiles\jv_form.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>jv_form.cs</LastGenOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReportFiles\jv_per_account.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>jv_per_account.cs</LastGenOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReportFiles\jv_summary.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>jv_summary.cs</LastGenOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReportFiles\loan_amortization_schedule.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>loan_amortization_schedule.cs</LastGenOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReportFiles\loan_computation.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>loan_computation.cs</LastGenOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReportFiles\loan_non_performing.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>loan_non_performing.cs</LastGenOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReportFiles\loan_released_detail.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>loan_released_detail.cs</LastGenOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReportFiles\loan_released_summary.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>loan_released_summary.cs</LastGenOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReportFiles\member.ttx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReportFiles\mis_report.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>mis_report.cs</LastGenOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReportFiles\notice_comakers.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>notice_comakers.cs</LastGenOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReportFiles\notice_loan_near_maturity.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>notice_loan_near_maturity.cs</LastGenOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReportFiles\notice_loan_non_performing.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>notice_loan_non_performing.cs</LastGenOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReportFiles\notice_loan_overdue.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>notice_loan_overdue.cs</LastGenOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReportFiles\notice_loan_overdue_non_responsive.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>notice_loan_overdue_non_responsive.cs</LastGenOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReportFiles\or_collector_summary.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>or_collector_summary.cs</LastGenOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReportFiles\or_detailed.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>or_detailed.cs</LastGenOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReportFiles\or_form.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>or_form.cs</LastGenOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReportFiles\or_per_account.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>or_per_account.cs</LastGenOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReportFiles\or_summary.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>or_summary.cs</LastGenOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReportFiles\schedule.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>schedule.cs</LastGenOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReportFiles\schedule_loan.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>schedule_loan.cs</LastGenOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReportFiles\schedule_time_deposit.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>schedule_time_deposit.cs</LastGenOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReportFiles\soa_detailed.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>soa_detailed.cs</LastGenOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReportFiles\soa_summary.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>soa_summary.cs</LastGenOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReportFiles\teller_collector_form.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>teller_collector_form.cs</LastGenOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReportFiles\withdrawal_validation.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>withdrawal_validation.cs</LastGenOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+    <None Include="ReportFiles\comp.ttx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReportFiles\cv.ttx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReportFiles\cvdoc1.ttx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReportFiles\financial_condition.ttx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReportFiles\financial_operation.ttx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReportFiles\fines_rebate.ttx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReportFiles\general_ledger.ttx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReportFiles\jv.ttx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReportFiles\jvdoc1.ttx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReportFiles\loan_amortization_details.ttx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReportFiles\loan_amortization_header.ttx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReportFiles\loan_computation.ttx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReportFiles\loan_details.ttx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReportFiles\loan_non_performing.ttx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReportFiles\loan_released_detail.ttx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReportFiles\loan_released_summary.ttx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReportFiles\mis_report.ttx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReportFiles\notice_comakers.ttx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReportFiles\notice_loan_details.ttx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReportFiles\notice_loan_non_performing.ttx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReportFiles\or.ttx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReportFiles\ordoc1.ttx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReportFiles\or_collector_summary.ttx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReportFiles\schedule.ttx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReportFiles\schedule_loan.ttx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReportFiles\schedule_time_deposit.ttx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReportFiles\soa_detailed.ttx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReportFiles\soa_summary.ttx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\CompanyLogo.png" />
+    <Resource Include="Images\NavBottom.png" />
+    <Resource Include="Images\NavNext.png" />
+    <Resource Include="Images\NavTop.png" />
+    <Resource Include="Images\NavBack.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\UserLogin.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4 Client Profile %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\main_background.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\msgboxAlert.png" />
+    <Resource Include="Images\msgboxConfirm.png" />
+    <Resource Include="Images\msgboxInfo.png" />
+    <Resource Include="Images\msgboxWarn.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+    <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="COM\CrystalDecisions.CrystalReports.Engine.dll" />
+    <Content Include="COM\CrystalDecisions.Shared.dll" />
+    <Content Include="COM\SAPBusinessObjects.WPF.Viewer.dll" />
+    <Content Include="COM\SAPBusinessObjects.WPF.ViewerShared.dll" />
+    <Resource Include="Update Log.txt" />
+    <Resource Include="Scripts\update_jv_doc_num_from_migration.txt" />
+    <Resource Include="Images\administrator.png" />
+    <Resource Include="Images\beginning_balance.png" />
+    <Resource Include="Images\percent.png" />
+    <Resource Include="Images\interest_loan.png" />
+    <Resource Include="Images\handshake.png" />
+    <Resource Include="Images\barber_scissors.png" />
+    <Resource Include="Scripts\Installation.txt" />
+    <Resource Include="Images\document.png" />
+    <Content Include="Scripts\loan_computation.sql" />
+    <Content Include="Scripts\loan_deductions.sql" />
+    <Content Include="Scripts\time_deposit_products.sql" />
+    <Resource Include="VersionManager.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Scripts\mysql_set_max_allowed_packet.txt" />
+    <Resource Include="Images\calc_icon_24.png" />
+    <Resource Include="Images\edit_icon.png" />
+    <Resource Include="Images\search_simple.png" />
+    <Resource Include="Images\tick_icon.png" />
+    <Resource Include="Images\ok_icon.png" />
+    <Resource Include="Images\unchecked_checkbox.png" />
+    <Resource Include="Images\checked_checkbox.png" />
+    <Resource Include="Images\lock.png" />
+    <Resource Include="Images\unlock.png" />
+    <Resource Include="Images\_0015_Padlock.png" />
+    <Resource Include="Images\documents.png" />
+    <Resource Include="Images\_info.png" />
+    <Resource Include="Images\data_configuration.png" />
+    <Resource Include="Images\money_bag.png" />
+    <Resource Include="Images\edit_dark.png" />
+    <Resource Include="Images\edit_light.png" />
+    <Resource Include="Images\fast_forward.png" />
+    <Resource Include="Images\Add.png" />
+    <Resource Include="Images\Denided.png" />
+    <Resource Include="Images\Valid.png" />
+    <Resource Include="Images\ChangePassword.png" />
+    <Resource Include="Images\user.png" />
+    <Resource Include="Images\tear_off_calendar.PNG" />
+    <Resource Include="Images\list.png" />
+    <Resource Include="Images\department.png" />
+    <Resource Include="Images\shop.png" />
+    <Resource Include="Images\group.png" />
+    <Resource Include="Images\point_objects.png" />
+    <Resource Include="Images\worldwide_location.png" />
+    <Resource Include="Images\collaborator.png" />
+    <Resource Include="Images\conference.png" />
+    <Resource Include="Images\Help.png" />
+    <Resource Include="chart.ico" />
+    <Resource Include="Images\mobsync.png" />
+    <Resource Include="Images\Error.png" />
+    <Resource Include="Images\Button_Sync.png" />
+    <Resource Include="Images\Info.png" />
+    <Resource Include="Images\Alert.png" />
+    <Resource Include="Images\Cross.png" />
+    <Resource Include="Images\save.png" />
+    <Resource Include="Images\add_row.png" />
+    <Resource Include="Images\File_Add.png" />
+    <Resource Include="Images\File_Checked.png" />
+    <Resource Include="Images\File_Delete.png" />
+    <Resource Include="Images\Folder_Upload.png" />
+    <Resource Include="Images\account_verifier.png" />
+    <Resource Include="Images\cash_voucher.png" />
+    <Resource Include="Images\journal_voucher.png" />
+    <Resource Include="Images\member_information.png" />
+    <Resource Include="Images\official_receipt.png" />
+    <Resource Include="Images\teller_collector.png" />
+    <Resource Include="Images\initial_setup.png" />
+    <Resource Include="Images\data_backup.png" />
+    <Resource Include="Images\general_ledger_reports.png" />
+    <Resource Include="Images\other_reports.png" />
+    <Resource Include="Images\Drive - A.png" />
+    <Resource Include="Images\Search.png" />
+    <Content Include="COM\mysql.data.dll" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\Expression\Blend\.NETFramework\v4.0\Microsoft.Expression.Blend.WPF.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

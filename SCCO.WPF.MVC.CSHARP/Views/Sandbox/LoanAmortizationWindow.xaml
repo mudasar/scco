@@ -1,0 +1,438 @@
+﻿<Views:BaseWindow x:Class="SCCO.WPF.MVC.CS.Views.Sandbox.LoanAmortizationWindow"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                  xmlns:LoanModule="clr-namespace:SCCO.WPF.MVC.CS.Models.Loan"
+                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                  xmlns:Views="clr-namespace:SCCO.WPF.MVC.CS.Views"
+                  Title="Loan Amortization"
+                  Width="716"
+                  Height="698"
+                  AllowsTransparency="True"
+                  Background="{x:Null}"
+                  FontSize="12"
+                  ResizeMode="NoResize"
+                  WindowStartupLocation="CenterScreen"
+                  WindowStyle="None"
+                  mc:Ignorable="d">
+    <Grid Name="MainGrid"
+          Margin="5"
+          DataContext="LoanDetail">
+        <Grid x:Name="FormLayout" d:IsLocked="True">
+            <Rectangle x:Name="Canvass"
+                       Margin="0"
+                       Fill="#FF375C04"
+                       MouseLeftButtonDown="DragWindow"
+                       RadiusX="5"
+                       RadiusY="5"
+                       Stroke="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}"
+                       StrokeLineJoin="Round"
+                       d:LayoutOverrides="GridBox">
+                <Rectangle.Effect>
+                    <DropShadowEffect BlurRadius="10" ShadowDepth="0" />
+                </Rectangle.Effect>
+            </Rectangle>
+            <Border x:Name="ShineEffect"
+                    Height="16"
+                    Margin="2,2,2,0"
+                    VerticalAlignment="Top"
+                    CornerRadius="4"
+                    MouseLeftButtonDown="DragWindow"
+                    Style="{DynamicResource ShineEffectStyle}"
+                    d:LayoutOverrides="VerticalAlignment" />
+            <Label x:Name="FormTitle"
+                   Margin="10,10,0,0"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top"
+                   VerticalContentAlignment="Center"
+                   Content="Loan Amortization"
+                   FontFamily="Segoe UI"
+                   FontSize="21.333"
+                   Foreground="White"
+                   MouseLeftButtonDown="DragWindow" />
+            <Button x:Name="CloseButton"
+                    Margin="0,8,8,0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Background="#00E4D2D2"
+                    Click="CloseWindow"
+                    Content="x"
+                    IsCancel="True"
+                    Style="{DynamicResource CloseButton}"
+                    TabIndex="5" />
+        </Grid>
+        <Button x:Name="btnGenerateDiminishingAmortization"
+                Width="120"
+                Margin="136,0,0,16"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Bottom"
+                Click="button1_Click"
+                Content="Diminishing"
+                Style="{DynamicResource ToolButton}"
+                d:LayoutOverrides="HorizontalAlignment" />
+        <Button x:Name="btnGenerateStraightLineAmortization"
+                Width="120"
+                Margin="12,0,0,16"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Bottom"
+                Click="button2_Click"
+                Content="Straight Line"
+                Style="{DynamicResource ToolButton}"
+                d:LayoutOverrides="HorizontalAlignment" />
+        <Border x:Name="bdrLoanInformation"
+                Height="145"
+                Margin="12,60,12,0"
+                VerticalAlignment="Top"
+                BorderBrush="#7FFFFFFF"
+                BorderThickness="1"
+                CornerRadius="4">
+            <Grid>
+                <ComboBox x:Name="cboLoanProducts"
+                          Width="250"
+                          Height="28"
+                          Margin="112,68,0,0"
+                          HorizontalAlignment="Left"
+                          VerticalAlignment="Top"
+                          DataContext="{Binding SelectedItem,
+                                                ElementName=cboLoanTypes}"
+                          DisplayMemberPath="Description"
+                          SelectionChanged="cboLoanProducts_SelectionChanged"
+                          Style="{DynamicResource RoundedComboBox}" />
+                <Label Width="100"
+                       Height="28"
+                       Margin="8,68,0,0"
+                       HorizontalAlignment="Left"
+                       VerticalAlignment="Top"
+                       HorizontalContentAlignment="Right"
+                       VerticalContentAlignment="Center"
+                       Content="Loan Product"
+                       Foreground="White"
+                       d:LayoutOverrides="Height" />
+                <ComboBox x:Name="cboLoanTypes"
+                          Width="250"
+                          Height="28"
+                          Margin="112,36,0,0"
+                          HorizontalAlignment="Left"
+                          VerticalAlignment="Top"
+                          SelectionChanged="cboLoanTypes_SelectionChanged"
+                          Style="{DynamicResource RoundedComboBox}" />
+                <Label Width="100"
+                       Height="28"
+                       Margin="8,36,0,0"
+                       HorizontalAlignment="Left"
+                       VerticalAlignment="Top"
+                       HorizontalContentAlignment="Right"
+                       VerticalContentAlignment="Center"
+                       Content="Loan Types"
+                       Foreground="White" />
+                <Label Width="100"
+                       Height="28"
+                       Margin="8,100,0,0"
+                       HorizontalAlignment="Left"
+                       VerticalAlignment="Top"
+                       HorizontalContentAlignment="Right"
+                       VerticalContentAlignment="Center"
+                       Content="Interest Rate"
+                       Foreground="White" />
+                <TextBox x:Name="TextBoxAnnualInterestRate"
+                         Width="120"
+                         Height="28"
+                         Margin="112,100,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Style="{DynamicResource RoundedTextBox}"
+                         TextWrapping="Wrap" />
+                <Label Width="100"
+                       Height="28"
+                       Margin="0,68,132,0"
+                       HorizontalAlignment="Right"
+                       VerticalAlignment="Top"
+                       HorizontalContentAlignment="Right"
+                       VerticalContentAlignment="Center"
+                       Content="Loan Term"
+                       Foreground="White"
+                       d:LayoutOverrides="Height" />
+                <Label Width="100"
+                       Height="28"
+                       Margin="0,36,132,0"
+                       HorizontalAlignment="Right"
+                       VerticalAlignment="Top"
+                       HorizontalContentAlignment="Right"
+                       VerticalContentAlignment="Center"
+                       Content="Loan Amount"
+                       Foreground="White" />
+                <TextBox x:Name="TextBoxLoanAmount"
+                         Width="120"
+                         Height="28"
+                         Margin="0,36,8,0"
+                         HorizontalAlignment="Right"
+                         VerticalAlignment="Top"
+                         RenderTransformOrigin="3.475,1.429"
+                         Style="{DynamicResource RoundedTextBox}"
+                         Text="{Binding LoanAmount,
+                                        StringFormat=\{0:N\}}"
+                         TextWrapping="Wrap" />
+                <DatePicker x:Name="DatePickerStartDate"
+                            Width="120"
+                            Height="28"
+                            Margin="0,100,8,0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top"
+                            SelectedDate="{Binding DateGranted}"
+                            Style="{DynamicResource RoundedDatePicker}" />
+                <Label Height="27.517"
+                       Margin="448,100,132,0"
+                       VerticalAlignment="Top"
+                       HorizontalContentAlignment="Right"
+                       VerticalContentAlignment="Center"
+                       Content="Start Date"
+                       Foreground="White" />
+                <ComboBox x:Name="cboLoanTerms"
+                          Width="120"
+                          Height="28"
+                          Margin="0,68,8,0"
+                          HorizontalAlignment="Right"
+                          VerticalAlignment="Top"
+                          SelectionChanged="cboLoanTerms_SelectionChanged"
+                          Style="{DynamicResource RoundedComboBox}"
+                          d:LayoutOverrides="Height" />
+                <Label Width="354"
+                       Margin="8,8,0,0"
+                       HorizontalAlignment="Left"
+                       VerticalAlignment="Top"
+                       Content="Loan Information"
+                       FontSize="12"
+                       Foreground="White"
+                       Padding="0,5" />
+            </Grid>
+        </Border>
+        <Border x:Name="bdrAmortizationSchedule"
+                Margin="12,209,12,51"
+                BorderBrush="#7FFFFFFF"
+                BorderThickness="1"
+                CornerRadius="4">
+            <Grid x:Name="LoanModuleGrid" d:DataContext="{d:DesignInstance {x:Type LoanModule:LoanAmortization}}">
+                <DataGrid x:Name="DataGridAmortizationSchedule"
+                          Width="520"
+                          Margin="8,37,0,8"
+                          HorizontalAlignment="Left"
+                          AlternatingRowBackground="WhiteSmoke"
+                          AlternationCount="2"
+                          AutoGenerateColumns="False"
+                          Background="WhiteSmoke"
+                          BorderBrush="White"
+                          CanUserAddRows="False"
+                          CanUserDeleteRows="False"
+                          CanUserResizeRows="False"
+                          DataContext="{Binding AmortizationSchedule}"
+                          FontSize="13"
+                          HeadersVisibility="Column"
+                          HorizontalGridLinesBrush="LightGray"
+                          HorizontalScrollBarVisibility="Visible"
+                          IsReadOnly="True"
+                          RowBackground="White"
+                          RowHeight="23"
+                          VerticalGridLinesBrush="LightGray"
+                          VerticalScrollBarVisibility="Visible">
+                    <DataGrid.Resources>
+                        <Style TargetType="{x:Type DataGridColumnHeader}">
+                            <Setter Property="Background" Value="LightGray" />
+                            <Setter Property="Height" Value="30" />
+                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                        </Style>
+                    </DataGrid.Resources>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Width="0.005*"
+                                            Binding="{Binding PaymentNo}"
+                                            Header="#" />
+                        <DataGridTextColumn Width="0.01*"
+                                            Binding="{Binding Date,
+                                                              StringFormat=\{0:yyyy MMM\}}"
+                                            Header="Date" />
+                        <DataGridTextColumn Width="0.02*"
+                                            Binding="{Binding Interest,
+                                                              StringFormat=\{0:N2\}}"
+                                            ElementStyle="{DynamicResource RightAlignStyle}"
+                                            Header="Interest" />
+                        <DataGridTextColumn Width="0.02*"
+                                            Binding="{Binding Principal,
+                                                              StringFormat=\{0:N2\}}"
+                                            ElementStyle="{DynamicResource RightAlignStyle}"
+                                            Header="Principal" />
+                        <DataGridTextColumn Width="0.02*"
+                                            Binding="{Binding Balance,
+                                                              StringFormat=\{0:N2\}}"
+                                            ElementStyle="{DynamicResource RightAlignStyle}"
+                                            Header="Balance" />
+                    </DataGrid.Columns>
+                </DataGrid>
+                <Label Width="120"
+                       Margin="8,8,0,0"
+                       HorizontalAlignment="Left"
+                       VerticalAlignment="Top"
+                       Content="Amortization Schedule"
+                       FontSize="12"
+                       Foreground="White"
+                       Padding="0,5"
+                       d:LayoutOverrides="HorizontalAlignment" />
+                <TextBox x:Name="TextBoxMonthlyPayment"
+                         Width="120"
+                         Height="28"
+                         Margin="0,62,8,0"
+                         HorizontalAlignment="Right"
+                         VerticalAlignment="Top"
+                         Style="{DynamicResource RoundedTextBox}"
+                         Text="{Binding MonthlyPayment,
+                                        StringFormat=\{0:N\}}"
+                         TextWrapping="Wrap"
+                         d:LayoutOverrides="VerticalAlignment" />
+                <Label Width="120"
+                       Margin="0,37,8,0"
+                       HorizontalAlignment="Right"
+                       VerticalAlignment="Top"
+                       Content="Monthly Payment"
+                       Foreground="White"
+                       Padding="0,5"
+                       d:LayoutOverrides="VerticalAlignment" />
+                <TextBox x:Name="TextBoxTotalPayments"
+                         Width="120"
+                         Height="28"
+                         Margin="0,122,8,0"
+                         HorizontalAlignment="Right"
+                         VerticalAlignment="Top"
+                         Style="{DynamicResource RoundedTextBox}"
+                         Text="{Binding TotalPayments,
+                                        StringFormat=\{0:N\}}"
+                         TextWrapping="Wrap" />
+                <Label Width="120"
+                       Margin="0,98.723,8,0"
+                       HorizontalAlignment="Right"
+                       VerticalAlignment="Top"
+                       Content="Total Payments"
+                       Foreground="White"
+                       Padding="0,5"
+                       d:LayoutOverrides="VerticalAlignment" />
+                <Label Width="120"
+                       Margin="0,158.723,8,0"
+                       HorizontalAlignment="Right"
+                       VerticalAlignment="Top"
+                       Content="Total Interest Paid"
+                       Foreground="White"
+                       Padding="0,5" />
+                <TextBox x:Name="TextBoxTotalInterestPaid"
+                         Width="120"
+                         Height="28"
+                         Margin="0,182,8,0"
+                         HorizontalAlignment="Right"
+                         VerticalAlignment="Top"
+                         Style="{DynamicResource RoundedTextBox}"
+                         Text="{Binding TotalInterestPaid,
+                                        StringFormat=\{0:N\}}"
+                         TextWrapping="Wrap"
+                         d:LayoutOverrides="VerticalAlignment" />
+                <DatePicker x:Name="DatePickerEndDate"
+                            Width="120"
+                            Margin="0,242,8,0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top"
+                            Style="{DynamicResource RoundedDatePicker}"
+                            Text="{Binding PayOffDate}" />
+                <Label Width="120"
+                       Margin="0,218.723,8,0"
+                       HorizontalAlignment="Right"
+                       VerticalAlignment="Top"
+                       Content="Pay Off Date"
+                       Foreground="White"
+                       Padding="0,5" />
+            </Grid>
+        </Border>
+        <Button x:Name="btnLoanComputation"
+                Width="120"
+                Height="30"
+                Margin="0,0,12,16"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Click="btnLoanComputation_Click"
+                Content="Loan Computation"
+                Style="{DynamicResource ToolButton}" />
+        <!--
+            <TabControl Margin="10,231,10,69">
+            <TabItem Header="TabItem">
+            <Grid>
+            
+            </Grid>
+            </TabItem>
+            <TabItem Header="TabItem">
+            <Grid>
+            <GroupBox Header="Charges" Height="156" VerticalAlignment="Top" BorderThickness="1" Foreground="White" HorizontalAlignment="Left" Width="330" Margin="8,8,0,0">
+            <DataGrid
+            AutoGenerateColumns="False"
+            FontSize="13"
+            AlternatingRowBackground="WhiteSmoke"
+            VerticalScrollBarVisibility="Visible"
+            HorizontalScrollBarVisibility="Visible"
+            HeadersVisibility="Column"
+            HorizontalGridLinesBrush="LightGray"
+            VerticalGridLinesBrush="LightGray"
+            RowBackground="White"
+            CanUserAddRows="False"
+            CanUserDeleteRows="False"
+            CanUserResizeRows="False"
+            x:Name="grdLoanCharges" DataContext="{Binding LoanCharge}"
+            AlternationCount="2"
+            IsReadOnly="True"
+            RowHeight="23" BorderBrush="White" Background="WhiteSmoke" Margin="0,5,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
+            <DataGrid.Resources>
+            <Style TargetType="{x:Type DataGridColumnHeader}">
+            <Setter Property="Background" Value="LightGray" />
+            <Setter Property="Height" Value="30" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            </Style>
+            </DataGrid.Resources>
+            <DataGrid.Columns>
+            <DataGridTextColumn Header="Description" Binding="{Binding AccountTitle}" Width="0.7*" />
+            <DataGridTextColumn Header="Amount" Binding="{Binding Amount, StringFormat=\{0:N\}}" Width="0.3*" ElementStyle="{DynamicResource RightAlignStyle}"/>
+            </DataGrid.Columns>
+            </DataGrid>
+            </GroupBox>
+            <GroupBox Header="Other Deduction" BorderThickness="1" Foreground="White" HorizontalAlignment="Right" Width="330" Margin="0,0,318,8" Height="156" VerticalAlignment="Bottom">
+            <Grid>
+            <DataGrid
+            AutoGenerateColumns="False"
+            FontSize="13"
+            AlternatingRowBackground="WhiteSmoke"
+            VerticalScrollBarVisibility="Visible"
+            HorizontalScrollBarVisibility="Visible"
+            HeadersVisibility="Column"
+            HorizontalGridLinesBrush="LightGray"
+            VerticalGridLinesBrush="LightGray"
+            RowBackground="White"
+            CanUserAddRows="False"
+            CanUserDeleteRows="False"
+            CanUserResizeRows="False"
+            x:Name="DataGridAmortizationSchedule_Copy1" DataContext="{Binding AmortizationSchedule}"
+            AlternationCount="2"
+            IsReadOnly="True"
+            RowHeight="23" BorderBrush="White" Background="WhiteSmoke" Margin="0,5,0,0">
+            <DataGrid.Resources>
+            <Style TargetType="{x:Type DataGridColumnHeader}">
+            <Setter Property="Background" Value="LightGray" />
+            <Setter Property="Height" Value="30" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            </Style>
+            </DataGrid.Resources>
+            <DataGrid.Columns>
+            <DataGridTextColumn Header="Account" Binding="{Binding PaymentNo}" Width="0.7*" />
+            <DataGridTextColumn Header="Amount" Binding="{Binding Date, StringFormat=\{0:yyyy MMM\}}" Width="0.3*" />
+            </DataGrid.Columns>
+            </DataGrid>
+            </Grid>
+            </GroupBox>
+            <Button Content="Add Deduction" HorizontalAlignment="Left" Margin="356,0,0,-675" x:Name="btnGenerateStraightLineAmortization_Copy" VerticalAlignment="Bottom" Click="button2_Click" Style="{DynamicResource GlassButton}" Width="120" />
+            <Button Content="Remove Deduction" HorizontalAlignment="Left" Margin="480,0,0,-675" x:Name="btnGenerateStraightLineAmortization_Copy1" VerticalAlignment="Bottom" Click="button2_Click" Style="{DynamicResource GlassButton}" Width="120" />
+            </Grid>
+            </TabItem>
+            </TabControl>
+        -->
+    </Grid>
+</Views:BaseWindow>

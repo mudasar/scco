@@ -1,0 +1,170 @@
+﻿<Views:BaseWindow xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Views="clr-namespace:SCCO.WPF.MVC.CS.Views"
+                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                  xmlns:Models="clr-namespace:SCCO.WPF.MVC.CS.Models" x:Name="CollectorProfileMaintenance" mc:Ignorable="d"
+                  x:Class="SCCO.WPF.MVC.CS.Views.CollectorModule.CollectorMaintenanceWindow" Height="210" Width="400"
+                  Background="{x:Null}" WindowStartupLocation="CenterScreen"
+                  WindowStyle="None" AllowsTransparency="True" ResizeMode="NoResize" ShowInTaskbar="False">
+
+    <Views:BaseWindow.Resources>
+        <Style x:Key="ButtonStyle1" TargetType="{x:Type Button}">
+            <Setter Property="FontFamily" Value="Segoe UI" />
+            <Setter Property="Foreground" Value="WhiteSmoke" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Height" Value="30" />
+            <Setter Property="Width" Value="100" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <ControlTemplate.Resources>
+                            <Storyboard x:Key="Timeline1">
+                                <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="glow"
+                                                               Storyboard.TargetProperty="(UIElement.Opacity)">
+                                    <SplineDoubleKeyFrame KeyTime="00:00:00.3000000" Value="1" />
+                                </DoubleAnimationUsingKeyFrames>
+                                <ColorAnimationUsingKeyFrames
+                                    Storyboard.TargetProperty="(Panel.Background).(GradientBrush.GradientStops)[1].(GradientStop.Color)"
+                                    Storyboard.TargetName="glow">
+                                    <EasingColorKeyFrame KeyTime="0:0:0.3" Value="#002AA994" />
+                                </ColorAnimationUsingKeyFrames>
+                                <ColorAnimationUsingKeyFrames
+                                    Storyboard.TargetProperty="(Panel.Background).(GradientBrush.GradientStops)[1].(GradientStop.Color)"
+                                    Storyboard.TargetName="shine">
+                                    <EasingColorKeyFrame KeyTime="0:0:0.3" Value="#33FFFFFF" />
+                                </ColorAnimationUsingKeyFrames>
+                            </Storyboard>
+                            <Storyboard x:Key="Timeline2">
+                                <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="glow"
+                                                               Storyboard.TargetProperty="(UIElement.Opacity)">
+                                    <SplineDoubleKeyFrame KeyTime="00:00:00.3000000" Value="0" />
+                                </DoubleAnimationUsingKeyFrames>
+                            </Storyboard>
+                        </ControlTemplate.Resources>
+                        <Border BorderThickness="1,1,1,1" CornerRadius="4,4,4,4">
+                            <Border x:Name="border" Background="#33000000" CornerRadius="4,4,4,4"
+                                    BorderBrush="#CC646464">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="0.507*" />
+                                        <RowDefinition Height="0.493*" />
+                                    </Grid.RowDefinitions>
+                                    <Border Opacity="0" HorizontalAlignment="Stretch" x:Name="glow" Width="Auto"
+                                            Grid.RowSpan="2" CornerRadius="4,4,4,4">
+                                        <Border.Background>
+                                            <RadialGradientBrush>
+                                                <RadialGradientBrush.RelativeTransform>
+                                                    <TransformGroup>
+                                                        <ScaleTransform ScaleX="1.702" ScaleY="2.243" />
+                                                        <SkewTransform AngleX="0" AngleY="0" />
+                                                        <RotateTransform Angle="0" />
+                                                        <TranslateTransform X="-0.368" Y="-0.152" />
+                                                    </TransformGroup>
+                                                </RadialGradientBrush.RelativeTransform>
+                                                <GradientStop Color="#B28DBDFF" Offset="0" />
+                                                <GradientStop Color="#008DBDFF" Offset="1" />
+                                            </RadialGradientBrush>
+                                        </Border.Background>
+                                    </Border>
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                      Width="Auto" Grid.RowSpan="2" />
+                                    <Border HorizontalAlignment="Stretch" Margin="1,1,1,0" x:Name="shine" Width="Auto"
+                                            CornerRadius="3,3,0,0" Opacity="0.6">
+                                        <Border.Background>
+                                            <LinearGradientBrush EndPoint="0.494,0.889" StartPoint="0.494,0.028">
+                                                <GradientStop Color="#99FFFFFF" Offset="0" />
+                                                <GradientStop Color="#33FFFFFF" Offset="1" />
+                                            </LinearGradientBrush>
+                                        </Border.Background>
+                                    </Border>
+                                </Grid>
+                            </Border>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Opacity" TargetName="shine" Value="0.4" />
+                                <Setter Property="Background" TargetName="border" Value="#CC000000" />
+                                <Setter Property="Visibility" TargetName="glow" Value="Hidden" />
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard Storyboard="{StaticResource Timeline1}" />
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard x:Name="Timeline2_BeginStoryboard"
+                                                     Storyboard="{StaticResource Timeline2}" />
+                                </Trigger.ExitActions>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Views:BaseWindow.Resources>
+    <Views:BaseWindow.DataContext>
+        <Models:Collector />
+    </Views:BaseWindow.DataContext>
+    <Grid>
+
+        <Grid x:Name="FormLayout">
+            <Rectangle x:Name="Canvass" RadiusX="5" RadiusY="5" StrokeLineJoin="Round"
+                       MouseLeftButtonDown="DragWindow" d:LayoutOverrides="GridBox" Stroke="#FF282828">
+                <Rectangle.Fill>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FF786400" Offset="1" />
+                        <GradientStop Color="#FFC8B400" Offset="0.004" />
+                        <GradientStop Color="#FFA18200" Offset="0.889" />
+                    </LinearGradientBrush>
+                </Rectangle.Fill>
+            </Rectangle>
+            <Border x:Name="ShineEffect" Style="{DynamicResource ShineEffectStyle}" VerticalAlignment="Top"
+                    MouseLeftButtonDown="DragWindow" CornerRadius="4" Margin="2,2,2,0" Height="16" d:LayoutOverrides="VerticalAlignment" />
+            <Image x:Name="WindowIcon" Source="/SCCO.WPF.MVC.CS;component/Images/group.png" Stretch="Fill" Width="24" Height="24" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" />
+            <Label Content="Collector" x:Name="FormTitle" Foreground="White"
+                   VerticalContentAlignment="Center" Margin="34,10,0,0" MouseLeftButtonDown="DragWindow" VerticalAlignment="Top" FontSize="13.333" HorizontalAlignment="Left" />
+            <Button Content="x" HorizontalAlignment="Right" IsCancel="True" x:Name="CloseButton" TabIndex="5"
+                    VerticalAlignment="Top" Background="#00E4D2D2" Style="{DynamicResource CloseButton}" Margin="0,8,8,0"
+                    Click="CloseWindow" />
+            <StackPanel x:Name="CrudButtons" HorizontalAlignment="Right" Height="32"
+            	Margin="0,6,50,0"
+            	VerticalAlignment="Top" Width="128" Orientation="Horizontal" >
+            	<Button Foreground="#FFFFFFFF" x:Name="CreateButton" Style="{DynamicResource ButtonStyle1}" Width="32"
+            		Height="32" HorizontalAlignment="Left" Click="Create">
+            		<StackPanel Orientation="Horizontal">
+            			<Image Source="/SCCO.WPF.MVC.CS;component/Images/Add.png" Stretch="Fill" Margin="4" />
+            		</StackPanel>
+            	</Button>
+            	<Button Foreground="#FFFFFFFF" x:Name="ReadButton" Style="{DynamicResource ButtonStyle1}" Width="32"
+            		Height="32" HorizontalAlignment="Left" Click="Read">
+            		<StackPanel Orientation="Horizontal">
+            			<Image Source="/SCCO.WPF.MVC.CS;component/Images/Search.png" Stretch="Fill" Margin="4" />
+            		</StackPanel>
+            	</Button>
+            	<Button Foreground="#FFFFFFFF" x:Name="UpdateButton" Style="{DynamicResource ButtonStyle1}" Width="32"
+            		Height="32" HorizontalAlignment="Right" Click="Update">
+            		<StackPanel Orientation="Horizontal">
+            			<Image Source="/SCCO.WPF.MVC.CS;component/Images/Valid.png" Stretch="Fill" Margin="4" />
+            		</StackPanel>
+            	</Button>
+            	<Button Foreground="#FFFFFFFF" x:Name="DeleteButton" Style="{DynamicResource ButtonStyle1}" Width="32"
+            		Height="32" HorizontalAlignment="Right" Click="Delete">
+            		<StackPanel Orientation="Horizontal">
+            			<Image Source="/SCCO.WPF.MVC.CS;component/Images/Denided.png" Stretch="Fill" Margin="4" />
+            		</StackPanel>
+            	</Button>
+            </StackPanel>
+        </Grid>
+        <Label Content="Collector Name" Foreground="White" Margin="30,70,30,0" TabIndex="2"
+               VerticalAlignment="Top" />
+        <TextBox Margin="30,93.277,30,0" x:Name="txtCollectorName" Text="{Binding CollectorName}" TabIndex="1"
+                 TextWrapping="Wrap" IsTabStop="True" Style="{DynamicResource RoundedTextBox}" Height="27" VerticalAlignment="Top"
+                 MaxLength="50" />
+        <Label Content="User Id" Foreground="White" Margin="30,130,30,0" TabIndex="2"
+        	VerticalAlignment="Top" />
+        <TextBox x:Name="txtUserId" Margin="30,153.277,0,0" Text="{Binding UserId}" TabIndex="1"
+        	TextWrapping="Wrap" IsTabStop="True" Style="{DynamicResource RoundedTextBox}" Height="27" VerticalAlignment="Top"
+        	MaxLength="50" HorizontalAlignment="Left" Width="100" />
+
+    </Grid>
+</Views:BaseWindow>
+

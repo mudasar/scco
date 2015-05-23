@@ -1,0 +1,49 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:Models="clr-namespace:SCCO.WPF.MVC.CS.Models" mc:Ignorable="d" x:Class="SCCO.WPF.MVC.CS.Views.ForwardedBalanceEditWindow"
+        Title="Forwarded Balance" Height="460" Width="400" FontSize="12" WindowStartupLocation="CenterScreen">
+	<Grid>
+		<Grid x:Name="ModelGrid">
+			<Grid.DataContext>
+				<Models:ForwardedBalanceOld/>
+			</Grid.DataContext>
+			<Label Content="Member Code" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="8,24,0,0" Width="100" Height="28" Padding="5,0" VerticalContentAlignment="Center"/>
+			<TextBox TextWrapping="Wrap" VerticalAlignment="Top" Margin="112,24,0,0" Style="{DynamicResource RoundedTextBox}" Height="28" HorizontalAlignment="Left" Width="100" x:Name="MemberCodeTextBox" 
+                     Text="{Binding MemberCode, Mode=TwoWay}" />
+			<Label Content="Member Name" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="8,56,0,0" Width="100" Height="28" Padding="5,0" VerticalContentAlignment="Center"/>
+			<TextBox TextWrapping="Wrap" VerticalAlignment="Top" Margin="112,56,0,0" Style="{DynamicResource RoundedTextBox}" Height="28" Width="250" HorizontalAlignment="Left" x:Name="MemberNameTextBox" 
+                     Text="{Binding MemberName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" IsTabStop="False" />
+			<Label Content="Account Code" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="8,88,0,0" Width="100" Height="28" Padding="5,0" VerticalContentAlignment="Center"/>
+			<TextBox TextWrapping="Wrap" VerticalAlignment="Top" Margin="112,88,0,0" Style="{DynamicResource RoundedTextBox}" Height="28" HorizontalAlignment="Left" Width="100" x:Name="AccountCodeTextBox" 
+                     Text="{Binding AccountCode}" LostFocus="AccountCodeTextBoxOnLostFocus" />
+			<Label Content="Account Title" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="8,120,0,0" Width="100" Height="28" Padding="5,0" VerticalContentAlignment="Center"/>
+			<TextBox TextWrapping="Wrap" VerticalAlignment="Top" Margin="112,120,0,0" Style="{DynamicResource RoundedTextBox}" Height="28" Width="250" HorizontalAlignment="Left" d:LayoutOverrides="Width" x:Name="AccountTitleTextBox" 
+                     Text="{Binding AccountTitle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" IsTabStop="False" />
+			<Label Content="Debit" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="8,152,0,0" Width="100" Height="28" Padding="5,0" VerticalContentAlignment="Center"/>
+			<TextBox TextWrapping="Wrap" Margin="112,152,0,0" Style="{DynamicResource RoundedTextBox}" HorizontalAlignment="Left" Width="100" x:Name="DebitAmountTextBox" Height="28" VerticalAlignment="Top" d:LayoutOverrides="VerticalAlignment" Text="{Binding DebitAmount, Mode=TwoWay, StringFormat=\{0:N2\}, UpdateSourceTrigger=LostFocus}" />
+			<Label Content="Credit" HorizontalAlignment="Left" Margin="8,184,0,210" Width="100" Padding="5,0" VerticalContentAlignment="Center"/>
+            <TextBox TextWrapping="Wrap" Margin="112,184,0,0" Style="{DynamicResource RoundedTextBox}" HorizontalAlignment="Left" Width="100" x:Name="CreditAmountTextBox" Height="28" VerticalAlignment="Top" Text="{Binding CreditAmount, StringFormat={}{0:N2}, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
+			<Label Content="Voucher Date" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="8,224,0,0" Width="100" Height="28" Padding="5,0" VerticalContentAlignment="Center"/>
+			<DatePicker Margin="112,224,169.323,0" Style="{DynamicResource RoundedDatePicker}" d:LayoutOverrides="Width, Height" Height="28" VerticalAlignment="Top"
+                        SelectedDate="{Binding DocumentDate}" />
+			<Label Content="Voucher Type" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="8,256,0,0" Width="100" Height="28" VerticalContentAlignment="Center" Padding="5,0"/>
+			<ComboBox Margin="112,256,0,0" VerticalAlignment="Top" Style="{DynamicResource RoundedComboBox}" Height="28" Width="100" HorizontalAlignment="Left" d:LayoutOverrides="Width" Text="{Binding DocumentType}" >
+				<ComboBoxItem Content="CV"/>
+				<ComboBoxItem Content="JV"/>
+				<ComboBoxItem Content="OR"/>
+				<ComboBoxItem Content="FB"/>
+			</ComboBox>
+			<Label Content="Voucher Number" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="8,288,0,0" Width="100" Height="28" Padding="5,0" VerticalContentAlignment="Center"/>
+			<TextBox TextWrapping="Wrap" VerticalAlignment="Top" Margin="112,288,0,0" Style="{DynamicResource RoundedTextBox}" Height="28" HorizontalAlignment="Left" Width="100" x:Name="VoucherNumberTextBox" 
+                     Text="{Binding DocumentNumber}" />
+			<Label Content="Forwarded Year" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="8,332,0,0" Width="100" Height="28" Padding="5,0" VerticalContentAlignment="Center"/>
+			<TextBox TextWrapping="Wrap" VerticalAlignment="Top" Margin="112,332,0,0" Style="{DynamicResource RoundedTextBox}" Height="28" HorizontalAlignment="Left" Width="100" x:Name="ForwardedYearTextBox" 
+                     Text="{Binding ForwardedYear, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+		</Grid>
+		<Grid x:Name="ControlsGrid" VerticalAlignment="Bottom" Height="40">
+			<Button Content="Update" Margin="0,0,102,12" Style="{DynamicResource SimpleButton}" VerticalAlignment="Bottom" Width="86" HorizontalAlignment="Right" d:LayoutOverrides="Width" x:Name="UpdateButton" Click="UpdateButtonOnClick" />
+			<Button Content="Cancel" HorizontalAlignment="Right" Margin="0,0,12,12" Style="{DynamicResource SimpleButton}" VerticalAlignment="Bottom" Width="86" Name="CancelButton" Click="CancelButtonOnClick" />
+		</Grid>
+	</Grid>
+</Window>

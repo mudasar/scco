@@ -1,0 +1,13 @@
+member_code	String	10	030623
+member_name	String	100	ADOLFO, ERICKSON  cruz
+account_code	String	10	150.12
+account_title	String	100	Quick Salary Loan
+document_type	String	2	CV
+document_number	Short		4364
+loan_amount	Number		20000
+terms	Short		12
+terms_mode	String	2	MO
+granted_date	Date		2013-08-29
+maturity_date	Date		2014-08-29
+mode_pay	String	10	MON
+payment	Number		2166.67

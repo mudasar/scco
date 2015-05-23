@@ -1,0 +1,54 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="SCCO.WPF.MVC.CS.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="DatabasePort" Type="System.UInt32" Scope="User">
+      <Value Profile="(Default)">3306</Value>
+    </Setting>
+    <Setting Name="DatabaseUser" Type="System.String" Scope="User">
+      <Value Profile="(Default)">root</Value>
+    </Setting>
+    <Setting Name="DatabasePassword" Type="System.String" Scope="User">
+      <Value Profile="(Default)">oVxHTE4G6UrPxaKQ5dlrqA==</Value>
+    </Setting>
+    <Setting Name="MySQLServerPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\Program Files\MySQL\MySQL Server 5.5</Value>
+    </Setting>
+    <Setting Name="DatabaseServer" Type="System.String" Scope="User">
+      <Value Profile="(Default)">localhost</Value>
+    </Setting>
+    <Setting Name="ShareCapitalAccountCode" Type="System.String" Scope="User">
+      <Value Profile="(Default)">363</Value>
+    </Setting>
+    <Setting Name="InterestOnLoanAccountCode" Type="System.String" Scope="User">
+      <Value Profile="(Default)">401</Value>
+    </Setting>
+    <Setting Name="InterestRebateAccountCode" Type="System.String" Scope="User">
+      <Value Profile="(Default)">401.01</Value>
+    </Setting>
+    <Setting Name="PatronageRefundAccountCode" Type="System.String" Scope="User">
+      <Value Profile="(Default)">312</Value>
+    </Setting>
+    <Setting Name="CooperativeMemberCode" Type="System.String" Scope="User">
+      <Value Profile="(Default)">E-01</Value>
+    </Setting>
+    <Setting Name="PatronageRefundAmountAllocated" Type="System.Decimal" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="InterestOnShareCapitalPayableAccountCode" Type="System.String" Scope="User">
+      <Value Profile="(Default)">311</Value>
+    </Setting>
+    <Setting Name="InterestOnShareCapitalAmountAllocated" Type="System.Decimal" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="BranchName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">polo</Value>
+    </Setting>
+    <Setting Name="DatabaseEnvironment" Type="System.String" Scope="User">
+      <Value Profile="(Default)">production</Value>
+    </Setting>
+    <Setting Name="ShareCapitalMaintainingBalance" Type="System.Decimal" Scope="User">
+      <Value Profile="(Default)">2000</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

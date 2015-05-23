@@ -1,0 +1,168 @@
+﻿<Views:BaseWindow x:Class="SCCO.WPF.MVC.CS.Views.UserModule.EditUserView"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:local="clr-namespace:SCCO.WPF.MVC.CS.Views.UserModule"
+                  xmlns:Views="clr-namespace:SCCO.WPF.MVC.CS.Views"
+                  Title="Edit User"
+                  SizeToContent="WidthAndHeight"
+                  Style="{DynamicResource BaseWindow}"
+                  WindowStartupLocation="CenterScreen">
+    <Views:BaseWindow.DataContext>
+        <local:EditUserViewModel />
+    </Views:BaseWindow.DataContext>
+    <Grid Width="400" Margin="5">
+        <Grid x:Name="FormLayout" Grid.RowSpan="2">
+            <Rectangle x:Name="Canvass"
+                       Fill="#FFD70A53"
+                       MouseLeftButtonDown="DragWindow"
+                       RadiusX="5"
+                       RadiusY="5"
+                       Stroke="#FFB4B4B4"
+                       StrokeLineJoin="Round">
+                <Rectangle.Effect>
+                    <DropShadowEffect BlurRadius="5" ShadowDepth="0" />
+                </Rectangle.Effect>
+            </Rectangle>
+            <Border x:Name="ShineEffect"
+                    Height="16"
+                    Margin="2,2,2,0"
+                    VerticalAlignment="Top"
+                    CornerRadius="4"
+                    MouseLeftButtonDown="DragWindow"
+                    Style="{DynamicResource ShineEffectStyle}" />
+            <Image x:Name="WindowIcon"
+                   Width="24"
+                   Height="24"
+                   Margin="10,10,0,0"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top"
+                   Source="/SCCO.WPF.MVC.CS;component/Images/user.png"
+                   Stretch="Fill" />
+            <Label x:Name="FormTitle"
+                   Margin="34,10,0,0"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top"
+                   VerticalContentAlignment="Center"
+                   Content="{Binding User.LogginName}"
+                   Foreground="White"
+                   MouseLeftButtonDown="DragWindow"
+                   Style="{StaticResource FormTitle2}" />
+            <Button x:Name="CloseButton"
+                    Margin="0,8,8,0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Background="#00E4D2D2"
+                    Click="CloseWindow"
+                    Content="x"
+                    IsCancel="True"
+                    Style="{DynamicResource CloseButton}"
+                    TabIndex="5" />
+        </Grid>
+        <Grid x:Name="Controls" Margin="20,60,20,20">
+            <StackPanel>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Label Width="100" Content="Full Name" />
+                    <TextBox Name="txtFullName"
+                             Grid.Column="1"
+                             Margin="0,2"
+                             Style="{StaticResource RoundedTextBox}"
+                             Text="{Binding User.UserName}" />
+
+                    <Label Grid.Row="1" Content="Collector Name" />
+                    <ComboBox x:Name="cboCollectors"
+                              Grid.Row="1"
+                              Grid.Column="1"
+                              Margin="0,2"
+                              DisplayMemberPath="CollectorName"
+                              ItemsSource="{Binding Path=Collectors}"
+                              SelectedValue="{Binding Path=User.CollectorName}"
+                              SelectedValuePath="CollectorName"
+                              Style="{StaticResource RoundedComboBox}" />
+
+                    <Label Grid.Row="2" Content="Initials" />
+                    <TextBox Grid.Row="2"
+                             Grid.Column="1"
+                             Margin="0,2"
+                             MaxLength="5"
+                             Style="{StaticResource RoundedTextBox}"
+                             Text="{Binding User.Initials}" />
+                </Grid>
+                <TextBlock />
+                <StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel>
+                            <CheckBox Margin="0,2,0,2"
+                                      Content="Member Information"
+                                      Foreground="WhiteSmoke"
+                                      IsChecked="{Binding User.CanAccessMemberInformation}"
+                                      Style="{StaticResource ControlCheckBox}" />
+                            <CheckBox Margin="0,2,0,2"
+                                      Content="Account Verifier"
+                                      Foreground="WhiteSmoke"
+                                      IsChecked="{Binding User.CanAccessAccountVerifier}"
+                                      Style="{StaticResource ControlCheckBox}" />
+                            <CheckBox Margin="0,2,0,2"
+                                      Content="Cash Voucher"
+                                      Foreground="WhiteSmoke"
+                                      IsChecked="{Binding User.CanAccessCashVoucher}"
+                                      Style="{StaticResource ControlCheckBox}" />
+                            <CheckBox Margin="0,2,0,2"
+                                      Content="Journal Voucher"
+                                      Foreground="WhiteSmoke"
+                                      IsChecked="{Binding User.CanAccessJournalVoucher}"
+                                      Style="{StaticResource ControlCheckBox}" />
+                            <CheckBox Margin="0,2,0,2"
+                                      Content="Official Receipt"
+                                      Foreground="WhiteSmoke"
+                                      IsChecked="{Binding User.CanAccessOfficialReceipts}"
+                                      Style="{StaticResource ControlCheckBox}" />
+                            <CheckBox Margin="0,2,0,2"
+                                      Content="Teller Collector"
+                                      Foreground="WhiteSmoke"
+                                      IsChecked="{Binding User.CanAccessTellerCollector}"
+                                      Style="{StaticResource ControlCheckBox}" />
+                            <CheckBox Margin="0,2,0,2"
+                                      Content="General Ledger Reports"
+                                      Foreground="WhiteSmoke"
+                                      IsChecked="{Binding User.CanAccessGeneralLedgerReports}"
+                                      Style="{StaticResource ControlCheckBox}" />
+                            <CheckBox Margin="0,2,0,2"
+                                      Content="Other Reports"
+                                      Foreground="WhiteSmoke"
+                                      IsChecked="{Binding User.CanAccessOtherReports}"
+                                      Style="{StaticResource ControlCheckBox}" />
+                            <CheckBox Margin="0,2,0,2"
+                                      Content="Initial Setup"
+                                      Foreground="WhiteSmoke"
+                                      IsChecked="{Binding User.CanAccessInitialSetup}"
+                                      Style="{StaticResource ControlCheckBox}" />
+                            <CheckBox Margin="0,2,0,2"
+                                      Content="Database Backup"
+                                      Foreground="WhiteSmoke"
+                                      IsChecked="{Binding User.CanAccessDatabaseBackup}"
+                                      Style="{StaticResource ControlCheckBox}" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" />
+                    </Grid>
+                </StackPanel>
+                <TextBlock />
+                <Button x:Name="btnUpdate"
+                        Content="Update"
+                        Style="{DynamicResource ControlButton}" />
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Views:BaseWindow>

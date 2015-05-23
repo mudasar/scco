@@ -1,0 +1,60 @@
+CODE	String	6
+NAME	String	50
+DATE	Date
+ADDRESS	String	60
+SUM_OF	String	100
+COL1	Number
+COL2	Number
+COL3	Number
+COL4	Number
+COL5	Number
+COL6	Number
+COL7	Number
+COL8	Number
+COL9	Number
+COL10	Number
+COL11	Number
+COL12	Number
+COL13	Number
+COL14	Number
+COL15	Number
+CNAME1	String	30
+CNAME2	String	30
+CNAME3	String	30
+CNAME4	String	30
+CNAME5	String	30
+CNAME6	String	30
+CNAME7	String	30
+CNAME8	String	30
+CNAME9	String	30
+CNAME10	String	30
+CNAME11	String	30
+CNAME12	String	30
+CNAME13	String	30
+CNAME14	String	30
+CNAME15	String	30
+DENO1	Number
+DENO_1	Number
+DENO2	Number
+DENO_2	Number
+DENO3	Number
+DENO_3	Number
+DENO4	Number
+DENO_4	Number
+DENO5	Number
+DENO_5	Number
+BNK1	String	30
+CHK1	String	20
+AMT1	Number
+BNK2	String	30
+CHK2	String	20
+AMT2	Number
+BNK3	String	30
+CHK3	String	20
+AMT3	Number
+BNK4	String	30
+CHK4	String	20
+AMT4	Number
+BNK5	String	30
+CHK5	String	20
+AMT5	Number

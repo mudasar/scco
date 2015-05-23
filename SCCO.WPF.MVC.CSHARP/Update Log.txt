@@ -1,0 +1,8 @@
+﻿2015-02-14
+ - Add transaction date filtering in getting account details
+   - affects accounting system exe file
+   - affects sp_account_details stored procedure
+
+TODO:
+- Include a module for updating end_balances and moving to next year's beginning balance
+- Include a module for update financial report setup

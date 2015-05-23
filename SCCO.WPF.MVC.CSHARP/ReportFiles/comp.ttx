@@ -1,0 +1,8 @@
+CompanyName	String	60	STA. CRUZ CREDIT COOPERATIVE
+Address	String	30	Lawa
+TIN	String	30	Obando
+ContactNo	String	30	Bulacan
+Description1	String	40	294-3163, 294-4233
+Description2	String	40	294-3163, 294-4233
+Description3	String	40	294-3163, 294-4233
+Image	BLOB		

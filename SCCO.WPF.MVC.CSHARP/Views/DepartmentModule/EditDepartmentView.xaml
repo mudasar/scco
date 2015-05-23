@@ -1,0 +1,72 @@
+﻿<Views:BaseWindow x:Class="SCCO.WPF.MVC.CS.Views.DepartmentModule.EditDepartmentView"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:Models="clr-namespace:SCCO.WPF.MVC.CS.Models"
+                  xmlns:Views="clr-namespace:SCCO.WPF.MVC.CS.Views"
+                  Title="Edit Department"
+                  SizeToContent="WidthAndHeight"
+                  Style="{DynamicResource BaseWindow}"
+                  WindowStartupLocation="CenterScreen">
+    <Window.DataContext>
+        <Models:Department />
+    </Window.DataContext>
+    <Grid Margin="5">
+        <Grid x:Name="FormLayout" Grid.RowSpan="2">
+            <Rectangle x:Name="Canvass"
+                       Fill="#451966"
+                       MouseLeftButtonDown="DragWindow"
+                       RadiusX="5"
+                       RadiusY="5"
+                       Stroke="#FFB4B4B4"
+                       StrokeLineJoin="Round">
+                <Rectangle.Effect>
+                    <DropShadowEffect BlurRadius="5" ShadowDepth="0" />
+                </Rectangle.Effect>
+            </Rectangle>
+            <Border x:Name="ShineEffect"
+                    Height="16"
+                    Margin="2,2,2,0"
+                    VerticalAlignment="Top"
+                    CornerRadius="4"
+                    MouseLeftButtonDown="DragWindow"
+                    Style="{DynamicResource ShineEffectStyle}" />
+            <Image x:Name="WindowIcon"
+                   Width="24"
+                   Height="24"
+                   Margin="10,10,0,0"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top"
+                   Source="/SCCO.WPF.MVC.CS;component/Images/department.png"
+                   Stretch="Fill" />
+            <Label x:Name="FormTitle"
+                   Margin="34,10,0,0"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top"
+                   VerticalContentAlignment="Center"
+                   Content="Edit Department"
+                   MouseLeftButtonDown="DragWindow"
+                   Style="{StaticResource FormTitle2}" />
+            <Button x:Name="CloseButton"
+                    Margin="0,8,8,0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Background="#00E4D2D2"
+                    Click="CloseWindow"
+                    Content="x"
+                    IsCancel="True"
+                    Style="{DynamicResource CloseButton}"
+                    TabIndex="5" />
+        </Grid>
+        <StackPanel Margin="20,60,20,20">
+            <Label Content="Department" Foreground="WhiteSmoke" />
+            <TextBox x:Name="txtDepartmentName"
+                     Width="260"
+                     Style="{StaticResource RoundedTextBox}"
+                     Text="{Binding DepartmentName}" />
+            <TextBlock />
+            <Button x:Name="btnUpdate"
+                    Content="Update"
+                    Style="{DynamicResource ControlButton}" />
+        </StackPanel>
+    </Grid>
+</Views:BaseWindow>

@@ -1,0 +1,35 @@
+member_code	String	10	030623
+member_name	String	100	ADOLFO, ERICKSON  cruz
+account_code	String	10	150.12
+account_title	String	100	Quick Salary Loan
+ending_balance	Number		14500
+as_of	Date		2014-06-03
+document_date	Date		2013-08-29
+document_type	String	2	CV
+document_no	Short		4364
+release_no	Short		2211
+loan_amount	Number		20000
+terms	Short		12
+terms_mode	String	2	MO
+mode_pay	String	10	MON
+granted_date	Date		2013-08-29
+maturity_date	Date		2014-08-29
+cut_off_date	Date		2013-09-29
+payment	Number		2166.67
+interest_rate	Number		24
+interest_amount	Number		400
+interest_amortization	Number		400
+approved_date	Date		
+cancelled_date	Date		
+released_date	Date		2013-08-29
+applied_date	Date		
+comaker_code1	String	10	030279
+comaker_name1	String	100	SAN LUIS, JAYPEE Cabasal
+comaker_code2	String	10	030716
+comaker_name2	String	100	FONTELERA, REBECCA ROSE monta
+comaker_code3	String	10	030182
+comaker_name3	String	100	SANTIAGO, REYMON Enriquez
+loan_status	String	10	Current
+age	Short		22
+age_bracket	String	10	1-30 DAYS
+priority	Short		1

@@ -1,0 +1,69 @@
+﻿<Views:BaseWindow xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Views="clr-namespace:SCCO.WPF.MVC.CS.Views"
+                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                  xmlns:Models="clr-namespace:SCCO.WPF.MVC.CS.Models" x:Name="AreaProfileMaintenance" mc:Ignorable="d"
+                  x:Class="SCCO.WPF.MVC.CS.Views.AreaMaintenanceWindow" Height="150" Width="400"
+                  WindowStartupLocation="CenterScreen" WindowStyle="None"
+                  AllowsTransparency="True" Background="{x:Null}" ResizeMode="NoResize" ShowInTaskbar="False">
+
+    <Views:BaseWindow.DataContext>
+        <Models:Area />
+    </Views:BaseWindow.DataContext>
+    <Grid>
+
+        <Grid x:Name="FormLayout">
+            <Rectangle x:Name="Canvass" RadiusX="5" RadiusY="5" StrokeLineJoin="Round"
+                       MouseLeftButtonDown="DragWindow" d:LayoutOverrides="GridBox" Stroke="#FF282828">
+                <Rectangle.Fill>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FF786400" Offset="1" />
+                        <GradientStop Color="#FFC8B400" Offset="0.004" />
+                        <GradientStop Color="#FFA18200" Offset="0.889" />
+                    </LinearGradientBrush>
+                </Rectangle.Fill>
+            </Rectangle>
+            <Border x:Name="ShineEffect" Style="{DynamicResource ShineEffectStyle}" VerticalAlignment="Top"
+                    MouseLeftButtonDown="DragWindow" CornerRadius="4" Margin="2,2,2,0" Height="16" d:LayoutOverrides="VerticalAlignment" />
+            <Image x:Name="WindowIcon" Source="/SCCO.WPF.MVC.CS;component/Images/worldwide_location.png" Stretch="Fill" Width="24" Height="24" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" />
+            <Label Content="Area" x:Name="FormTitle" Foreground="White" FontFamily="Segoe UI"
+                   VerticalContentAlignment="Center" Margin="34,10,0,0" MouseLeftButtonDown="DragWindow" VerticalAlignment="Top"
+                   FontSize="13.333" FontWeight="SemiBold" HorizontalAlignment="Left" />
+            <Button Content="x" HorizontalAlignment="Right" IsCancel="True" x:Name="CloseButton" TabIndex="5"
+                    VerticalAlignment="Top" Background="#00E4D2D2" Style="{DynamicResource CloseButton}" Margin="0,8,8,0"
+                    Click="CloseWindow" />
+            <StackPanel x:Name="CrudButtons" HorizontalAlignment="Right" Height="32" Margin="0,6,50,5"
+            	VerticalAlignment="Top" Width="128" Orientation="Horizontal">
+            	<Button Foreground="#FFFFFFFF" x:Name="CreateButton" Style="{DynamicResource ToolButton}"
+            		Width="32" Height="32" Click="Create">
+            		<StackPanel Orientation="Horizontal">
+            			<Image Source="/SCCO.WPF.MVC.CS;component/Images/Add.png" Stretch="Fill" Margin="4" />
+            		</StackPanel>
+            	</Button>
+            	<Button Foreground="#FFFFFFFF" x:Name="ReadButton" Style="{DynamicResource ToolButton}"
+            		Width="32" Height="32" Click="Read">
+            		<StackPanel Orientation="Horizontal">
+            			<Image Source="/SCCO.WPF.MVC.CS;component/Images/Search.png" Stretch="Fill" Margin="4" />
+            		</StackPanel>
+            	</Button>
+            	<Button Foreground="#FFFFFFFF" x:Name="UpdateButton" Style="{DynamicResource ToolButton}"
+            		Width="32" Height="32" Click="Update">
+            		<StackPanel Orientation="Horizontal">
+            			<Image Source="/SCCO.WPF.MVC.CS;component/Images/Valid.png" Stretch="Fill" Margin="4" />
+            		</StackPanel>
+            	</Button>
+            	<Button Foreground="#FFFFFFFF" x:Name="DeleteButton" Style="{DynamicResource ToolButton}"
+            		Width="32" Height="32" Click="Delete">
+            		<StackPanel Orientation="Horizontal">
+            			<Image Source="/SCCO.WPF.MVC.CS;component/Images/Denided.png" Stretch="Fill" Margin="4" />
+            		</StackPanel>
+            	</Button>
+            </StackPanel>
+        </Grid>
+        <Label Content="Area of Operation" Foreground="White" Margin="30,70,0,0" TabIndex="2" VerticalAlignment="Top" HorizontalAlignment="Left" Width="340" />
+        <TextBox Margin="30,93.277,30,0" x:Name="txtAreaName" Text="{Binding AreaName}" TabIndex="1"
+                 TextWrapping="Wrap" IsTabStop="True" Style="{DynamicResource RoundedTextBox}" Height="27" VerticalAlignment="Top"
+                 MaxLength="50" />
+
+    </Grid>
+</Views:BaseWindow>

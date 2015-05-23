@@ -1,0 +1,11 @@
+﻿<Window x:Class="SCCO.WPF.MVC.CS.CrystalReportViewer.MainReportWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Report Preview"
+        Icon="/SCCO.WPF.MVC.CS;component/Images/document.png"
+        Left="0"
+        ResizeMode="CanResizeWithGrip"
+        Top="0"
+        WindowState="Maximized">
+    <Grid Name="GridReport" />
+</Window>

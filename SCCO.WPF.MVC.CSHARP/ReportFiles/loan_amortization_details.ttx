@@ -1,0 +1,8 @@
+payment_no	number
+payment_date	Date
+beginning_balance	number
+payment	number
+interest	number
+capital_build_up	number
+amortization	number
+ending_balance	number

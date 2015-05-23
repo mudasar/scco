@@ -1,0 +1,107 @@
+﻿<Views:BaseWindow x:Class="SCCO.WPF.MVC.CS.Views.ProductImageModule.ProductImageListDetailView"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:Views="clr-namespace:SCCO.WPF.MVC.CS.Views"
+                  xmlns:local="clr-namespace:SCCO.WPF.MVC.CS.Views.ProductImageModule"
+                  Title="Product Image List-Detail View"
+                  FontFamily="Ubuntu"
+                  SizeToContent="WidthAndHeight"
+                  Style="{StaticResource BaseWindow}"
+                  WindowStartupLocation="CenterScreen">
+    <Views:BaseWindow.DataContext>
+        <local:ProductImageViewModel />
+    </Views:BaseWindow.DataContext>
+    <Grid Margin="5">
+        <Grid x:Name="FormLayout" Grid.RowSpan="2">
+            <Rectangle x:Name="Canvass"
+                       Fill="#FF536878"
+                       MouseLeftButtonDown="DragWindow"
+                       RadiusX="5"
+                       RadiusY="5"
+                       Stroke="#FFB4B4B4"
+                       StrokeLineJoin="Round">
+                <Rectangle.Effect>
+                    <DropShadowEffect BlurRadius="10" ShadowDepth="0" />
+                </Rectangle.Effect>
+            </Rectangle>
+            <Border x:Name="ShineEffect"
+                    Height="16"
+                    Margin="2,2,2,0"
+                    VerticalAlignment="Top"
+                    CornerRadius="4"
+                    MouseLeftButtonDown="DragWindow"
+                    Style="{StaticResource ShineEffectStyle}" />
+            <Image x:Name="WindowIcon"
+                   Width="24"
+                   Height="24"
+                   Margin="10,10,0,0"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top"
+                   Source="/SCCO.WPF.MVC.CS;component/Images/documents.png"
+                   Stretch="Fill" />
+            <Label x:Name="FormTitle"
+                   Margin="34,10,0,0"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top"
+                   VerticalContentAlignment="Center"
+                   Content="Products Image"
+                   MouseLeftButtonDown="DragWindow"
+                   Style="{StaticResource FormTitle2}" />
+            <Button x:Name="CloseButton"
+                    Margin="0,8,8,0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Background="#00E4D2D2"
+                    Click="CloseWindow"
+                    Content="x"
+                    IsCancel="True"
+                    IsTabStop="False"
+                    Style="{StaticResource CloseButton}"
+                    TabIndex="5" />
+        </Grid>
+        <StackPanel Margin="20,60,20,20">
+            <Grid Height="360">
+                <TextBox x:Name="txtSearch"
+                         Height="28"
+                         VerticalAlignment="Top" Style="{StaticResource RoundedTextBox}" />
+                <TextBlock Height="4"
+                           Margin="0,28,0,0"
+                           VerticalAlignment="Top" />
+                <Border Margin="0,32,0,2.517"
+                        Background="White"
+                        CornerRadius="5">
+                    <ListBox x:Name="listBox1"
+                             Margin="1"
+                             ItemsSource="{Binding Collection}"
+                             ItemTemplate="{StaticResource ReportBoxItemTemplate}"
+                             SelectedItem="{Binding SelectedItem}"
+                             Style="{StaticResource ReportBoxStyle}" />
+                </Border>
+            </Grid>
+
+            <TextBlock />
+            <StackPanel>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="btnAdd"
+                            Content="Add"
+                            Style="{StaticResource ControlButton}" />
+                    <Button x:Name="btnEdit"
+                            Grid.Column="1"
+                            Content="Edit"
+                            Style="{StaticResource ControlButton}" />
+                    <Button x:Name="btnDelete"
+                            Grid.Column="2"
+                            Content="Delete"
+                            Style="{StaticResource ControlButton}" />
+                </Grid>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Views:BaseWindow>
+
+

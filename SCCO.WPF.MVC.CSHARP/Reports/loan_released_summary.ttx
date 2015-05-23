@@ -1,0 +1,5 @@
+account_code	String	10	150.12
+account_title	String	100	Quick Salary Loan
+total_count	Short		4364
+total_loan_amount	Number		20000
+nature	String	10	MON

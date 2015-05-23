@@ -1,0 +1,6 @@
+member_code	String	10	030002
+member_name	String	60	SAN DIEGO, NARCISO D.
+account_code	String	10	300
+account_title	String	50	Savings Deposit
+ending_balance	Number		39.11
+as_of	Date		2014-01-01

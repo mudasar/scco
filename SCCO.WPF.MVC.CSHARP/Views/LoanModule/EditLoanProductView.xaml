@@ -1,0 +1,452 @@
+﻿<Views:BaseWindow x:Class="SCCO.WPF.MVC.CS.Views.LoanModule.EditLoanProductView"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:Models_Loan="clr-namespace:SCCO.WPF.MVC.CS.Models.Loan"
+                  xmlns:my="clr-namespace:SCCO.WPF.MVC.CS.Resources"
+                  xmlns:UserControls="clr-namespace:SCCO.WPF.MVC.CS.UserControls"
+                  xmlns:Views="clr-namespace:SCCO.WPF.MVC.CS.Views"
+                  Title="Loan Product"
+                  SizeToContent="WidthAndHeight"
+                  Style="{DynamicResource BaseWindow}"
+                  WindowStartupLocation="CenterScreen">
+    <Views:BaseWindow.Resources>
+        <my:DecimalConverterDefaultZero x:Key="DecimalConverterDefaultZero1" />
+    </Views:BaseWindow.Resources>
+    <Grid Margin="5">
+        <Grid x:Name="FormLayout">
+            <Rectangle x:Name="Canvass"
+                       Fill="#7200AC"
+                       MouseLeftButtonDown="DragWindow"
+                       RadiusX="5"
+                       RadiusY="5"
+                       Stroke="#FFB4B4B4"
+                       StrokeLineJoin="Round">
+                <Rectangle.Effect>
+                    <DropShadowEffect BlurRadius="5" ShadowDepth="0" />
+                </Rectangle.Effect>
+            </Rectangle>
+            <Border x:Name="ShineEffect"
+                    Height="16"
+                    Margin="2,2,2,0"
+                    VerticalAlignment="Top"
+                    CornerRadius="4"
+                    MouseLeftButtonDown="DragWindow"
+                    Style="{DynamicResource ShineEffectStyle}" />
+            <Image x:Name="WindowIcon"
+                   Width="24"
+                   Height="24"
+                   Margin="10,10,0,0"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top"
+                   Source="/SCCO.WPF.MVC.CS;component/Images/edit_light.png"
+                   Stretch="Fill" />
+            <Label x:Name="FormTitle"
+                   Margin="34,10,0,0"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top"
+                   VerticalContentAlignment="Center"
+                   Content="Loan Product"
+                   Foreground="White"
+                   MouseLeftButtonDown="DragWindow"
+                   Style="{DynamicResource FormTitle2}" />
+            <Button x:Name="CloseButton"
+                    Margin="0,8,8,0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Background="#00E4D2D2"
+                    Click="CloseWindow"
+                    Content="x"
+                    IsCancel="True"
+                    IsTabStop="False"
+                    Style="{DynamicResource CloseButton}"
+                    TabIndex="5" />
+        </Grid>
+        <StackPanel Margin="20,60,20,20">
+            <StackPanel Orientation="Horizontal">
+                <Grid x:Name="grdDetails" Width="270">
+                    <Grid.DataContext>
+                        <Models_Loan:LoanProduct />
+                    </Grid.DataContext>
+                    <StackPanel Margin="0,0,0,3.516" Orientation="Vertical">
+                        <Label Margin="0,0,0,2" Content="Description" />
+                        <TextBox x:Name="txtTitle"
+                                 Height="28"
+                                 VerticalContentAlignment="Center"
+                                 Style="{DynamicResource RoundedTextBox}"
+                                 Text="{Binding Title}"
+                                 TextWrapping="Wrap" />
+                        <Label Margin="0,8,0,2" Content="Product Code" />
+                        <UserControls:TextBoxSearchControl x:Name="stbProductCode"
+                                                           Height="28"
+                                                           Click="SearchProductCode"
+                                                           IsReadOnly="True"
+                                                           Text="{Binding ProductCode}" />
+                        <Label Margin="0,8,0,2" Content="Type of Loan" />
+                        <ComboBox x:Name="cboLoanType"
+                                  Height="28"
+                                  SelectedItem="{Binding LoanType}"
+                                  Style="{DynamicResource RoundedComboBox}" />
+                        <Label Margin="0,8,0,2" Content="Mode of Payment" />
+                        <ComboBox x:Name="cboModeOfPayment"
+                                  Height="28"
+                                  VerticalAlignment="Top"
+                                  SelectedItem="{Binding ModeOfPayment}"
+                                  Style="{DynamicResource RoundedComboBox}" />
+                        <Label Margin="0,8,0,2" Content="Annual Interest Rate" />
+                        <TextBox x:Name="txtAnnualInterestRate"
+                                 Height="28"
+                                 VerticalContentAlignment="Center"
+                                 Style="{DynamicResource RoundedTextBox}"
+                                 Text="{Binding AnnualInterestRate,
+                                                Converter={StaticResource PercentageConverter1},
+                                                StringFormat=\{0:P\}}"
+                                 TextWrapping="Wrap" />
+                        <Label Margin="0,8,0,2" Content="Monthly Capital Build-Up" />
+                        <TextBox Height="28"
+                                 VerticalContentAlignment="Center"
+                                 Style="{DynamicResource RoundedTextBox}"
+                                 Text="{Binding Converter={StaticResource DecimalConverterDefaultZero1},
+                                                Path=MonthlyCapitalBuildUp,
+                                                StringFormat=\{0:N\}}"
+                                 TextWrapping="Wrap" />
+                        <Label Margin="0,8,0,2" Content="Terms Range (In Months)" />
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="4" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <TextBox x:Name="txtMinimumTerm"
+                                     Style="{DynamicResource RoundedTextBox}"
+                                     Text="{Binding MinimumTerm}" />
+                            <TextBox x:Name="txtMaximumTerm"
+                                     Grid.Column="2"
+                                     Style="{DynamicResource RoundedTextBox}"
+                                     Text="{Binding MaximumTerm}" />
+                        </Grid>
+                        <Label Margin="0,8,0,2" Content="Loanable Amount Range" />
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="4" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <TextBox x:Name="txtMinimumLoanableAmount"
+                                     Style="{DynamicResource RoundedTextBox}"
+                                     Text="{Binding MinimumLoanableAmount,
+                                                    StringFormat=\{0:N\}}" />
+
+                            <TextBox x:Name="txtMaximumLoanableAmount"
+                                     Grid.Column="2"
+                                     Style="{DynamicResource RoundedTextBox}"
+                                     Text="{Binding MaximumLoanableAmount,
+                                                    StringFormat=\{0:N\}}" />
+                        </Grid>
+                    </StackPanel>
+                </Grid>
+                <TextBlock Width="20" />
+                <StackPanel Grid.Column="2"
+                            Width="400"
+                            VerticalAlignment="Top">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="100" />
+                        </Grid.ColumnDefinitions>
+                        <Label Margin="0,0,0,2" Content="Charges" />
+                        <Label Grid.Column="2"
+                               Margin="0,0,0,2"
+                               Content="Rate" />
+                    </Grid>
+
+                    <Grid x:Name="grdCharge1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="100" />
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.DataContext>
+                            <Models_Loan:LoanCharge />
+                        </Grid.DataContext>
+                        <UserControls:TextBoxSearchControl x:Name="stbCode1"
+                                                           Height="28"
+                                                           IsReadOnly="True"
+                                                           Text="{Binding AccountCode}" />
+                        <TextBox x:Name="txtAccountTitle1"
+                                 Grid.Column="1"
+                                 Margin="4,0"
+                                 IsReadOnly="True"
+                                 IsTabStop="False"
+                                 Style="{DynamicResource RoundedTextBox}"
+                                 Text="{Binding AccountTitle,
+                                                StringFormat=\{0:P\}}" />
+
+                        <TextBox x:Name="txtRate1"
+                                 Grid.Column="2"
+                                 Style="{DynamicResource RoundedTextBox}"
+                                 Text="{Binding Rate,
+                                                Converter={StaticResource PercentageConverter1},
+                                                StringFormat=\{0:P\}}" />
+
+                    </Grid>
+                    <Grid x:Name="grdCharge2" Margin="0,4,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="100" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.DataContext>
+                            <Models_Loan:LoanCharge />
+                        </Grid.DataContext>
+                        <UserControls:TextBoxSearchControl x:Name="stbCode2"
+                                                           Height="28"
+                                                           IsReadOnly="True"
+                                                           Text="{Binding AccountCode}" />
+
+                        <TextBox x:Name="txtAccountTitle2"
+                                 Grid.Column="1"
+                                 Margin="4,0"
+                                 IsReadOnly="True"
+                                 IsTabStop="False"
+                                 Style="{DynamicResource RoundedTextBox}"
+                                 Text="{Binding AccountTitle}" />
+
+                        <TextBox x:Name="txtRate2"
+                                 Grid.Column="2"
+                                 Style="{DynamicResource RoundedTextBox}"
+                                 Text="{Binding Rate,
+                                                Converter={StaticResource PercentageConverter1},
+                                                StringFormat=\{0:P\}}" />
+                    </Grid>
+                    <Grid x:Name="grdCharge3" Margin="0,4,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="100" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.DataContext>
+                            <Models_Loan:LoanCharge />
+                        </Grid.DataContext>
+                        <UserControls:TextBoxSearchControl x:Name="stbCode3"
+                                                           Height="28"
+                                                           IsReadOnly="True"
+                                                           Text="{Binding AccountCode}" />
+
+                        <TextBox x:Name="txtAccountTitle3"
+                                 Grid.Column="1"
+                                 Margin="4,0"
+                                 IsReadOnly="True"
+                                 IsTabStop="False"
+                                 Style="{DynamicResource RoundedTextBox}"
+                                 Text="{Binding AccountTitle}"
+                                 TextWrapping="Wrap" />
+
+                        <TextBox x:Name="txtRate3"
+                                 Grid.Column="2"
+                                 Style="{DynamicResource RoundedTextBox}"
+                                 Text="{Binding Rate,
+                                                Converter={StaticResource PercentageConverter1},
+                                                StringFormat=\{0:P\}}" />
+
+                    </Grid>
+                    <Grid x:Name="grdCharge4" Margin="0,4,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="100" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.DataContext>
+                            <Models_Loan:LoanCharge />
+                        </Grid.DataContext>
+                        <UserControls:TextBoxSearchControl x:Name="stbCode4"
+                                                           Height="28"
+                                                           IsReadOnly="True"
+                                                           Text="{Binding AccountCode}" />
+                        <TextBox x:Name="txtAccountTitle4"
+                                 Grid.Column="1"
+                                 Margin="4,0"
+                                 IsReadOnly="True"
+                                 IsTabStop="False"
+                                 Style="{DynamicResource RoundedTextBox}"
+                                 Text="{Binding AccountTitle}" />
+
+                        <TextBox x:Name="txtRate4"
+                                 Grid.Column="2"
+                                 Style="{DynamicResource RoundedTextBox}"
+                                 Text="{Binding Rate,
+                                                Converter={StaticResource PercentageConverter1},
+                                                StringFormat=\{0:P\}}" />
+
+                    </Grid>
+                    <Grid x:Name="grdCharge5" Margin="0,4,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="100" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.DataContext>
+                            <Models_Loan:LoanCharge />
+                        </Grid.DataContext>
+                        <UserControls:TextBoxSearchControl x:Name="stbCode5"
+                                                           Height="28"
+                                                           IsReadOnly="True"
+                                                           Text="{Binding AccountCode}" />
+
+                        <TextBox x:Name="txtAccountTitle5"
+                                 Grid.Column="1"
+                                 Margin="4,0"
+                                 IsReadOnly="True"
+                                 IsTabStop="False"
+                                 Style="{DynamicResource RoundedTextBox}"
+                                 Text="{Binding AccountTitle}" />
+
+                        <TextBox x:Name="txtRate5"
+                                 Grid.Column="2"
+                                 Style="{DynamicResource RoundedTextBox}"
+                                 Text="{Binding Rate,
+                                                Converter={StaticResource PercentageConverter1},
+                                                StringFormat=\{0:P\}}" />
+
+                    </Grid>
+                    <Grid x:Name="grdCharge6" Margin="0,4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="100" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.DataContext>
+                            <Models_Loan:LoanCharge />
+                        </Grid.DataContext>
+                        <UserControls:TextBoxSearchControl x:Name="stbCode6"
+                                                           Height="28"
+                                                           IsReadOnly="True"
+                                                           Text="{Binding AccountCode}" />
+                        <TextBox x:Name="txtAccountTitle6"
+                                 Grid.Column="1"
+                                 Margin="4,0"
+                                 IsReadOnly="True"
+                                 IsTabStop="False"
+                                 Style="{DynamicResource RoundedTextBox}"
+                                 Text="{Binding AccountTitle}" />
+
+                        <TextBox x:Name="txtRate6"
+                                 Grid.Column="2"
+                                 Style="{DynamicResource RoundedTextBox}"
+                                 Text="{Binding Rate,
+                                                Converter={StaticResource PercentageConverter1},
+                                                StringFormat=\{0:P\}}" />
+                    </Grid>
+                    <TextBlock />
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="100" />
+                        </Grid.ColumnDefinitions>
+                        <Label Margin="0,0,0,2" Content="Deductions" />
+                        <Label Grid.Column="2"
+                               Margin="0,0,0,2"
+                               Content="Amount" />
+                    </Grid>
+
+                    <Grid x:Name="grdDeduction1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="100" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.DataContext>
+                            <Models_Loan:LoanDeduction />
+                        </Grid.DataContext>
+                        <UserControls:TextBoxSearchControl x:Name="stbDeductCode1"
+                                                           IsReadOnly="True"
+                                                           Text="{Binding AccountCode}" />
+                        <TextBox x:Name="txtDeductTitle1"
+                                 Grid.Column="1"
+                                 Margin="4,0"
+                                 IsReadOnly="True"
+                                 IsTabStop="False"
+                                 Style="{DynamicResource RoundedTextBox}"
+                                 Text="{Binding AccountTitle}" />
+
+                        <TextBox x:Name="txtAmount1"
+                                 Grid.Column="2"
+                                 Style="{DynamicResource RoundedTextBox}"
+                                 Text="{Binding Amount,
+                                                Converter={StaticResource DecimalConverter1},
+                                                StringFormat=\{0:N\}}" />
+
+
+                    </Grid>
+                    <Grid x:Name="grdDeduction2" Margin="0,4,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="100" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.DataContext>
+                            <Models_Loan:LoanDeduction />
+                        </Grid.DataContext>
+                        <UserControls:TextBoxSearchControl x:Name="stbDeductCode2"
+                                                           Height="28"
+                                                           IsReadOnly="True"
+                                                           Text="{Binding AccountCode}" />
+
+                        <TextBox x:Name="txtDeductTitle2"
+                                 Grid.Column="1"
+                                 Margin="4,0"
+                                 IsReadOnly="True"
+                                 IsTabStop="False"
+                                 Style="{DynamicResource RoundedTextBox}"
+                                 Text="{Binding AccountTitle}" />
+
+                        <TextBox x:Name="txtAmount2"
+                                 Grid.Column="2"
+                                 Style="{DynamicResource RoundedTextBox}"
+                                 Text="{Binding Amount,
+                                                Converter={StaticResource DecimalConverter1},
+                                                StringFormat=\{0:N\}}" />
+
+                    </Grid>
+                    <Grid x:Name="grdDeduction3" Margin="0,4,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="100" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.DataContext>
+                            <Models_Loan:LoanDeduction />
+                        </Grid.DataContext>
+                        <UserControls:TextBoxSearchControl x:Name="stbDeductCode3"
+                                                           Height="28"
+                                                           IsReadOnly="True"
+                                                           Text="{Binding AccountCode}" />
+
+                        <TextBox x:Name="txtDeductTitle3"
+                                 Grid.Column="1"
+                                 Margin="4,0"
+                                 IsReadOnly="True"
+                                 IsTabStop="False"
+                                 Style="{DynamicResource RoundedTextBox}"
+                                 Text="{Binding AccountTitle}" />
+
+                        <TextBox x:Name="txtAmount3"
+                                 Grid.Column="2"
+                                 Style="{DynamicResource RoundedTextBox}"
+                                 Text="{Binding Amount,
+                                                Converter={StaticResource DecimalConverter1},
+                                                StringFormat=\{0:N\}}" />
+
+                    </Grid>
+                </StackPanel>
+            </StackPanel>
+            <TextBlock />
+            <Button x:Name="btnOk"
+                    Content="Update"
+                    Foreground="#FFEEECE1"
+                    Style="{DynamicResource ControlButton}" />
+        </StackPanel>
+    </Grid>
+</Views:BaseWindow>

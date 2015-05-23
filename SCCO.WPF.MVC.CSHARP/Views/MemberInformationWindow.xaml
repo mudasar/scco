@@ -1,0 +1,1063 @@
+﻿<Views:BaseWindow x:Class="SCCO.WPF.MVC.CS.Views.MemberInformationWindow"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                  xmlns:Models="clr-namespace:SCCO.WPF.MVC.CS.Models"
+                  xmlns:UserControls="clr-namespace:SCCO.WPF.MVC.CS.UserControls"
+                  xmlns:Views="clr-namespace:SCCO.WPF.MVC.CS.Views"
+                  Title="Member Information Form"
+                  Width="700"
+                  Height="600"
+                  Icon="/SCCO.WPF.MVC.CS;component/Images/member_information.png"
+                  Style="{DynamicResource BaseWindow}"
+                  WindowStartupLocation="CenterScreen"
+                  mc:Ignorable="d">
+
+    <Views:BaseWindow.Resources>
+        <!--  Target TabControl and TabItem Design  -->
+
+        <!--  There are no PARTS on the template of the TabControl, all you have to do is to customized it with the combinations of available controls from WPF. You should also create for your own Style for TabItem (same as TabControl it is a composite control and don't have any PART on its template).  -->
+
+        <!--  First you  should create a Style for TabItem as it is required when you are applying a template for TabControl. With the image above, it has three style existed for TabItem (styleTabItemLeft, styleTabItemDefault and styleTabItemRight). Each of them has different style and border.  -->
+
+        <!--  Style for left TabItem  -->
+
+        <!--  Style for right TabItem  -->
+
+        <!--  Style for default TabItem  -->
+        <LinearGradientBrush x:Key="gradientBrushSegmentedTabItem" StartPoint="0.5,0" EndPoint="0.5,1">
+            <GradientStop Offset="0" Color="#4C8BC0" />
+            <GradientStop Offset="0.49" Color="#015CA3" />
+            <GradientStop Offset="0.50" Color="#024795" />
+            <GradientStop Offset="1" Color="#2C5198" />
+        </LinearGradientBrush>
+        <!--  For the left style of the above's TabItem, we need to create a left rounded style and a little gradient background and soft text. Below is the XAML for this one.  -->
+
+        <Style x:Key="styleTabItemLeft" TargetType="{x:Type TabItem}">
+            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TabItem}">
+                        <Border x:Name="rightBorder"
+                                Background="{DynamicResource gradientBrushSegmentedTabItem}"
+                                BorderBrush="#032A6B"
+                                BorderThickness="0,0,1,0"
+                                CornerRadius="4,0,0,4">
+                            <Border x:Name="leftBorder"
+                                    BorderBrush="#2172B1"
+                                    BorderThickness="1,0,0,0"
+                                    CornerRadius="4,0,0,4">
+                                <ContentPresenter x:Name="ContentSite"
+                                                  Grid.Row="1"
+                                                  Margin="20,4,20,5"
+                                                  HorizontalAlignment="Stretch"
+                                                  VerticalAlignment="Center"
+                                                  ContentSource="Header"
+                                                  RecognizesAccessKey="True"
+                                                  TextBlock.FontSize="13"
+                                                  TextBlock.Foreground="#AAFFFFFF">
+                                    <!--
+                                        <ContentPresenter.Effect>
+                                        <DropShadowEffect BlurRadius="0.0"
+                                        Direction="90"
+                                        Opacity="1"
+                                        ShadowDepth="1"
+                                        Color="#032A6B" />
+                                        </ContentPresenter.Effect>
+                                    -->
+                                </ContentPresenter>
+                            </Border>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="rightBorder" Property="Background" Value="{DynamicResource ResourceKey=gradientBrushSegmentedActiveTabItem}" />
+                                <Setter TargetName="leftBorder" Property="BorderThickness" Value="0" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!--  The same with left TabItem, but only we adjusted the rounded corner to the right. The XAML below address it.  -->
+
+        <Style x:Key="styleTabItemRight" TargetType="{x:Type TabItem}">
+            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TabItem}">
+                        <Border x:Name="rightBorder"
+                                Background="{StaticResource ResourceKey=gradientBrushSegmentedTabItem}"
+                                BorderBrush="#032A6B"
+                                BorderThickness="0,0,1,0"
+                                CornerRadius="0,4,4,0">
+                            <Border x:Name="leftBorder"
+                                    BorderBrush="#2172B1"
+                                    BorderThickness="1,0,0,0"
+                                    CornerRadius="0,4,4,0">
+                                <ContentPresenter x:Name="ContentSite"
+                                                  Grid.Row="1"
+                                                  Margin="20,4,20,5"
+                                                  HorizontalAlignment="Stretch"
+                                                  VerticalAlignment="Center"
+                                                  ContentSource="Header"
+                                                  RecognizesAccessKey="True"
+                                                  TextBlock.FontSize="13"
+                                                  TextBlock.Foreground="#AAFFFFFF">
+                                    <!--
+                                        <ContentPresenter.Effect>
+                                        <DropShadowEffect BlurRadius="0.0"
+                                        Direction="90"
+                                        Opacity="1"
+                                        ShadowDepth="1"
+                                        Color="#032A6B" />
+                                        </ContentPresenter.Effect>
+                                    -->
+                                </ContentPresenter>
+                            </Border>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="rightBorder" Property="Background" Value="{DynamicResource ResourceKey=gradientBrushSegmentedActiveTabItem}" />
+                                <Setter TargetName="leftBorder" Property="BorderThickness" Value="0" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!--  This time this is not rounded and you'll notice an inset/outset if defaulted. The XAML below address it.  -->
+
+        <Style x:Key="styleTabItemDefault" TargetType="{x:Type TabItem}">
+            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TabItem}">
+                        <Border x:Name="rightBorder"
+                                Background="{StaticResource ResourceKey=gradientBrushSegmentedTabItem}"
+                                BorderBrush="#032A6B"
+                                BorderThickness="0,0,1,0">
+                            <Border x:Name="leftBorder"
+                                    BorderBrush="#2172B1"
+                                    BorderThickness="1,0,0,0">
+                                <ContentPresenter x:Name="ContentSite"
+                                                  Grid.Row="1"
+                                                  Margin="20,4,20,5"
+                                                  HorizontalAlignment="Stretch"
+                                                  VerticalAlignment="Center"
+                                                  ContentSource="Header"
+                                                  RecognizesAccessKey="True"
+                                                  TextBlock.FontSize="13"
+                                                  TextBlock.Foreground="#AAFFFFFF">
+                                    <!--
+                                        <ContentPresenter.Effect>
+                                        <DropShadowEffect BlurRadius="0.0"
+                                        Direction="90"
+                                        Opacity="1"
+                                        ShadowDepth="1"
+                                        Color="#032A6B" />
+                                        </ContentPresenter.Effect>
+                                    -->
+                                </ContentPresenter>
+                            </Border>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="rightBorder" Property="Background" Value="{DynamicResource ResourceKey=gradientBrushSegmentedActiveTabItem}" />
+                                <Setter TargetName="leftBorder" Property="BorderThickness" Value="0" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!--  You will notice that the three styles almost the same in foundation but only the design for the rounded corners are different. You will also notice that some variables like gradientBrushSegmentedActiveTabItem, gradientBrushSegmentedTabItem were referenced. This is actually my resource object implemented to make the background of the TabItem header looks very nice. The XAML below is the code for this.  -->
+
+        <LinearGradientBrush x:Key="gradientBrushTabControlHeader" StartPoint="0,0.5" EndPoint="1,0.5">
+            <GradientStop Offset="0" Color="#FF254587" />
+            <GradientStop Offset="0.5" Color="#0071B7" />
+            <GradientStop Offset="1" Color="#FF254587" />
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="gradientBrushSegmentedActiveTabItem" StartPoint="0.5,0" EndPoint="0.5,1">
+            <GradientStop Offset="0" Color="#FF0000FB" />
+            <GradientStop Offset="0.33" Color="#FF000093" />
+            <GradientStop Offset="0.66" Color="#000075" />
+            <GradientStop Offset="1" Color="#000082" />
+        </LinearGradientBrush>
+
+        <!--  Once you have already completed all the Style for the TabItem, next you should do your own Style for the TabControl applying the above styles you created.  -->
+
+        <!--
+            Styling the TabControl
+            The WPF TabControl is a composite control and there is no PART on its template. This mean that you can do design anything you like to place on this template. But two thing you need not to  forget is placing down the ContentPresenter and StackPanel (setting the IsItemsHost = True) inside of its template. The ContentPresenter object will be the one be used by WPF to be the container of the content and the StackPanel will be the one to host the TabItem.
+            
+            See the XAML below:
+        -->
+
+        <Style x:Key="styleTabControl" TargetType="{x:Type TabControl}">
+            <Setter Property="OverridesDefaultStyle" Value="True" />
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TabControl}">
+                        <Grid KeyboardNavigation.TabNavigation="Local" ShowGridLines="False">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Grid x:Name="Header"
+                                  Grid.Row="0"
+                                  Grid.Column="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Border Grid.Row="0"
+                                        Grid.Column="1"
+                                        Margin="6"
+                                        Panel.ZIndex="1"
+                                        Background="#032A6B"
+                                        BorderBrush="#7F032A6B"
+                                        BorderThickness="1,1,0,1"
+                                        CornerRadius="4"
+                                        Cursor="Hand"
+                                        KeyboardNavigation.TabIndex="1">
+                                    <Border.BitmapEffect>
+                                        <DropShadowBitmapEffect Direction="180"
+                                                                Opacity="1"
+                                                                ShadowDepth="1"
+                                                                Softness="1"
+                                                                Color="#0047CC" />
+                                    </Border.BitmapEffect>
+                                    <StackPanel x:Name="HeaderPanel"
+                                                IsItemsHost="True"
+                                                Orientation="Horizontal" />
+                                </Border>
+                            </Grid>
+                            <ContentPresenter Grid.Row="1"
+                                              Margin="5"
+                                              ContentSource="SelectedContent"
+                                              KeyboardNavigation.DirectionalNavigation="Contained"
+                                              KeyboardNavigation.TabIndex="2"
+                                              KeyboardNavigation.TabNavigation="Local" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!--
+            Above's XAML address the design of our target TabControl design. It creates a background for  its header and some drop shadow below it.
+            
+            Applying the styles in the TabControl
+            
+            All you have to do is to create a one ResourceDictionary file and place it inside your solution. Set the Build Action to Resource and add it as a resource of your Window (or the parent container of your TabControl).
+            
+            Once you are done, apply each style in your control and its children (TabItems). Below XAML is the sample (placing TabControl inside the Window element).
+            
+            <Window x:Class="CodesDirectory.WIN_TabControl"
+            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+            Title="WPF TabControl" Height="300" Width="300">
+            <Window.Resources>
+            <ResourceDictionary Source="/Styles/TabControl.xaml"></ResourceDictionary>
+            </Window.Resources>
+            <Grid>
+            <TabControl Margin="5" Style="{DynamicResource ResourceKey=styleTabControl}">
+            <TabItem Header="General" Style="{DynamicResource ResourceKey=styleTabItemLeft}">
+            <TextBlock>The content for General tab.</TextBlock>
+            </TabItem>
+            <TabItem Header="Actions" Style="{DynamicResource ResourceKey=styleTabItemDefault}">
+            <TextBlock>The content for Action tab.</TextBlock>
+            </TabItem>
+            <TabItem Header="Options" Style="{DynamicResource ResourceKey=styleTabItemDefault}">
+            <TextBlock>The content for Options tab.</TextBlock>
+            </TabItem>
+            <TabItem Header="Tools" Style="{DynamicResource ResourceKey=styleTabItemRight}">
+            <TextBlock>The content for Tools tab.</TextBlock>
+            </TabItem>
+            </TabControl>
+            </Grid>
+            </Window>
+        -->
+    </Views:BaseWindow.Resources>
+
+    <Views:BaseWindow.DataContext>
+        <Models:Nfmb />
+    </Views:BaseWindow.DataContext>
+
+    <Grid Margin="5">
+        <Grid x:Name="FormLayout">
+            <Rectangle x:Name="Canvass"
+                       MouseLeftButtonDown="DragWindow"
+                       RadiusX="5"
+                       RadiusY="5"
+                       Stroke="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"
+                       StrokeLineJoin="Round" Fill="#FF007AA5">
+                <Rectangle.Effect>
+                    <DropShadowEffect BlurRadius="10" ShadowDepth="0" />
+                </Rectangle.Effect>
+            </Rectangle>
+            <Border x:Name="ShineEffect"
+                    Height="16"
+                    Margin="2,2,2,0"
+                    VerticalAlignment="Top"
+                    CornerRadius="4"
+                    MouseLeftButtonDown="DragWindow"
+                    Style="{DynamicResource ShineEffectStyle}" />
+            <Image x:Name="WindowIcon"
+                   Width="24"
+                   Height="24"
+                   Margin="10,10,0,0"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top"
+                   Source="/SCCO.WPF.MVC.CS;component/Images/member_information.png"
+                   Stretch="Fill" />
+            <Label x:Name="FormTitle"
+                   Margin="34,10,0,0"
+                   Content="Member Information"
+                   MouseLeftButtonDown="DragWindow"
+                   Style="{StaticResource FormTitle2}" />
+            <Button x:Name="CloseButton"
+                    Margin="0,8,8,0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Background="#00E4D2D2"
+                    Click="CloseWindow"
+                    Content="x"
+                    IsCancel="True"
+                    Style="{DynamicResource CloseButton}"
+                    TabIndex="5" />
+            <StackPanel x:Name="CrudButtons"
+                        Width="128"
+                        Height="32"
+                        Margin="0,6,50,5"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        Orientation="Horizontal">
+                <Button x:Name="CreateButton"
+                        Width="32"
+                        Height="32"
+                        Click="Create"
+                        Foreground="#FFFFFFFF"
+                        Style="{DynamicResource ToolButton}" ToolTip="Add">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Margin="4"
+                               Source="/SCCO.WPF.MVC.CS;component/Images/Add.png"
+                               Stretch="Fill" />
+                    </StackPanel>
+                </Button>
+                <Button x:Name="ReadButton"
+                        Width="32"
+                        Height="32"
+                        Click="Read"
+                        Foreground="#FFFFFFFF"
+                        Style="{DynamicResource ToolButton}" ToolTip="Search">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Margin="4"
+                               Source="/SCCO.WPF.MVC.CS;component/Images/Search.png"
+                               Stretch="Fill" />
+                    </StackPanel>
+                </Button>
+                <Button x:Name="UpdateButton"
+                        Width="32"
+                        Height="32"
+                        Click="Update"
+                        Foreground="#FFFFFFFF"
+                        Style="{DynamicResource ToolButton}" ToolTip="Save">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Margin="4"
+                               Source="/SCCO.WPF.MVC.CS;component/Images/Valid.png"
+                               Stretch="Fill" />
+                    </StackPanel>
+                </Button>
+                <Button x:Name="DeleteButton"
+                        Width="32"
+                        Height="32"
+                        Click="Delete"
+                        Foreground="#FFFFFFFF"
+                        Style="{DynamicResource ToolButton}" ToolTip="Delete">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Margin="4"
+                               Source="/SCCO.WPF.MVC.CS;component/Images/Denided.png"
+                               Stretch="Fill" />
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+        </Grid>
+        <Label x:Name="lblMemberCodeName"
+               Margin="10,55,10,0"
+               VerticalAlignment="Top"
+               Style="{StaticResource FormTitle1}">
+            <TextBlock>
+                <TextBlock.Text>
+                    <MultiBinding StringFormat="{}{0} - {1}">
+                        <Binding Path="MemberCode" />
+                        <Binding Path="MemberName" />
+                    </MultiBinding>
+                </TextBlock.Text>
+            </TextBlock>
+        </Label>
+        <TabControl x:Name="TabControl1"
+                    Margin="10,100,10,10"
+                    FontFamily="Ubuntu"
+                    Style="{StaticResource styleTabControl}">
+            <TabItem x:Name="TabItemGeneralInformation"
+                     Foreground="White"
+                     Header="General Information"
+                     Style="{DynamicResource styleTabItemLeft}">
+                <Grid>
+                    <GroupBox x:Name="GroupGeneralInformation"
+                              Margin="5,0,0,5"
+                              BorderBrush="#99FFFFFF"
+                              BorderThickness="0.2"
+                              Header="General Information">
+                        <StackPanel Margin="10">
+                            <StackPanel x:Name="pnlMemberCode" Margin="0,0,0,3">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="130" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label x:Name="lblMemberCode" Content="Member Code" />
+                                    <TextBox x:Name="txtMemberCode"
+                                             Grid.Column="1"
+                                             Width="160"
+                                             HorizontalAlignment="Left"
+                                             IsReadOnly="True"
+                                             Style="{DynamicResource RoundedTextBox}"
+                                             Text="{Binding MemberCode}" />
+                                </Grid>
+                            </StackPanel>
+                            <StackPanel x:Name="pnlMemberName" Margin="0,4">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="130" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label x:Name="lblMemberName" Content="Member Name" />
+                                    <UserControls:TextBoxSearchControl x:Name="stbMemberNameCode"
+                                                                       Grid.Column="1"
+                                                                       Click="ShowValidateMemberWindow"
+                                                                       IsReadOnly="True"
+                                                                       Text="{Binding MemberName}" />
+
+                                </Grid>
+                            </StackPanel>
+                            <StackPanel x:Name="pnlAddress" Margin="0,4">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="130" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <Label x:Name="lblAddress"
+                                           VerticalAlignment="Top"
+                                           Content="Address" />
+
+                                    <StackPanel Grid.Column="1">
+                                        <TextBox x:Name="txtAddress1"
+                                                 Style="{DynamicResource RoundedTextBox}"
+                                                 Text="{Binding Address1}" />
+                                        <TextBox x:Name="txtAddress2"
+                                                 Margin="0,4,0,2"
+                                                 Style="{DynamicResource RoundedTextBox}"
+                                                 Text="{Binding Address2}" />
+                                        <TextBox x:Name="txtAddress3"
+                                                 Margin="0,2,0,0"
+                                                 Style="{DynamicResource RoundedTextBox}"
+                                                 Text="{Binding Address3}" />
+                                    </StackPanel>
+                                </Grid>
+                            </StackPanel>
+                            <StackPanel x:Name="pnlHomeOwnership"
+                                        Margin="0,4"
+                                        Orientation="Horizontal">
+                                <Label x:Name="lblHomeOwnership"
+                                       Width="130"
+                                       Content="Home Ownership" />
+                                <ComboBox x:Name="cboHouseStatus"
+                                          Width="150"
+                                          Style="{DynamicResource RoundedComboBox}"
+                                          Text="{Binding HomeOwnership}">
+                                    <ComboBoxItem x:Name="IsOwned" Content="Owned" />
+                                    <ComboBoxItem x:Name="IsRented" Content="Rented" />
+                                    <ComboBoxItem x:Name="IsWithRelatives" Content="With Relatives" />
+                                </ComboBox>
+                            </StackPanel>
+                            <StackPanel x:Name="pnlBirthDate"
+                                        Margin="0,4"
+                                        Orientation="Horizontal">
+                                <Label x:Name="lblBirthDate"
+                                       Width="130"
+                                       Content="Birth Date" />
+                                <DatePicker x:Name="dtpBirthDate"
+                                            Width="150"
+                                            SelectedDate="{Binding Birthday,
+                                                                   Converter={StaticResource DateConverter2}}"
+                                            Style="{DynamicResource RoundedDatePicker}" />
+                                <Label x:Name="lblAge"
+                                       Width="60"
+                                       HorizontalContentAlignment="Right"
+                                       Content="Age  " />
+                                <TextBox x:Name="txtAge"
+                                         Width="40"
+                                         Focusable="False"
+                                         IsTabStop="False"
+                                         Style="{DynamicResource RoundedTextBox}"
+                                         Text="{Binding Age}" />
+                            </StackPanel>
+                            <StackPanel x:Name="pnlBirthPlace"
+                                        Margin="0,4"
+                                        Orientation="Horizontal">
+                                <Label x:Name="lblBirthPlace"
+                                       Width="130"
+                                       Content="Birth Place" />
+                                <TextBox x:Name="txtBirthPlace"
+                                         Width="250"
+                                         Style="{DynamicResource RoundedTextBox}"
+                                         Text="{Binding BirthPlace}" />
+                            </StackPanel>
+                            <StackPanel x:Name="pnlGender"
+                                        Margin="0,4"
+                                        Orientation="Horizontal">
+                                <Label x:Name="lblGender"
+                                       Width="130"
+                                       Content="Gender" />
+                                <ComboBox x:Name="cboGender"
+                                          Width="250"
+                                          Style="{DynamicResource RoundedComboBox}"
+                                          Text="{Binding Sex}">
+                                    <ComboBoxItem x:Name="Item1" Content="Female" />
+                                    <ComboBoxItem x:Name="Item2" Content="Male" />
+                                </ComboBox>
+                            </StackPanel>
+                            <StackPanel x:Name="pnlCivilStatus"
+                                        Margin="0,4"
+                                        Orientation="Horizontal">
+                                <Label x:Name="lblCivilStatus"
+                                       Width="130"
+                                       Content="Civil Status" />
+                                <ComboBox x:Name="cboCivilStatus"
+                                          Width="250"
+                                          Style="{DynamicResource RoundedComboBox}"
+                                          Text="{Binding CivilStatus}">
+                                    <ComboBoxItem x:Name="IsMarried" Content="Married" />
+                                    <ComboBoxItem x:Name="IsDivorced" Content="Divorced" />
+                                    <ComboBoxItem x:Name="IsSingle" Content="Single" />
+                                    <ComboBoxItem x:Name="IsWidowed" Content="Widowed" />
+                                </ComboBox>
+                            </StackPanel>
+                            <StackPanel x:Name="pnlDegree"
+                                        Margin="0,4"
+                                        Orientation="Horizontal">
+                                <Label x:Name="lblDegree"
+                                       Width="130"
+                                       Content="Degree" />
+                                <TextBox x:Name="txtDegree"
+                                         Width="250"
+                                         MaxLength="50"
+                                         Style="{DynamicResource RoundedTextBox}"
+                                         Text="{Binding EducationalAttainment}" />
+                            </StackPanel>
+                        </StackPanel>
+                    </GroupBox>
+                </Grid>
+            </TabItem>
+            <TabItem x:Name="TabItemContactInformation"
+                     Background="#66D4D0C8"
+                     Foreground="White"
+                     Header="Contact Information"
+                     Style="{StaticResource styleTabItemDefault}">
+                <TabItem.DataContext>
+                    <Models:Contact />
+                </TabItem.DataContext>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="395" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <GroupBox x:Name="GroupPhotoAndSignature"
+                              Margin="5,0,0,5"
+                              BorderBrush="#99FFFFFF"
+                              BorderThickness="0.2"
+                              Header="Photo and Signature">
+
+                        <Grid>
+                            <Border Margin="10,19.04,10,146"
+                                    Background="#99FFFFFF"
+                                    CornerRadius="4">
+                                <Image x:Name="imgPhoto" Margin="5" />
+                            </Border>
+                            <Border Height="122"
+                                    Margin="10,0,10,9"
+                                    VerticalAlignment="Bottom"
+                                    Background="#99FFFFFF"
+                                    CornerRadius="4">
+                                <Image x:Name="imgSignature" Margin="5" />
+                            </Border>
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox x:Name="GroupContactInformation"
+                              Grid.Column="1"
+                              Margin="5,0,5,5"
+                              BorderBrush="#99FFFFFF"
+                              BorderThickness=".2"
+                              Header="Contact Information">
+                        <Grid HorizontalAlignment="Stretch"
+                              VerticalAlignment="Stretch"
+                              DataContext="{Binding}">
+                            <Label x:Name="lblHomePhone"
+                                   Margin="10,11.6,0,0"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Top"
+                                   Content="Home"
+                                   Foreground="White"
+                                   Padding="0" />
+                            <TextBox x:Name="txtTelephone"
+                                     Margin="10,31.56,10,0"
+                                     VerticalAlignment="Top"
+                                     MaxLength="15"
+                                     MaxLines="1"
+                                     Style="{DynamicResource RoundedTextBox}"
+                                     TabIndex="1"
+                                     Text="{Binding Telephone}" />
+                            <Label x:Name="lblMobile"
+                                   Margin="10,71.29,0,0"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Top"
+                                   Content="Mobile"
+                                   Foreground="White"
+                                   Padding="0" />
+                            <TextBox x:Name="txtMobilePhone"
+                                     Margin="10,91.25,10,0"
+                                     VerticalAlignment="Top"
+                                     MaxLength="15"
+                                     MaxLines="1"
+                                     Style="{DynamicResource RoundedTextBox}"
+                                     TabIndex="2"
+                                     Text="{Binding MobilePhone}" />
+                            <Label x:Name="lblBusinessPhone"
+                                   Margin="10,130.98,0,0"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Top"
+                                   Content="Business"
+                                   Foreground="White"
+                                   Padding="0" />
+                            <TextBox x:Name="txtBusinessPhone"
+                                     Margin="10,150.94,10,0"
+                                     VerticalAlignment="Top"
+                                     MaxLength="15"
+                                     MaxLines="1"
+                                     Style="{DynamicResource RoundedTextBox}"
+                                     TabIndex="3"
+                                     Text="{Binding BusinessPhone}" />
+                            <Label x:Name="lblEmailAddress"
+                                   Margin="10,190.67,0,0"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Top"
+                                   Content="Email"
+                                   Foreground="White"
+                                   Padding="0" />
+                            <TextBox x:Name="txtEmailAddress"
+                                     Margin="10,210.63,10,0"
+                                     VerticalAlignment="Top"
+                                     MaxLength="50"
+                                     MaxLines="1"
+                                     Style="{DynamicResource RoundedTextBox}"
+                                     TabIndex="4"
+                                     Text="{Binding Email}" />
+                            <Button x:Name="btnBrowsePhoto"
+                                    Width="Auto"
+                                    Margin="10,0,10,44"
+                                    VerticalAlignment="Bottom"
+                                    Click="btnBrowsePhoto_Click"
+                                    Content="Browse Photo"
+                                    Style="{DynamicResource ControlButton}" />
+                            <Button x:Name="btnBrowseSignature"
+                                    Width="Auto"
+                                    Margin="10,0,10,9"
+                                    VerticalAlignment="Bottom"
+                                    Click="btnBrowseSignature_Click"
+                                    Content="Browse Signature"
+                                    Style="{DynamicResource ControlButton}" />
+                        </Grid>
+                    </GroupBox>
+                </Grid>
+            </TabItem>
+            <TabItem x:Name="TabItemWorkAndContactDetails"
+                     Background="#66D4D0C8"
+                     FontFamily="Ubuntu"
+                     Foreground="White"
+                     Header="Work and Finances"
+                     OverridesDefaultStyle="False"
+                     Style="{StaticResource styleTabItemDefault}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="211*" />
+                        <RowDefinition Height="171*" />
+                    </Grid.RowDefinitions>
+                    <GroupBox x:Name="GroupWorkAndFinances"
+                              Margin="5,0"
+                              BorderBrush="#99FFFFFF"
+                              BorderThickness=".2"
+                              Header="Work and Finances">
+
+                        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width=".8*" />
+                                <ColumnDefinition Width="10" />
+                                <ColumnDefinition Width=".2*" />
+                                <ColumnDefinition Width="10" />
+                            </Grid.ColumnDefinitions>
+                            <Label x:Name="lblOccupation"
+                                   Margin="100,9.04,0,0"
+                                   VerticalAlignment="Top"
+                                   Content="Occupation"
+                                   Padding="0" />
+                            <Label x:Name="lblMonthlyIncome"
+                                   Grid.Column="2"
+                                   Margin="0,9.04,0,0"
+                                   VerticalAlignment="Top"
+                                   Content="Monthly Income"
+                                   Padding="0" />
+                            <Label x:Name="lblMemberOccupation"
+                                   Margin="10,29,0,0"
+                                   VerticalAlignment="Top"
+                                   VerticalContentAlignment="Center"
+                                   Content="Member"
+                                   Padding="0" />
+                            <TextBox x:Name="txtMemberOccupation"
+                                     Margin="100,29,0,0"
+                                     VerticalAlignment="Top"
+                                     MaxLength="50"
+                                     MaxLines="1"
+                                     Style="{DynamicResource RoundedTextBox}"
+                                     TabIndex="1"
+                                     Text="{Binding Occupation}" />
+                            <TextBox x:Name="txtMemberIncomePerMo"
+                                     Grid.Column="2"
+                                     Margin="0,29,0,0"
+                                     VerticalAlignment="Top"
+                                     Style="{DynamicResource RoundedTextBox}"
+                                     TabIndex="2"
+                                     Text="{Binding OccupationIncome,
+                                                    Converter={StaticResource DecimalConverter1}}" />
+                            <Label x:Name="lblSpouseOccupation"
+                                   Margin="10,64,0,0"
+                                   VerticalAlignment="Top"
+                                   VerticalContentAlignment="Center"
+                                   Content="Spouse"
+                                   Padding="0" />
+                            <TextBox x:Name="txtSpouseOccupation"
+                                     Margin="100,64,0,0"
+                                     VerticalAlignment="Top"
+                                     MaxLength="50"
+                                     MaxLines="1"
+                                     Style="{DynamicResource RoundedTextBox}"
+                                     TabIndex="3"
+                                     Text="{Binding SpouseOccupation}" />
+                            <TextBox x:Name="txtSpouseIncomePerMo"
+                                     Grid.Column="2"
+                                     Margin="0,64,0,0"
+                                     VerticalAlignment="Top"
+                                     Style="{DynamicResource RoundedTextBox}"
+                                     TabIndex="4"
+                                     Text="{Binding SpouseOccupationIncome,
+                                                    Converter={StaticResource DecimalConverter1}}" />
+                            <Label x:Name="lblOtherBusiness"
+                                   Margin="100,99.04,0,0"
+                                   VerticalAlignment="Top"
+                                   Content="Other Business"
+                                   Padding="0" />
+                            <Label x:Name="lblOtherBusinessIncome"
+                                   Grid.Column="2"
+                                   Margin="0,99.04,0,0"
+                                   VerticalAlignment="Top"
+                                   Content=" Income"
+                                   Padding="0" />
+                            <Label x:Name="lblMemberOtherBusiness"
+                                   Margin="10,119,0,0"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Top"
+                                   VerticalContentAlignment="Center"
+                                   Content="Member"
+                                   Padding="0" />
+                            <TextBox x:Name="txtMemberOtherBusiness"
+                                     Margin="100,119,0,0"
+                                     VerticalAlignment="Top"
+                                     MaxLength="50"
+                                     MaxLines="1"
+                                     Style="{DynamicResource RoundedTextBox}"
+                                     TabIndex="5"
+                                     Text="{Binding Business}" />
+                            <TextBox x:Name="txtMemberOtherIncome"
+                                     Grid.Column="2"
+                                     Margin="0,119,0,0"
+                                     VerticalAlignment="Top"
+                                     Style="{DynamicResource RoundedTextBox}"
+                                     TabIndex="6"
+                                     Text="{Binding BusinessIncome,
+                                                    Converter={StaticResource DecimalConverter1}}" />
+                            <Label x:Name="lblSpouseOtherBusiness"
+                                   Margin="10,154,0,0"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Top"
+                                   VerticalContentAlignment="Center"
+                                   Content="Spouse"
+                                   Padding="0" />
+                            <TextBox x:Name="txtSpouseOtherBusiness"
+                                     Margin="100,154,0,0"
+                                     VerticalAlignment="Top"
+                                     MaxLength="50"
+                                     MaxLines="1"
+                                     Style="{DynamicResource RoundedTextBox}"
+                                     TabIndex="7"
+                                     Text="{Binding SpouseBusiness}" />
+                            <TextBox x:Name="txtSpouseOtherIncome"
+                                     Grid.Column="2"
+                                     Margin="0,154,0,0"
+                                     VerticalAlignment="Top"
+                                     Style="{DynamicResource RoundedTextBox}"
+                                     TabIndex="8"
+                                     Text="{Binding SpouseBusinessIncome,
+                                                    Converter={StaticResource DecimalConverter1}}" />
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox x:Name="GroupBeneficiaries"
+                              Grid.Row="1"
+                              Margin="5"
+                              BorderBrush="#99FFFFFF"
+                              BorderThickness=".2"
+                              Header="Beneficiaries">
+                        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width=".8*" />
+                                <ColumnDefinition Width="10" />
+                                <ColumnDefinition Width=".2*" />
+                                <ColumnDefinition Width="10" />
+                            </Grid.ColumnDefinitions>
+                            <Label x:Name="lblBeneficiaries"
+                                   Margin="10,10.04,0,0"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Top"
+                                   Content="Name"
+                                   Foreground="White"
+                                   Padding="0" />
+                            <Label x:Name="lblRelationship"
+                                   Grid.Column="2"
+                                   Margin="0,10.04,0,0"
+                                   VerticalAlignment="Top"
+                                   Content="Relationship"
+                                   Foreground="White"
+                                   Padding="0" />
+                            <TextBox x:Name="txtBeneficiaries1"
+                                     Margin="10,30,0,0"
+                                     VerticalAlignment="Top"
+                                     MaxLength="50"
+                                     MaxLines="1"
+                                     Style="{DynamicResource RoundedTextBox}"
+                                     TabIndex="9"
+                                     Text="{Binding Beneficiary1Name}" />
+                            <TextBox x:Name="txtRelationship1"
+                                     Grid.Column="2"
+                                     Margin="0,30,0,0"
+                                     VerticalAlignment="Top"
+                                     MaxLength="20"
+                                     MaxLines="1"
+                                     Style="{DynamicResource RoundedTextBox}"
+                                     TabIndex="10"
+                                     Text="{Binding Beneficiary1Relationship}" />
+                            <TextBox x:Name="txtBeneficiaries2"
+                                     Margin="10,65,0,0"
+                                     VerticalAlignment="Top"
+                                     MaxLength="50"
+                                     MaxLines="1"
+                                     Style="{DynamicResource RoundedTextBox}"
+                                     TabIndex="11"
+                                     Text="{Binding Beneficiary2Name}" />
+                            <TextBox x:Name="txtRelationship2"
+                                     Grid.Column="2"
+                                     Margin="0,65,0,0"
+                                     VerticalAlignment="Top"
+                                     MaxLength="20"
+                                     MaxLines="1"
+                                     Style="{DynamicResource RoundedTextBox}"
+                                     TabIndex="12"
+                                     Text="{Binding Beneficiary2Relationship}" />
+                            <TextBox x:Name="txtBeneficiaries3"
+                                     Margin="10,100,0,0"
+                                     VerticalAlignment="Top"
+                                     MaxLength="50"
+                                     MaxLines="1"
+                                     Style="{DynamicResource RoundedTextBox}"
+                                     TabIndex="13"
+                                     Text="{Binding Beneficiary3Name}" />
+                            <TextBox x:Name="txtRelationship3"
+                                     Grid.Column="2"
+                                     Margin="0,100,0,0"
+                                     VerticalAlignment="Top"
+                                     MaxLength="20"
+                                     MaxLines="1"
+                                     Style="{DynamicResource RoundedTextBox}"
+                                     TabIndex="14"
+                                     Text="{Binding Beneficiary3Relationship}" />
+                        </Grid>
+                    </GroupBox>
+                </Grid>
+            </TabItem>
+            <TabItem x:Name="TabItemMembershipDetails"
+                     Background="#66D4D0C8"
+                     FontFamily="Ubuntu"
+                     Foreground="White"
+                     Header="Membership Details"
+                     Style="{StaticResource styleTabItemRight}">
+                <Grid>
+                    <GroupBox x:Name="GroupMembershipInformation"
+                              Grid.ColumnSpan="2"
+                              Margin="5,0,5,5"
+                              BorderBrush="#99FFFFFF"
+                              BorderThickness=".2          "
+                              Foreground="White"
+                              Header="Membership Details">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width=".7*" />
+                                <ColumnDefinition Width="30" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Margin="10,0,0,0">
+                                <StackPanel x:Name="pnlIsMember" Margin="0,4">
+                                    <CheckBox x:Name="chkMember"
+                                              Content="Member"
+                                              IsChecked="{Binding IsMember}"
+                                              Style="{DynamicResource ControlCheckBox}" />
+                                    <DatePicker x:Name="dtpMembershipDate"
+                                                SelectedDate="{Binding MembershipDate,
+                                                                       Converter={StaticResource DateConverter2}}"
+                                                Style="{DynamicResource RoundedDatePicker}" />
+                                </StackPanel>
+                                <StackPanel x:Name="pnlIsClosedAccount"
+                                            Margin="0,4"
+                                            Orientation="Vertical">
+                                    <CheckBox x:Name="chkClosedAccount"
+                                              Content="Closed Account"
+                                              IsChecked="{Binding IsAccountClosed}"
+                                              Style="{DynamicResource ControlCheckBox}" />
+                                    <DatePicker x:Name="dtpClosedDate"
+                                                SelectedDate="{Binding AccountClosedSince,
+                                                                       Converter={StaticResource DateConverter2}}"
+                                                Style="{DynamicResource RoundedDatePicker}" />
+                                </StackPanel>
+
+                                <StackPanel x:Name="pnlIsPttkMember" Margin="0,4">
+                                    <CheckBox x:Name="chkPTTKMember"
+                                              Content="PTTK Member"
+                                              IsChecked="{Binding IsDamayanMember}"
+                                              Style="{DynamicResource ControlCheckBox}" />
+                                    <DatePicker x:Name="dtpPTTKDate"
+                                                SelectedDate="{Binding DamayanMemberSince,
+                                                                       Converter={StaticResource DateConverter2}}"
+                                                Style="{DynamicResource RoundedDatePicker}" />
+                                </StackPanel>
+                                <StackPanel x:Name="pnlPmesDate" Margin="0,4">
+                                    <Label x:Name="lblPmesDate"
+                                           Margin="0,1"
+                                           Content="PMES Date" />
+                                    <DatePicker x:Name="dtpPmesDate"
+                                                SelectedDate="{Binding PreMembershipSeminarDate,
+                                                                       Converter={StaticResource DateConverter2}}"
+                                                Style="{DynamicResource RoundedDatePicker}" />
+                                </StackPanel>
+                                <TextBlock />
+                                <StackPanel x:Name="pnlShareCapital">
+                                    <StackPanel Margin="0,4">
+                                        <Label x:Name="lblSCORNo" Content="SC OR No." />
+                                        <TextBox x:Name="txtScOrNo"
+                                                 Style="{DynamicResource RoundedTextBox}"
+                                                 Text="{Binding ShareCapitalReceiptNo}" />
+                                    </StackPanel>
+                                    <StackPanel Margin="0,2">
+                                        <Label x:Name="lblOrDate"
+                                               Margin="0,1"
+                                               Content="OR Date" />
+                                        <DatePicker x:Name="dtpORDate"
+                                                    SelectedDate="{Binding ShareCapitalDepositDate,
+                                                                           Converter={StaticResource DateConverter2}}"
+                                                    Style="{DynamicResource RoundedDatePicker}" />
+                                    </StackPanel>
+                                    <StackPanel Margin="0,4">
+                                        <Label x:Name="lblScAmount"
+                                               Margin="0,1"
+                                               Content="SC Amount" />
+                                        <TextBox x:Name="txtSCAmount"
+                                                 Style="{DynamicResource RoundedTextBox}"
+                                                 Text="{Binding ShareCapitalAmount,
+                                                                StringFormat=\{0:N\}}" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </StackPanel>
+                            <StackPanel Grid.Column="2" Margin="0,0,10,0">
+                                <StackPanel x:Name="pnlMembershipType" Margin="0,4">
+                                    <Label x:Name="lblMembershipType"
+                                           Margin="0,1"
+                                           Content="Membership Type" />
+                                    <ComboBox x:Name="cboMembershipType"
+                                              Style="{DynamicResource RoundedComboBox}"
+                                              Text="{Binding MembershipType}" />
+                                </StackPanel>
+                                <StackPanel x:Name="pnlClassification" Margin="0,4">
+                                    <Label x:Name="lblClassification"
+                                           Margin="0,1"
+                                           Content="Classification" />
+                                    <ComboBox x:Name="cboClassification"
+                                              Style="{DynamicResource RoundedComboBox}"
+                                              Text="{Binding Classification}" />
+                                </StackPanel>
+                                <StackPanel x:Name="pnlArea" Margin="0,4">
+                                    <Label x:Name="lblArea"
+                                           Margin="0,1"
+                                           Content="Area" />
+                                    <ComboBox x:Name="cboArea"
+                                              Style="{DynamicResource RoundedComboBox}"
+                                              Text="{Binding AreaCode}" />
+                                </StackPanel>
+                                <StackPanel x:Name="pnlCollector" Margin="0,4">
+                                    <Label x:Name="lblCollector"
+                                           Margin="0,1"
+                                           Content="Collector" />
+                                    <ComboBox x:Name="cboCollector"
+                                              Style="{DynamicResource RoundedComboBox}"
+                                              Text="{Binding CollectorName}" />
+                                </StackPanel>
+                                <StackPanel x:Name="pnlBranch" Margin="0,4">
+                                    <Label x:Name="lblBranch"
+                                           Margin="0,1"
+                                           Content="Branch" />
+                                    <ComboBox x:Name="cboBranch"
+                                              Style="{DynamicResource RoundedComboBox}"
+                                              Text="{Binding BranchName}" />
+                                </StackPanel>
+                                <StackPanel x:Name="pnlDepartment" Margin="0,4">
+                                    <Label x:Name="lblDepartment"
+                                           Margin="0,1"
+                                           Content="Department" />
+                                    <ComboBox x:Name="cboDepartment"
+                                              Style="{DynamicResource RoundedComboBox}"
+                                              Text="{Binding Department}" />
+                                </StackPanel>
+                            </StackPanel>
+                        </Grid>
+                    </GroupBox>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Views:BaseWindow>

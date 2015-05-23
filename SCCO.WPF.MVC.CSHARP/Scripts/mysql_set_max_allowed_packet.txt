@@ -1,0 +1,5 @@
+﻿Change in the my.ini file. Include the single line under [mysqld] in your file
+
+max_allowed_packet=500M
+
+now restart the MySQL service and you are done

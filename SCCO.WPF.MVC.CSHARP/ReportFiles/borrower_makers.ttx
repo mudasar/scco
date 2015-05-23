@@ -1,0 +1,10 @@
+member_code	String	10	030182
+member_name	String	100	SANTIAGO, REYMON Enriquez
+account_code	String	10	150.01
+account_title	String	100	Loan Receivable - Commercial
+reference	String	15	CV 4569
+date_granted	Date		2013-10-24
+date_maturity	Date		2014-05-12
+loan_amount	Number		50000
+end_balance	Number		28929.5
+status	String	10	Current

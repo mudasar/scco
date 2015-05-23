@@ -1,0 +1,213 @@
+﻿<Views:BaseWindow x:Class="SCCO.WPF.MVC.CS.Views.LoanModule.LoanProductsListWindow"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:local="clr-namespace:SCCO.WPF.MVC.CS.Views.LoanModule"
+                  xmlns:my="clr-namespace:SCCO.WPF.MVC.CS.Resources"
+                  xmlns:Views="clr-namespace:SCCO.WPF.MVC.CS.Views"
+                  SizeToContent="WidthAndHeight"
+                  Style="{DynamicResource BaseWindow}"
+                  WindowStartupLocation="CenterScreen">
+    <Views:BaseWindow.Resources>
+        <my:DecimalConverterDefaultZero x:Key="DecimalConverterDefaultZero1" />
+    </Views:BaseWindow.Resources>
+    <Views:BaseWindow.DataContext>
+        <local:LoanProductViewModel />
+    </Views:BaseWindow.DataContext>
+
+    <Grid x:Name="LayoutRoot" Margin="5">
+
+        <Grid x:Name="FormLayout">
+            <Rectangle x:Name="Canvass"
+                       Fill="#FF654321"
+                       MouseLeftButtonDown="DragWindow"
+                       RadiusX="5"
+                       RadiusY="5"
+                       Stroke="#FFB4B4B4"
+                       StrokeLineJoin="Round">
+                <Rectangle.Effect>
+                    <DropShadowEffect BlurRadius="5" ShadowDepth="0" />
+                </Rectangle.Effect>
+            </Rectangle>
+
+            <Border x:Name="ShineEffect"
+                    Height="16"
+                    Margin="2,2,2,0"
+                    VerticalAlignment="Top"
+                    CornerRadius="4"
+                    MouseLeftButtonDown="DragWindow"
+                    Style="{DynamicResource ShineEffectStyle}" />
+            <Image x:Name="WindowIcon"
+                   Width="24"
+                   Height="24"
+                   Margin="10,10,0,0"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top"
+                   Source="/SCCO.WPF.MVC.CS;component/Images/edit_light.png"
+                   Stretch="Fill" />
+            <Label x:Name="FormTitle"
+                   Margin="34,10,0,0"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top"
+                   VerticalContentAlignment="Center"
+                   Content="Loan Products Maintenance"
+                   Foreground="White"
+                   MouseLeftButtonDown="DragWindow"
+                   Style="{DynamicResource FormTitle2}" />
+            <Button x:Name="CloseButton"
+                    Margin="0,8,8,0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Background="#00E4D2D2"
+                    Click="CloseWindow"
+                    Content="x"
+                    IsCancel="True"
+                    Style="{DynamicResource CloseButton}"
+                    TabIndex="5" />
+        </Grid>
+
+        <Grid Margin="20,60,20,20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="360" />
+                <ColumnDefinition Width="10" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid>
+                <TextBox x:Name="txtSearch"
+                         Height="28"
+                         VerticalAlignment="Top"
+                         Style="{StaticResource RoundedTextBox}" />
+                <TextBlock Height="4"
+                           Margin="0,28,0,0"
+                           VerticalAlignment="Top" />
+                <Border Margin="0,32,0,2"
+                        Background="White"
+                        CornerRadius="5" Height="500">
+                    <ListBox x:Name="listBox1"
+                             Margin="1"
+                             ItemsSource="{Binding Collection}"
+                             ItemTemplate="{StaticResource ReportBoxItemTemplate}"
+                             SelectedItem="{Binding SelectedItem}"
+                             Style="{StaticResource ReportBoxStyle}" />
+                </Border>
+            </Grid>
+            <StackPanel Grid.Column="2">
+                <Label Content="Description" Foreground="White" />
+
+                <TextBox x:Name="txtTitle"
+                         Height="28"
+                         VerticalContentAlignment="Center"
+                         IsReadOnly="True"
+                         Style="{DynamicResource RoundedTextBox}"
+                         Text="{Binding SelectedItem.Title}"
+                         TextWrapping="Wrap" />
+
+                <TextBlock />
+                <Label HorizontalAlignment="Left" Content="Product Code" />
+
+                <TextBox x:Name="txtProductCode"
+                         IsReadOnly="True"
+                         Style="{DynamicResource RoundedTextBox}"
+                         Text="{Binding SelectedItem.ProductCode}" />
+
+                <TextBlock />
+                <Label Content="Type of Loan" />
+                <TextBox x:Name="txtLoanType"
+                         Height="28"
+                         IsReadOnly="True"
+                         Style="{DynamicResource RoundedTextBox}"
+                         Text="{Binding SelectedItem.LoanType}" />
+
+                <TextBlock />
+                <Label Content="Annual Interest Rate" />
+                <TextBox x:Name="txtAnnualInterestRate"
+                         Height="28"
+                         IsReadOnly="True"
+                         Style="{DynamicResource RoundedTextBox}"
+                         Text="{Binding SelectedItem.AnnualInterestRate,
+                                        StringFormat=\{0:P\}}" />
+
+                <TextBlock />
+                <Label Content="Monthly Capital Build-Up" />
+                <TextBox x:Name="txtCompulsarySavings"
+                         IsReadOnly="True"
+                         Style="{DynamicResource RoundedTextBox}"
+                         Text="{Binding Path=SelectedItem.MonthlyCapitalBuildUp,
+                                        Converter={StaticResource DecimalConverterDefaultZero1}}" />
+
+                <TextBlock />
+                <Label Content="Mode of Payment" />
+                <TextBox x:Name="txtModeOfPayment"
+                         IsReadOnly="True"
+                         Style="{DynamicResource RoundedTextBox}"
+                         Text="{Binding SelectedItem.ModeOfPayment}" />
+
+                <TextBlock />
+                <Label Content="Terms Range (In Months)" />
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="4" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <TextBox x:Name="txtMinimumTerm"
+                             IsReadOnly="True"
+                             Style="{DynamicResource RoundedTextBox}"
+                             Text="{Binding SelectedItem.MinimumTerm}"
+                             TextWrapping="Wrap" />
+                    <TextBox x:Name="txtMaximumTerm"
+                             Grid.Column="2"
+                             IsReadOnly="True"
+                             Style="{DynamicResource RoundedTextBox}"
+                             Text="{Binding SelectedItem.MaximumTerm}"
+                             TextWrapping="Wrap" />
+                </Grid>
+
+                <TextBlock />
+                <Label Content="Loanable Amount" />
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="4" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBox x:Name="txtMinimumLoanableAmount"
+                             IsReadOnly="True"
+                             Style="{DynamicResource RoundedTextBox}"
+                             Text="{Binding SelectedItem.MinimumLoanableAmount,
+                                            StringFormat=\{0:N\}}" />
+                    <TextBox x:Name="txtMaximumLoanableAmount"
+                             Grid.Column="2"
+                             IsReadOnly="True"
+                             Style="{DynamicResource RoundedTextBox}"
+                             Text="{Binding SelectedItem.MaximumLoanableAmount,
+                                            StringFormat=\{0:N\}}" />
+                </Grid>
+
+                <TextBlock />
+                <StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Button x:Name="btnAdd"
+                                Content="Add"
+                                Style="{StaticResource ControlButton}" />
+                        <Button x:Name="btnEdit"
+                                Grid.Column="1"
+                                Content="Edit"
+                                Style="{StaticResource ControlButton}" />
+                        <Button x:Name="btnDelete"
+                                Grid.Column="2"
+                                Content="Delete"
+                                Style="{StaticResource ControlButton}" />
+                    </Grid>
+                </StackPanel>
+            </StackPanel>
+
+        </Grid>
+    </Grid>
+</Views:BaseWindow>
+

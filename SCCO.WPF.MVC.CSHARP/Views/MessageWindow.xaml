@@ -1,0 +1,153 @@
+﻿<Views:BaseWindow x:Class="SCCO.WPF.MVC.CS.Views.MessageWindow"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                  xmlns:Views="clr-namespace:SCCO.WPF.MVC.CS.Views"
+                  Title="Needs Attention"
+                  MaxWidth="500"
+                  MaxHeight="300"
+                  AllowsTransparency="True"
+                  Background="Transparent"
+                  FontFamily="Ubuntu"
+                  ResizeMode="NoResize"
+                  SizeToContent="WidthAndHeight"
+                  Topmost="True"
+                  WindowStartupLocation="CenterScreen"
+                  WindowStyle="None"
+                  mc:Ignorable="d">
+    <Views:BaseWindow.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/SCCO.WPF.MVC.CS;component/SccoResourceDictionary.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Views:BaseWindow.Resources>
+    <Grid>
+        <Rectangle x:Name="Canvass"
+                   Fill="#FF9A0F0F"
+                   MouseLeftButtonDown="DragWindow"
+                   RadiusX="3"
+                   RadiusY="3"
+                   Stroke="#BF9A0F0F"
+                   StrokeLineJoin="Round"
+                   StrokeThickness="6"
+                   d:LayoutOverrides="GridBox" />
+        <Border x:Name="ShineEffect"
+                Margin="3,3,3,0"
+                VerticalAlignment="Top"
+                BorderBrush="Black"
+                MouseLeftButtonDown="DragWindow"
+                Style="{DynamicResource ShineEffectStyle}" />
+
+        <Label x:Name="lblFormTitle"
+               Margin="6,6,0,0"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top"
+               HorizontalContentAlignment="Left"
+               VerticalContentAlignment="Center"
+               Content="Message Box"
+               Foreground="White"
+               MouseLeftButtonDown="DragWindow"
+               Padding="5"
+               Style="{DynamicResource FormTitle2}" />
+
+        <Image x:Name="imgWarning"
+               Width="36"
+               Height="36"
+               Margin="15,48,0,0"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top"
+               Source="/SCCO.WPF.MVC.CS;component/Images/Cross.png"
+               Stretch="Fill" />
+        <Image x:Name="imgAlert"
+               Width="36"
+               Height="36"
+               Margin="15,48,0,0"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top"
+               Source="/SCCO.WPF.MVC.CS;component/Images/Alert.png"
+               Stretch="Fill" />
+        <Image x:Name="imgConfirm"
+               Width="31"
+               Height="31"
+               Margin="17,51,0,0"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top"
+               Source="/SCCO.WPF.MVC.CS;component/Images/Help.png"
+               Stretch="Fill" />
+        <Image x:Name="imgInfo"
+               Width="36"
+               Height="36"
+               Margin="15,48,0,0"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top"
+               Source="/SCCO.WPF.MVC.CS;component/Images/Info.png"
+               Stretch="Fill" />
+        <StackPanel Margin="65,45,25,50" Orientation="Vertical" d:LayoutOverrides="Height">
+        	<TextBlock x:Name="txtMessageString"
+        		FontSize="13"
+        		Foreground="White"
+        		Padding="5"
+        		Text="Do you really want to delete this record? Do you really want to delete this record? Do you really want to delete this record? Do you really want to delete this record?"
+        		TextWrapping="WrapWithOverflow" />
+
+        </StackPanel>
+
+        <Button x:Name="btnYes"
+                Width="70"
+                Height="25"
+                Margin="0,0,15,15"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Click="RespondedWithYes"
+                Content="Yes"
+                IsDefault="True"
+                Style="{DynamicResource ControlButton}"
+                TabIndex="3"
+                UseLayoutRounding="False" />
+
+        <Button x:Name="btnNo"
+                Width="70"
+                Height="25"
+                Margin="0,0,90,15"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Click="RespondedWithNo"
+                Content="No"
+                IsCancel="True"
+                Style="{DynamicResource ControlButton}"
+                TabIndex="4"
+                UseLayoutRounding="False" />
+
+        <Button x:Name="btnOK"
+                Width="70"
+                Height="25"
+                Margin="0,0,15,15"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Click="RespondedWithOk"
+                Content="OK"
+                Foreground="White"
+                IsDefault="True"
+                Style="{DynamicResource ControlButton}"
+                TabIndex="1"
+                UseLayoutRounding="False"
+                Visibility="Hidden" />
+
+        <Button x:Name="btnCancel"
+                Width="70"
+                Height="25"
+                Margin="0,0,90,15"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Click="RespondedWithCancel"
+                Content="Cancel"
+                Foreground="White"
+                IsCancel="True"
+                Style="{DynamicResource ControlButton}"
+                TabIndex="2"
+                UseLayoutRounding="False"
+                Visibility="Hidden" />
+    </Grid>
+</Views:BaseWindow>

@@ -1,0 +1,155 @@
+﻿<Views:BaseWindow x:Class="SCCO.WPF.MVC.CS.Views.Sandbox.LoanChargesMaintenanceWindow"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                  xmlns:Models="clr-namespace:SCCO.WPF.MVC.CS.Models.Loan"
+                  xmlns:Views="clr-namespace:SCCO.WPF.MVC.CS.Views"
+                  x:Name="LoanChargesMaintenanceWindowx"
+                  Width="512"
+                  Height="276"
+                  AllowsTransparency="True"
+                  Background="{x:Null}"
+                  ResizeMode="NoResize"
+                  ShowInTaskbar="False"
+                  WindowStartupLocation="CenterScreen"
+                  WindowStyle="None"
+                  mc:Ignorable="d">
+
+    <Views:BaseWindow.DataContext>
+        <Models:LoanCharge />
+    </Views:BaseWindow.DataContext>
+    <Grid>
+
+        <Grid x:Name="FormLayout">
+            <Rectangle x:Name="Canvass"
+                       MouseLeftButtonDown="DragWindow"
+                       RadiusX="5"
+                       RadiusY="5"
+                       Stroke="#FF282828"
+                       StrokeLineJoin="Round"
+                       d:LayoutOverrides="GridBox">
+                <Rectangle.Fill>
+                    <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                        <GradientStop Offset="1" Color="#FF786400" />
+                        <GradientStop Offset="0.004" Color="#FFC8B400" />
+                        <GradientStop Offset="0.889" Color="#FFA18200" />
+                    </LinearGradientBrush>
+                </Rectangle.Fill>
+            </Rectangle>
+            <Border x:Name="ShineEffect"
+                    Height="16"
+                    Margin="2,2,2,0"
+                    VerticalAlignment="Top"
+                    CornerRadius="4"
+                    MouseLeftButtonDown="DragWindow"
+                    Style="{DynamicResource ShineEffectStyle}"
+                    d:LayoutOverrides="VerticalAlignment" />
+            <Label x:Name="FormTitle"
+                   Margin="7,10,0,0"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top"
+                   VerticalContentAlignment="Center"
+                   Content="Loan Charges"
+                   FontSize="13.333"
+                   Foreground="White"
+                   MouseLeftButtonDown="DragWindow" />
+            <Button x:Name="CloseButton"
+                    Margin="0,8,8,0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Background="#00E4D2D2"
+                    Content="x"
+                    IsCancel="True"
+                    Style="{DynamicResource CloseButton}"
+                    TabIndex="5" />
+            <Label Width="340"
+                   Margin="33,131,0,0"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top"
+                   Content="Rate"
+                   Foreground="White"
+                   TabIndex="2" />
+            <TextBox Name="textBox1"
+                     Height="27"
+                     Margin="34,155,26,0"
+                     VerticalAlignment="Top"
+                     DataContext="{Binding}"
+                     IsTabStop="True"
+                     MaxLength="50"
+                     Style="{DynamicResource RoundedTextBox}"
+                     TabIndex="1"
+                     Text="{Binding Path=Rate,
+                                    StringFormat=\{0:N4\},
+                                    Mode=TwoWay}"
+                     TextWrapping="Wrap" />
+        </Grid>
+        <Label Width="340"
+               Margin="33,70,0,0"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top"
+               Content="Account Code"
+               Foreground="White"
+               TabIndex="2" />
+        <TextBox x:Name="txtAreaName"
+                 Height="27"
+                 Margin="33,93.277,332,0"
+                 VerticalAlignment="Top"
+                 DataContext="{Binding}"
+                 IsTabStop="True"
+                 MaxLength="50"
+                 Style="{DynamicResource RoundedTextBox}"
+                 TabIndex="1"
+                 Text="{Binding Path=AccountCode}"
+                 TextWrapping="Wrap" />
+        <StackPanel Name="stackPanel1"
+                    Width="33"
+                    Height="32"
+                    Margin="0,90,293,0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Orientation="Horizontal">
+            <Button Name="button2"
+                    Width="32"
+                    Height="32"
+                    Click="SelectAccount"
+                    Foreground="#FFFFFFFF"
+                    Style="{DynamicResource ToolButton}">
+                <StackPanel Orientation="Horizontal">
+                    <Image Margin="4"
+                           Source="/SCCO.WPF.MVC.CS;component/Images/Search.png"
+                           Stretch="Fill" />
+                </StackPanel>
+            </Button>
+        </StackPanel>
+        <TextBox Name="textBox2"
+                 Height="27"
+                 Margin="226,93,26,0"
+                 VerticalAlignment="Top"
+                 DataContext="{Binding}"
+                 IsTabStop="True"
+                 MaxLength="50"
+                 Style="{DynamicResource RoundedTextBox}"
+                 TabIndex="1"
+                 Text="{Binding Path=AccountTitle}"
+                 TextWrapping="Wrap" />
+        <StackPanel x:Name="CrudButtons"
+                    Width="33"
+                    Height="32"
+                    Margin="402,6,54,199"
+                    Orientation="Horizontal">
+            <Button x:Name="UpdateButton"
+                    Width="32"
+                    Height="32"
+                    Click="Update"
+                    Foreground="#FFFFFFFF"
+                    Style="{DynamicResource ToolButton}">
+                <StackPanel Orientation="Horizontal">
+                    <Image Margin="4"
+                           Source="/SCCO.WPF.MVC.CS;component/Images/Valid.png"
+                           Stretch="Fill" />
+                </StackPanel>
+            </Button>
+        </StackPanel>
+    </Grid>
+</Views:BaseWindow>

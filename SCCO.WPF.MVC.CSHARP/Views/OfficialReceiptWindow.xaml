@@ -1,0 +1,559 @@
+﻿<Views:BaseWindow x:Class="SCCO.WPF.MVC.CS.Views.OfficialReceiptWindow"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                  xmlns:Models="clr-namespace:SCCO.WPF.MVC.CS.Models"
+                  xmlns:Views="clr-namespace:SCCO.WPF.MVC.CS.Views"
+                  x:Name="OfficialReceiptForm"
+                  Width="900"
+                  Height="700"
+                  Closing="BaseWindowOnClosing"
+                  FontSize="12"
+                  KeyDown="VoucherFormOnKeyDown"
+                  Style="{DynamicResource BaseWindow}"
+                  WindowStartupLocation="CenterScreen"
+                  mc:Ignorable="d">
+
+    <Views:BaseWindow.Resources>
+        <Style x:Key="LeftAlignStyle" TargetType="{x:Type TextBlock}">
+            <Setter Property="TextAlignment" Value="Left" />
+            <Setter Property="Padding" Value="5,0" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+
+        <!--  For data cell alignment  -->
+        <Style x:Key="RightAlignStyle" TargetType="{x:Type TextBlock}">
+            <Setter Property="TextAlignment" Value="Right" />
+            <Setter Property="Padding" Value="5,0" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+
+        <Style x:Key="RightAlignTextBoxStyle" TargetType="{x:Type TextBox}">
+            <Setter Property="HorizontalContentAlignment" Value="Right" />
+            <Setter Property="Padding" Value="5,0" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Foreground" Value="Black" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+        </Style>
+
+        <Style x:Key="LeftAlignTextBoxStyle" TargetType="{x:Type TextBox}">
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+            <Setter Property="Padding" Value="5,0" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Foreground" Value="Black" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+        </Style>
+
+    </Views:BaseWindow.Resources>
+
+    <Grid Margin="5">
+
+        <Grid x:Name="FormLayout">
+            <Rectangle x:Name="Canvass"
+                       Margin="0"
+                       d:IsLocked="True"
+                       Fill="#FF06266F"
+                       MouseLeftButtonDown="DragWindow"
+                       RadiusX="5"
+                       RadiusY="5"
+                       Stroke="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"
+                       StrokeLineJoin="Round"
+                       d:LayoutOverrides="GridBox">
+                <Rectangle.Effect>
+                    <DropShadowEffect BlurRadius="10" ShadowDepth="0" />
+                </Rectangle.Effect>
+            </Rectangle>
+            <Border x:Name="ShineEffect"
+                    Height="16"
+                    Margin="2,2,2,0"
+                    VerticalAlignment="Top"
+                    CornerRadius="4"
+                    MouseLeftButtonDown="DragWindow"
+                    Style="{DynamicResource ShineEffectStyle}"
+                    d:LayoutOverrides="VerticalAlignment" />
+            <Image x:Name="WindowIcon"
+                   Width="24"
+                   Height="24"
+                   Margin="10,10,0,0"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top"
+                   Source="/SCCO.WPF.MVC.CS;component/Images/teller_collector.png"
+                   Stretch="Fill" />
+            <Label x:Name="FormTitle"
+                   Margin="70,35,0,0"
+                   Content="Official Receipt"
+                   MouseLeftButtonDown="DragWindow"
+                   Style="{DynamicResource FormTitle1}" />
+            <Button x:Name="CloseButton"
+                    Margin="0,8,8,0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Background="#00E4D2D2"
+                    Click="CloseWindow"
+                    Content="x"
+                    IsCancel="True"
+                    Style="{DynamicResource CloseButton}"
+                    TabIndex="5" />
+        </Grid>
+
+        <Label x:Name="lblRecordCount"
+               Width="194"
+               Height="21.28"
+               Margin="20,119,0,0"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top"
+               Content="Record Count: 0"
+               FontSize="13.333"
+               Foreground="White"
+               Padding="0"
+               d:LayoutOverrides="HorizontalAlignment" />
+        <DataGrid x:Name="dgTransactionDetails"
+                  Margin="20,146,20,144"
+                  AlternatingRowBackground="WhiteSmoke"
+                  AlternationCount="3"
+                  AutoGenerateColumns="False"
+                  Background="White"
+                  BorderBrush="#66FFFFFF"
+                  BorderThickness="2"
+                  CanUserAddRows="False"
+                  CanUserDeleteRows="True"
+                  CanUserReorderColumns="False"
+                  CanUserResizeColumns="False"
+                  CanUserResizeRows="False"
+                  CanUserSortColumns="False"
+                  CellEditEnding="dgTransactionDetails_CellEditEnding"
+                  ColumnHeaderHeight="30"
+                  FontFamily="Ubuntu"
+                  FontSize="11.5"
+                  FontWeight="Bold"
+                  Foreground="Black"
+                  HorizontalGridLinesBrush="#66808080"
+                  HorizontalScrollBarVisibility="Visible"
+                  IsSynchronizedWithCurrentItem="True"
+                  Opacity="0.9"
+                  RowBackground="#26DBEEFF"
+                  RowDetailsVisibilityMode="Visible"
+                  RowHeaderWidth="20"
+                  RowHeight="25"
+                  VerticalGridLinesBrush="#66808080"
+                  VerticalScrollBarVisibility="Visible">
+            <!--  CellStyle="{DynamicResource jearightstyle}"  -->
+            <DataGrid.Columns>
+                <DataGridTextColumn x:Name="colMemberCode"
+                                    Width="80"
+                                    Binding="{Binding MemberCode,
+                                                      Mode=TwoWay}"
+                                    ElementStyle="{StaticResource LeftAlignStyle}"
+                                    FontWeight="Normal"
+                                    Header="Member ID" />
+                <DataGridTextColumn x:Name="colMemberName"
+                                    Width="200"
+                                    Binding="{Binding MemberName}"
+                                    EditingElementStyle="{StaticResource LeftAlignTextBoxStyle}"
+                                    ElementStyle="{StaticResource LeftAlignStyle}"
+                                    FontWeight="Normal"
+                                    Header="Member Name"
+                                    IsReadOnly="True">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Setter Property="KeyboardNavigation.IsTabStop" Value="False" />
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn x:Name="colAccountCode"
+                                    Width="90"
+                                    Binding="{Binding AccountCode}"
+                                    EditingElementStyle="{StaticResource LeftAlignTextBoxStyle}"
+                                    ElementStyle="{StaticResource LeftAlignStyle}"
+                                    FontWeight="Normal"
+                                    Header="Acct. Code" />
+                <DataGridTextColumn x:Name="colAccountName"
+                                    Width="200"
+                                    Binding="{Binding AccountTitle,
+                                                      UpdateSourceTrigger=PropertyChanged}"
+                                    EditingElementStyle="{StaticResource LeftAlignTextBoxStyle}"
+                                    ElementStyle="{StaticResource LeftAlignStyle}"
+                                    FontWeight="Normal"
+                                    Header="Account Title"
+                                    IsReadOnly="True">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Setter Property="KeyboardNavigation.IsTabStop" Value="False" />
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn x:Name="colDebit"
+                                    Width="100"
+                                    Binding="{Binding Debit,
+                                                      Converter={StaticResource DecimalConverter1}}"
+                                    EditingElementStyle="{StaticResource RightAlignTextBoxStyle}"
+                                    ElementStyle="{StaticResource RightAlignStyle}"
+                                    FontWeight="Normal"
+                                    Header="Debit" />
+                <DataGridTextColumn x:Name="colCredit"
+                                    Width="100"
+                                    Binding="{Binding Credit,
+                                                      Converter={StaticResource DecimalConverter1}}"
+                                    EditingElementStyle="{StaticResource RightAlignTextBoxStyle}"
+                                    ElementStyle="{StaticResource RightAlignStyle}"
+                                    FontWeight="Normal"
+                                    Header="Credit" />
+                <DataGridTextColumn x:Name="colModePay"
+                                    Width="50"
+                                    Binding="{Binding ModePay,
+                                                      Mode=TwoWay}"
+                                    ElementStyle="{StaticResource LeftAlignStyle}"
+                                    FontWeight="Normal"
+                                    Header="Mode" />
+
+            </DataGrid.Columns>
+            <DataGrid.DataContext>
+                <Models:OfficialReceipt />
+            </DataGrid.DataContext>
+        </DataGrid>
+        <Label Margin="20,93.72,0,0"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top"
+               Content="Collector :"
+               FontFamily="Segoe UI"
+               FontSize="16"
+               Foreground="White"
+               Padding="0" />
+
+        <Button x:Name="btnNew"
+                Width="99"
+                Margin="20,0,0,105"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Bottom"
+                Click="btnNew_Click"
+                Content="New"
+                Style="{DynamicResource ControlButton}" />
+
+        <Button x:Name="btnSave"
+                Width="99"
+                Margin="120,0,0,105"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Bottom"
+                Click="btnSave_Click"
+                Content="Save"
+                Style="{DynamicResource ControlButton}" />
+
+        <Button x:Name="btnDelete"
+                Width="99"
+                Margin="220,0,0,105"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Bottom"
+                Click="btnDelete_Click"
+                Content="Delete"
+                Style="{DynamicResource ControlButton}" />
+
+        <Button x:Name="btnCancelled"
+                Width="99"
+                Margin="320,0,0,105"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Bottom"
+                Click="btnCancelled_Click"
+                Content="Cancelled"
+                Style="{DynamicResource ControlButton}" />
+
+        <Button x:Name="btnPrint"
+                Width="99"
+                Margin="420,0,0,105"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Bottom"
+                Click="btnPrint_Click"
+                Content="Print"
+                Style="{DynamicResource ControlButton}" />
+
+        <Button x:Name="btnReport"
+                Width="99"
+                Margin="520,0,0,105"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Bottom"
+                Click="btnReport_Click"
+                Content="Report"
+                Style="{DynamicResource ControlButton}" />
+
+        <Button x:Name="btnHelp"
+                Width="99"
+                Margin="20,0,0,75"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Bottom"
+                Content="Help"
+                Style="{DynamicResource ControlButton}" />
+
+        <Button x:Name="btnExplanation"
+                Width="99"
+                Margin="120,0,0,75"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Bottom"
+                Click="btnExplanation_Click"
+                Content="Explanation"
+                Style="{DynamicResource ControlButton}" />
+
+        <Button x:Name="btnBack"
+                Width="99"
+                Margin="220,0,0,75"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Bottom"
+                Click="OnNavigatePrevious"
+                Style="{DynamicResource ControlButton}">
+            <StackPanel>
+                <Image Width="20"
+                       Height="20"
+                       Source="/SCCO.WPF.MVC.CS;component/Images/NavBack.png"
+                       Stretch="None" />
+            </StackPanel>
+        </Button>
+
+        <Button x:Name="btnNext"
+                Width="99"
+                Margin="320,0,0,75"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Bottom"
+                Click="OnNavigateNext"
+                Style="{DynamicResource ControlButton}">
+            <StackPanel Orientation="Horizontal">
+                <Image Width="20"
+                       Height="20"
+                       Source="/SCCO.WPF.MVC.CS;component/Images/NavNext.png"
+                       Stretch="None" />
+            </StackPanel>
+        </Button>
+
+        <Button x:Name="btnTop"
+                Width="99"
+                Margin="420,0,0,75"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Bottom"
+                Click="OnNavigateFirst"
+                Style="{DynamicResource ControlButton}">
+            <StackPanel Orientation="Horizontal">
+                <Image Width="20"
+                       Height="20"
+                       Source="/SCCO.WPF.MVC.CS;component/Images/NavTop.png"
+                       Stretch="None" />
+            </StackPanel>
+        </Button>
+
+        <Button x:Name="btnBottom"
+                Width="99"
+                Margin="520,0,0,75"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Bottom"
+                Click="OnNavigateLast"
+                Style="{DynamicResource ControlButton}">
+            <StackPanel Orientation="Horizontal">
+                <Image Width="20"
+                       Height="20"
+                       Source="/SCCO.WPF.MVC.CS;component/Images/NavBottom.png"
+                       Stretch="None" />
+            </StackPanel>
+        </Button>
+
+        <Button x:Name="btnDenomination"
+                Width="99"
+                Margin="20,0,0,45"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Bottom"
+                Content="Denomination"
+                Style="{DynamicResource ControlButton}" />
+
+        <Button x:Name="btnTdDetails"
+                Width="99"
+                Margin="120,0,0,45"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Bottom"
+                Click="btnTdDetails_Click"
+                Content="TD Details"
+                Style="{DynamicResource ControlButton}" />
+
+        <Button x:Name="btnCheck"
+                Width="99"
+                Margin="220,0,0,45"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Bottom"
+                Content="Check"
+                Style="{DynamicResource ControlButton}" />
+
+        <Button x:Name="btnPosted"
+                Width="99"
+                Margin="320,0,0,45"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Bottom"
+                Content="Posted"
+                Style="{DynamicResource ControlButton}" />
+
+        <Label x:Name="lblVoucherNo"
+               Margin="0,58,168,0"
+               HorizontalAlignment="Right"
+               Content="OR No. :"
+               Style="{DynamicResource FormHeader1}" />
+
+        <TextBox x:Name="txtDocNum"
+                 Width="120"
+                 Height="30"
+                 Margin="0,56.519,20,0"
+                 HorizontalAlignment="Right"
+                 VerticalAlignment="Top"
+                 FontSize="18"
+                 FontWeight="Bold"
+                 LostFocus="txtDocNum_LostFocus"
+                 Style="{DynamicResource RoundedTextBox}" />
+
+        <Label x:Name="lblEntryDate"
+               Margin="0,99,168,0"
+               HorizontalAlignment="Right"
+               Content="Entry Date :"
+               Style="{DynamicResource FormHeader1}" />
+
+        <TextBox x:Name="txtTransactionDate"
+                 Width="120"
+                 Height="30"
+                 Margin="0,95,20,0"
+                 HorizontalAlignment="Right"
+                 VerticalAlignment="Top"
+                 VerticalContentAlignment="Center"
+                 FontSize="16"
+                 IsReadOnly="False"
+                 IsTabStop="False"
+                 Style="{DynamicResource RoundedTextBox}" />
+
+        <Grid x:Name="BalanceSummary"
+              Width="215"
+              Height="100"
+              Margin="0,0,20,35"
+              HorizontalAlignment="Right"
+              VerticalAlignment="Bottom">
+            <Rectangle x:Name="Rectangle1"
+                       Margin="0,0,0,31.28"
+                       RadiusX="5"
+                       RadiusY="5"
+                       Stroke="#7FFFFFFF" />
+            <Label x:Name="lblDebitAmount"
+                   Width="115"
+                   Margin="0,8.226,10,0"
+                   HorizontalAlignment="Right"
+                   VerticalAlignment="Top"
+                   HorizontalContentAlignment="Right"
+                   Content="0.00"
+                   FontSize="16"
+                   Foreground="White"
+                   Padding="0" />
+            <Label x:Name="lblCreditAmount"
+                   Margin="90,0,10,40"
+                   VerticalAlignment="Bottom"
+                   HorizontalContentAlignment="Right"
+                   Content="0.00"
+                   FontSize="16"
+                   Foreground="White"
+                   Padding="0"
+                   d:LayoutOverrides="GridBox" />
+            <Label x:Name="lblDebitCaption"
+                   Width="75"
+                   Height="21.28"
+                   Margin="10,8.226,0,0"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top"
+                   Content="Total Debit"
+                   FontSize="13.333"
+                   Foreground="White"
+                   Padding="0"
+                   d:LayoutOverrides="HorizontalAlignment, GridBox" />
+            <Label x:Name="lblCreditCaption"
+                   Width="75"
+                   Height="21.28"
+                   Margin="10,0,0,40"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Bottom"
+                   Content="Total Credit"
+                   FontSize="13.333"
+                   Foreground="White"
+                   Padding="0"
+                   d:LayoutOverrides="HorizontalAlignment, GridBox" />
+            <Border x:Name="bdrDifference"
+                    Height="27.28"
+                    VerticalAlignment="Bottom"
+                    Background="Red"
+                    CornerRadius="2">
+                <Label x:Name="lblDifference"
+                       Height="19.313"
+                       Margin="10,2"
+                       HorizontalContentAlignment="Right"
+                       Content="0.00"
+                       FontSize="16"
+                       Foreground="White"
+                       Padding="0" />
+            </Border>
+        </Grid>
+
+        <Label x:Name="CancelledLabel"
+               Margin="246,285,284,302"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Center"
+               HorizontalContentAlignment="Center"
+               VerticalContentAlignment="Center"
+               Background="{x:Null}"
+               Content="CANCELLED"
+               FontFamily="Courier New"
+               FontSize="64"
+               FontWeight="Bold"
+               Foreground="#E5FD4141"
+               Padding="1"
+               RenderTransformOrigin="0.5,0.5">
+            <Label.Effect>
+                <DropShadowEffect />
+            </Label.Effect>
+            <Label.RenderTransform>
+                <TransformGroup>
+                    <RotateTransform Angle="340" />
+                </TransformGroup>
+            </Label.RenderTransform>
+        </Label>
+
+        <Button x:Name="btnAmountInWords"
+                Width="99"
+                Margin="20,0,0,15"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Bottom"
+                Click="btnAmountInWords_Click"
+                Content="Amt. in words"
+                Style="{DynamicResource ControlButton}" />
+
+        <TextBlock Name="AmountInWordsBlock"
+                   Margin="124,0,20,19.04"
+                   VerticalAlignment="Bottom"
+                   FontSize="10.667"
+                   Foreground="White"
+                   Text="{Binding SelectedItem.AmountInWords,
+                                  ElementName=dgTransactionDetails}"
+                   TextWrapping="Wrap" />
+        <Label x:Name="lblCollectorName"
+               Margin="95,94,438,0"
+               VerticalAlignment="Top"
+               Content="Collector:"
+               Padding="5,0,0,0"
+               Style="{DynamicResource FormHeader1}" />
+        <Image x:Name="imgLocked"
+               Width="48"
+               Height="48"
+               Margin="20,34,0,0"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top"
+               Source="/SCCO.WPF.MVC.CS;component/Images/lock.png"
+               Stretch="Fill" />
+        <Image x:Name="imgUnlocked"
+               Width="48"
+               Height="48"
+               Margin="20,34,0,0"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top"
+               RenderTransformOrigin="0.5,0.5"
+               Source="/SCCO.WPF.MVC.CS;component/Images/unlock.png"
+               Stretch="Fill"
+               Visibility="Hidden" />
+    </Grid>
+
+</Views:BaseWindow>

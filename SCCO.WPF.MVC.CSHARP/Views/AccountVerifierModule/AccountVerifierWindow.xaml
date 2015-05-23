@@ -1,0 +1,391 @@
+﻿<Views:BaseWindow x:Class="SCCO.WPF.MVC.CS.Views.AccountVerifierModule.AccountVerifierWindow"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                  xmlns:local="clr-namespace:SCCO.WPF.MVC.CS.Views.AccountVerifierModule"
+                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                  xmlns:Views="clr-namespace:SCCO.WPF.MVC.CS.Views"
+                  Width="900"
+                  Height="700"
+                  FontFamily="Ubuntu"
+                  Style="{DynamicResource BaseWindow}"
+                  WindowStartupLocation="CenterScreen"
+                  mc:Ignorable="d">
+    <Views:BaseWindow.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/SCCO.WPF.MVC.CS;component/SccoResourceDictionary.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <Style x:Key="{x:Type DataGridCell}" TargetType="{x:Type DataGridCell}">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type DataGridCell}">
+                            <Grid Background="{TemplateBinding Background}">
+                                <ContentPresenter VerticalAlignment="Center" />
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="NumberStyle" TargetType="{x:Type TextBlock}">
+                <Setter Property="TextAlignment" Value="Right" />
+                <Setter Property="Margin" Value="0,0,2,0" />
+            </Style>
+        </ResourceDictionary>
+    </Views:BaseWindow.Resources>
+
+
+    <Views:BaseWindow.DataContext>
+        <local:AccountVerifierViewModel />
+    </Views:BaseWindow.DataContext>
+    <Grid Margin="5">
+        <Grid x:Name="FormLayout" d:IsLocked="True">
+            <Rectangle x:Name="Canvass"
+                       Fill="#FF32460F"
+                       MouseLeftButtonDown="DragWindow"
+                       RadiusX="5"
+                       RadiusY="5"
+                       Stroke="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"
+                       StrokeLineJoin="Round">
+                <Rectangle.Effect>
+                    <DropShadowEffect BlurRadius="10" ShadowDepth="0" />
+                </Rectangle.Effect>
+            </Rectangle>
+            <Border x:Name="ShineEffect"
+                    Height="16"
+                    Margin="2,2,2,0"
+                    VerticalAlignment="Top"
+                    CornerRadius="4"
+                    MouseLeftButtonDown="DragWindow"
+                    Style="{DynamicResource ShineEffectStyle}" />
+            <Image x:Name="WindowIcon"
+                   Width="24"
+                   Height="24"
+                   Margin="10,10,0,0"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top"
+                   Source="/SCCO.WPF.MVC.CS;component/Images/account_verifier.png"
+                   Stretch="Fill" />
+            <Label x:Name="FormTitle"
+                   Margin="20,35,0,0"
+                   Content="Account Verifier"
+                   MouseLeftButtonDown="DragWindow"
+                   Style="{StaticResource FormTitle1}" />
+            <Button x:Name="CloseButton"
+                    Margin="0,8,8,0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Background="#00E4D2D2"
+                    Click="CloseWindow"
+                    Content="x"
+                    IsCancel="True"
+                    Style="{DynamicResource CloseButton}"
+                    TabIndex="5" />
+        </Grid>
+        <Label x:Name="blkMemberInformationSummary"
+               Width="202"
+               Height="75.829"
+               Margin="0,41.98,167,0"
+               HorizontalAlignment="Right"
+               VerticalAlignment="Top"
+               HorizontalContentAlignment="Right"
+               VerticalContentAlignment="Top"
+               FontSize="13.333"
+               Foreground="#4CFFFFFF"
+               Padding="0,4,0,0" />
+        <Label x:Name="lblMemberCodeName"
+               Width="415.877"
+               Height="34"
+               Margin="20,87.578,0,0"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top"
+               VerticalContentAlignment="Center"
+               Content="Click the search button..."
+               FontSize="18.667"
+               Foreground="#FFA0B57D" />
+        <Border Width="137"
+                Height="111"
+                Margin="0,41.98,20,0"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Background="#4CFFFFFF"
+                CornerRadius="4">
+            <Image x:Name="imgPhoto" Margin="4" />
+        </Border>
+        <StackPanel Width="137"
+                    Margin="0,162,20,54"
+                    HorizontalAlignment="Right">
+            <Button x:Name="btnSearchMember"
+                    Width="Auto"
+                    Margin="0,2"
+                    Content="Search Member"
+                    Style="{DynamicResource ControlButton}" />
+            <Button x:Name="btnMemberInformation"
+                    Width="Auto"
+                    Margin="0,2"
+                    Content="Member Info"
+                    IsEnabled="False"
+                    Style="{DynamicResource ControlButton}" />
+            <TextBlock />
+            <Button x:Name="btnAccountDisplayed"
+                    Width="Auto"
+                    Margin="0,2"
+                    Content="Account Summary"
+                    IsEnabled="False"
+                    Style="{DynamicResource ControlButton}" />
+            <Button x:Name="btnPrint"
+                    Width="Auto"
+                    Margin="0,2"
+                    Content="Print"
+                    IsEnabled="False"
+                    Style="{DynamicResource ControlButton}" />
+
+            <StackPanel Name="SavingsDepositPanel">
+                <TextBlock />
+                <Button x:Name="btnSavingsDeposit"
+                        Width="Auto"
+                        Margin="0,2"
+                        Content="Savings Deposit"
+                        IsEnabled="False"
+                        Style="{DynamicResource ControlButton}" />
+                <Button x:Name="btnWithdrawal"
+                        Width="Auto"
+                        Margin="0,2"
+                        Content="Withdrawal"
+                        IsEnabled="False"
+                        Style="{DynamicResource ControlButton}" />
+            </StackPanel>
+
+            <StackPanel Name="TimeDepositPanel">
+                <TextBlock />
+                <Button x:Name="btnTimeDeposit"
+                        Width="Auto"
+                        Margin="0,2"
+                        Content="Time Deposit"
+                        IsEnabled="False"
+                        Style="{DynamicResource ControlButton}" />
+                <Button x:Name="btnShowTimeDepositDetails"
+                        Width="Auto"
+                        Margin="0,2"
+                        Content="TD Details"
+                        IsEnabled="False"
+                        Style="{DynamicResource ControlButton}" />
+            </StackPanel>
+
+            <StackPanel Name="LoanPanel">
+                <TextBlock />
+                <Button x:Name="btnLoanApplication"
+                        Width="Auto"
+                        Margin="0,2"
+                        Content="Loan Application"
+                        IsEnabled="False"
+                        Style="{DynamicResource ControlButton}" />
+                <Button x:Name="btnSalaryAdvance"
+                        Width="Auto"
+                        Margin="0,2"
+                        Content="Salary Advance"
+                        IsEnabled="False"
+                        Style="{DynamicResource ControlButton}" />
+                <Button x:Name="btnLoanDetails"
+                        Width="Auto"
+                        Margin="0,2"
+                        Content="Loan Details"
+                        IsEnabled="False"
+                        Style="{DynamicResource ControlButton}" />
+                <Button x:Name="btnFines"
+                        Width="Auto"
+                        Margin="0,2"
+                        Content="Fines / Rebate"
+                        IsEnabled="False"
+                        Style="{DynamicResource ControlButton}" />
+                <Grid Height="28">
+                	<Grid.ColumnDefinitions>
+                		<ColumnDefinition Width=".45*"/>
+                		<ColumnDefinition Width=".55*"/>
+                	</Grid.ColumnDefinitions>
+                	<Button x:Name="btnMakers"
+                		Content="Makers"
+                		IsEnabled="False"
+                		Style="{DynamicResource ControlButton}" Height="Auto" Width="Auto" />
+                	<Button x:Name="btnComakers"
+                		Content="Co-makers"
+                		IsEnabled="False"
+                		Style="{DynamicResource ControlButton}" Height="Auto" Grid.Column="1" Width="Auto" />
+                </Grid>
+            </StackPanel>
+        </StackPanel>
+
+
+        <Button x:Name="btnOfficialReceipts"
+                Width="137"
+                Height="30"
+                Margin="0,0,20,20"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Content="Official Receipts"
+                Style="{DynamicResource ControlButton}" />
+        <Border x:Name="borderAccountSummaryLabels"
+                Height="34"
+                Margin="20,122.809,167,0"
+                VerticalAlignment="Top"
+                Background="#7F556B2F"
+                CornerRadius="3"
+                DataContext="{Binding SelectedAccount}">
+            <Grid>
+                <TextBlock x:Name="lblAccountDescription"
+                           Margin="10,5,300,5"
+                           FontSize="21.333"
+                           Foreground="#FFA0B57D"
+                           Text="{Binding AccountTitle}" />
+                <TextBlock x:Name="lblAccountBalance"
+                           Width="202"
+                           Margin="5,5,10,5"
+                           HorizontalAlignment="Right"
+                           FontSize="21.333"
+                           Foreground="{Binding ElementName=lblAccountDescription,
+                                                Path=Foreground}"
+                           Text="{Binding Balance,
+                                          StringFormat=\{0:N2\}}"
+                           TextAlignment="Right" />
+            </Grid>
+        </Border>
+        <Border Margin="20,161.809,167,20"
+                Background="#4CFFFFFF"
+                CornerRadius="4">
+            <Grid Margin="2">
+                <DataGrid x:Name="grdDetails"
+                          AlternatingRowBackground="WhiteSmoke"
+                          AlternationCount="3"
+                          AutoGenerateColumns="False"
+                          Background="{x:Null}"
+                          BorderBrush="#E56E812E"
+                          CanUserAddRows="False"
+                          CanUserDeleteRows="False"
+                          CanUserResizeRows="False"
+                          ColumnHeaderHeight="28"
+                          d:IsHidden="True"
+                          FontSize="14.667"
+                          Foreground="#FF282828"
+                          HeadersVisibility="Column"
+                          HorizontalGridLinesBrush="#FFA0B57D"
+                          HorizontalScrollBarVisibility="Visible"
+                          IsReadOnly="True"
+                          ItemsSource="{Binding AccountDetails}"
+                          MouseDoubleClick="grdDetails_MouseDoubleClick"
+                          Opacity="0.9"
+                          RowBackground="White"
+                          RowHeight="26"
+                          SelectedIndex="0"
+                          VerticalGridLinesBrush="#FFA0B57D"
+                          VerticalScrollBarVisibility="Visible"
+                          Visibility="Hidden">
+
+                    <DataGrid.Columns>
+                        <DataGridTextColumn x:Name="colRemarks"
+                                            Width="50"
+                                            Binding="{Binding Remarks}"
+                                            Header="Rem"
+                                            IsReadOnly="True" />
+                        <DataGridCheckBoxColumn x:Name="colMark"
+                                                Width="25"
+                                                Binding="{Binding Mark}"
+                                                Header=" " />
+                        <DataGridTextColumn x:Name="colTransactionDate"
+                                            Width="90"
+                                            Binding="{Binding VoucherDate,
+                                                              StringFormat=MM/dd/yyyy}"
+                                            Header="Date"
+                                            IsReadOnly="True" />
+                        <DataGridTextColumn x:Name="colReference"
+                                            Width="100"
+                                            Binding="{Binding Reference}"
+                                            Header="Reference"
+                                            IsReadOnly="True" />
+                        <DataGridTextColumn x:Name="colDebit"
+                                            Width="120"
+                                            Binding="{Binding Debit,
+                                                              Converter={StaticResource DecimalConverter1},
+                                                              StringFormat=N2}"
+                                            ElementStyle="{StaticResource NumberStyle}"
+                                            Header="Debit"
+                                            IsReadOnly="True" />
+                        <DataGridTextColumn x:Name="colCredit"
+                                            Width="120"
+                                            Binding="{Binding Credit,
+                                                              Converter={StaticResource DecimalConverter1},
+                                                              StringFormat=n2}"
+                                            ElementStyle="{StaticResource NumberStyle}"
+                                            Header="Credit"
+                                            IsReadOnly="True" />
+                        <DataGridTextColumn x:Name="colBalance"
+                                            Width="120"
+                                            Binding="{Binding StringFormat=n2,
+                                                              Path=EndingBalance,
+                                                              Converter={StaticResource DecimalConverter1}}"
+                                            ElementStyle="{StaticResource NumberStyle}"
+                                            Header="Balance"
+                                            IsReadOnly="True" />
+                        <DataGridTextColumn x:Name="colInitial"
+                                            Width="*"
+                                            Binding="{Binding Initial}"
+                                            Header="Initial"
+                                            IsReadOnly="True" />
+                    </DataGrid.Columns>
+                </DataGrid>
+                <DataGrid x:Name="grdSummary"
+                          AlternatingRowBackground="WhiteSmoke"
+                          AlternationCount="3"
+                          AutoGenerateColumns="False"
+                          Background="{x:Null}"
+                          BorderBrush="#E56E812E"
+                          CanUserAddRows="False"
+                          CanUserResizeRows="False"
+                          ColumnHeaderHeight="28"
+                          d:IsHidden="True"
+                          FontSize="14.667"
+                          Foreground="#FF282828"
+                          HeadersVisibility="Column"
+                          HorizontalGridLinesBrush="#FFA0B57D"
+                          HorizontalScrollBarVisibility="Visible"
+                          IsReadOnly="True"
+                          ItemsSource="{Binding AccountSummaries}"
+                          Opacity="0.9"
+                          RowHeight="26"
+                          SelectedItem="{Binding SelectedAccount}"
+                          VerticalGridLinesBrush="#FFA0B57D"
+                          VerticalScrollBarVisibility="Visible"
+                          Visibility="Hidden">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Width="120"
+                                            Binding="{Binding AccountCode}"
+                                            CanUserReorder="False"
+                                            CanUserResize="False"
+                                            CanUserSort="False"
+                                            Header=" Account Code"
+                                            IsReadOnly="True" />
+                        <DataGridTextColumn Width="*"
+                                            Binding="{Binding AccountTitle}"
+                                            CanUserReorder="False"
+                                            CanUserResize="False"
+                                            CanUserSort="False"
+                                            Header=" Account Title"
+                                            IsReadOnly="True" />
+                        <DataGridTextColumn Width="120"
+                                            Binding="{Binding Balance,
+                                                              Converter={StaticResource DecimalConverter1},
+                                                              StringFormat=\{0:N2\}}"
+                                            CanUserReorder="False"
+                                            CanUserResize="False"
+                                            CanUserSort="False"
+                                            ElementStyle="{StaticResource NumberStyle}"
+                                            Header=" End Balance"
+                                            IsReadOnly="True" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </Border>
+
+
+
+    </Grid>
+</Views:BaseWindow>

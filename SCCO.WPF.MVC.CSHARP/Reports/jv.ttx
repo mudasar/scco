@@ -1,0 +1,60 @@
+MEM_CODE	String	10	1696
+MEM_NAME	String	50	ALEJO, JESUS E
+CHECK_NUM	String	10	123456
+CHECK_NUM1	String	10
+ACC_CODE	String	10	300
+TITLE	String	50	Savings Deposit
+DEBIT	Number		500
+CREDIT	Number	
+DOC_DATE	Date	08/17/2013
+DOC_TYPE	String	2	CV
+DOC_NUM	Number		999999
+TRN_TYPE	String	1
+CERT_NO	String	10
+TERM	Number	11
+RATE	Number	
+Date_IN	Date	
+EXPLAIN	Memo	
+PAY_TO	String	50
+DCP	Date	
+DCR	Date	
+DD	Date	
+BANK	String	9
+BANK_TITLE	String	50
+AMOUNT	Number	
+AMT_WORDS	String	120
+RELEASE_NO	Number	11
+LOAN_AMT	Number	
+TERMS	Number	11
+TERMS_MODE	String	2
+Date_GRANT	Date	
+MATURITY	Date	
+CUT_OFF	Date	
+MODE_PAY	String	3
+PAYMENT	Number	
+INT_RATE	Number	
+INT_AMT	Number	
+INT_AMORT	Number	
+APPROVED	Date	
+CANCELLED	Date	
+RELEASED	Date	
+APPLIED	Date	
+CO_CODE1	String	6
+CO_NAME1	String	50
+CO_CODE2	String	6
+CO_NAME2	String	50
+CO_CODE3	String	6
+CO_NAME3	String	50
+CO_CODE4	String	6
+CO_NAME4	String	50
+CO_CODE5	String	6
+CO_NAME5	String	50
+THIS_MONTH	Number	
+COLLECTOR	String	30
+NOTICE1	Boolean
+NOTICE2	Boolean
+NOTICE3	Boolean
+REMARKS	String	10
+COLLAT	Boolean	
+DESC	String	100
+POSTED	Boolean	

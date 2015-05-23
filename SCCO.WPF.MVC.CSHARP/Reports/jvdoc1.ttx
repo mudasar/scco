@@ -1,0 +1,56 @@
+DOCNO	Number		46112
+BANK	String	50	
+CHECK	String	10	
+CODE	String	6	5352	
+NAME	String	50	LORENZO, MENANDRO R.	
+PAY_TO	String	100	
+DATE	Date		2011-01-03	
+ADDRESS	String	100	SAN LUIS STREET, SAN PASCUAL, OBANDO BULACAN	
+AMT	Number		123456	
+SUM_OF	String	120	One Hundred Twenty Three Thousan Four Hundred Fifty Six
+EXPLAIN	Memo		Withdrawal of savings deposit
+COL1	Number		100
+COL2	Number		200
+COL3	Number		300
+COL4	Number		400
+COL5	Number		500
+COL6	Number		600
+COL7	Number		700
+COL8	Number		800
+COL9	Number		900
+COL10	Number		1000
+COL11	Number		1100
+COL12	Number		1200
+COL13	Number		1300
+COL14	Number		1400
+COL15	Number		1500
+COL16	Number		1600
+COL17	Number		1700
+COL18	Number		1800
+COL19	Number		1900
+COL20	Number		2000
+COL21	Number		2100
+COL22	Number		2200
+COL23	Number		2300
+COL24	Number		2400
+COL25	Number		2500
+COL26	Number		2600
+COL27	Number		2700
+COL28	Number		2800
+COL29	Number		2900
+COL30	Number		3000
+CNAME1	String	30	Account 1
+CNAME2	String	30	Account 2
+CNAME3	String	30	Account 3
+CNAME4	String	30	Account 4
+CNAME5	String	30	Account 5
+CNAME6	String	30	Account 6
+CNAME7	String	30	Account 7
+CNAME8	String	30	Account 8
+CNAME9	String	30	Account 9
+CNAME10	String	30	Account 10
+CNAME11	String	30	Account 11
+CNAME12	String	30	Account 12
+CNAME13	String	30	Account 13
+CNAME14	String	30	Account 14
+CNAME15	String	30	Account 15

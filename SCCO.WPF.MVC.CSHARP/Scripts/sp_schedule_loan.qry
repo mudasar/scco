@@ -1,0 +1,55 @@
+SELECT `sl_merged`.MEM_CODE,
+	`sl_merged`.MEM_NAME,
+	`sl_merged`.ACC_CODE,
+	`sl_merged`.TITLE,
+	SUM(`sl_merged`.DEBIT) as DEBIT,
+	SUM(`sl_merged`.CREDIT) AS CREDIT,
+	SUM(IFNULL(`sl_merged`.DEBIT,0) - IFNULL(`sl_merged`.CREDIT,0)) AS BALANCE
+ FROM 
+	(SELECT
+	`slbal`.MEM_CODE,
+	`slbal`.MEM_NAME,
+	`slbal`.ACC_CODE,
+	`slbal`.TITLE,
+	`slbal`.DEBIT,
+	`slbal`.CREDIT
+	FROM `slbal`
+	UNION
+	SELECT
+	`or`.MEM_CODE,
+	`or`.MEM_NAME,
+	`or`.ACC_CODE,
+	`or`.TITLE,
+	`or`.DEBIT,
+	`or`.CREDIT
+	FROM `or`
+	UNION 
+	SELECT
+	`cv`.MEM_CODE,
+	`cv`.MEM_NAME,
+	`cv`.ACC_CODE,
+	`cv`.TITLE,
+	`cv`.DEBIT,
+	`cv`.CREDIT
+	FROM `cv`
+	UNION 
+	SELECT
+	`jv`.MEM_CODE,
+	`jv`.MEM_NAME,
+	`jv`.ACC_CODE,
+	`jv`.TITLE,
+	`jv`.DEBIT,
+	`jv`.CREDIT
+	FROM `jv`) AS sl_merged
+INNER JOIN 
+	(SELECT `CODE` FROM chart WHERE SCODE = 1) as ch
+WHERE 
+	`sl_merged`.ACC_CODE = ch.CODE
+GROUP BY 
+	`sl_merged`.MEM_CODE,
+	`sl_merged`.ACC_CODE
+ORDER BY 
+	`sl_merged`.ACC_CODE,
+	`sl_merged`.MEM_CODE
+
+

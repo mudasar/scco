@@ -1,0 +1,391 @@
+﻿<Window x:Class="SCCO.WPF.MVC.CS.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        Title="Accounting System"
+        Width="680"
+        Height="600"
+        AllowsTransparency="True"
+        Background="#00000000"
+        Left="20"
+        Opacity="80"
+        ResizeMode="NoResize"
+        Top="20"
+        Topmost="False"
+        WindowStartupLocation="Manual"
+        WindowStyle="None"
+        mc:Ignorable="d">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/SCCO.WPF.MVC.CS;component/SccoResourceDictionary.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid x:Name="LayoutRoot" Margin="10">
+        <Grid x:Name="FormLayout">
+            <Rectangle x:Name="Canvass"
+                       Fill="#E5152705"
+                       RadiusX="5"
+                       RadiusY="5"
+                       Stroke="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"
+                       StrokeLineJoin="Round">
+                <Rectangle.Effect>
+                    <DropShadowEffect BlurRadius="10" ShadowDepth="0" />
+                </Rectangle.Effect>
+            </Rectangle>
+            <Rectangle x:Name="CanvassDevelopment"
+            	Fill="#E5002147"
+            	RadiusX="5"
+            	RadiusY="5"
+            	Stroke="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"
+            	StrokeLineJoin="Round" Visibility="Hidden">
+            	<Rectangle.Effect>
+            		<DropShadowEffect BlurRadius="10" ShadowDepth="0" />
+            	</Rectangle.Effect>
+            </Rectangle>
+            <Image x:Name="MainBackGroundImage"
+                   Margin="5"
+                   Source="/SCCO.WPF.MVC.CS;component/Images/main_background.PNG"
+                   Stretch="Fill">
+                <Image.OpacityMask>
+                    <RadialGradientBrush>
+                        <GradientStop Offset="0" Color="#58000000" />
+                        <GradientStop Offset="1" Color="#1FFFFFFF" />
+                    </RadialGradientBrush>
+                </Image.OpacityMask>
+            </Image>
+            <Rectangle x:Name="ShineEffect"
+                       Height="16"
+                       Margin="3,3,3,0"
+                       VerticalAlignment="Top"
+                       MouseLeftButtonDown="DragWindow"
+                       RadiusX="3"
+                       RadiusY="3"
+                       StrokeLineJoin="Round">
+                <Rectangle.Fill>
+                    <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                        <GradientStop Offset="1" Color="#19E4E3E0" />
+                        <GradientStop Color="#99FFFFFF" />
+                        <GradientStop Offset="0.5" Color="#4CFFFFFF" />
+                    </LinearGradientBrush>
+                </Rectangle.Fill>
+            </Rectangle>
+            <Button x:Name="CloseButton"
+                    Width="30"
+                    Height="30"
+                    Margin="8,8,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Click="CloseWindow"
+                    Content="x"
+                    Cursor="Hand"
+                    Foreground="White"
+                    IsCancel="True"
+                    IsTabStop="False"
+                    Style="{DynamicResource RoundButton}" />
+            <Label x:Name="ViewTitle"
+                   Height="28"
+                   Margin="44,7,0,0"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top"
+                   Content="Main Menu"
+                   Style="{DynamicResource FormTitle2}" />
+        </Grid>
+        <StackPanel HorizontalAlignment="Left" Margin="22,64,0,0" Orientation="Vertical" Width="200" d:LayoutOverrides="Height">
+        	<Button x:Name="MemberInformationButton"
+        		Width="Auto"
+        		Height="40"
+        		Foreground="#FFFFFFFF"
+        		IsEnabled="False"
+        		Style="{DynamicResource GlassButton}" Margin="0,0,0,8">
+        		<StackPanel Width="190"
+        			Height="Auto"
+        			HorizontalAlignment="Left"
+        			Orientation="Horizontal">
+        			<Image Width="20"
+        				Height="20"
+        				Margin="5,0,0,0"
+        				Source="/SCCO.WPF.MVC.CS;component/Images/member_information.png"
+        				Stretch="Fill" />
+        			<TextBlock Margin="5,0,50,0"
+        				VerticalAlignment="Center"
+        				FontSize="12"
+        				Text="Member Information"
+        				TextWrapping="Wrap" />
+        		</StackPanel>
+        	</Button>
+        	<Button x:Name="MemberAccountsVerifierButton"
+        		Width="Auto"
+        		Height="40"
+        		Foreground="#FFFFFFFF"
+        		Style="{DynamicResource GlassButton}" Margin="0,0,0,4">
+        		<StackPanel Width="190"
+        			Height="Auto"
+        			HorizontalAlignment="Left"
+        			Orientation="Horizontal">
+        			<Image Width="20"
+        				Height="20"
+        				Margin="5,0,0,0"
+        				Source="/SCCO.WPF.MVC.CS;component/Images/account_verifier.png"
+        				Stretch="Fill" />
+        			<TextBlock Margin="5,0,50,0"
+        				VerticalAlignment="Center"
+        				FontSize="12"
+        				Text="Account Verifier - SL"
+        				TextWrapping="Wrap" />
+        		</StackPanel>
+        	</Button>
+        	<Button x:Name="AccountsVerifierGLButton"
+        		Width="Auto"
+        		Height="40"
+        		Foreground="#FFFFFFFF"
+        		Style="{DynamicResource GlassButton}" Margin="0,0,0,10">
+        		<StackPanel Width="190"
+        			Height="Auto"
+        			HorizontalAlignment="Left"
+        			Orientation="Horizontal">
+        			<Image Width="20"
+        				Height="20"
+        				Margin="5,0,0,0"
+        				Source="/SCCO.WPF.MVC.CS;component/Images/list.png"
+        				Stretch="Fill" />
+        			<TextBlock Margin="5,0,50,0"
+        				VerticalAlignment="Center"
+        				FontSize="12"
+        				Text="Account Verifier - GL"
+        				TextWrapping="Wrap" />
+        		</StackPanel>
+        	</Button>
+
+        	<Button x:Name="CashVoucherButton"
+        		Width="Auto"
+        		Height="40"
+        		Foreground="#FFFFFFFF"
+        		Style="{DynamicResource GlassButton}" Margin="0,0,0,4">
+        		<StackPanel Width="190"
+        			Height="Auto"
+        			HorizontalAlignment="Left"
+        			Orientation="Horizontal">
+        			<Image Width="20"
+        				Height="20"
+        				Margin="5,0,0,0"
+        				Source="/SCCO.WPF.MVC.CS;component/Images/cash_voucher.png"
+        				Stretch="Fill" />
+        			<TextBlock Margin="5,0,50,0"
+        				VerticalAlignment="Center"
+        				FontSize="12"
+        				Text="Cash Voucher Entry"
+        				TextWrapping="Wrap" />
+        		</StackPanel>
+        	</Button>
+        	<Button x:Name="JournalVoucherButton"
+        		Width="Auto"
+        		Height="40"
+        		Foreground="#FFFFFFFF"
+        		Style="{DynamicResource GlassButton}" Margin="0,0,0,4">
+        		<StackPanel Width="190"
+        			Height="Auto"
+        			HorizontalAlignment="Left"
+        			Orientation="Horizontal">
+        			<Image Width="20"
+        				Height="20"
+        				Margin="5,0,0,0"
+        				Source="/SCCO.WPF.MVC.CS;component/Images/journal_voucher.png"
+        				Stretch="Fill" />
+        			<TextBlock Margin="5,0,50,0"
+        				VerticalAlignment="Center"
+        				FontSize="12"
+        				Text="Journal Voucher Entry"
+        				TextWrapping="Wrap" />
+        		</StackPanel>
+        	</Button>
+        	<Button x:Name="OfficialReceiptsButton"
+        		Width="Auto"
+        		Height="40"
+        		VerticalAlignment="Top"
+        		Foreground="#FFFFFFFF"
+        		Style="{DynamicResource GlassButton}" Margin="0,0,0,4">
+        		<StackPanel Width="190"
+        			Height="Auto"
+        			HorizontalAlignment="Left"
+        			Orientation="Horizontal">
+        			<Image Width="20"
+        				Height="20"
+        				Margin="5,0,0,0"
+        				Source="/SCCO.WPF.MVC.CS;component/Images/official_receipt.png"
+        				Stretch="Fill" />
+        			<TextBlock Margin="5,0,50,0"
+        				VerticalAlignment="Center"
+        				FontSize="12"
+        				Text="Official Receipts Entry"
+        				TextWrapping="Wrap" />
+        		</StackPanel>
+        	</Button>
+        	<Button x:Name="TellerCollectorButton"
+        		Width="Auto"
+        		Height="40"
+        		VerticalAlignment="Top"
+        		Foreground="#FFFFFFFF"
+        		Style="{DynamicResource GlassButton}" Margin="0,0,0,8">
+        		<StackPanel Width="190"
+        			Height="Auto"
+        			HorizontalAlignment="Left"
+        			Orientation="Horizontal">
+        			<Image Width="20"
+        				Height="20"
+        				Margin="5,0,0,0"
+        				Source="/SCCO.WPF.MVC.CS;component/Images/teller_collector.png"
+        				Stretch="Fill" />
+        			<TextBlock Margin="5,0,50,0"
+        				VerticalAlignment="Center"
+        				FontSize="12"
+        				Text="Teller and Collector Entry"
+        				TextWrapping="Wrap" />
+        		</StackPanel>
+        	</Button>
+        	<Button x:Name="GeneralLedgerReportsButton"
+        		Width="Auto"
+        		Height="40"
+        		VerticalAlignment="Top"
+        		Foreground="#FFFFFFFF"
+        		Style="{DynamicResource GlassButton}" Margin="0,0,0,4">
+        		<StackPanel Width="190"
+        			Height="Auto"
+        			HorizontalAlignment="Left"
+        			Orientation="Horizontal">
+        			<Image Width="20"
+        				Height="20"
+        				Margin="5,0,0,0"
+        				Source="/SCCO.WPF.MVC.CS;component/Images/general_ledger_reports.png"
+        				Stretch="Fill" />
+        			<TextBlock Margin="5,0,50,0"
+        				VerticalAlignment="Center"
+        				FontSize="12"
+        				Text="General Ledger Reports"
+        				TextWrapping="Wrap" />
+        		</StackPanel>
+        	</Button>
+        	<Button x:Name="OtherReportsButton"
+        		Width="Auto"
+        		Height="40"
+        		VerticalAlignment="Top"
+        		Foreground="#FFFFFFFF"
+        		Style="{DynamicResource GlassButton}" Margin="0,0,0,8">
+        		<StackPanel Width="190"
+        			Height="Auto"
+        			HorizontalAlignment="Left"
+        			Orientation="Horizontal">
+        			<Image Width="20"
+        				Height="20"
+        				Margin="5,0,0,0"
+        				Source="/SCCO.WPF.MVC.CS;component/Images/other_reports.png"
+        				Stretch="Fill" />
+        			<TextBlock Margin="5,0,50,0"
+        				VerticalAlignment="Center"
+        				FontSize="12"
+        				Text="Other Reports"
+        				TextWrapping="Wrap" />
+        		</StackPanel>
+        	</Button>
+        	<Button x:Name="InitialSetupButton"
+        		Width="Auto"
+        		Height="40"
+        		VerticalAlignment="Top"
+        		Foreground="#FFFFFFFF"
+        		Style="{DynamicResource GlassButton}" Margin="0,0,0,4">
+        		<StackPanel Width="190"
+        			Height="Auto"
+        			HorizontalAlignment="Left"
+        			Orientation="Horizontal">
+        			<Image Width="20"
+        				Height="20"
+        				Margin="5,0,0,0"
+        				Source="/SCCO.WPF.MVC.CS;component/Images/initial_setup.png"
+        				Stretch="Fill" />
+        			<TextBlock Margin="5,0,50,0"
+        				VerticalAlignment="Center"
+        				FontSize="12"
+        				Text="Initial Setup"
+        				TextWrapping="Wrap" />
+        		</StackPanel>
+        	</Button>
+        	<Button x:Name="AdministratorButton"
+        		Width="Auto"
+        		Height="40"
+        		VerticalAlignment="Top"
+        		Foreground="#FFFFFFFF"
+        		Style="{DynamicResource GlassButton}" Margin="0,0,0,4">
+        		<StackPanel Width="190"
+        			Height="Auto"
+        			HorizontalAlignment="Left"
+        			Orientation="Horizontal">
+        			<Image Width="20"
+        				Height="20"
+        				Margin="5,0,0,0"
+        				Source="/SCCO.WPF.MVC.CS;component/Images/administrator.png"
+        				Stretch="Fill" />
+        			<TextBlock Margin="5,0,50,0"
+        				VerticalAlignment="Center"
+        				FontSize="12"
+        				Text="Administrator"
+        				TextWrapping="Wrap" />
+        		</StackPanel>
+        	</Button>
+        </StackPanel>
+        <Image x:Name="CompanyLogo"
+               Width="100"
+               Height="100"
+               Margin="234,28,0,0"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top"
+               MouseLeftButtonDown="DragWindow"
+               Source="/SCCO.WPF.MVC.CS;component/Images/CompanyLogo.png"
+               Stretch="Fill" />
+        <Label x:Name="CompanyNameLabel"
+               Margin="331,42,0,0"
+               VerticalAlignment="Top"
+               Content="Sta. Cruz Savings and Credit Cooperative"
+               MouseLeftButtonDown="DragWindow"
+               Style="{DynamicResource FormTitle2}" />
+        <Label x:Name="ProductInformationLabel"
+               Margin="331,63,19,0"
+               VerticalAlignment="Top"
+               Content="Accounting System Version 2"
+               FontSize="14"
+               Style="{DynamicResource FormTitle2}" />
+        <StackPanel Width="300"
+                    Margin="0,0,20,20"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Bottom">
+            <Label x:Name="TransactionDateLabel"
+                   HorizontalAlignment="Stretch"
+                   VerticalAlignment="Stretch"
+                   HorizontalContentAlignment="Right"
+                   Content="Sunday, January 1, 2012"
+                   FontSize="14"
+                   Style="{DynamicResource FormTitle2}" />
+            <Label x:Name="UserNameLabel"
+                   Margin="0,0,2,0"
+                   HorizontalAlignment="Stretch"
+                   VerticalAlignment="Stretch"
+                   HorizontalContentAlignment="Right"
+                   VerticalContentAlignment="Center"
+                   Content="Jesus E. Alejo"
+                   FontSize="14"
+                   FontWeight="Normal"
+                   Foreground="White"
+                   Opacity="0.5"
+                   Padding="0"
+                   Style="{DynamicResource FormTitle2}" />
+        </StackPanel>
+        <Label x:Name="DatabaseNameLabel"
+        	Margin="49,30,0,0"
+        	VerticalAlignment="Top"
+        	Content="database name"
+        	FontSize="12"
+        	Style="{DynamicResource FormTitle2}" Foreground="Gray" d:LayoutOverrides="HorizontalAlignment" Padding="0" />
+    </Grid>
+</Window>

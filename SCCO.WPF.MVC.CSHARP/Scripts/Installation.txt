@@ -1,0 +1,2 @@
+﻿System.Windows.Baml2006.TypeConvererMarkupExtension
+ - Install BlendWPFSDK_en
