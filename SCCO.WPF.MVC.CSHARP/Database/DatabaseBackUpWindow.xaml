@@ -101,47 +101,6 @@
         				Style="{StaticResource ControlButton}" />
         		</Grid>
         	</StackPanel>
-        	<Border Height="24"/>
-        	<StackPanel x:Name="Restore" Orientation="Vertical">
-        		<Grid Width="400"
-        			Height="86">
-        			<Grid.RowDefinitions>
-        				<RowDefinition Height="Auto" />
-        				<RowDefinition Height="*" />
-        				<RowDefinition Height="Auto" />
-        			</Grid.RowDefinitions>
-        			<StackPanel>
-        				<Label x:Name="lblBackupFolder1"
-        					Margin="0,0,0,4"
-        					VerticalContentAlignment="Center"
-        					Content="Restore From File"
-        					Foreground="White"
-        					Padding="0" />
-        				<Grid>
-        					<Grid.ColumnDefinitions>
-        						<ColumnDefinition Width="*" />
-        						<ColumnDefinition Width="4" />
-        						<ColumnDefinition Width="Auto" />
-        					</Grid.ColumnDefinitions>
-        					<TextBox x:Name="txtBackupFile"
-        						BorderBrush="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}"
-        						IsReadOnly="True"
-        						IsTabStop="False"
-        						Style="{StaticResource RoundedTextBox}" />
-        					<Button x:Name="BackupFilePicker"
-        						Grid.Column="2"
-        						Width="25" Content="..."
-        						Style="{StaticResource ControlButton}"
-        						TabIndex="1"
-        						UseLayoutRounding="False" />
-        				</Grid>
-        			</StackPanel>
-        			<Button x:Name="RestoreButton"
-        				Grid.Row="2"
-        				HorizontalAlignment="Right" Content="Restore"
-        				Style="{StaticResource ControlButton}" />
-        		</Grid>
-        	</StackPanel>
         </StackPanel>
     </Grid>
 </Views:BaseWindow>

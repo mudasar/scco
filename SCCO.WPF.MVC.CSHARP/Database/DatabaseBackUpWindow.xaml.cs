@@ -13,31 +13,6 @@ namespace SCCO.WPF.MVC.CS.Database
         public BackUpDatabaseWindow()
         {
             InitializeComponent();
-
-            BackupFilePicker.Click += (sender, args) =>
-                {
-                    var myFilePicker = new OpenFileDialog
-                        {
-                            Filter = @"SQL Dump File (*.sql)|*.sql|All files (*.*)|*.*",
-                        };
-                    if (myFilePicker.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                        txtBackupFile.Text = myFilePicker.FileName;
-                };
-
-            RestoreButton.Click += (sender, args) =>
-                {
-                    if (String.IsNullOrEmpty(txtBackupFile.Text))
-                    {
-                        MessageWindow.ShowAlertMessage("Please select a backup file.");
-                        return;
-                    }
-
-                    Controllers.Result result = DatabaseUtility.Restore(txtBackupFile.Text);
-                    if (result.Success)
-                        MessageWindow.ShowNotifyMessage(result.Message);
-                    else
-                        MessageWindow.ShowAlertMessage(result.Message);
-                };
         }
 
         private void BackUp()
