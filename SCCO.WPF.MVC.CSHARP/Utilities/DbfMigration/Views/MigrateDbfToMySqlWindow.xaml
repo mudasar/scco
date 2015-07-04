@@ -1,0 +1,114 @@
+﻿<views:BaseWindow x:Class="SCCO.WPF.MVC.CS.Utilities.DbfMigration.Views.MigrateDbfToMySqlWindow"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                  xmlns:views="clr-namespace:SCCO.WPF.MVC.CS.Views"
+                  Title="{Binding Content,
+                                  ElementName=FormTitle}"
+                  AllowsTransparency="True"
+                  Background="{x:Null}"
+                  Icon="{Binding Source,
+                                 ElementName=WindowIcon}"
+                  ResizeMode="NoResize"
+                  SizeToContent="WidthAndHeight"
+                  WindowStartupLocation="CenterScreen"
+                  WindowStyle="None"
+                  mc:Ignorable="d">
+    <Grid Margin="5">
+        <Grid x:Name="FormLayout">
+            <Rectangle x:Name="Canvass"
+                       Fill="#FFD40000"
+                       RadiusX="5"
+                       RadiusY="5"
+                       Stroke="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"
+                       StrokeLineJoin="Round">
+                <Rectangle.Effect>
+                    <DropShadowEffect BlurRadius="5" ShadowDepth="0" />
+                </Rectangle.Effect>
+            </Rectangle>
+            <Border x:Name="ShineEffect"
+                    Height="16"
+                    Margin="2,2,2,0"
+                    VerticalAlignment="Top"
+                    CornerRadius="4"
+                    MouseLeftButtonDown="DragWindow"
+                    Style="{StaticResource ShineEffectStyle}" />
+            <Image x:Name="WindowIcon"
+                   Width="24"
+                   Height="24"
+                   Margin="10,10,0,0"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top"
+                   Source="/SCCO.WPF.MVC.CS;component/Images/data_backup.png"
+                   Stretch="Fill" />
+            <Label x:Name="FormTitle"
+                   Margin="34,10,0,0"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top"
+                   VerticalContentAlignment="Center"
+                   Content="Migrate From DBF"
+                   FontFamily="Segoe UI"
+                   FontSize="13.333"
+                   FontWeight="SemiBold"
+                   Foreground="White"
+                   MouseLeftButtonDown="DragWindow"
+                   Style="{DynamicResource FormTitle2}" />
+            <Button x:Name="CloseButton"
+                    Margin="0,8,8,0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Background="#00E4D2D2"
+                    Click="CloseWindow"
+                    Content="x"
+                    IsCancel="True"
+                    IsTabStop="False"
+                    Style="{StaticResource CloseButton}" />
+        </Grid>
+        <StackPanel Margin="40,60,20,20"
+                    VerticalAlignment="Top"
+                    Orientation="Vertical" Width="360">
+            <StackPanel x:Name="DataPanel" Orientation="Vertical">
+            	<StackPanel x:Name="BrowseDataFolderPanel" Height="47.6">
+            		<Label Margin="0,0,0,4"
+            			VerticalContentAlignment="Center"
+            			Content="DATA folder"
+            			Foreground="White"
+            			Padding="0" />
+            		<Grid>
+            			<Grid.ColumnDefinitions>
+            				<ColumnDefinition Width="*" />
+            				<ColumnDefinition Width="4" />
+            				<ColumnDefinition Width="Auto" />
+            			</Grid.ColumnDefinitions>
+            			<TextBox x:Name="BackupFolder"
+            				BorderBrush="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}"
+            				IsReadOnly="True"
+            				IsTabStop="False"
+            				Style="{StaticResource RoundedTextBox}" />
+            			<Button x:Name="FolderPickerButton"
+            				Grid.Column="2"
+            				Width="25"
+            				Click="FolderPickerButtonOnClick"
+            				Content="..."
+            				Style="{StaticResource ControlButton}"
+            				TabIndex="1"
+            				UseLayoutRounding="False" />
+            		</Grid>
+            	</StackPanel>
+				<StackPanel Margin="0,12,0,0">
+					<CheckBox x:Name="CashVoucherCheckBox" Content="Cash Voucher" Style="{DynamicResource ControlCheckBox}"/>
+					<CheckBox x:Name="JournalVoucherCheckBox" Content="Journal Voucher" Style="{DynamicResource ControlCheckBox}"/>
+					<CheckBox x:Name="OfficialReceiptCheckBox" Content="Official Receipt" Style="{DynamicResource ControlCheckBox}"/>
+					<CheckBox x:Name="OfficialReceiptCheckBox_Copy" Content="Truncate tables in the server before migrating" Style="{DynamicResource ControlCheckBox}" Margin="0,6,0,2"/>
+					
+				</StackPanel>
+				<StackPanel HorizontalAlignment="Right" Orientation="Vertical" Width="100" Margin="0,12,0,0">
+					<Button x:Name="MigrateDataButton"
+						Content="Migrate Data"
+						Style="{StaticResource ControlButton}" d:LayoutOverrides="Height" Width="Auto" />
+				</StackPanel>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</views:BaseWindow>

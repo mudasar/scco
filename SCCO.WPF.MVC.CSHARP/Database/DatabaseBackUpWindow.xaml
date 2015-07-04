@@ -39,7 +39,7 @@
                    HorizontalAlignment="Left"
                    VerticalAlignment="Top"
                    VerticalContentAlignment="Center"
-                   Content="Database Backup and Restore"
+                   Content="Database Backup"
                    FontFamily="Segoe UI"
                    FontSize="13.333"
                    FontWeight="SemiBold"

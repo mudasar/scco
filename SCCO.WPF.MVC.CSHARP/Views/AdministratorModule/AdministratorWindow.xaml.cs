@@ -2,6 +2,7 @@
 using System.Windows;
 using SCCO.WPF.MVC.CS.Database;
 using SCCO.WPF.MVC.CS.Models.Loan;
+using SCCO.WPF.MVC.CS.Utilities.DbfMigration.Views;
 
 namespace SCCO.WPF.MVC.CS.Views.AdministratorModule
 {
@@ -19,7 +20,11 @@ namespace SCCO.WPF.MVC.CS.Views.AdministratorModule
 
             UnearnedInterestFromLoansButton.Click += UnearnedInterestFromLoansButtonOnClick;
 
-            BackupDatabaseButton.Click += BackupDatabaseButtonOnClick;
+            BackupDatabaseButton.Click += (sender, args) =>
+                {
+                    var view = new BackUpDatabaseWindow();
+                    view.ShowDialog();
+                };
 
             DividendDistributionButton.Click += (sender, args) =>
                 {
@@ -38,14 +43,12 @@ namespace SCCO.WPF.MVC.CS.Views.AdministratorModule
                     var view = new UpdateBeginningBalanceWindow();
                     view.ShowDialog();
                 };
-        }
 
-
-
-        private void BackupDatabaseButtonOnClick(object sender, RoutedEventArgs routedEventArgs)
-        {
-            var view = new BackUpDatabaseWindow();
-            view.ShowDialog();
+            MigrateFromDbfButton.Click += (sender, args) =>
+            {
+                var view = new MigrateDbfToMySqlWindow();
+                view.ShowDialog();
+            };
         }
 
         private void UnearnedInterestFromLoansButtonOnClick(object sender, RoutedEventArgs routedEventArgs)

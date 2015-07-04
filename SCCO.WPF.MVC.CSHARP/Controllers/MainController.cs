@@ -3,6 +3,7 @@ using System.Linq;
 using System.Windows;
 using SCCO.WPF.MVC.CS.Database;
 using SCCO.WPF.MVC.CS.Models;
+using SCCO.WPF.MVC.CS.Utilities.DbfMigration.Views;
 using SCCO.WPF.MVC.CS.Views;
 using SCCO.WPF.MVC.CS.Views.AccountVerifierModule;
 using SCCO.WPF.MVC.CS.Views.AdministratorModule;
@@ -62,7 +63,7 @@ namespace SCCO.WPF.MVC.CS.Controllers
                 MessageWindow.ShowAlertMessage("This module is not available for current user.");
                 return;
             }
-            var backUpDataBaseWindow = new BackUpDatabaseWindow();
+            var backUpDataBaseWindow = new MigrateDbfToMySqlWindow();
             backUpDataBaseWindow.Show();
         }
 

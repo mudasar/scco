@@ -428,6 +428,13 @@
     <Compile Include="Resources\AccountNatureConverter.cs" />
     <Compile Include="Resources\CharBooleanConverter.cs" />
     <Compile Include="Utilities\DataTableHelper.cs" />
+    <Compile Include="Utilities\DbfMigration\Interface.cs" />
+    <Compile Include="Utilities\DbfMigration\Views\MigrateDbfToMySqlWindow.xaml.cs">
+      <DependentUpon>MigrateDbfToMySqlWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Utilities\DbfMigration\Views\MigrationProgessWindow.xaml.cs">
+      <DependentUpon>MigrationProgessWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\AccountModule\AccountCategoryView.xaml.cs">
       <DependentUpon>AccountCategoryView.xaml</DependentUpon>
     </Compile>
@@ -845,6 +852,14 @@
     <Page Include="Database\DatabaseConfigurationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Utilities\DbfMigration\Views\MigrateDbfToMySqlWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Utilities\DbfMigration\Views\MigrationProgessWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountModule\AccountCategoryView.xaml">
       <SubType>Designer</SubType>
