@@ -23,7 +23,8 @@ namespace SCCO.WPF.MVC.CS.Utilities.DbfMigration.Views
 
         private void MigrateFromDbf()
         {
-            if (String.IsNullOrEmpty(BackupFolder.Text))
+            var dbfLocation = DbfLocationTextBox.Text;
+            if (String.IsNullOrEmpty(dbfLocation))
             {
                 MessageWindow.ShowAlertMessage("Please select a folder.");
                 return;
@@ -31,22 +32,62 @@ namespace SCCO.WPF.MVC.CS.Utilities.DbfMigration.Views
 
             if (!ConfirmAction()) return;
 
+            if (!TruncateTables()) return;
+
             var loggedYear = Controllers.MainController.LoggedUser.TransactionDate.Year;
-            var dataFolderList = GetDataFolderList(BackupFolder.Text, loggedYear);
-            if (dataFolderList == null) return;
-            if (!dataFolderList.Any())
+
+            var queuedTables = new Queue<FileInfo>();
+            
+            var dataFolderList = GetDataFolderList(DbfLocationTextBox.Text, loggedYear);
+            foreach (var folder in dataFolderList)
             {
-                MessageWindow.ShowAlertMessage("No folders found for db files.");
+                if (CashVoucherCheckBox.IsChecked == true)
+                {
+                    queuedTables.Enqueue(new FileInfo(Path.Combine(folder, "cv.dbf")));
+                }
+
+                if (JournalVoucherCheckBox.IsChecked == true)
+                {
+                    queuedTables.Enqueue(new FileInfo(Path.Combine(folder, "jv.dbf")));
+                }
+
+                if (OfficialReceiptCheckBox.IsChecked == true)
+                {
+                    queuedTables.Enqueue(new FileInfo(Path.Combine(folder, "or.dbf")));
+                }
+            }
+            if (!queuedTables.Any())
+            {
+                MessageWindow.ShowAlertMessage("No db files to migrate.");
                 return;
             }
 
-            var progressWindow = new MigrationProgessWindow(dataFolderList, GetTablesToMigrate());
+            var progressWindow = new MigrationProgessWindow(queuedTables);
             progressWindow.ShowDialog();
         }
 
-        private static List<string> GetDataFolderList(string dataFolder, int year)
+        private bool TruncateTables()
         {
-            var rootFolder = Path.Combine(dataFolder, year.ToString());
+            if (TruncateTableCheckBox.IsChecked == false) return true;
+
+            if (CashVoucherCheckBox.IsChecked == true)
+            {
+                if (!MigrationHelper.TruncateTable("cv")) return false;
+            }
+            if (JournalVoucherCheckBox.IsChecked == true)
+            {
+                if (!MigrationHelper.TruncateTable("jv")) return false;
+            }
+            if (OfficialReceiptCheckBox.IsChecked == true)
+            {
+                if (!MigrationHelper.TruncateTable("or")) return false;
+            }
+            return true;
+        }
+
+        private static IEnumerable<string> GetDataFolderList(string dataFolder, int year)
+        {
+            var rootFolder = Path.Combine(dataFolder, "data", year.ToString());
             var foldersList = new List<string>();
 
             for (int i = 0; i < 12; i++)
@@ -77,7 +118,7 @@ namespace SCCO.WPF.MVC.CS.Utilities.DbfMigration.Views
         {
             var myFolderBrowser = new FolderBrowserDialog {Description = @"Select a Folder", ShowNewFolderButton = true};
             if (myFolderBrowser.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                BackupFolder.Text = myFolderBrowser.SelectedPath;
+                DbfLocationTextBox.Text = myFolderBrowser.SelectedPath;
             }
 
         private void FolderPickerButtonOnClick(object sender, RoutedEventArgs e)
@@ -85,25 +126,5 @@ namespace SCCO.WPF.MVC.CS.Utilities.DbfMigration.Views
             BrowseFolder();
         }
 
-        private List<string> GetTablesToMigrate()
-        {
-            var tables = new List<string>();
-            if (CashVoucherCheckBox.IsChecked == true)
-            {
-                tables.Add("cv");
-            }
-
-            if (JournalVoucherCheckBox.IsChecked == true)
-            {
-                tables.Add("jv");
-            }
-
-            if (OfficialReceiptCheckBox.IsChecked == true)
-            {
-                tables.Add("or");
-            }
-
-            return tables;
-        }
     }
 }

@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "SCCO Accounting System"
-#define MyAppVersion "2.1.2.0"
+#define MyAppVersion "2.1.2.3"
 #define MyAppPublisher "Sta. Cruz Savings and Credit Cooperative"
 #define MyAppURL "https://www.facebook.com/pages/Sta-Cruz-Savings-Credit-Cooperative/141420875904329/"
 #define MyAppExeName "SCCO.WPF.MVC.CS.exe"
@@ -21,8 +21,8 @@ AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
 DefaultDirName={pf}\{#MyAppName}
 DefaultGroupName={#MyAppName}
-OutputBaseFilename=SCCO Accounting System 2.1.2.0 Setup
-SetupIconFile=F:\Projects\accounting_system\SCCO.WPF.MVC.CSHARP\chart.ico
+OutputBaseFilename=SCCO Accounting System 2.1.2.3 Setup
+SetupIconFile=F:\github\scco\SCCO.WPF.MVC.CSHARP\chart.ico
 Compression=lzma
 SolidCompression=yes
 
@@ -35,17 +35,17 @@ Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescrip
 
 [Files]
 ; Accounting System
-Source: "F:\Projects\accounting_system\SCCO.WPF.MVC.CSHARP\bin\Debug\SCCO.WPF.MVC.CS.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "F:\Projects\accounting_system\SCCO.WPF.MVC.CSHARP\bin\Debug\SCCO.WPF.MVC.CS.exe.config"; DestDir: "{app}"; Flags: ignoreversion
+Source: "F:\github\scco\SCCO.WPF.MVC.CSHARP\bin\Debug\SCCO.WPF.MVC.CS.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "F:\github\scco\SCCO.WPF.MVC.CSHARP\bin\Debug\SCCO.WPF.MVC.CS.exe.config"; DestDir: "{app}"; Flags: ignoreversion
 
 ; Crystal Reports
-Source: "F:\Projects\accounting_system\SCCO.WPF.MVC.CSHARP\bin\Debug\CrystalDecisions.CrystalReports.Engine.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "F:\Projects\accounting_system\SCCO.WPF.MVC.CSHARP\bin\Debug\CrystalDecisions.Shared.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "F:\Projects\accounting_system\SCCO.WPF.MVC.CSHARP\bin\Debug\SAPBusinessObjects.WPF.Viewer.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "F:\Projects\accounting_system\SCCO.WPF.MVC.CSHARP\bin\Debug\ReportFiles\*.*"; DestDir: "{app}\ReportFiles"; Flags:replacesameversion
+Source: "F:\github\scco\SCCO.WPF.MVC.CSHARP\bin\Debug\CrystalDecisions.CrystalReports.Engine.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "F:\github\scco\SCCO.WPF.MVC.CSHARP\bin\Debug\CrystalDecisions.Shared.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "F:\github\scco\SCCO.WPF.MVC.CSHARP\bin\Debug\SAPBusinessObjects.WPF.Viewer.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "F:\github\scco\SCCO.WPF.MVC.CSHARP\bin\Debug\ReportFiles\*.*"; DestDir: "{app}\ReportFiles"; Flags:replacesameversion
 
 ; MySQL
-Source: "F:\Projects\accounting_system\SCCO.WPF.MVC.CSHARP\bin\Debug\mysql.data.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "F:\github\scco\SCCO.WPF.MVC.CSHARP\bin\Debug\mysql.data.dll"; DestDir: "{app}"; Flags: ignoreversion
 
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 

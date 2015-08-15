@@ -2,10 +2,11 @@
 using System.Data;
 using System.Data.OleDb;
 using System.IO;
+using SCCO.WPF.MVC.CS.Database;
 
 namespace SCCO.WPF.MVC.CS.Utilities.DbfMigration
 {
-    public static class Interface
+    public static class MigrationHelper
     {
         public static DataTable OpenFile(string fileName)
         {
@@ -54,6 +55,12 @@ namespace SCCO.WPF.MVC.CS.Utilities.DbfMigration
             }
 
             return null;
+        }
+
+        public static bool TruncateTable(string table)
+        {
+            var truncateTable = string.Format("TRUNCATE TABLE `{0}`", table);
+            return DatabaseController.ExecuteNonQuery(truncateTable) >= 0;
         }
     }
 }

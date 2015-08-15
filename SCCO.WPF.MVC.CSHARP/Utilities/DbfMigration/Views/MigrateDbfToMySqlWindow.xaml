@@ -72,7 +72,7 @@
             	<StackPanel x:Name="BrowseDataFolderPanel" Height="47.6">
             		<Label Margin="0,0,0,4"
             			VerticalContentAlignment="Center"
-            			Content="DATA folder"
+            			Content="DBF Location"
             			Foreground="White"
             			Padding="0" />
             		<Grid>
@@ -81,7 +81,7 @@
             				<ColumnDefinition Width="4" />
             				<ColumnDefinition Width="Auto" />
             			</Grid.ColumnDefinitions>
-            			<TextBox x:Name="BackupFolder"
+            			<TextBox x:Name="DbfLocationTextBox"
             				BorderBrush="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}"
             				IsReadOnly="True"
             				IsTabStop="False"
@@ -100,7 +100,7 @@
 					<CheckBox x:Name="CashVoucherCheckBox" Content="Cash Voucher" Style="{DynamicResource ControlCheckBox}"/>
 					<CheckBox x:Name="JournalVoucherCheckBox" Content="Journal Voucher" Style="{DynamicResource ControlCheckBox}"/>
 					<CheckBox x:Name="OfficialReceiptCheckBox" Content="Official Receipt" Style="{DynamicResource ControlCheckBox}"/>
-					<CheckBox x:Name="OfficialReceiptCheckBox_Copy" Content="Truncate tables in the server before migrating" Style="{DynamicResource ControlCheckBox}" Margin="0,6,0,2"/>
+					<CheckBox x:Name="TruncateTableCheckBox" Content="Truncate tables in the server before migrating" Style="{DynamicResource ControlCheckBox}" Margin="0,6,0,2"/>
 					
 				</StackPanel>
 				<StackPanel HorizontalAlignment="Right" Orientation="Vertical" Width="100" Margin="0,12,0,0">

@@ -428,7 +428,7 @@
     <Compile Include="Resources\AccountNatureConverter.cs" />
     <Compile Include="Resources\CharBooleanConverter.cs" />
     <Compile Include="Utilities\DataTableHelper.cs" />
-    <Compile Include="Utilities\DbfMigration\Interface.cs" />
+    <Compile Include="Utilities\DbfMigration\Helper.cs" />
     <Compile Include="Utilities\DbfMigration\Views\MigrateDbfToMySqlWindow.xaml.cs">
       <DependentUpon>MigrateDbfToMySqlWindow.xaml</DependentUpon>
     </Compile>

@@ -14,20 +14,19 @@ namespace SCCO.WPF.MVC.CS.Utilities.DbfMigration.Views
 		{
 			InitializeComponent();
 			InitializeWorker();
-			// Insert code required on object creation below this point.
 		}
 
-        public MigrationProgessWindow(List<string> dataFolderList, List<string> tablesToMigrate):this()
+        public MigrationProgessWindow(Queue<FileInfo> tablesForMigration)
+            : this()
         {
-            _dataFolderList = dataFolderList;
-            _tablesToMigrate = tablesToMigrate;
-            OverallProgressBar.Maximum = _dataFolderList.Count*_tablesToMigrate.Count;
+            _tablesForMigration = tablesForMigration;
+            OverallProgressBar.Maximum = tablesForMigration.Count;
 
             _worker.RunWorkerAsync();
         }
 
-	    private readonly List<string> _dataFolderList;
-	    private readonly List<string> _tablesToMigrate;
+        private readonly Queue<FileInfo> _tablesForMigration;
+
         private readonly BackgroundWorker _worker = new BackgroundWorker();
 	    private int _overallProgressCounter;
 
@@ -37,6 +36,7 @@ namespace SCCO.WPF.MVC.CS.Utilities.DbfMigration.Views
             _worker.RunWorkerCompleted += WorkerOnRunWorkerCompleted;
             _worker.ProgressChanged += WorkerOnProgressChanged;
             _worker.WorkerReportsProgress = true;
+            _worker.WorkerSupportsCancellation = true;
             CurrentActionProgressBar.Maximum = 100;
         }
 
@@ -46,69 +46,90 @@ namespace SCCO.WPF.MVC.CS.Utilities.DbfMigration.Views
             OverallProgressBar.Value = _overallProgressCounter;
         }
 
-        private void WorkerOnRunWorkerCompleted(object sender, RunWorkerCompletedEventArgs runWorkerCompletedEventArgs)
+        private void WorkerOnRunWorkerCompleted(object s, RunWorkerCompletedEventArgs e)
         {
-            MessageWindow.ShowNotifyMessage("Process Complete!");
+            if (e.Error != null)
+            {
+                MessageWindow.ShowAlertMessage(e.Error.Message);
+            }
+            else if (e.Cancelled)
+            {
+                MessageWindow.ShowAlertMessage("Processing was cancelled.");
+            }
+            else
+            {
+                MessageWindow.ShowNotifyMessage("Processing complete.");
+            }            
             Close();
         }
 
-        private void WorkerOnDoWork(object sender, DoWorkEventArgs doWorkEventArgs)
-        {
-            var dataFolderList = _dataFolderList;
-            var tables = _tablesToMigrate;
-            _overallProgressCounter = 0;
-            foreach (var dataFolder in dataFolderList)
-            {
-                foreach (var tablePathName in tables)
+	    private void WorkerOnDoWork(object sender, DoWorkEventArgs doWorkEventArgs)
+	    {
+	        _overallProgressCounter = 0;
+	        var totalErrors = 0;
+	        while (_tablesForMigration.Count > 0)
+	        {
+                var tableInfo = _tablesForMigration.Dequeue();
+                var dbFile = tableInfo.FullName;
+
+                #region -- migrate table to mysql ---
+
+                try
                 {
-                    var dbFile = Path.Combine(dataFolder, Path.ChangeExtension(tablePathName, ".dbf"));
-                    try
+                    System.Data.DataTable table = MigrationHelper.OpenFile(dbFile);
+                    if(table == null) { throw new Exception(string.Format("Unable to open {0}.", dbFile));}
+                    var totalRecords = table.Rows.Count;
+                    int counter = 0;
+                    foreach (System.Data.DataRow dataRow in table.Rows)
                     {
-                        System.Data.DataTable table = Interface.OpenFile(dbFile);
-                        var totalRecords = table.Rows.Count;
-                        int counter = 0;
-                        foreach (System.Data.DataRow dataRow in table.Rows)
+                        var paramList = new List<SqlParameter>();
+                        var fieldNames = new List<string>();
+                        var fieldParams = new List<string>();
+
+                        foreach (System.Data.DataColumn column in table.Columns)
                         {
-                            var paramList = new List<SqlParameter>();
-                            var fieldNames = new List<string>();
-                            var fieldParams = new List<string>();
+                            var defaultFieldValue = MigrationHelper.GetDefaultFieldValue(dataRow[column], column.DataType);
+                            if (defaultFieldValue == null)
+                                continue;
 
-                            foreach (System.Data.DataColumn column in table.Columns)
-                            {
-                                var defaultFieldValue = Interface.GetDefaultFieldValue(dataRow[column], column.DataType);
-                                if (defaultFieldValue == null)
-                                    continue;
-
-                                var fieldParam = "?" + column.ColumnName;
-                                paramList.Add(new SqlParameter(fieldParam, defaultFieldValue));
-                                fieldNames.Add("`" + column.ColumnName + "`");
-                                fieldParams.Add(fieldParam);
-                            }
-
-                            var tableName = Path.GetFileNameWithoutExtension(dbFile);
-                            var sqlBuilder = new StringBuilder();
-                            sqlBuilder.AppendLine(string.Format("INSERT INTO `{0}`", tableName));
-                            sqlBuilder.AppendLine(string.Format("({0})", string.Join(", ", fieldNames)));
-                            sqlBuilder.AppendLine(string.Format("VALUES ({0})", string.Join(", ", fieldParams)));
-                            DatabaseController.ExecuteInsertQuery(sqlBuilder.ToString(), paramList.ToArray());
-                            counter++;
-                            var percent = (int)(counter * (100m / totalRecords));
-                            _worker.ReportProgress(percent);
+                            var fieldParam = "?" + column.ColumnName;
+                            paramList.Add(new SqlParameter(fieldParam, defaultFieldValue));
+                            fieldNames.Add("`" + column.ColumnName + "`");
+                            fieldParams.Add(fieldParam);
                         }
-                        _overallProgressCounter++;
+
+                        var tableName = Path.GetFileNameWithoutExtension(dbFile);
+                        var sqlBuilder = new StringBuilder();
+                        sqlBuilder.AppendLine(string.Format("INSERT INTO `{0}`", tableName));
+                        sqlBuilder.AppendLine(string.Format("({0})", string.Join(", ", fieldNames)));
+                        sqlBuilder.AppendLine(string.Format("VALUES ({0})", string.Join(", ", fieldParams)));
+                        DatabaseController.ExecuteInsertQuery(sqlBuilder.ToString(), paramList.ToArray());
+                        counter++;
+                        var percent = (int)(counter * (100m / totalRecords));
+                        _worker.ReportProgress(percent);
                     }
-                    catch (Exception ex)
+                    _overallProgressCounter++;
+                }
+                catch (Exception ex)
+                {
+                    totalErrors++;
+                    Logger.ExceptionLogger(this, ex);
+                    MessageWindow.ShowAlertMessage(ex.Message);
+                    _tablesForMigration.Enqueue(tableInfo);
+                    if (totalErrors > 10)
                     {
-                        Logger.ExceptionLogger(this, ex);
-                        MessageWindow.ShowAlertMessage(ex.Message);
+                        _worker.CancelAsync();
                     }
                 }
-            }
-            // Update JV Docnum (+1000) to make it unique
-            UpdateJournalVoucherDocumentNumber();
-        }
 
-        private void UpdateJournalVoucherDocumentNumber()
+                #endregion -- end migrate table to mysql --
+
+	        }
+	       
+	        UpdateJournalVoucherDocumentNumber();
+	    }
+
+	    private void UpdateJournalVoucherDocumentNumber()
         {
             const string sql = "UPDATE `jv` SET DOC_NUM = DOC_NUM + (1000 * MONTH(DOC_DATE)) WHERE DOC_NUM < 1000";
             DatabaseController.ExecuteNonQuery(sql);
