@@ -3,9 +3,6 @@
    - affects accounting system exe file
    - affects sp_account_details stored procedure
 
-TODO:
-- Include a module for updating end_balances and moving to next year's beginning balance
-- Include a module for update financial report setup
-
-TODO:
-- create a HotForms to change database password
+2015-08-25
+- Unearned Interest From Loan Processing
+  - do not include loans if term is one month or less

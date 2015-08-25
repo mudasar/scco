@@ -2,6 +2,7 @@
 using SCCO.WPF.MVC.CS.Controllers;
 using SCCO.WPF.MVC.CS.Models.Loan;
 using System.Linq;
+using System;
 
 namespace SCCO.WPF.MVC.CS.Views.AdministratorModule
 {
@@ -52,17 +53,16 @@ namespace SCCO.WPF.MVC.CS.Views.AdministratorModule
             foreach (var loan in loanAccounts)
             {
                 // process only active
-                if (loan.EndingBalance > 0)
+                if (loan.EndingBalance <= 0) continue;
+                // do not process overdue
+                if (loan.MaturityDate < asOf) continue;
+                // do not process loan if term is one month or less
+                if ((loan.MaturityDate - loan.GrantedDate).TotalDays <= 31) continue;
+
+                var memberCode = loan.MemberCode;
+                if(unearnedIncomes.Any(ui => ui.MemberCode == memberCode))
                 {
-                    // do not process overdue
-                    if(loan.MaturityDate >= asOf)
-                    {
-                        var memberCode = loan.MemberCode;
-                        if(unearnedIncomes.Any(ui => ui.MemberCode == memberCode))
-                        {
-                            Collection.Add(loan);
-                        }
-                    }
+                    Collection.Add(loan);
                 }
             }
         }
