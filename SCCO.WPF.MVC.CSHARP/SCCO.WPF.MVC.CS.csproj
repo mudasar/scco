@@ -126,6 +126,7 @@
     </Compile>
     <Compile Include="Models\AModelBase.cs" />
     <Compile Include="Models\Budget.cs" />
+    <Compile Include="Models\FinancialConditionReportConfiguration.cs" />
     <Compile Include="Models\GeneralLedgerBalance.cs" />
     <Compile Include="Models\GlobalSettings.cs" />
     <Compile Include="Models\Collections\Collections.cs" />
@@ -457,8 +458,22 @@
     <Compile Include="Views\AccountVerifierModule\AccountVerifierGLWindow.xaml.cs">
       <DependentUpon>AccountVerifierGLWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\FinancialConditionReportConfigurationModule\AddItemView.xaml.cs">
+      <DependentUpon>AddItemView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\AdministratorModule\AdministratorWindow.xaml.cs">
       <DependentUpon>AdministratorWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FinancialConditionReportConfigurationModule\EditItemView.xaml.cs">
+      <DependentUpon>EditItemView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FinancialConditionReportConfigurationModule\ListItemsView.xaml.cs">
+      <DependentUpon>ListItemsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FinancialConditionReportConfigurationModule\ViewModel.cs" />
+    <Compile Include="Views\ForwardedBalanceModule\AddForwardedBalanceView.xaml.cs">
+      <DependentUpon>AddForwardedBalanceView.xaml</DependentUpon>
+      <SubType>Code</SubType>
     </Compile>
     <Compile Include="Views\InitialSetupModule\BranchNameSetupWindow.xaml.cs">
       <DependentUpon>BranchNameSetupWindow.xaml</DependentUpon>
@@ -509,9 +524,6 @@
     </Compile>
     <Compile Include="Views\CompanyView.xaml.cs">
       <DependentUpon>CompanyView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ForwardedBalanceModule\AddForwardedBalanceView.xaml.cs">
-      <DependentUpon>AddForwardedBalanceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ForwardedBalanceModule\ForwardedBalanceViewModel.cs" />
     <Compile Include="Views\BranchModule\AddBranchView.xaml.cs">
@@ -882,7 +894,23 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\FinancialConditionReportConfigurationModule\AddItemView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\AdministratorModule\AdministratorWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FinancialConditionReportConfigurationModule\EditItemView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\FinancialConditionReportConfigurationModule\ListItemsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ForwardedBalanceModule\AddForwardedBalanceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -989,10 +1017,6 @@
     <Page Include="Views\DepartmentModule\EditDepartmentView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\ForwardedBalanceModule\AddForwardedBalanceView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\GeneralLedgerBalanceModule\GeneralLedgerBalanceView.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -1670,6 +1694,7 @@
     <Content Include="Scripts\time_deposit_products.sql" />
     <Resource Include="VersionManager.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Resource>
     <Resource Include="Scripts\mysql_set_max_allowed_packet.txt" />
     <Resource Include="Images\calc_icon_24.png" />

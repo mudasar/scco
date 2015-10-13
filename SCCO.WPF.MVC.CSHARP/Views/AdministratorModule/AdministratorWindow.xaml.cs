@@ -1,7 +1,5 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using SCCO.WPF.MVC.CS.Database;
-using SCCO.WPF.MVC.CS.Models.Loan;
 using SCCO.WPF.MVC.CS.Utilities.DbfMigration.Views;
 
 namespace SCCO.WPF.MVC.CS.Views.AdministratorModule
@@ -45,10 +43,16 @@ namespace SCCO.WPF.MVC.CS.Views.AdministratorModule
                 };
 
             MigrateFromDbfButton.Click += (sender, args) =>
-            {
-                var view = new MigrateDbfToMySqlWindow();
-                view.ShowDialog();
-            };
+                {
+                    var view = new MigrateDbfToMySqlWindow();
+                    view.ShowDialog();
+                };
+
+            FinancialConditionReportConfigurationButton.Click += (sender, args) =>
+                {
+                    var view = new FinancialConditionReportConfigurationModule.ListItemsView();
+                    view.ShowDialog();
+                };
         }
 
         private void UnearnedInterestFromLoansButtonOnClick(object sender, RoutedEventArgs routedEventArgs)

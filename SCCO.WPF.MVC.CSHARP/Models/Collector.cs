@@ -118,9 +118,9 @@ namespace SCCO.WPF.MVC.CS.Models
 
         public void SetPropertiesFromDataRow(DataRow dataRow)
         {
-            ID = Convert.ToInt32(dataRow["ID"]);
-            CollectorName = (string)dataRow["CollectorName"];
-            UserId = Convert.ToInt32(dataRow["UserId"]);
+            ID = Utilities.DataConverter.ToInteger(dataRow["ID"]);
+            CollectorName = Utilities.DataConverter.ToString(dataRow["CollectorName"]);
+            UserId = Utilities.DataConverter.ToInteger(dataRow["UserId"]);
         }
 
         #endregion
