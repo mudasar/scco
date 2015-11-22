@@ -245,12 +245,26 @@ namespace SCCO.WPF.MVC.CS.Models.AccountVerifier
             string certificateNo, 
             DateTime asOf)
         {
-            var sqlParams = new SqlParameter[4];
-            sqlParams[0] = new SqlParameter("ts_member_code", memberCode);
-            sqlParams[1] = new SqlParameter("ts_account_code", accountCode);
-            sqlParams[2] = new SqlParameter("ts_certificate_no", certificateNo);
-            sqlParams[3] = new SqlParameter("td_as_of", asOf);
-            var dataTable = DatabaseController.ExecuteStoredProcedure("sp_account_details", sqlParams);
+            var sqlParams = new List<SqlParameter>
+                {
+                    new SqlParameter("ts_member_code", memberCode),
+                    new SqlParameter("ts_account_code", accountCode),
+                    new SqlParameter("ts_certificate_no", certificateNo),
+                    new SqlParameter("td_as_of", asOf)
+                };
+            DataTable dataTable;
+            if (AccountHelper.IsOpeningYear(asOf))
+            {
+                sqlParams.Add(new SqlParameter("ts_present_database", DatabaseController.GetDatabaseByYear(asOf.Year)));
+                sqlParams.Add(new SqlParameter("ts_previous_database",
+                                               DatabaseController.GetDatabaseByYear(asOf.Year - 1)));
+                dataTable = DatabaseController.ExecuteStoredProcedure("sp_account_details_opening_year", sqlParams.ToArray());
+            }
+            else
+            {
+                dataTable = DatabaseController.ExecuteStoredProcedure("sp_account_details", sqlParams.ToArray());
+            }
+            
 
             var result = new List<AccountDetail>();
             foreach (DataRow dataRow in dataTable.Rows)

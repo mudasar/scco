@@ -6,3 +6,8 @@
 2015-08-25
 - Unearned Interest From Loan Processing
   - do not include loans if term is one month or less
+
+2.1.2.6
+- 2015-11-22
+- Account Verifier - combine transactions from previous year
+  - Global Transaction Month and Transaction Month is January

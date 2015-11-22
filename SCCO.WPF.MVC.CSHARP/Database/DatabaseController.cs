@@ -451,5 +451,11 @@ namespace SCCO.WPF.MVC.CS.Database
             };
             SharedDbConnection = new MySqlConnection(connectionBuilder.ToString());
         }
+
+        internal static string GetDatabaseByYear(int year)
+        {
+            return string.Format("{0}_{1}_{2}", Settings.Default.BranchName, year,
+                                 Settings.Default.DatabaseEnvironment).ToLower();
+        }
     }
 }

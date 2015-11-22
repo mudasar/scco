@@ -124,6 +124,7 @@
     <Compile Include="Database\DatabaseConfigurationView.xaml.cs">
       <DependentUpon>DatabaseConfigurationView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\AccountVerifier\AccountHelper.cs" />
     <Compile Include="Models\AModelBase.cs" />
     <Compile Include="Models\Budget.cs" />
     <Compile Include="Models\FinancialConditionReportConfiguration.cs" />
