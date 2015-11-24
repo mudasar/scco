@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "SCCO Accounting System"
-#define MyAppVersion "2.1.2.5"
+#define MyAppVersion "2.1.2.6"
 #define MyAppPublisher "Sta. Cruz Savings and Credit Cooperative"
 #define MyAppURL "https://www.facebook.com/pages/Sta-Cruz-Savings-Credit-Cooperative/141420875904329/"
 #define MyAppExeName "SCCO.WPF.MVC.CS.exe"

@@ -2,12 +2,15 @@
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+using SCCO.WPF.MVC.CS.Database;
+using System.Collections.Generic;
 
 namespace SCCO.WPF.MVC.CS.Utilities
 {
     public class Logger
     {
         private static volatile object _lockObject = new object();
+
         public static void ExceptionLogger(object classname, Exception exception)
         {
             lock (_lockObject)
@@ -26,13 +29,8 @@ namespace SCCO.WPF.MVC.CS.Utilities
                 logBuilder.AppendLine(new string('=', 80));
 
                 Debug.WriteLine(logBuilder.ToString());
-                string logDirectory = Path.Combine(Environment.CurrentDirectory, "Logs");
-                if (!Directory.Exists(logDirectory))
-                {
-                    Directory.CreateDirectory(logDirectory);
-                }
-                string logFile = string.Format("{0:yyyyMMdd}", DateTime.Now) + ".log";
-                File.AppendAllText(Path.Combine(logDirectory, logFile), logBuilder.ToString());
+                var logFile = string.Format("{0:yyyyMMdd}", DateTime.Now) + ".log";
+                Write(logFile, logBuilder.ToString());
             }
         }
 
@@ -41,7 +39,7 @@ namespace SCCO.WPF.MVC.CS.Utilities
             lock (_lockObject)
             {
                 var logBuilder = new StringBuilder();
-                logBuilder.AppendFormat(">>> ExceptionLogger: {0:f}", DateTime.Now); 
+                logBuilder.AppendFormat(">>> ExceptionLogger: {0:f}", DateTime.Now);
                 logBuilder.AppendLine("");
                 logBuilder.AppendFormat(">>> ClassName: {0}", classname);
                 logBuilder.AppendLine("");
@@ -54,14 +52,82 @@ namespace SCCO.WPF.MVC.CS.Utilities
                 logBuilder.AppendLine(new string('=', 80));
 
                 Debug.WriteLine(logBuilder.ToString());
-                string logDirectory = Path.Combine(Environment.CurrentDirectory, "Logs");
-                if (!Directory.Exists(logDirectory))
-                {
-                    Directory.CreateDirectory(logDirectory);
-                }
-                string logFile = string.Format("{0:yyyyMMdd}", DateTime.Now) + ".log";
-                File.AppendAllText(Path.Combine(logDirectory, logFile), logBuilder.ToString());
+                var logFile = string.Format("{0:yyyyMMdd}", DateTime.Now) + ".log";
+                Write(logFile, logBuilder.ToString());
+
             }
         }
+
+        public static void Log(string logFile, string message, int level)
+        {
+            var logMessageBuilder = new StringBuilder();
+            if (level > 0)
+            {
+                if (level == 1)
+                    logMessageBuilder.Append(">>> ");
+                else
+                    logMessageBuilder.Append(new string('-', level*3) + " ");
+            }
+            logMessageBuilder.Append(message);
+            Write(logFile, logMessageBuilder.ToString());
+            Console.WriteLine(logMessageBuilder.ToString());
+        }
+
+        private static void Write(string logFile, string message)
+        {
+            lock (_lockObject)
+            {
+                try
+                {
+                    var logFolder = CreateLogFolder();
+
+                    var destination = Path.GetFileNameWithoutExtension(logFile);
+                    var fullPath = Path.Combine(logFolder, destination);
+                    File.AppendAllText(Path.ChangeExtension(fullPath, ".log"),
+                                       string.Format("{0}\t{1}\n", DateTime.Now, message));
+
+                    SaveToDatabase(message);
+                }
+                catch (Exception exception)
+                {
+                    Console.WriteLine(@"ALERT: {0}", exception.Message);
+                }
+            }
+        }
+
+        private static void SaveToDatabase(string message)
+        {
+            try
+            {
+                const string sql = "INSERT INTO admin.`logs` (date, message) VALUES (?date, ?message)";
+                var parameters = new List<SqlParameter>();
+                parameters.Add(new SqlParameter("?date", DateTime.Now));
+                parameters.Add(new SqlParameter("?message", message));
+                DatabaseController.ExecuteInsertQuery(sql, parameters.ToArray());
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception.Message);
+            }
+        }
+
+        private static string CreateLogFolder()
+        {
+            var logFolder = GetLogFolder();
+
+            if (!Directory.Exists(logFolder))
+            {
+                Directory.CreateDirectory(logFolder);
+            }
+
+            return logFolder;
+        }
+
+        private static string GetLogFolder()
+        {
+            var appDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            return Path.Combine(appDataFolder, "LOGS");
+        }
     }
+
 }

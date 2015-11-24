@@ -1,5 +1,4 @@
 ﻿using System;
-using SCCO.WPF.MVC.CS.Database;
 
 namespace SCCO.WPF.MVC.CS.Controllers
 {
