@@ -46,11 +46,11 @@ namespace SCCO.WPF.MVC.CS.Models.AccountVerifier
                 sqlParams.Add(new SqlParameter("ts_present_database", DatabaseController.GetDatabaseByYear(asOf.Year)));
                 sqlParams.Add(new SqlParameter("ts_previous_database",
                                                DatabaseController.GetDatabaseByYear(asOf.Year - 1)));
-                dataTable = DatabaseController.ExecuteStoredProcedure("sp_account_summary", sqlParams.ToArray());
+                dataTable = DatabaseController.ExecuteStoredProcedure("sp_account_summary_opening_year", sqlParams.ToArray());
             }
             else
             {
-                dataTable = DatabaseController.ExecuteStoredProcedure("sp_account_summary", sqlParams.ToArray());
+                dataTable = DatabaseController.ExecuteStoredProcedure("sp_account_summary_per_date", sqlParams.ToArray());
             }
 
             return (from DataRow row in dataTable.Rows

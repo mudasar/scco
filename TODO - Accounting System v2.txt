@@ -1,0 +1,38 @@
+1. If you can't loggin:
+  - If other user can loggin
+    - Ask Admin to reset your password. Default password is 'password' without the apostrophe(')
+  - If no users can loggin  (Unable to connect to database server)
+    - Open Accounting System v2 and press CTRL+F5 to show Database Configuration
+    - Replace the Server with the IP Address of the Server PC
+
+2. First thing to do in each opening day
+  - Set Open Transaction Date to allow adding or editing CV/JV/OR of the same Entry Date
+    - Select Administrator button in Main Menu and then select Open Transaction Date
+  - Set Daily Savings Withdrawal
+    - Set the CV# and the transaction date
+    - Set other preferences if required
+  
+3. New Users
+  - New users are given minimal access to the system
+  - Admin can add user from the Initial Setup
+    - Default password is 'password' without the apostrophe (')
+    - Grant access by ticking which feature a user can access
+
+4. Loan Products
+  - There are already pre-set Loan Products with charges and dedcution.
+    Add other Loan Products if none of the default meet your preferences
+    - Go to Initial Setup -> Loan Products
+    - Click Add. Enter a descriptive name for this new loan product (Quick Salary Loan - 1st Loan)
+    - Click Edit and provide other information
+
+5. Loaning
+  - Loan Application feature is available in the Account Verifier
+  - Only Regular Members and Associate Members (Loaning) can avail this
+  - If this feature is not available in the current member, kindly update his membership details
+	
+
+6. Shortcuts
+  - Ctrl+F1 displays the Member Search Form
+  - Ctrl+F2 displays the Account Search Form
+  - Ctrl+F5 displays the Database Configuration Window (from Login window)
+	

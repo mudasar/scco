@@ -262,7 +262,7 @@ namespace SCCO.WPF.MVC.CS.Models.AccountVerifier
             }
             else
             {
-                dataTable = DatabaseController.ExecuteStoredProcedure("sp_account_details", sqlParams.ToArray());
+                dataTable = DatabaseController.ExecuteStoredProcedure("sp_account_details_per_date", sqlParams.ToArray());
             }
             
 
