@@ -57,5 +57,5 @@ NOTICE3	Boolean
 REMARKS	String	10
 COLLAT	Boolean	
 DESC	String	100
-WS_NO	Number	
+WS_NO	Number	123987
 POSTED	Boolean	

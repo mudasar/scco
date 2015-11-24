@@ -1387,11 +1387,16 @@ namespace SCCO.WPF.MVC.CS.Controllers
 
         #region --- Withdrawal ---
 
-        public static Result PrintWitdrawalValidation(string validation)
+        public static Result PrintWitdrawalValidation(CashVoucher cashVoucher)
         {
             try
             {
-                return new Result(false, "PrintWitdrawalValidation");
+                var statement = string.Format("SELECT * FROM `cv` WHERE ID = ?ID");
+                var parameter = new SqlParameter("?ID", cashVoucher.ID);
+                var dataTable = DatabaseController.ExecuteSelectQuery(statement, parameter);
+                dataTable.Rows[0]["AMT_WORDS"] = Utilities.Converter.AmountToWords(cashVoucher.Debit);
+                dataTable.TableName = "cv";
+                return ReportItem.Load(dataTable, "withdrawal_validation.rpt");
             }
             catch (Exception exception)
             {

@@ -91,6 +91,10 @@ namespace SCCO.WPF.MVC.CS.Models.SavingsDeposit
             if (cv.ID == 0)
             {
                 var company = Nfmb.FindByCode(GlobalSettings.CodeOfCompany);
+                if (company == null || company.ID == 0)
+                {
+                    return new Result(false, "Company Code is not set. Please consult System Administrator");
+                }
                 cv.MemberCode = company.MemberCode;
                 cv.MemberName = company.MemberName;
 

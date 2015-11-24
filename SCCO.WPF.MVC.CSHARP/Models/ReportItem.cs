@@ -10,14 +10,13 @@ using SAPBusinessObjects.WPF.Viewer;
 using SCCO.WPF.MVC.CS.Controllers;
 using SCCO.WPF.MVC.CS.CrystalReportViewer;
 using SCCO.WPF.MVC.CS.Database;
-using SCCO.WPF.MVC.CS.Properties;
 using SCCO.WPF.MVC.CS.Utilities;
 
 namespace SCCO.WPF.MVC.CS.Models
 {
     public class ReportItem : INotifyPropertyChanged, IModel
     {
-        private const string TABLE_NAME = "report_items";
+        private const string TableName = "report_items";
         private BitmapImage _bitmapImage;
         private string _category;
         private string _description;
@@ -153,7 +152,7 @@ namespace SCCO.WPF.MVC.CS.Models
         {
             Action createRecord = () =>
                 {
-                    var sql = DatabaseController.GenerateInsertStatement(TABLE_NAME, Parameters);
+                    var sql = DatabaseController.GenerateInsertStatement(TableName, Parameters);
                     ID = DatabaseController.ExecuteInsertQuery(sql, Parameters.ToArray());
                 };
 
@@ -166,7 +165,7 @@ namespace SCCO.WPF.MVC.CS.Models
                 {
                     var key = ParamKey;
 
-                    string sql = DatabaseController.GenerateDeleteStatement(TABLE_NAME, key);
+                    string sql = DatabaseController.GenerateDeleteStatement(TableName, key);
 
                     DatabaseController.ExecuteNonQuery(sql, key);
                 };
@@ -182,7 +181,7 @@ namespace SCCO.WPF.MVC.CS.Models
                     ID = id;
 
                     var key = ParamKey;
-                    string sql = DatabaseController.GenerateSelectStatement(TABLE_NAME, key);
+                    string sql = DatabaseController.GenerateSelectStatement(TableName, key);
 
                     DataTable dataTable = DatabaseController.ExecuteSelectQuery(sql, key);
                     foreach (DataRow dataRow in dataTable.Rows)
@@ -223,7 +222,7 @@ namespace SCCO.WPF.MVC.CS.Models
                     var key = ParamKey;
 
                     List<SqlParameter> sqlParameters = Parameters;
-                    string sql = DatabaseController.GenerateUpdateStatement(TABLE_NAME,
+                    string sql = DatabaseController.GenerateUpdateStatement(TableName,
                                                                             sqlParameters, key);
 
                     sqlParameters.Add(key);
@@ -239,7 +238,7 @@ namespace SCCO.WPF.MVC.CS.Models
         {
             var sqlBuilder = new System.Text.StringBuilder();
             sqlBuilder.AppendLine("SELECT * FROM");
-            sqlBuilder.AppendLine(TABLE_NAME);
+            sqlBuilder.AppendLine(TableName);
             sqlBuilder.AppendLine("WHERE Title = ?Title");
 
             var param = new SqlParameter("?Title", title);
@@ -258,7 +257,7 @@ namespace SCCO.WPF.MVC.CS.Models
 
         internal static ReportItemCollection CollectAll()
         {
-            var dataTable = DatabaseController.ExecuteSelectQuery("SELECT * FROM " + TABLE_NAME);
+            var dataTable = DatabaseController.ExecuteSelectQuery("SELECT * FROM " + TableName);
             var collection = new ReportItemCollection();
             foreach (DataRow dataRow in dataTable.Rows)
             {
@@ -273,7 +272,7 @@ namespace SCCO.WPF.MVC.CS.Models
         {
             var sqlBuilder = new System.Text.StringBuilder();
             sqlBuilder.AppendLine("SELECT * FROM");
-            sqlBuilder.AppendLine(TABLE_NAME);
+            sqlBuilder.AppendLine(TableName);
             sqlBuilder.AppendLine("WHERE Category = ?Category");
 
             var param = new SqlParameter("?Category", category);
@@ -300,6 +299,42 @@ namespace SCCO.WPF.MVC.CS.Models
         public DataSet DataSource { get; set; }
 
         public bool HasStoredProcedureParameter { get { return StoredProcedureParameters != null && StoredProcedureParameters.Length > 0; } }
+
+        public static Result Load(DataTable dataTable, string reportFileName)
+        {
+            // is report file specified?
+            if (string.IsNullOrEmpty(reportFileName))
+                return new Result(false, "No report file specified in the Report Item");
+
+            // is report file exist?
+            var fullPathName = Path.Combine(ReportController.ReportFolder, reportFileName);
+            if (!File.Exists(fullPathName))
+            {
+                return new Result(false, "Report File not found.");
+            }
+            try
+            {
+                var reportDocument = new ReportDocument();
+                reportDocument.Load(fullPathName);
+                reportDocument.SetDataSource(dataTable);
+
+                /****************************************
+                * Load the CrystalReport using WPF Form
+                ****************************************/
+                var crystalReportsViewer = new CrystalReportsViewer();
+                crystalReportsViewer.ViewerCore.ReportSource = reportDocument;
+
+                var reportWindow = new MainReportWindow();
+                reportWindow.AddControl(crystalReportsViewer);
+                reportWindow.ShowDialog();
+
+                return new Result(true, "Report loaded successful.");
+            }
+            catch (Exception exception)
+            {
+                return new Result(false, exception.Message);
+            }
+        }
 
         public Result LoadReport()
         {

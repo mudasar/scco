@@ -32,10 +32,12 @@ namespace SCCO.WPF.MVC.CS.Views.SavingsDepositModule
 
            #region --- Withdrawal Credit Side ---
 
-           var voucher = new Voucher();
-           voucher.VoucherDate = _withdrawal.WithdrawalSettings.TransactionDate;
-           voucher.VoucherNo = _withdrawal.WithdrawalSettings.WithdrawalVoucherNo;
-           voucher.VoucherType = VoucherTypes.CV;
+           var voucher = new Voucher
+               {
+                   VoucherDate = _withdrawal.WithdrawalSettings.TransactionDate,
+                   VoucherNo = _withdrawal.WithdrawalSettings.WithdrawalVoucherNo,
+                   VoucherType = VoucherTypes.CV
+               };
             var totalWithdrawals = Withdrawal.TotalWithdrawals(voucher.VoucherNo) + _withdrawal.WithdrawalAmount;
             result = Withdrawal.ReBalanceWithdrawals(voucher, totalWithdrawals);
            if (!result.Success)
@@ -90,10 +92,7 @@ namespace SCCO.WPF.MVC.CS.Views.SavingsDepositModule
 
             if (MessageWindow.ShowConfirmMessage("Print withdrawal validation?") == MessageBoxResult.Yes)
             {
-                var validation = new ReportItem();
-                validation.ReportFile = "withdrawal_validation.rpt";
-                validation.Title = validationBuilder.ToString();
-                validation.LoadReport();
+                ReportController.PrintWitdrawalValidation(cv);
             }
 
             DialogResult = true;

@@ -294,7 +294,7 @@ namespace SCCO.WPF.MVC.CS.Views.AccountVerifierModule
                 return;
             }
             //2. must be withdrawable account
-            if (!_listSavingsDepositCode.Contains(selectedAccount.AccountCode))
+            if (!_listSavingsDepositCode.Contains(selectedAccount.AccountCode.Trim()))
             {
                 MessageWindow.ShowAlertMessage("Not a withdrawable account!");
                 return;
