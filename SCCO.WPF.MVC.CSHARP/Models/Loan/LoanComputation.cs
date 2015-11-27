@@ -85,42 +85,42 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
                 {
                     ChargeCode1 = loanCharge.AccountCode;
                     ChargeTitle1 = loanCharge.AccountTitle;
-                    ChargeAmount1 = loanCharge.Rate * LoanAmount;
+                    ChargeAmount1 = Math.Round(loanCharge.Rate * LoanAmount, 2);
                     continue;
                 }
                 if (i == 2)
                 {
                     ChargeCode2 = loanCharge.AccountCode;
                     ChargeTitle2 = loanCharge.AccountTitle;
-                    ChargeAmount2 = loanCharge.Rate * LoanAmount;
+                    ChargeAmount2 = Math.Round(loanCharge.Rate * LoanAmount, 2);
                     continue;
                 }
                 if (i == 3)
                 {
                     ChargeCode3 = loanCharge.AccountCode;
                     ChargeTitle3 = loanCharge.AccountTitle;
-                    ChargeAmount3 = loanCharge.Rate * LoanAmount;
+                    ChargeAmount3 = Math.Round(loanCharge.Rate * LoanAmount, 2);
                     continue;
                 }
                 if (i == 4)
                 {
                     ChargeCode4 = loanCharge.AccountCode;
                     ChargeTitle4 = loanCharge.AccountTitle;
-                    ChargeAmount4 = loanCharge.Rate * LoanAmount;
+                    ChargeAmount4 = Math.Round(loanCharge.Rate * LoanAmount, 2);
                     continue;
                 }
                 if (i == 5)
                 {
                     ChargeCode5 = loanCharge.AccountCode;
                     ChargeTitle5 = loanCharge.AccountTitle;
-                    ChargeAmount5 = loanCharge.Rate * LoanAmount;
+                    ChargeAmount5 = Math.Round(loanCharge.Rate * LoanAmount, 2);
                     continue;
                 }
                 if (i == 6)
                 {
                     ChargeCode6 = loanCharge.AccountCode;
                     ChargeTitle6 = loanCharge.AccountTitle;
-                    ChargeAmount6 = loanCharge.Rate * LoanAmount;
+                    ChargeAmount6 = Math.Round(loanCharge.Rate * LoanAmount, 2);
                     break;
                 }
             }
