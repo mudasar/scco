@@ -437,6 +437,7 @@
     <Compile Include="Utilities\DbfMigration\Views\MigrationProgessWindow.xaml.cs">
       <DependentUpon>MigrationProgessWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Utilities\TransactionHelper.cs" />
     <Compile Include="Views\AccountModule\AccountCategoryView.xaml.cs">
       <DependentUpon>AccountCategoryView.xaml</DependentUpon>
     </Compile>
@@ -615,6 +616,10 @@
       <DependentUpon>PostSavingsDepositView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SearchModule\SearchViewModel.cs" />
+    <Compile Include="Views\TimeDepositModule\MemberAccountDetailViewModel.cs" />
+    <Compile Include="Views\TimeDepositModule\TimeDepositWithdrawalWindow.xaml.cs">
+      <DependentUpon>TimeDepositWithdrawalWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\TimeDepositModule\PostTimeDepositView.xaml.cs">
       <DependentUpon>PostTimeDepositView.xaml</DependentUpon>
     </Compile>
@@ -1248,6 +1253,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SavingsDepositModule\PostSavingsDepositView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\TimeDepositModule\TimeDepositWithdrawalWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

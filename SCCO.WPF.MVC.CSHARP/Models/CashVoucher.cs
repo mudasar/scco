@@ -343,6 +343,22 @@ namespace SCCO.WPF.MVC.CS.Models
             return ActionController.InvokeAction(findRecord);
         }
 
+        public static List<CashVoucher> FindBy(string columnName, object value)
+        {
+            var key = new SqlParameter("?" + columnName, value);
+            string sql = DatabaseController.GenerateSelectStatement(TABLE_NAME, key);
+
+            var list = new List<CashVoucher>();
+            DataTable dataTable = DatabaseController.ExecuteSelectQuery(sql, key);
+            foreach (DataRow dataRow in dataTable.Rows)
+            {
+                var cv = new CashVoucher();
+                cv.SetPropertiesFromDataRow(dataRow);
+                list.Add(cv);
+            }
+            return list;
+        }
+
         public void ResetProperties()
         {
             ID = 0;

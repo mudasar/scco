@@ -1,15 +1,18 @@
-﻿<Views:BaseWindow x:Class="SCCO.WPF.MVC.CS.Views.TimeDepositModule.TimeDepositEntryWindow"
+﻿<views:BaseWindow x:Class="SCCO.WPF.MVC.CS.Views.TimeDepositModule.TimeDepositEntryWindow"
                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                  xmlns:Models_TimeDeposit="clr-namespace:SCCO.WPF.MVC.CS.Models.TimeDeposit"
-                  xmlns:Views="clr-namespace:SCCO.WPF.MVC.CS.Views"
+                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                  xmlns:models="clr-namespace:SCCO.WPF.MVC.CS.Models.AccountVerifier"
+                  xmlns:views="clr-namespace:SCCO.WPF.MVC.CS.Views"
                   Title="Time Deposit Entry"
                   SizeToContent="WidthAndHeight"
                   Style="{DynamicResource BaseWindow}"
-                  WindowStartupLocation="CenterScreen">
-    <Views:BaseWindow.DataContext>
-        <Models_TimeDeposit:TimeDepositDetails />
-    </Views:BaseWindow.DataContext>
+                  WindowStartupLocation="CenterScreen"
+                  mc:Ignorable="d">
+    <views:BaseWindow.DataContext>
+        <models:AccountDetail />
+    </views:BaseWindow.DataContext>
     <Grid Margin="5">
         <Grid x:Name="FormLayout">
             <Rectangle x:Name="Canvass"
@@ -78,27 +81,30 @@
                 <Label HorizontalAlignment="Right" Content="Certificate No" />
                 <Label x:Name="txtCertificateNo"
                        Grid.Column="3"
-                       Content="{Binding CertificateNo}" />
+                       Content="{Binding TimeDepositDetails.CertificateNo}" />
                 <Label Grid.Row="1"
                        HorizontalAlignment="Right"
                        Content="Amount" />
                 <Label x:Name="txtAmount"
                        Grid.Row="1"
-                       Grid.Column="3">
-                    <TextBlock Text="{Binding Path=Amount, StringFormat=\{0:N\}}" />
-                </Label>
+                       Grid.Column="3" Content="{Binding TimeDepositDetails.Amount, Converter={StaticResource DecimalConverter1}}" />
 
                 <Label Grid.Row="3"
                        HorizontalAlignment="Right"
                        Content="Term" />
+                <Label x:Name="txtRate"
+                       Grid.Row="2"
+                       Grid.Column="3">
+                    <TextBlock Text="{Binding TimeDepositDetails.Rate, StringFormat=\{0:P\}}" />
+                </Label>
                 <Label x:Name="txtTerm"
                        Grid.Row="3"
                        Grid.Column="3">
                     <TextBlock>
                         <TextBlock.Text>
                             <MultiBinding StringFormat="{}{0} {1}">
-                                <Binding Path="Term" />
-                                <Binding Path="TermsMode" />
+                                <Binding Path="TimeDepositDetails.Term" />
+                                <Binding Path="TimeDepositDetails.TermsMode" />
                             </MultiBinding>
                         </TextBlock.Text>
                     </TextBlock>
@@ -106,11 +112,6 @@
                 <Label Grid.Row="2"
                        HorizontalAlignment="Right"
                        Content="Rate" />
-                <Label x:Name="txtRate"
-                       Grid.Row="2"
-                       Grid.Column="3">
-                    <TextBlock Text="{Binding Path=Rate, StringFormat=\{0:P\}}" />
-                </Label>
                 <Label Grid.Row="4"
                        HorizontalAlignment="Right"
                        Content="Date In" />
@@ -118,7 +119,7 @@
                        Grid.Row="4"
                        Grid.Column="3"
                        Margin="0,2">
-                    <TextBlock Text="{Binding Path=DateIn, StringFormat={}{0:d}}" />
+                    <TextBlock Text="{Binding TimeDepositDetails.DateIn, StringFormat=\{0:d\}}" />
                 </Label>
                 <Label Grid.Row="5"
                        HorizontalAlignment="Right"
@@ -126,15 +127,55 @@
                 <Label x:Name="txtMaturity"
                        Grid.Row="5"
                        Grid.Column="3">
-                    <TextBlock Text="{Binding Path=Maturity, StringFormat={}{0:d}}" />
+                    <TextBlock Text="{Binding TimeDepositDetails.Maturity, StringFormat=\{0:d\}}" />
+                </Label>
+            </Grid>
+            <TextBlock />
+            <Grid x:Name="InterestEarnedAndServiceFee">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="10" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <Label HorizontalAlignment="Right" Content="Interest Earned" />
+                <Label x:Name="txtInterestEarned" Grid.Column="3">
+                    <TextBlock />
+                </Label>
+                <Label Grid.Row="1"
+                       HorizontalAlignment="Right"
+                       Content="Service Fee" />
+                <Label x:Name="txtServiceFee"
+                       Grid.Row="1"
+                       Grid.Column="2"
+                       d:LayoutOverrides="GridBox">
+                    <TextBlock />
                 </Label>
             </Grid>
             <TextBlock />
             <StackPanel Orientation="Horizontal">
-                <Button Content="Print CTD" Style="{DynamicResource ControlButton}" />
-                <Button Content="Preterminate" Style="{DynamicResource ControlButton}" />
+                <Button x:Name="btnPrintCtd"
+                        Content="Print CTD"
+                        Style="{DynamicResource ControlButton}" />
+                <Button x:Name="btnPreterminate"
+                        Content="Preterminate"
+                        Style="{DynamicResource ControlButton}" />
+                <Button x:Name="btnWithdraw"
+                        Content="Withdraw"
+                        Style="{DynamicResource ControlButton}" />
+                <Button x:Name="btnRollover"
+                        Content="Roll Over"
+                        Style="{DynamicResource ControlButton}" />
             </StackPanel>
 
         </StackPanel>
     </Grid>
-</Views:BaseWindow>
+</views:BaseWindow>

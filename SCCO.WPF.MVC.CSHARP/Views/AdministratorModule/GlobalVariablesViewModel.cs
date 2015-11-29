@@ -16,6 +16,7 @@ namespace SCCO.WPF.MVC.CS.Views.AdministratorModule
         private GlobalVariable _codeOfSavingsDeposit;
         private GlobalVariable _codeOfTimeDeposit;
         private GlobalVariable _codeOfUnearnedIncome;
+		private GlobalVariable _rateOfTimeDepositServiceFee;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -74,6 +75,12 @@ namespace SCCO.WPF.MVC.CS.Views.AdministratorModule
             get { return _codeOfUnearnedIncome; }
             set { _codeOfUnearnedIncome = value; OnPropertyChanged("CodeOfUnearnedIncome"); }
         }
+		
+		public GlobalVariable RateOfTimeDepositServiceFee
+        {
+            get { return _rateOfTimeDepositServiceFee; }
+            set { _rateOfTimeDepositServiceFee = value; OnPropertyChanged("RateOfTimeDepositServiceFee"); }
+        }
 
         public void Initialize()
         {
@@ -88,6 +95,7 @@ namespace SCCO.WPF.MVC.CS.Views.AdministratorModule
             CodeOfSavingsDeposit = GlobalVariable.FindByKeyword(GlobalKeys.CodeOfSavingsDeposit);
             CodeOfTimeDeposit = GlobalVariable.FindByKeyword(GlobalKeys.CodeOfTimeDeposit);
             CodeOfUnearnedIncome = GlobalVariable.FindByKeyword(GlobalKeys.CodeOfUnearnedIncome);
+			RateOfTimeDepositServiceFee = GlobalVariable.FindByKeyword(GlobalKeys.RateOfTimeDepositServiceFee);
         }
 
         protected virtual void OnPropertyChanged(string propertyName)

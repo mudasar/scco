@@ -26,8 +26,8 @@ namespace SCCO.WPF.MVC.CS.Models.TimeDeposit
             var certificateNo = DataConverter.ToString(dataRow["CERT_NO"]);
             if (string.IsNullOrEmpty(certificateNo)) return;
 
-            var amount = DataConverter.ToDecimal(dataRow["CREDIT"]);
-            if(amount == 0) return;
+            var amount = DataConverter.ToDecimal(dataRow["DEBIT"]) + DataConverter.ToDecimal(dataRow["CREDIT"]);
+            if (amount == 0) return;
             CertificateNo = certificateNo;
 
             DateIn = DataConverter.ToDateTime(dataRow["DATE_IN"]);
@@ -38,23 +38,25 @@ namespace SCCO.WPF.MVC.CS.Models.TimeDeposit
                 Rate = Rate/100m;
 
             Term = DataConverter.ToInteger(dataRow["TERM"]);
-
             TermsMode = Term % 30 == 0 ? "Days" : "Months";
-
             Amount = amount;
-
             Maturity = CalculateMaturity(DateIn, Term, TermsMode);
-
         }
 
-        public TimeDepositDetails() { }
+        public TimeDepositDetails()
+        {
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         public decimal Amount
         {
             get { return _amount; }
-            set { _amount = value; OnPropertyChanged("Amount"); }
+            set
+            {
+                _amount = value;
+                OnPropertyChanged("Amount");
+            }
         }
 
         public string CertificateNo //CERT_NO
@@ -80,7 +82,11 @@ namespace SCCO.WPF.MVC.CS.Models.TimeDeposit
         public DateTime Maturity
         {
             get { return _maturity; }
-            set { _maturity = value; OnPropertyChanged("Maturity"); }
+            set
+            {
+                _maturity = value;
+                OnPropertyChanged("Maturity");
+            }
         }
 
         public decimal Rate //RATE
@@ -106,7 +112,67 @@ namespace SCCO.WPF.MVC.CS.Models.TimeDeposit
         public string TermsMode
         {
             get { return _termsMode; }
-            set { _termsMode = value; OnPropertyChanged("TermsMode"); }
+            set
+            {
+                _termsMode = value;
+                OnPropertyChanged("TermsMode");
+            }
+        }
+
+        public decimal CalculateInterestEarned(DateTime processingDate)
+        {
+            var savingsDepositInterestRatePerAnnum = GlobalSettings.RateOfInterestOnSavingsDeposit;
+            var savingsDepositInterestEarnedPerAnnum = Amount * savingsDepositInterestRatePerAnnum;
+            var savingsDepositInterestEarnedPerDay = savingsDepositInterestEarnedPerAnnum / CountDaysInBetweenDates(DateIn, DateIn.AddYears(1));
+
+            var timeDepositInterestEarnedPerAnnum = Amount * Rate;
+            var timeDepositInterestEarnedPerDay = timeDepositInterestEarnedPerAnnum / CountDaysInBetweenDates(DateIn, DateIn.AddYears(1));
+
+            if (IsMature(processingDate))
+            {
+                // get days until maturity
+                var timeDepositDays = CountDaysInBetweenDates(DateIn, Maturity);
+                var timeDepositInterestEarned = timeDepositInterestEarnedPerDay * timeDepositDays;
+
+                // get days a day after maturity until processing date
+                var daysAfterMaturity = CountDaysInBetweenDates(Maturity.AddDays(1), processingDate);
+                if (daysAfterMaturity >= 1)
+                {
+                    timeDepositInterestEarned += savingsDepositInterestEarnedPerDay * daysAfterMaturity;
+                }
+                return Math.Round(timeDepositInterestEarned);
+            }
+
+            // premature
+            return Math.Round(savingsDepositInterestEarnedPerDay * CountDaysInBetweenDates(DateIn, processingDate));
+        }
+
+        public decimal CalculateServiceFee(DateTime processingDate)
+        {
+            var interestEarned = CalculateInterestEarned(processingDate);
+            var serviceFeeRate = GlobalSettings.RateOfTimeDepositServiceFee;
+            var serviceFee = Math.Round(interestEarned*serviceFeeRate);
+            return serviceFee > 10 ? serviceFee : 10;
+        }
+
+        public int CountDaysFromEntry(DateTime processingDate)
+        {
+            return (processingDate - DateIn).Days;
+        }
+
+        public bool IsPremature(DateTime processingDate)
+        {
+            return Maturity > processingDate;
+        }
+
+        public bool IsMature(DateTime processingDate)
+        {
+            return Maturity <= processingDate;
+        }
+
+        private int CountDaysInBetweenDates(DateTime dateFrom, DateTime dateTo)
+        {
+            return (dateTo - dateFrom).Days;
         }
 
         protected virtual void OnPropertyChanged(string propertyName)

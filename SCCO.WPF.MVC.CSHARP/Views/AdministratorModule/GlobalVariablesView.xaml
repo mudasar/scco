@@ -133,6 +133,12 @@
                                  Style="{DynamicResource RoundedTextBox}"
                                  Text="{Binding CodeOfUnearnedIncome.CurrentValue}" />
                     </StackPanel>
+                    <StackPanel>
+                    	<Label Margin="0,6,0,0" Content="Time Deposit Service Fee Rate" />
+                    	<TextBox Focusable="True"
+                    		Style="{DynamicResource RoundedTextBox}"
+                    		Text="{Binding RateOfTimeDepositServiceFee}" />
+                    </StackPanel>
 
                 </StackPanel>
             </ScrollViewer>

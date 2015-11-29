@@ -142,13 +142,13 @@
 
             <StackPanel Name="SavingsDepositPanel">
                 <TextBlock />
-                <Button x:Name="btnSavingsDeposit"
+                <Button x:Name="btnSavingsDepositEntry"
                         Width="Auto"
                         Margin="0,2"
                         Content="Savings Deposit"
                         IsEnabled="False"
                         Style="{DynamicResource ControlButton}" />
-                <Button x:Name="btnWithdrawal"
+                <Button x:Name="btnSavingsWithdrawal"
                         Width="Auto"
                         Margin="0,2"
                         Content="Withdrawal"
@@ -158,13 +158,13 @@
 
             <StackPanel Name="TimeDepositPanel">
                 <TextBlock />
-                <Button x:Name="btnTimeDeposit"
+                <Button x:Name="btnTimeDepositEntry"
                         Width="Auto"
                         Margin="0,2"
                         Content="Time Deposit"
                         IsEnabled="False"
                         Style="{DynamicResource ControlButton}" />
-                <Button x:Name="btnShowTimeDepositDetails"
+                <Button x:Name="btnTimeDepositDetails"
                         Width="Auto"
                         Margin="0,2"
                         Content="TD Details"

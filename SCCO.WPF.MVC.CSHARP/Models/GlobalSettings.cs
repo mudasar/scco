@@ -12,6 +12,7 @@ namespace SCCO.WPF.MVC.CS.Models
         CodeOfCashOnHand,
         CodeOfCompany,
         CodeOfInterestExpenseOnSavingsDeposit,
+        CodeOfInterestExpenseOnTimeDeposit,
         CodeOfInterestIncomeFromLoans,
         CodeOfLoanReceivables,
         CodeOfMiscellaneousIncome,
@@ -19,6 +20,7 @@ namespace SCCO.WPF.MVC.CS.Models
         CodeOfSavingsDeposit,
         CodeOfTimeDeposit,
         CodeOfUnearnedIncome,
+        CodeOfServiceFee,
         DateOfOpenTransaction,
         NumberOfSavingsDepositWithdrawalCashVoucher,
         AmountOfSavingsDepositMaximumDailyWithdrawals,
@@ -26,7 +28,8 @@ namespace SCCO.WPF.MVC.CS.Models
         AmountOfSavingsDepositWithdrawable,
         AmountOfInterestOnSavingsDepositRequiredBalance,
         RateOfInterestOnSavingsDeposit,
-        DateOfSavingsDepositWithdrawalCashVoucher
+        DateOfSavingsDepositWithdrawalCashVoucher,
+        RateOfTimeDepositServiceFee
     }
 
     public static class GlobalSettings
@@ -108,6 +111,25 @@ namespace SCCO.WPF.MVC.CS.Models
             get
             {
                 const GlobalKeys key = GlobalKeys.CodeOfTimeDeposit;
+                return DataConverter.ToString(SearchDatabase(key)["CurrentValue"]);
+            }
+        }
+
+        public static string CodeOfInterestExpenseOnTimeDeposit
+        {
+            get
+            {
+                const GlobalKeys key = GlobalKeys.CodeOfInterestExpenseOnTimeDeposit;
+                return DataConverter.ToString(SearchDatabase(key)["CurrentValue"]);
+            }
+        }
+
+
+        public static string CodeOfServiceFee
+        {
+            get
+            {
+                const GlobalKeys key = GlobalKeys.CodeOfServiceFee;
                 return DataConverter.ToString(SearchDatabase(key)["CurrentValue"]);
             }
         }
@@ -213,6 +235,15 @@ namespace SCCO.WPF.MVC.CS.Models
             get
             {
                 const GlobalKeys key = GlobalKeys.RateOfInterestOnSavingsDeposit;
+                return DataConverter.ToDecimal(SearchDatabase(key)["CurrentValue"]);
+            }
+        }
+
+        public static decimal RateOfTimeDepositServiceFee
+        {
+            get
+            {
+                const GlobalKeys key = GlobalKeys.RateOfTimeDepositServiceFee;
                 return DataConverter.ToDecimal(SearchDatabase(key)["CurrentValue"]);
             }
         }

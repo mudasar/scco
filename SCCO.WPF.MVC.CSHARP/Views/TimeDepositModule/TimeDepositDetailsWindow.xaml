@@ -1,15 +1,15 @@
-﻿<Views:BaseWindow x:Class="SCCO.WPF.MVC.CS.Views.TimeDepositModule.TimeDepositDetailsWindow"
+﻿<views:BaseWindow x:Class="SCCO.WPF.MVC.CS.Views.TimeDepositModule.TimeDepositDetailsWindow"
                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                  xmlns:Models="clr-namespace:SCCO.WPF.MVC.CS.Models.TimeDeposit"
-                  xmlns:Views="clr-namespace:SCCO.WPF.MVC.CS.Views"
+                  xmlns:models="clr-namespace:SCCO.WPF.MVC.CS.Models.TimeDeposit"
+                  xmlns:views="clr-namespace:SCCO.WPF.MVC.CS.Views"
                   SizeToContent="WidthAndHeight"
                   Style="{StaticResource BaseWindow}"
                   Topmost="True"
                   WindowStartupLocation="CenterScreen">
-    <Views:BaseWindow.DataContext>
-        <Models:TimeDepositDetails />
-    </Views:BaseWindow.DataContext>
+    <views:BaseWindow.DataContext>
+        <models:TimeDepositDetails />
+    </views:BaseWindow.DataContext>
     <Grid Margin="5">
         <Grid x:Name="FormLayout">
             <Rectangle x:Name="Canvass"
@@ -132,4 +132,4 @@
         </Grid>
 
     </Grid>
-</Views:BaseWindow>
+</views:BaseWindow>

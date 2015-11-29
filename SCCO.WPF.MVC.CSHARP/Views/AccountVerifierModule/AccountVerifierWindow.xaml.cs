@@ -54,12 +54,12 @@ namespace SCCO.WPF.MVC.CS.Views.AccountVerifierModule
             btnPrint.Click += (s, e) => PrintStatementOfAccount();
 
             // Savings Deposit
-            btnSavingsDeposit.Click += (s, e) => DepositSavingsAccount();
-            btnWithdrawal.Click += (sender, e) => WithdrawSavingsAccount();
+            btnSavingsDepositEntry.Click += (s, e) => DepositSavingsAccount();
+            btnSavingsWithdrawal.Click += (sender, e) => WithdrawSavingsAccount();
 
             // Time Deposit
-            btnTimeDeposit.Click += (s, e) => OpenTimeDeposit();
-            btnShowTimeDepositDetails.Click += (s, e) => ShowTimeDepositDetails();
+            btnTimeDepositEntry.Click += (s, e) => OpenTimeDeposit();
+            btnTimeDepositDetails.Click += (s, e) => ShowTimeDepositDetails();
 
             // Loans
             btnLoanApplication.Click += (s, e) => ShowLoanApplication();
@@ -145,8 +145,8 @@ namespace SCCO.WPF.MVC.CS.Views.AccountVerifierModule
             btnSalaryAdvance.IsEnabled = isMemberCanLoan;
             btnMakers.IsEnabled = isMemberCanLoan;
 
-            btnSavingsDeposit.IsEnabled = true;
-            btnTimeDeposit.IsEnabled = true;
+            btnSavingsDepositEntry.IsEnabled = true;
+            btnTimeDepositEntry.IsEnabled = true;
         }
         #endregion
 
@@ -355,8 +355,14 @@ namespace SCCO.WPF.MVC.CS.Views.AccountVerifierModule
             var currentItem = (AccountDetail)grdDetails.SelectedItem;
             if (currentItem == null) return;
 
-            var timeDepositDetailsWindow = new TimeDepositEntryWindow(currentItem.TimeDepositDetails);
-            timeDepositDetailsWindow.ShowDialog();
+            var timeDepositDetailsWindow = new TimeDepositEntryWindow(currentItem);
+            if (timeDepositDetailsWindow.ShowDialog() == true)
+            {
+                if (timeDepositDetailsWindow.HasChanged)
+                {
+                    RefreshAccountInformation();
+                }
+            }
         }
 
         #endregion
@@ -442,10 +448,12 @@ namespace SCCO.WPF.MVC.CS.Views.AccountVerifierModule
             if (_accountDisplayed == ShownAccount.Summary)
             {
                 // savings deposit buttons
-                btnWithdrawal.IsEnabled = false;
+                btnSavingsDepositEntry.IsEnabled = true;
+                btnSavingsWithdrawal.IsEnabled = false;
 
                 // time deposit buttons
-                btnShowTimeDepositDetails.IsEnabled = false;
+                btnTimeDepositEntry.IsEnabled = true;
+                btnTimeDepositDetails.IsEnabled = false;
 
                 // loans
                 btnLoanDetails.IsEnabled = false;
@@ -458,11 +466,13 @@ namespace SCCO.WPF.MVC.CS.Views.AccountVerifierModule
 
             if (_listSavingsDepositCode.Contains(_viewModel.SelectedAccount.AccountCode))
             {
-                btnWithdrawal.IsEnabled = true;
+                btnSavingsWithdrawal.IsEnabled = true;
+                btnTimeDepositDetails.IsEnabled = false;
             }
             if (_listTimeDepositCode.Contains(_viewModel.SelectedAccount.AccountCode))
             {
-                btnShowTimeDepositDetails.IsEnabled = true;
+                btnTimeDepositDetails.IsEnabled = true;
+                btnSavingsWithdrawal.IsEnabled = false;
             }
             if (_listLoanReceivableCode.Contains(_viewModel.SelectedAccount.AccountCode))
             {

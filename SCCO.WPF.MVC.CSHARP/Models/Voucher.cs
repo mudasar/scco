@@ -162,7 +162,6 @@ namespace SCCO.WPF.MVC.CS.Models
             var dataTable = DatabaseController.ExecuteSelectQuery(sqlBuilder.ToString());
             return  DataConverter.ToInteger(dataTable.Rows[0][0]);
         }
-
     }
 
     public class VoucherCollection : System.Collections.ObjectModel.ObservableCollection<Voucher>
