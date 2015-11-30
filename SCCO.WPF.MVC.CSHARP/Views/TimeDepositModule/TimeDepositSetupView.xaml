@@ -1,0 +1,140 @@
+﻿<Views:BaseWindow x:Class="SCCO.WPF.MVC.CS.Views.TimeDepositModule.TimeDepositSetupView"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:local="clr-namespace:SCCO.WPF.MVC.CS.Views.TimeDepositModule"
+                  xmlns:UserControls="clr-namespace:SCCO.WPF.MVC.CS.UserControls"
+                  xmlns:Views="clr-namespace:SCCO.WPF.MVC.CS.Views"
+                  SizeToContent="WidthAndHeight"
+                  Style="{DynamicResource BaseWindow}"
+                  WindowStartupLocation="CenterScreen">
+
+    <Views:BaseWindow.DataContext>
+        <local:TimeDepositSetupViewModel />
+    </Views:BaseWindow.DataContext>
+
+    <Grid Margin="5">
+
+        <Grid x:Name="FormLayout">
+            <Rectangle x:Name="Canvass"
+                       Fill="#FF414833"
+                       MouseLeftButtonDown="DragWindow"
+                       RadiusX="5"
+                       RadiusY="5"
+                       Stroke="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"
+                       StrokeLineJoin="Round">
+                <Rectangle.Effect>
+                    <DropShadowEffect BlurRadius="5" ShadowDepth="0" />
+                </Rectangle.Effect>
+            </Rectangle>
+            <Border x:Name="ShineEffect"
+                    Height="16"
+                    Margin="2,2,2,0"
+                    VerticalAlignment="Top"
+                    CornerRadius="4"
+                    MouseLeftButtonDown="DragWindow"
+                    Style="{DynamicResource ShineEffectStyle}" />
+            <Image x:Name="WindowIcon"
+                   Width="24"
+                   Height="24"
+                   Margin="10,10,0,0"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top"
+                   Source="/SCCO.WPF.MVC.CS;component/Images/initial_setup.png"
+                   Stretch="Fill" />
+            <Label x:Name="FormTitle"
+                   Margin="34,10,0,0"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top"
+                   VerticalContentAlignment="Center"
+                   Content="Time Deposit Setup"
+                   MouseLeftButtonDown="DragWindow"
+                   Style="{DynamicResource FormTitle2}" />
+            <Button x:Name="CloseButton"
+                    Margin="0,8,8,0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Background="#00E4D2D2"
+                    Click="CloseWindow"
+                    Content="x"
+                    IsCancel="True"
+                    IsTabStop="False"
+                    Style="{DynamicResource CloseButton}" />
+        </Grid>
+        <StackPanel Margin="20,60,20,20" Orientation="Vertical">
+            <StackPanel>
+                <Grid Height="156">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="160" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Label Margin="0,0,10,0"
+                           HorizontalContentAlignment="Right"
+                           VerticalContentAlignment="Center"
+                           Content="Interest Expense Code"
+                           Foreground="White" />
+                    <UserControls:TextBoxSearchControl x:Name="stbInterestExpenseCode"
+                                                       Grid.Column="1"
+                                                       Margin="2"
+                                                       IsReadOnly="True"
+                                                       Text="{Binding InterestExpenseAccount.AccountCode}" />
+                    <Label Grid.Row="1"
+                           Margin="0,0,10,0"
+                           HorizontalContentAlignment="Right"
+                           VerticalContentAlignment="Center"
+                           Content="Service Fee Code"
+                           Foreground="White" />
+                    <UserControls:TextBoxSearchControl x:Name="stbServiceFeeCode"
+                                                       Grid.Row="1"
+                                                       Grid.Column="1"
+                                                       Margin="2"
+                                                       IsReadOnly="True"
+                                                       Text="{Binding ServiceFeeAccount.AccountCode}" />
+                    <Label Grid.Row="2"
+                           Margin="0,0,10,0"
+                           HorizontalContentAlignment="Right"
+                           VerticalContentAlignment="Center"
+                           Content="Service Fee Rate"
+                           Foreground="White" />
+                    <TextBox x:Name="MaximumDailyWithdrawalsBox"
+                             Grid.Row="2"
+                             Grid.Column="1"
+                             Margin="0,2"
+                             IsTabStop="True"
+                             MaxLength="50"
+                             Style="{DynamicResource RoundedTextBox}"
+                             Text="{Binding ServiceFeeRate,
+                                            Converter={StaticResource PercentageConverter1},
+                                            StringFormat=\{0:P\}}"
+                             TextWrapping="Wrap" />
+                    <Label Grid.Row="3"
+                           Margin="0,0,10,0"
+                           HorizontalContentAlignment="Right"
+                           VerticalContentAlignment="Center"
+                           Content="Minimum Service Fee Amount"
+                           Foreground="White" />
+                    <TextBox x:Name="MaintainingBalanceBox"
+                             Grid.Row="3"
+                             Grid.Column="1"
+                             Margin="0,2"
+                             IsTabStop="True"
+                             MaxLength="50"
+                             Style="{DynamicResource RoundedTextBox}"
+                             Text="{Binding MinimumServiceFeeApplied,
+                                            Converter={StaticResource DecimalConverter1}}"
+                             TextWrapping="Wrap" />
+                </Grid>
+            </StackPanel>
+            <TextBlock />
+            <Button x:Name="UpdateButton"
+                    Click="UpdateButtonOnClick"
+                    Content="Update"
+                    Style="{DynamicResource ControlButton}" />
+        </StackPanel>
+    </Grid>
+</Views:BaseWindow>

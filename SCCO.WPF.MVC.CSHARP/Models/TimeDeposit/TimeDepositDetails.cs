@@ -38,7 +38,7 @@ namespace SCCO.WPF.MVC.CS.Models.TimeDeposit
                 Rate = Rate/100m;
 
             Term = DataConverter.ToInteger(dataRow["TERM"]);
-            TermsMode = Term % 30 == 0 ? "Days" : "Months";
+            TermsMode = Term%30 == 0 ? "Days" : "Months";
             Amount = amount;
             Maturity = CalculateMaturity(DateIn, Term, TermsMode);
         }
@@ -119,40 +119,48 @@ namespace SCCO.WPF.MVC.CS.Models.TimeDeposit
             }
         }
 
+        public decimal EndingBalance(DateTime asOf)
+        {
+            return _amount + (CalculateInterestEarned(asOf) - CalculateServiceFee(asOf));
+        }
+
         public decimal CalculateInterestEarned(DateTime processingDate)
         {
             var savingsDepositInterestRatePerAnnum = GlobalSettings.RateOfInterestOnSavingsDeposit;
-            var savingsDepositInterestEarnedPerAnnum = Amount * savingsDepositInterestRatePerAnnum;
-            var savingsDepositInterestEarnedPerDay = savingsDepositInterestEarnedPerAnnum / CountDaysInBetweenDates(DateIn, DateIn.AddYears(1));
+            var savingsDepositInterestEarnedPerAnnum = Amount*savingsDepositInterestRatePerAnnum;
+            var savingsDepositInterestEarnedPerDay = savingsDepositInterestEarnedPerAnnum/
+                                                     CountDaysInBetweenDates(DateIn, DateIn.AddYears(1));
 
-            var timeDepositInterestEarnedPerAnnum = Amount * Rate;
-            var timeDepositInterestEarnedPerDay = timeDepositInterestEarnedPerAnnum / CountDaysInBetweenDates(DateIn, DateIn.AddYears(1));
+            var timeDepositInterestEarnedPerAnnum = Amount*Rate;
+            var timeDepositInterestEarnedPerDay = timeDepositInterestEarnedPerAnnum/
+                                                  CountDaysInBetweenDates(DateIn, DateIn.AddYears(1));
 
             if (IsMature(processingDate))
             {
                 // get days until maturity
                 var timeDepositDays = CountDaysInBetweenDates(DateIn, Maturity);
-                var timeDepositInterestEarned = timeDepositInterestEarnedPerDay * timeDepositDays;
+                var timeDepositInterestEarned = timeDepositInterestEarnedPerDay*timeDepositDays;
 
                 // get days a day after maturity until processing date
                 var daysAfterMaturity = CountDaysInBetweenDates(Maturity.AddDays(1), processingDate);
                 if (daysAfterMaturity >= 1)
                 {
-                    timeDepositInterestEarned += savingsDepositInterestEarnedPerDay * daysAfterMaturity;
+                    timeDepositInterestEarned += savingsDepositInterestEarnedPerDay*daysAfterMaturity;
                 }
                 return Math.Round(timeDepositInterestEarned);
             }
 
             // premature
-            return Math.Round(savingsDepositInterestEarnedPerDay * CountDaysInBetweenDates(DateIn, processingDate));
+            return Math.Round(savingsDepositInterestEarnedPerDay*CountDaysInBetweenDates(DateIn, processingDate));
         }
 
         public decimal CalculateServiceFee(DateTime processingDate)
         {
+            var minimumServiceFeeAmount = GlobalSettings.AmountOfMinimumTimeDepositServiceFee;
             var interestEarned = CalculateInterestEarned(processingDate);
             var serviceFeeRate = GlobalSettings.RateOfTimeDepositServiceFee;
             var serviceFee = Math.Round(interestEarned*serviceFeeRate);
-            return serviceFee > 10 ? serviceFee : 10;
+            return serviceFee > minimumServiceFeeAmount ? serviceFee : minimumServiceFeeAmount;
         }
 
         public int CountDaysFromEntry(DateTime processingDate)
@@ -202,6 +210,11 @@ namespace SCCO.WPF.MVC.CS.Models.TimeDeposit
             if (string.IsNullOrEmpty(certificateNo)) return null;
 
             return new TimeDepositDetails(dataRow);
+        }
+
+        public bool IsValid
+        {
+            get { return DateIn != Maturity; }
         }
     }
 }

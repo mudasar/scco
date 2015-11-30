@@ -4,12 +4,12 @@ using SCCO.WPF.MVC.CS.Models.AccountVerifier;
 
 namespace SCCO.WPF.MVC.CS.Views.TimeDepositModule
 {
-    public partial class TimeDepositEntryWindow
+    public partial class TimeDepositSummaryView
     {
         private readonly AccountDetail _accountDetail;
         private bool _hasChanged;
 
-        public TimeDepositEntryWindow(AccountDetail accountDetail)
+        public TimeDepositSummaryView(AccountDetail accountDetail)
         {
             InitializeComponent();
             _accountDetail = accountDetail;
@@ -19,23 +19,30 @@ namespace SCCO.WPF.MVC.CS.Views.TimeDepositModule
             RefreshFieldValues();
 
             btnWithdraw.Click += (sender, args) => Withdraw();
+            btnPreterminate.Click += (sender, args) => Withdraw();
+            btnRollover.Click += (sender, args) => Rollover();
         }
 
         private void RefreshFieldValues()
         {
-            var transactionDate = Controllers.MainController.LoggedUser.TransactionDate;
+            var asOf = Controllers.MainController.LoggedUser.TransactionDate;
+            txtSummaryDate.Content = string.Format("{0:yyyy-MMM-dd}", asOf);
+            txtStatus.Content = _accountDetail.TimeDepositDetails.IsPremature(asOf) ? "Pre-Mature" : "Mature";
             var timeDepositDetails = _accountDetail.TimeDepositDetails;
-            var interestEarned = timeDepositDetails.CalculateInterestEarned(transactionDate);
+            var interestEarned = timeDepositDetails.CalculateInterestEarned(asOf);
             txtInterestEarned.Content = string.Format("{0:N2}", interestEarned);
 
-            var serviceFee = timeDepositDetails.CalculateServiceFee(transactionDate);
+            var serviceFee = timeDepositDetails.CalculateServiceFee(asOf);
             txtServiceFee.Content = string.Format("{0:N2}", serviceFee);
+
+            txtEndingBalance.Content =
+                string.Format("{0:N2}", _accountDetail.TimeDepositDetails.EndingBalance(asOf));
         }
 
         private void Withdraw()
         {
             // Show TD Withdrawal
-            var view = new TimeDepositWithdrawalWindow(_accountDetail);
+            var view = new TimeDepositWithdrawalView(_accountDetail);
             if (view.ShowDialog() == true)
             {
                 _hasChanged = true;
@@ -47,9 +54,15 @@ namespace SCCO.WPF.MVC.CS.Views.TimeDepositModule
             get { return _hasChanged; }
         }
 
-        private void RollOver()
+        private void Rollover()
         {
-            // Show TD RollOver Window
+            // Show TD Rollover Window
+            var view = new TimeDepositRolloverView(_accountDetail);
+            if (view.ShowDialog() == true)
+            {
+                _hasChanged = true;
+                DialogResult = true;
+            }
         }
 
         private void PrintCertificate()

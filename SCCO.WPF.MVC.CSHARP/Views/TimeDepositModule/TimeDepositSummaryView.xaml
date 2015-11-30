@@ -1,4 +1,4 @@
-﻿<views:BaseWindow x:Class="SCCO.WPF.MVC.CS.Views.TimeDepositModule.TimeDepositEntryWindow"
+﻿<views:BaseWindow x:Class="SCCO.WPF.MVC.CS.Views.TimeDepositModule.TimeDepositSummaryView"
                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -13,7 +13,7 @@
     <views:BaseWindow.DataContext>
         <models:AccountDetail />
     </views:BaseWindow.DataContext>
-    <Grid Margin="5">
+    <Grid Margin="5" Width="340">
         <Grid x:Name="FormLayout">
             <Rectangle x:Name="Canvass"
                        Fill="#FFCC4E5C"
@@ -46,7 +46,7 @@
                    HorizontalAlignment="Left"
                    VerticalAlignment="Top"
                    VerticalContentAlignment="Center"
-                   Content="Time Deposit"
+                   Content=" Time Deposit Summary"
                    Foreground="White"
                    MouseLeftButtonDown="DragWindow"
                    Style="{StaticResource FormTitle2}" />
@@ -119,7 +119,7 @@
                        Grid.Row="4"
                        Grid.Column="3"
                        Margin="0,2">
-                    <TextBlock Text="{Binding TimeDepositDetails.DateIn, StringFormat=\{0:d\}}" />
+                    <TextBlock Text="{Binding TimeDepositDetails.DateIn, StringFormat=\{0:yyyy-MMM-dd\}}" />
                 </Label>
                 <Label Grid.Row="5"
                        HorizontalAlignment="Right"
@@ -127,7 +127,7 @@
                 <Label x:Name="txtMaturity"
                        Grid.Row="5"
                        Grid.Column="3">
-                    <TextBlock Text="{Binding TimeDepositDetails.Maturity, StringFormat=\{0:d\}}" />
+                    <TextBlock Text="{Binding TimeDepositDetails.Maturity, StringFormat=\{0:yyyy-MMM-dd\}}" />
                 </Label>
             </Grid>
             <TextBlock />
@@ -141,38 +141,47 @@
                     <RowDefinition />
                     <RowDefinition />
                     <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
+					<RowDefinition />
+					<RowDefinition />
                 </Grid.RowDefinitions>
 
-                <Label HorizontalAlignment="Right" Content="Interest Earned" />
-                <Label x:Name="txtInterestEarned" Grid.Column="3">
+                <Label HorizontalAlignment="Right" Content="Summary Date" />
+                <Label x:Name="txtSummaryDate" Grid.Column="3">
                     <TextBlock />
                 </Label>
-                <Label Grid.Row="1"
-                       HorizontalAlignment="Right"
-                       Content="Service Fee" />
-                <Label x:Name="txtServiceFee"
-                       Grid.Row="1"
-                       Grid.Column="2"
-                       d:LayoutOverrides="GridBox">
+				
+                <Label Grid.Row="1" HorizontalAlignment="Right" Content="Status" />
+                <Label Grid.Row="1" x:Name="txtStatus" Grid.Column="3">
+                    <TextBlock />
+                </Label>
+
+                <Label Grid.Row="2" HorizontalAlignment="Right" Content="Interest Earned" />
+                <Label Grid.Row="2" x:Name="txtInterestEarned" Grid.Column="3">
+                    <TextBlock />
+                </Label>
+				
+                <Label Grid.Row="3" HorizontalAlignment="Right" Content="Service Fee" />
+                <Label Grid.Row="3" x:Name="txtServiceFee" Grid.Column="2">
+                    <TextBlock />
+                </Label>
+				<Label Grid.Row="4" HorizontalAlignment="Right" Content="Ending Balance" />
+                <Label Grid.Row="4" x:Name="txtEndingBalance" Grid.Column="2">
                     <TextBlock />
                 </Label>
             </Grid>
             <TextBlock />
-            <StackPanel Orientation="Horizontal">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <Button x:Name="btnPrintCtd"
                         Content="Print CTD"
                         Style="{DynamicResource ControlButton}" />
                 <Button x:Name="btnPreterminate"
                         Content="Preterminate"
-                        Style="{DynamicResource ControlButton}" />
+                        Style="{DynamicResource ControlButton}" Visibility="Collapsed" />
                 <Button x:Name="btnWithdraw"
                         Content="Withdraw"
                         Style="{DynamicResource ControlButton}" />
                 <Button x:Name="btnRollover"
-                        Content="Roll Over"
+                        Content="Rollover"
                         Style="{DynamicResource ControlButton}" />
             </StackPanel>
 

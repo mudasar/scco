@@ -408,7 +408,7 @@ namespace SCCO.WPF.MVC.CS.Views
                         timeDepositDetail.Rate = _modelTellerCollector.TimeDepositDetail.Rate;
                         timeDepositDetail.Term = _modelTellerCollector.TimeDepositDetail.Term;
                     }
-                    var timeDepositDetailsWindow = new TimeDepositEditWindow(timeDepositDetail);
+                    var timeDepositDetailsWindow = new TimeDepositEditView(timeDepositDetail);
                     timeDepositDetailsWindow.IsReadOnly = !CanModify;
                     if (timeDepositDetailsWindow.ShowDialog() == true)
                     {

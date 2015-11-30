@@ -5,13 +5,13 @@ namespace SCCO.WPF.MVC.CS.Views.TimeDepositModule
     /// <summary>
     /// Interaction logic for TimeDepositDetailWindow.xaml
     /// </summary>
-    public partial class TimeDepositEditWindow
+    public partial class TimeDepositEditView
     {
         private const int MONTHS_IN_THREE_YEARS = 12*3;
 
         private bool _isReadOnly;
 
-        public TimeDepositEditWindow()
+        public TimeDepositEditView()
         {
             InitializeComponent();
             for (int i = 0; i < (MONTHS_IN_THREE_YEARS);)
@@ -21,7 +21,7 @@ namespace SCCO.WPF.MVC.CS.Views.TimeDepositModule
             }
         }
 
-        public TimeDepositEditWindow(Models.TimeDeposit.TimeDepositDetails timeDepositDetail) :this()
+        public TimeDepositEditView(Models.TimeDeposit.TimeDepositDetails timeDepositDetail) :this()
         {
             DataContext = timeDepositDetail;
         }

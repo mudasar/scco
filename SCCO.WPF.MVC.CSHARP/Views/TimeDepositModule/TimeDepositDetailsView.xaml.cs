@@ -2,10 +2,10 @@
 
 namespace SCCO.WPF.MVC.CS.Views.TimeDepositModule
 {
-    public partial class TimeDepositDetailsWindow
+    public partial class TimeDepositDetailsView
     {
         private readonly TimeDepositDetails _timeDepositDetails;
-        public TimeDepositDetailsWindow(TimeDepositDetails timeDepositDetails)
+        public TimeDepositDetailsView(TimeDepositDetails timeDepositDetails)
         {
             InitializeComponent();
             _timeDepositDetails = timeDepositDetails;

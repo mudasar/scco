@@ -322,6 +322,12 @@
                         Margin="2"
                         Content="Daily Savings Withdrawal"
                         Style="{DynamicResource ControlButton}" />
+                <Button x:Name="btnTimeDepositSetup"
+                	Width="Auto"
+                	Height="40"
+                	Margin="2"
+                	Content="Time Deposit Setup"
+                	Style="{DynamicResource ControlButton}" />
                 <TextBlock Margin="2" />
                 <Button x:Name="btnProductImage"
                         Width="Auto"

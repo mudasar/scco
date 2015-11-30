@@ -8,7 +8,6 @@ namespace SCCO.WPF.MVC.CS.Models
     public enum GlobalKeys
     {
         CodeOfCapitalBuildUp,
-        RateOfFines,
         CodeOfCashOnHand,
         CodeOfCompany,
         CodeOfInterestExpenseOnSavingsDeposit,
@@ -27,9 +26,11 @@ namespace SCCO.WPF.MVC.CS.Models
         AmountOfSavingsDepositMaintainingBalance,
         AmountOfSavingsDepositWithdrawable,
         AmountOfInterestOnSavingsDepositRequiredBalance,
+        AmountOfMinimumTimeDepositServiceFee,
+        RateOfFines,
         RateOfInterestOnSavingsDeposit,
+        RateOfTimeDepositServiceFee,
         DateOfSavingsDepositWithdrawalCashVoucher,
-        RateOfTimeDepositServiceFee
     }
 
     public static class GlobalSettings
@@ -124,7 +125,6 @@ namespace SCCO.WPF.MVC.CS.Models
             }
         }
 
-
         public static string CodeOfServiceFee
         {
             get
@@ -157,6 +157,17 @@ namespace SCCO.WPF.MVC.CS.Models
             get
             {
                 const GlobalKeys key = GlobalKeys.RateOfFines;
+                return DataConverter.ToDecimal(SearchDatabase(key)["CurrentValue"]);
+            }
+        }
+
+        //AmountOfMinimumTimeDepositServiceFee
+
+        public static decimal AmountOfMinimumTimeDepositServiceFee
+        {
+            get
+            {
+                const GlobalKeys key = GlobalKeys.AmountOfMinimumTimeDepositServiceFee;
                 return DataConverter.ToDecimal(SearchDatabase(key)["CurrentValue"]);
             }
         }

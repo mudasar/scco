@@ -616,9 +616,16 @@
       <DependentUpon>PostSavingsDepositView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SearchModule\SearchViewModel.cs" />
+    <Compile Include="Views\TimeDepositModule\TimeDepositSetupView.xaml.cs">
+      <DependentUpon>TimeDepositSetupView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TimeDepositModule\TimeDepositRolloverView.xaml.cs">
+      <DependentUpon>TimeDepositRolloverView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\TimeDepositModule\MemberAccountDetailViewModel.cs" />
-    <Compile Include="Views\TimeDepositModule\TimeDepositWithdrawalWindow.xaml.cs">
-      <DependentUpon>TimeDepositWithdrawalWindow.xaml</DependentUpon>
+    <Compile Include="Views\TimeDepositModule\TimeDepositSetupViewModel.cs" />
+    <Compile Include="Views\TimeDepositModule\TimeDepositWithdrawalView.xaml.cs">
+      <DependentUpon>TimeDepositWithdrawalView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TimeDepositModule\PostTimeDepositView.xaml.cs">
       <DependentUpon>PostTimeDepositView.xaml</DependentUpon>
@@ -819,17 +826,17 @@
     <Compile Include="Views\TimeDepositModule\OpenTimeDepositView.xaml.cs">
       <DependentUpon>OpenTimeDepositView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\TimeDepositModule\TimeDepositDetailsWindow.xaml.cs">
-      <DependentUpon>TimeDepositDetailsWindow.xaml</DependentUpon>
+    <Compile Include="Views\TimeDepositModule\TimeDepositDetailsView.xaml.cs">
+      <DependentUpon>TimeDepositDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LoanModule\LoanPostingWindow.xaml.cs">
       <DependentUpon>LoanPostingWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\TimeDepositModule\TimeDepositEditWindow.xaml.cs">
-      <DependentUpon>TimeDepositEditWindow.xaml</DependentUpon>
+    <Compile Include="Views\TimeDepositModule\TimeDepositEditView.xaml.cs">
+      <DependentUpon>TimeDepositEditView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\TimeDepositModule\TimeDepositEntryWindow.xaml.cs">
-      <DependentUpon>TimeDepositEntryWindow.xaml</DependentUpon>
+    <Compile Include="Views\TimeDepositModule\TimeDepositSummaryView.xaml.cs">
+      <DependentUpon>TimeDepositSummaryView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TimeDepositModule\TimeDepositViewModel.cs" />
     <Compile Include="Views\TransactionDatePickerWindow.xaml.cs">
@@ -1256,7 +1263,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\TimeDepositModule\TimeDepositWithdrawalWindow.xaml">
+    <Page Include="Views\TimeDepositModule\TimeDepositSetupView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\TimeDepositModule\TimeDepositRolloverView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\TimeDepositModule\TimeDepositWithdrawalView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1268,7 +1283,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\TimeDepositModule\TimeDepositDetailsWindow.xaml">
+    <Page Include="Views\TimeDepositModule\TimeDepositDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1276,11 +1291,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\TimeDepositModule\TimeDepositEditWindow.xaml">
+    <Page Include="Views\TimeDepositModule\TimeDepositEditView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\TimeDepositModule\TimeDepositEntryWindow.xaml">
+    <Page Include="Views\TimeDepositModule\TimeDepositSummaryView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

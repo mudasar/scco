@@ -8,12 +8,12 @@ using SCCO.WPF.MVC.CS.Utilities;
 // this window validates voucher number
 namespace SCCO.WPF.MVC.CS.Views.TimeDepositModule
 {
-    public partial class TimeDepositWithdrawalWindow
+    public partial class TimeDepositWithdrawalView
     {
         private readonly Voucher _voucherDocument;
         private readonly AccountDetail _accountDetail;
 
-        public TimeDepositWithdrawalWindow(AccountDetail accountDetail)
+        public TimeDepositWithdrawalView(AccountDetail accountDetail)
         {
             InitializeComponent();
             
@@ -24,7 +24,7 @@ namespace SCCO.WPF.MVC.CS.Views.TimeDepositModule
                     VoucherType = VoucherTypes.CV,
                     VoucherNo = Voucher.LastDocumentNo(VoucherTypes.CV) + 1
                 };
-            CashVoucherNoTextBox.Text = string.Format("{0}", Voucher.LastDocumentNo(VoucherTypes.CV) + 1);
+            CashVoucherNoTextBox.Text = string.Format("{0}", _voucherDocument.VoucherNo);
             DataContext = _voucherDocument;
             PostButton.Click += (sender, args) => PostTimeDepositWithdrawal();
         }
@@ -45,12 +45,12 @@ namespace SCCO.WPF.MVC.CS.Views.TimeDepositModule
                 MessageWindow.ShowAlertMessage(result.Message);
                 return;
             }
+            PrintVoucher();
             DialogResult = true;
         }
 
         private Result PerformPosting()
         {
-
             // post time desposit end balance debit side
             var result = PostTimeDepositEndBalance();
             if (!result.Success)
@@ -58,8 +58,8 @@ namespace SCCO.WPF.MVC.CS.Views.TimeDepositModule
                 return result;
             }
 
-            // post interest earned debit side
-            result = PostInterestEarned();
+            // post interest expense debit side
+            result = PostInterestExpense();
             if (!result.Success)
             {
                 return result;
@@ -103,8 +103,7 @@ namespace SCCO.WPF.MVC.CS.Views.TimeDepositModule
             // post time desposit end balance debit side
             var member = Nfmb.FindByCode(_accountDetail.MemberCode);
             var account = Account.FindByCode(_accountDetail.AccountCode);
-            var tdDetails = new TimeDepositDetails();
-            tdDetails.CertificateNo = _accountDetail.TimeDepositDetails.CertificateNo;
+            var tdDetails = new TimeDepositDetails {CertificateNo = _accountDetail.TimeDepositDetails.CertificateNo};
             var cv = new CashVoucher
                 {
                     MemberCode = member.MemberCode,
@@ -125,9 +124,15 @@ namespace SCCO.WPF.MVC.CS.Views.TimeDepositModule
             return postResult;
         }
 
-        private Result PostInterestEarned()
+        private Result PostInterestExpense()
         {
             // post time desposit end balance debit side
+            var interestEarned = _accountDetail.TimeDepositDetails.CalculateInterestEarned(_voucherDocument.VoucherDate);
+            if (interestEarned == 0)
+            {
+                return new Result(true, "No interest earned.");
+            }
+
             var member = Nfmb.FindByCode(_accountDetail.MemberCode);
             var accountCode = GlobalSettings.CodeOfInterestExpenseOnTimeDeposit;
             if (string.IsNullOrWhiteSpace(accountCode))
@@ -141,7 +146,7 @@ namespace SCCO.WPF.MVC.CS.Views.TimeDepositModule
                 MemberName = member.MemberName,
                 AccountCode = account.AccountCode,
                 AccountTitle = account.AccountTitle,
-                Debit = _accountDetail.TimeDepositDetails.CalculateInterestEarned(_voucherDocument.VoucherDate),
+                Debit = interestEarned,
                 VoucherDate = _voucherDocument.VoucherDate,
                 VoucherNo = _voucherDocument.VoucherNo,
             };
@@ -235,6 +240,11 @@ namespace SCCO.WPF.MVC.CS.Views.TimeDepositModule
                 return false;
             }
             return true;
+        }
+
+        private void PrintVoucher()
+        {
+            ReportController.CashVoucherReports.VoucherForm(_voucherDocument.VoucherNo);
         }
 
     }

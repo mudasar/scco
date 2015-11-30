@@ -34,6 +34,7 @@ namespace SCCO.WPF.MVC.CS.Views.InitialSetupModule {
 
             // other module
             btnDailySavingsWithdrawal.Click += (sender, args) => ShowDailySavingsWithdrawalSetup();
+            btnTimeDepositSetup.Click += (sender, args) => ShowTimeDepositSetup();
             btnForwardingBalance.Click += (sender, args) => ShowForwardingBalanceModule();
             btnGeneralLedgerBalance.Click += (sender, e) => ShowGeneralLedgerBalanceModule();
             btnLoanProducts.Click += (sender, args) => ShowLoanProductModule();
@@ -42,6 +43,13 @@ namespace SCCO.WPF.MVC.CS.Views.InitialSetupModule {
             //setup
 
             btnReportManagement.Click += (sender, args) => ShowReportItemModule();
+        }
+
+        private void ShowTimeDepositSetup()
+        {
+            var view = new TimeDepositModule.TimeDepositSetupView();
+            view.Owner = this;
+            view.ShowDialog();
         }
 
         private void ShowGeneralLedgerBalanceModule()

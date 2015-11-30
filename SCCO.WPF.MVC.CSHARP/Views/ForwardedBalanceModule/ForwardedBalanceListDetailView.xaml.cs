@@ -43,7 +43,7 @@ namespace SCCO.WPF.MVC.CS.Views.ForwardedBalanceModule
             {
                 _viewModel.SelectedItem.TimeDepositDetails = new TimeDepositDetails();
             }
-            var view = new TimeDepositDetailsWindow(_viewModel.SelectedItem.TimeDepositDetails);
+            var view = new TimeDepositDetailsView(_viewModel.SelectedItem.TimeDepositDetails);
             view.ShowDialog();
         }
 

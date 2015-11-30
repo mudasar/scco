@@ -10,6 +10,7 @@ using SCCO.WPF.MVC.CS.Models;
 using SCCO.WPF.MVC.CS.Models.AccountVerifier;
 using SCCO.WPF.MVC.CS.Models.Loan;
 using SCCO.WPF.MVC.CS.Models.SavingsDeposit;
+using SCCO.WPF.MVC.CS.Models.TimeDeposit;
 using SCCO.WPF.MVC.CS.Utilities;
 using SCCO.WPF.MVC.CS.Views.LoanModule;
 using SCCO.WPF.MVC.CS.Views.SavingsDepositModule;
@@ -352,17 +353,89 @@ namespace SCCO.WPF.MVC.CS.Views.AccountVerifierModule
 
         private void ShowTimeDepositDetails()
         {
-            var currentItem = (AccountDetail)grdDetails.SelectedItem;
-            if (currentItem == null) return;
+            var currentItem = (AccountDetail) grdDetails.SelectedItem;
 
-            var timeDepositDetailsWindow = new TimeDepositEntryWindow(currentItem);
-            if (timeDepositDetailsWindow.ShowDialog() == true)
+            // if no selected item, find latest time deposit entry
+            if (currentItem != null)
             {
-                if (timeDepositDetailsWindow.HasChanged)
+                // if no balance, display only details
+                if (_viewModel.SelectedAccount.Balance == 0)
+                {
+                    ShowTimeDepositDetailsWindow(currentItem.TimeDepositDetails);
+                }
+                else
+                {
+                    if (!AreTheyEqual(LatestTimeDepositEntry(), currentItem))
+                    {
+                        ShowTimeDepositDetailsWindow(currentItem.TimeDepositDetails);
+                    }
+                    else
+                    {
+                        ShowTimeDepositSummaryWindow(currentItem);
+                    }
+                }
+            }
+            else
+            {
+                var detail = LatestTimeDepositEntry();
+                if (detail == null)
+                {
+                    MessageWindow.ShowAlertMessage("No valid Time Deposit details found.");
+                    return;
+                }
+
+                ShowTimeDepositSummaryWindow(detail);
+            }
+        }
+
+        private void ShowTimeDepositDetailsWindow(TimeDepositDetails timeDepositDetails)
+        {
+            var timeDepositDetailWindow = new TimeDepositDetailsView(timeDepositDetails);
+            timeDepositDetailWindow.ShowDialog();
+        }
+
+        private void ShowTimeDepositSummaryWindow(AccountDetail accountDetail)
+        {
+            // replace amount with ending balance
+            accountDetail.TimeDepositDetails.Amount = _viewModel.SelectedAccount.Balance;
+            var timeDepositSummaryWindow = new TimeDepositSummaryView(accountDetail);
+            if (timeDepositSummaryWindow.ShowDialog() == true)
+            {
+                if (timeDepositSummaryWindow.HasChanged)
                 {
                     RefreshAccountInformation();
                 }
             }
+        }
+
+        private AccountDetail LatestTimeDepositEntry()
+        {
+            AccountDetail accountDetail = null;
+            foreach (var item in grdDetails.Items)
+            {
+                var td = (AccountDetail) item;
+                if (td.TimeDepositDetails.IsValid)
+                {
+                    accountDetail = td;
+                }
+            }
+            return accountDetail;
+        }
+
+        private bool AreTheyEqual(AccountDetail detail1, AccountDetail detail2)
+        {
+            if (detail1.MemberCode != detail2.MemberCode) return false;
+            if (detail1.AccountCode != detail2.AccountCode) return false;
+            if (detail1.Debit != detail2.Debit) return false;
+            if (detail1.Credit != detail2.Credit) return false;
+            if (detail1.VoucherDate != detail2.VoucherDate) return false;
+            if (detail1.VoucherNumber != detail2.VoucherNumber) return false;
+            if (detail1.VoucherType != detail2.VoucherType) return false;
+            if (detail1.TimeDepositDetails.CertificateNo != detail2.TimeDepositDetails.CertificateNo) return false;
+            if (detail1.TimeDepositDetails.Amount != detail2.TimeDepositDetails.Amount) return false;
+            if (detail1.TimeDepositDetails.DateIn != detail2.TimeDepositDetails.DateIn) return false;
+            if (detail1.TimeDepositDetails.Rate != detail2.TimeDepositDetails.Rate) return false;
+            return true;
         }
 
         #endregion

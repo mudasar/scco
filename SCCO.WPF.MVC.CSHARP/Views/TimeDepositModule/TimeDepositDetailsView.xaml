@@ -1,4 +1,4 @@
-﻿<views:BaseWindow x:Class="SCCO.WPF.MVC.CS.Views.TimeDepositModule.TimeDepositDetailsWindow"
+﻿<views:BaseWindow x:Class="SCCO.WPF.MVC.CS.Views.TimeDepositModule.TimeDepositDetailsView"
                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                   xmlns:models="clr-namespace:SCCO.WPF.MVC.CS.Models.TimeDeposit"
