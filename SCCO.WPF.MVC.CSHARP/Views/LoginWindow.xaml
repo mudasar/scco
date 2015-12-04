@@ -74,8 +74,8 @@
 
         </StackPanel>
         <StackPanel Margin="138,90,32,60">
-            <Label x:Name="lblUsername" Content="Loggin Name" />
-            <TextBox x:Name="txtUsername"
+            <Label x:Name="lblUsername" Content="Login Name" />
+            <TextBox x:Name="txtLoginName"
                      Height="30"
                      FontSize="13.333"
                      FontWeight="Bold"

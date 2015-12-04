@@ -67,7 +67,7 @@ namespace SCCO.WPF.MVC.CS.Views {
             InitialSetupButton.Click += (sender, args) => MainController.ShowInitialSetupWindow();
             AdministratorButton.Click += (sender, args) => MainController.ShowAdministratorWindow();
 
-            UserNameLabel.MouseDoubleClick += (sender, args) => MainController.ShowUpdatePasswordWindow();
+            UserNameLabel.MouseDoubleClick += (sender, args) => MainController.ShowUpdateLoginWindow();
             TransactionDateLabel.MouseDoubleClick += (sender, args) => MainController.ShowUserTransactionDateWindow();
             ProductInformationLabel.MouseDoubleClick += (sender, args) => MainController.ShowAboutProject();
         }

@@ -59,10 +59,10 @@
         <Grid x:Name="Controls" Margin="20,60,20,20">
             <StackPanel>
                 <StackPanel>
-                    <Label Content="Loggin Name" Foreground="WhiteSmoke" />
-                    <TextBox x:Name="txtUserName"
+                    <Label Content="Login Name" Foreground="WhiteSmoke" />
+                    <TextBox x:Name="txtLoginName"
                              Width="250" Style="{StaticResource RoundedTextBox}"
-                             Text="{Binding LogginName}" />
+                             Text="{Binding LoginName}" />
                 </StackPanel>
                 <TextBlock />
                 <StackPanel>

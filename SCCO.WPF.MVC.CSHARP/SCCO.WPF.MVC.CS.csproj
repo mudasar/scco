@@ -848,8 +848,8 @@
     <Compile Include="Views\UserModule\EditUserView.xaml.cs">
       <DependentUpon>EditUserView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\UserModule\ChangePasswordView.xaml.cs">
-      <DependentUpon>ChangePasswordView.xaml</DependentUpon>
+    <Compile Include="Views\UserModule\UpdateLoginView.xaml.cs">
+      <DependentUpon>UpdateLoginView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserModule\UserListDetailView.xaml.cs">
       <DependentUpon>UserListDetailView.xaml</DependentUpon>
@@ -1311,7 +1311,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\UserModule\ChangePasswordView.xaml">
+    <Page Include="Views\UserModule\UpdateLoginView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

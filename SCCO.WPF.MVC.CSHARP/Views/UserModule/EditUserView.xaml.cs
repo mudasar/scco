@@ -35,6 +35,12 @@ namespace SCCO.WPF.MVC.CS.Views.UserModule
             _editUserViewModel.User.Find(id);
 
             _editUserViewModel.Collectors = Models.Collections.Collectors.Collect();
+            var canAccessInitialSetup = Controllers.MainController.LoggedUser.CanAccessInitialSetup;
+            chkInitialSetup.Visibility = canAccessInitialSetup ? Visibility.Visible : Visibility.Collapsed;
+
+            var isAdministrator = Controllers.MainController.LoggedUser.IsAdministrator;
+            chkAdministrator.Visibility = isAdministrator ? Visibility.Visible : Visibility.Collapsed;
+
             DataContext = _editUserViewModel;
         }
     }

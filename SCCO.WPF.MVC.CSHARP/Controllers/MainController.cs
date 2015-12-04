@@ -258,10 +258,10 @@ namespace SCCO.WPF.MVC.CS.Controllers
             databaseConfiguration.ShowDialog();
         }
 
-        internal static void ShowUpdatePasswordWindow()
+        internal static void ShowUpdateLoginWindow()
         {
-            var updatePassword = new ChangePasswordView();
-            updatePassword.ShowDialog();
+            var updateLogin = new UpdateLoginView();
+            updateLogin.ShowDialog();
         }
 
         public static void ShowUserTransactionDateWindow()

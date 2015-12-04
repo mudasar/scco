@@ -43,7 +43,7 @@
                    HorizontalAlignment="Left"
                    VerticalAlignment="Top"
                    VerticalContentAlignment="Center"
-                   Content="{Binding User.LogginName}"
+                   Content="{Binding User.LoginName}"
                    Foreground="White"
                    MouseLeftButtonDown="DragWindow"
                    Style="{StaticResource FormTitle2}" />
@@ -144,15 +144,15 @@
                                       Foreground="WhiteSmoke"
                                       IsChecked="{Binding User.CanAccessOtherReports}"
                                       Style="{StaticResource ControlCheckBox}" />
-                            <CheckBox Margin="0,2,0,2"
+                            <CheckBox x:Name="chkInitialSetup" Margin="0,2,0,2"
                                       Content="Initial Setup"
                                       Foreground="WhiteSmoke"
                                       IsChecked="{Binding User.CanAccessInitialSetup}"
                                       Style="{StaticResource ControlCheckBox}" />
-                            <CheckBox Margin="0,2,0,2"
-                                      Content="Database Backup"
+                            <CheckBox x:Name="chkAdministrator" Margin="0,2,0,2"
+                                      Content="Administrator"
                                       Foreground="WhiteSmoke"
-                                      IsChecked="{Binding User.CanAccessDatabaseBackup}"
+                                      IsChecked="{Binding User.IsAdministrator}"
                                       Style="{StaticResource ControlCheckBox}" />
                         </StackPanel>
                         <StackPanel Grid.Column="1" />

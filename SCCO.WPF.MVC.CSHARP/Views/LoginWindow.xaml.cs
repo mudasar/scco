@@ -21,7 +21,7 @@ namespace SCCO.WPF.MVC.CS.Views
 
             lblVersion.Content = string.Format("Version {0}", fileVersionInfo.FileVersion);
 
-            Loaded += (sender, args) => txtUsername.Focus();
+            Loaded += (sender, args) => txtLoginName.Focus();
 
             btnOK.Click += (sender, args) => Loggin();
             btnCancel.Click += (sender, args) => CancelLoggin();
@@ -56,7 +56,7 @@ namespace SCCO.WPF.MVC.CS.Views
                 return;
             }
 
-            var id = User.FindMatch(txtUsername.Text, txtPassword.Password);
+            var id = User.FindMatch(txtLoginName.Text, txtPassword.Password);
             if(id > 0)
             {
                 var loggedUser = new User();

@@ -96,8 +96,8 @@
                               VerticalScrollBarVisibility="Visible">
                         <DataGrid.Columns>
                             <DataGridTextColumn Width=".5*"
-                                                Binding="{Binding LogginName}"
-                                                Header="Loggin">
+                                                Binding="{Binding LoginName}"
+                                                Header="Login Name">
                                 <DataGridTextColumn.ElementStyle>
                                     <Style TargetType="TextBlock">
                                         <Setter Property="VerticalAlignment" Value="Center" />
@@ -171,12 +171,12 @@
                         </Grid.RowDefinitions>
                         <Label Margin="2"
                                HorizontalContentAlignment="Right"
-                               Content="Loggin :" />
-                        <Label Grid.Column="2" Content="{Binding SelectedItem.LogginName}" />
+                               Content="Login Name :" />
+                        <Label Grid.Column="2" Content="{Binding SelectedItem.LoginName}" />
                         <Label Grid.Row="1"
                                Margin="2"
                                HorizontalContentAlignment="Right"
-                               Content="User :" />
+                               Content="User Name :" />
                         <Label Grid.Row="1"
                                Grid.Column="2"
                                Content="{Binding SelectedItem.UserName}" />

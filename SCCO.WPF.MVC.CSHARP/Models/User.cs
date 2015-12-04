@@ -290,7 +290,10 @@ namespace SCCO.WPF.MVC.CS.Models
 
         private const string TABLE_NAME = "SECURE";
 
-        public static string DefaultPassword { get { return "password"; } }
+        public static string DefaultPassword
+        {
+            get { return "password"; }
+        }
 
         public int ID
         {
@@ -312,13 +315,13 @@ namespace SCCO.WPF.MVC.CS.Models
             }
         }
 
-        public string LogginName
+        public string LoginName
         {
-            get { return _logginName; }
+            get { return _loginName; }
             set
             {
-                _logginName = value;
-                OnPropertyChanged("LogginName");
+                _loginName = value;
+                OnPropertyChanged("LoginName");
             }
         }
 
@@ -399,7 +402,11 @@ namespace SCCO.WPF.MVC.CS.Models
         public bool IsAdministrator
         {
             get { return _isAdministrator; }
-            set { _isAdministrator = value; OnPropertyChanged("IsAdministrator"); }
+            set
+            {
+                _isAdministrator = value;
+                OnPropertyChanged("IsAdministrator");
+            }
         }
 
         public bool Module5; //MODULE5
@@ -493,7 +500,7 @@ namespace SCCO.WPF.MVC.CS.Models
         private string _initials;
         private bool _canAccessTellerCollector;
         private bool _canAccessInitialSetup;
-        private string _logginName;
+        private string _loginName;
         private bool _canAccessDatabaseBackup;
         private bool _canAccessMemberInformation;
         private bool _canAccessGeneralLedgerReports;
@@ -520,7 +527,7 @@ namespace SCCO.WPF.MVC.CS.Models
             {
                 var sqlParameters = new List<SqlParameter>();
                 ModelController.AddParameter(sqlParameters, "?ACCESS", Password);
-                ModelController.AddParameter(sqlParameters, "?LOGIN", LogginName);
+                ModelController.AddParameter(sqlParameters, "?LOGIN", LoginName);
                 ModelController.AddParameter(sqlParameters, "?NAME", UserName);
                 ModelController.AddParameter(sqlParameters, "?COLLECTOR", CollectorName);
                 ModelController.AddParameter(sqlParameters, "?INITIAL", Initials);
@@ -581,10 +588,10 @@ namespace SCCO.WPF.MVC.CS.Models
         public Result Create()
         {
             Action createRecord = () =>
-                                  {
-                                      string sql = DatabaseController.GenerateInsertStatement(TABLE_NAME, SqlParameters);
-                                      ID = DatabaseController.ExecuteInsertQuery(sql, SqlParameters.ToArray());
-                                  };
+                {
+                    string sql = DatabaseController.GenerateInsertStatement(TABLE_NAME, SqlParameters);
+                    ID = DatabaseController.ExecuteInsertQuery(sql, SqlParameters.ToArray());
+                };
 
             return ActionController.InvokeAction(createRecord);
         }
@@ -592,16 +599,16 @@ namespace SCCO.WPF.MVC.CS.Models
         public Result Update()
         {
             Action updateRecord = () =>
-                                  {
-                                      var key = new SqlParameter("?ID", ID);
+                {
+                    var key = new SqlParameter("?ID", ID);
 
-                                      List<SqlParameter> sqlParameters = SqlParameters;
-                                      string sql = DatabaseController.GenerateUpdateStatement(TABLE_NAME, sqlParameters,
-                                                                                              key);
+                    List<SqlParameter> sqlParameters = SqlParameters;
+                    string sql = DatabaseController.GenerateUpdateStatement(TABLE_NAME, sqlParameters,
+                                                                            key);
 
-                                      sqlParameters.Add(key);
-                                      DatabaseController.ExecuteNonQuery(sql, sqlParameters.ToArray());
-                                  };
+                    sqlParameters.Add(key);
+                    DatabaseController.ExecuteNonQuery(sql, sqlParameters.ToArray());
+                };
 
             return ActionController.InvokeAction(updateRecord);
         }
@@ -609,13 +616,13 @@ namespace SCCO.WPF.MVC.CS.Models
         public Result Destroy()
         {
             Action deleteRecord = () =>
-                                  {
-                                      var key = new SqlParameter("?ID", ID);
+                {
+                    var key = new SqlParameter("?ID", ID);
 
-                                      string sql = DatabaseController.GenerateDeleteStatement(TABLE_NAME, key);
+                    string sql = DatabaseController.GenerateDeleteStatement(TABLE_NAME, key);
 
-                                      DatabaseController.ExecuteNonQuery(sql, key);
-                                  };
+                    DatabaseController.ExecuteNonQuery(sql, key);
+                };
 
             return ActionController.InvokeAction(deleteRecord);
         }
@@ -623,19 +630,19 @@ namespace SCCO.WPF.MVC.CS.Models
         public Result Find(int id)
         {
             Action findRecord = () =>
-                                {
-                                    ResetProperties();
-                                    ID = id;
+                {
+                    ResetProperties();
+                    ID = id;
 
-                                    var key = new SqlParameter("?ID", ID);
-                                    string sql = DatabaseController.GenerateSelectStatement(TABLE_NAME, key);
+                    var key = new SqlParameter("?ID", ID);
+                    string sql = DatabaseController.GenerateSelectStatement(TABLE_NAME, key);
 
-                                    DataTable dataTable = DatabaseController.ExecuteSelectQuery(sql, key);
-                                    foreach (DataRow dataRow in dataTable.Rows)
-                                    {
-                                        SetPropertiesFromDataRow(dataRow);
-                                    }
-                                };
+                    DataTable dataTable = DatabaseController.ExecuteSelectQuery(sql, key);
+                    foreach (DataRow dataRow in dataTable.Rows)
+                    {
+                        SetPropertiesFromDataRow(dataRow);
+                    }
+                };
 
             return ActionController.InvokeAction(findRecord);
         }
@@ -643,7 +650,7 @@ namespace SCCO.WPF.MVC.CS.Models
         public void ResetProperties()
         {
             UserName = string.Empty;
-            LogginName = string.Empty;
+            LoginName = string.Empty;
             Password = string.Empty;
             CollectorName = string.Empty;
             Initials = string.Empty;
@@ -666,7 +673,7 @@ namespace SCCO.WPF.MVC.CS.Models
         {
             ID = DataConverter.ToInteger(dataRow["ID"]);
             UserName = DataConverter.ToString(dataRow["NAME"]);
-            LogginName = DataConverter.ToString(dataRow["LOGIN"]);
+            LoginName = DataConverter.ToString(dataRow["LOGIN"]);
             CollectorName = DataConverter.ToString(dataRow["COLLECTOR"]);
             Password = DataConverter.ToString(dataRow["ACCESS"]);
             Initials = DataConverter.ToString(dataRow["INITIAL"]);
@@ -692,7 +699,7 @@ namespace SCCO.WPF.MVC.CS.Models
         public static int FindMatch(string userName, string password)
         {
             var sqlBuilder = new StringBuilder();
-            sqlBuilder.AppendFormat("SELECT ID FROM SECURE WHERE LOGIN = ?LOGIN AND ACCESS = PASSWORD(?ACCESS)LIMIT 1");
+            sqlBuilder.AppendFormat("SELECT ID FROM SECURE WHERE LOGIN = ?LOGIN AND ACCESS = PASSWORD(?ACCESS) LIMIT 1");
             var parameters = new List<SqlParameter>();
             parameters.Add(new SqlParameter("?ACCESS", password));
             parameters.Add(new SqlParameter("?LOGIN", userName));
@@ -713,21 +720,40 @@ namespace SCCO.WPF.MVC.CS.Models
         public Result UpdatePassword()
         {
             Action updatePassword = () =>
-                                    {
-                                        var sqlBuilder = new StringBuilder();
-                                        sqlBuilder.AppendFormat(
-                                            "UPDATE {0} SET ACCESS = PASSWORD(?Password) WHERE ID = ?ID", TABLE_NAME);
+                {
+                    var sqlBuilder = new StringBuilder();
+                    sqlBuilder.AppendFormat(
+                        "UPDATE {0} SET ACCESS = PASSWORD(?Password) WHERE ID = ?ID", TABLE_NAME);
 
-                                        var sqlParameters = new List<SqlParameter>
-                                                            {
-                                                                new SqlParameter("?Password",
-                                                                                 Password),
-                                                                new SqlParameter("?ID", ID),
-                                                            };
-                                        DatabaseController.ExecuteNonQuery(sqlBuilder.ToString(),
-                                                                           sqlParameters.ToArray());
-                                    };
+                    var sqlParameters = new List<SqlParameter>
+                        {
+                            new SqlParameter("?Password",
+                                             Password),
+                            new SqlParameter("?ID", ID),
+                        };
+                    DatabaseController.ExecuteNonQuery(sqlBuilder.ToString(),
+                                                       sqlParameters.ToArray());
+                };
             return ActionController.InvokeAction(updatePassword);
+        }
+
+        public Result UpdateLoginNameAndPassword()
+        {
+            Action updateLogin = () =>
+                {
+                    var sqlBuilder = new StringBuilder();
+                    sqlBuilder.AppendFormat(
+                        "UPDATE {0} SET LOGIN = ?LoginName, ACCESS = PASSWORD(?Password) WHERE ID = ?ID", TABLE_NAME);
+
+                    var sqlParameters = new List<SqlParameter>
+                        {
+                            new SqlParameter("?LoginName", LoginName),
+                            new SqlParameter("?Password", Password),
+                            new SqlParameter("?ID", ID),
+                        };
+                    DatabaseController.ExecuteNonQuery(sqlBuilder.ToString(), sqlParameters.ToArray());
+                };
+            return ActionController.InvokeAction(updateLogin);
         }
 
         public static User FindByName(string logginName)
@@ -779,6 +805,7 @@ namespace SCCO.WPF.MVC.CS.Models
             return collection;
         }
     }
+
     public class UserCollection : System.Collections.ObjectModel.ObservableCollection<User>
     {
     }
