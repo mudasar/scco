@@ -1,4 +1,5 @@
-﻿using SCCO.WPF.MVC.CS.Controllers;
+﻿using System;
+using SCCO.WPF.MVC.CS.Controllers;
 using SCCO.WPF.MVC.CS.Models;
 
 namespace SCCO.WPF.MVC.CS.Views.AccountVerifierModule
@@ -18,14 +19,13 @@ namespace SCCO.WPF.MVC.CS.Views.AccountVerifierModule
             btnSearchAccount.Click += (sender, args) => OnSearchAccount();
         }
 
-
         private void OnSearchAccount()
         {
-            var account = MainController.SearchAccount();
+            Account account = MainController.SearchAccount();
             if (account == null) return;
 
-            _viewModel = AccountVerifierGeneralLedgerViewModel.Refresh(account,
-                                                                       MainController.LoggedUser.TransactionDate);
+            DateTime transactionDate = MainController.LoggedUser.TransactionDate;
+            _viewModel = AccountVerifierGeneralLedgerViewModel.Refresh(account, transactionDate);
             DataContext = _viewModel;
         }
     }

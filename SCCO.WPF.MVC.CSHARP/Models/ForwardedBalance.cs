@@ -390,6 +390,21 @@ namespace SCCO.WPF.MVC.CS.Models
             return collection;
         }
 
+        internal static DateTime MaxDocumentDate()
+        {
+            var dataTable = DatabaseController.ExecuteSelectQuery("SELECT MAX(DOC_DATE) as doc_date FROM slbal");
+            foreach (DataRow row in dataTable.Rows)
+            {
+                return DataConverter.ToDateTime(row["doc_date"]);
+            }
+            return new DateTime(DateTime.Now.Year - 1, 12, 31);
+        }
+
+        internal static bool HasYearEndDate(DateTime asOf)
+        {
+            var forwardedDate = MaxDocumentDate();
+            return forwardedDate != Convert.ToDateTime(string.Format("12/31/{0}", asOf.Year - 1));
+        }
     }
 
     public class ForwardedBalanceCollection : ObservableCollection<ForwardedBalance>

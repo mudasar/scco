@@ -14,41 +14,17 @@ namespace SCCO.WPF.MVC.CS.Database
         private MySqlConnectionStringBuilder _connectionBuilder;
         private MySqlCommand _dbCommand;
 
-        public static MySqlConnection SharedDbConnection
-        {
-            get;
-            set;
-        }
+        public static MySqlConnection SharedDbConnection { get; set; }
 
-        public string DatabaseName
-        {
-            get;
-            set;
-        }
+        public string DatabaseName { get; set; }
 
-        public string Password
-        {
-            get;
-            set;
-        }
+        public string Password { get; set; }
 
-        public uint Port
-        {
-            get;
-            set;
-        }
+        public uint Port { get; set; }
 
-        public string Server
-        {
-            get;
-            set;
-        }
+        public string Server { get; set; }
 
-        public string UserName
-        {
-            get;
-            set;
-        }
+        public string UserName { get; set; }
 
         protected MySqlConnectionStringBuilder ConnectionBuilder
         {
@@ -94,11 +70,11 @@ namespace SCCO.WPF.MVC.CS.Database
             if (SharedDbConnection != null)
             {
                 var sqlCommand = new MySqlCommand
-                {
-                    CommandType = CommandType.Text,
-                    CommandText = sqlInsert,
-                    Connection = SharedDbConnection
-                };
+                    {
+                        CommandType = CommandType.Text,
+                        CommandText = sqlInsert,
+                        Connection = SharedDbConnection
+                    };
 
                 foreach (SqlParameter parameter in sqlParameters)
                 {
@@ -131,11 +107,11 @@ namespace SCCO.WPF.MVC.CS.Database
             if (SharedDbConnection != null)
             {
                 var sqlCommand = new MySqlCommand
-                {
-                    CommandType = CommandType.Text,
-                    CommandText = sqlStatement,
-                    Connection = SharedDbConnection
-                };
+                    {
+                        CommandType = CommandType.Text,
+                        CommandText = sqlStatement,
+                        Connection = SharedDbConnection
+                    };
 
                 foreach (SqlParameter parameter in sqlParameters)
                 {
@@ -164,11 +140,11 @@ namespace SCCO.WPF.MVC.CS.Database
             }
 
             var sqlCommand = new MySqlCommand
-            {
-                CommandType = CommandType.Text,
-                CommandText = sqlSelect,
-                Connection = SharedDbConnection
-            };
+                {
+                    CommandType = CommandType.Text,
+                    CommandText = sqlSelect,
+                    Connection = SharedDbConnection
+                };
             foreach (SqlParameter parameter in parameters)
             {
                 sqlCommand.Parameters.AddWithValue(parameter.Key, parameter.Value);
@@ -198,11 +174,11 @@ namespace SCCO.WPF.MVC.CS.Database
             }
 
             var sqlCommand = new MySqlCommand
-            {
-                CommandType = CommandType.StoredProcedure,
-                CommandText = storedProcedure,
-                Connection = SharedDbConnection
-            };
+                {
+                    CommandType = CommandType.StoredProcedure,
+                    CommandText = storedProcedure,
+                    Connection = SharedDbConnection
+                };
             foreach (SqlParameter parameter in parameters)
             {
                 sqlCommand.Parameters.AddWithValue(parameter.Key, parameter.Value);
@@ -212,6 +188,11 @@ namespace SCCO.WPF.MVC.CS.Database
             var dataTable = new DataTable();
             dataAdapter.Fill(dataTable);
             return dataTable;
+        }
+
+        public static DataTable ExecuteStoredProcedure(string storedProcedure, List<SqlParameter> parameters)
+        {
+            return ExecuteStoredProcedure(storedProcedure, parameters.ToArray());
         }
 
         public static string GenerateDeleteStatement(string tableName, SqlParameter whereParameter)
@@ -273,7 +254,8 @@ namespace SCCO.WPF.MVC.CS.Database
             return string.Format("SELECT * FROM `{0}`", tableName);
         }
 
-        public static string GenerateUpdateStatement(string tableName, List<SqlParameter> parameters, SqlParameter whereParameter)
+        public static string GenerateUpdateStatement(string tableName, List<SqlParameter> parameters,
+                                                     SqlParameter whereParameter)
         {
             #region --- AUTO-GENERATE QUERY BASED ON SQLPARAMETERS ---
 
@@ -283,7 +265,9 @@ namespace SCCO.WPF.MVC.CS.Database
 
             // set values for each field
             queryBuilder.Append("SET ");
-            var fields = parameters.Select(parameter => "`" + parameter.Key.Replace("?", "") + "`" + "=" + parameter.Key).ToList();
+            var fields =
+                parameters.Select(parameter => "`" + parameter.Key.Replace("?", "") + "`" + "=" + parameter.Key)
+                          .ToList();
             queryBuilder.Append(string.Join(",", fields));
 
             // where condition
@@ -300,7 +284,7 @@ namespace SCCO.WPF.MVC.CS.Database
         public static bool Validate()
         {
             var database = string.Format("{0}_{1}_{2}", Settings.Default.BranchName, DateTime.Now.Year,
-                             Settings.Default.DatabaseEnvironment);
+                                         Settings.Default.DatabaseEnvironment);
 
             bool functionReturnValue;
             try
@@ -320,7 +304,7 @@ namespace SCCO.WPF.MVC.CS.Database
                         RespectBinaryFlags = false
                     };
                 var sqlConnection = new MySqlConnection(connectionBuilder.ToString());
-                using (var dbAdapter = new MySqlDataAdapter("EXPLAIN test", sqlConnection))
+                using (var dbAdapter = new MySqlDataAdapter("EXPLAIN secure", sqlConnection))
                 {
                     dbAdapter.Fill(toReturnValue);
                     if (toReturnValue.Rows.Count == 0)
@@ -375,34 +359,35 @@ namespace SCCO.WPF.MVC.CS.Database
             return ExecuteInsertQuery(sql, parameters.ToArray());
         }
 
-        public static DataTable ExecuteStoredProcedure(string storedProcedure, string databaseName, params SqlParameter[] parameters)
+        public static DataTable ExecuteStoredProcedure(string storedProcedure, string databaseName,
+                                                       params SqlParameter[] parameters)
         {
             #region -- setup database -- 
 
             var connectionBuilder = new MySqlConnectionStringBuilder
-            {
-                Server = Settings.Default.DatabaseServer,
-                Port = Settings.Default.DatabasePort,
-                Database = databaseName,
-                UserID = Settings.Default.DatabaseUser,
-                Password = Utilities.Password.Decrypt(Settings.Default.DatabasePassword),
-                ConnectionTimeout = 60,
-                DefaultCommandTimeout = 60,
-                AllowZeroDateTime = false,
-                ConvertZeroDateTime = true,
-                RespectBinaryFlags = false
-            };
+                {
+                    Server = Settings.Default.DatabaseServer,
+                    Port = Settings.Default.DatabasePort,
+                    Database = databaseName,
+                    UserID = Settings.Default.DatabaseUser,
+                    Password = Utilities.Password.Decrypt(Settings.Default.DatabasePassword),
+                    ConnectionTimeout = 60,
+                    DefaultCommandTimeout = 60,
+                    AllowZeroDateTime = false,
+                    ConvertZeroDateTime = true,
+                    RespectBinaryFlags = false
+                };
             var sqlConnection = new MySqlConnection(connectionBuilder.ToString());
 
             #endregion
 
 
             var sqlCommand = new MySqlCommand
-            {
-                CommandType = CommandType.StoredProcedure,
-                CommandText = storedProcedure,
-                Connection = sqlConnection
-            };
+                {
+                    CommandType = CommandType.StoredProcedure,
+                    CommandText = storedProcedure,
+                    Connection = sqlConnection
+                };
             foreach (SqlParameter parameter in parameters)
             {
                 sqlCommand.Parameters.AddWithValue(parameter.Key, parameter.Value);
@@ -437,25 +422,42 @@ namespace SCCO.WPF.MVC.CS.Database
             }
 
             var connectionBuilder = new MySqlConnectionStringBuilder
-            {
-                Server = Settings.Default.DatabaseServer,
-                Port = Settings.Default.DatabasePort,
-                Database = database,
-                UserID = Settings.Default.DatabaseUser,
-                Password = Utilities.Password.Decrypt(Settings.Default.DatabasePassword),
-                ConnectionTimeout = 60,
-                DefaultCommandTimeout = 60,
-                AllowZeroDateTime = false,
-                ConvertZeroDateTime = true,
-                RespectBinaryFlags = false
-            };
+                {
+                    Server = Settings.Default.DatabaseServer,
+                    Port = Settings.Default.DatabasePort,
+                    Database = database,
+                    UserID = Settings.Default.DatabaseUser,
+                    Password = Utilities.Password.Decrypt(Settings.Default.DatabasePassword),
+                    ConnectionTimeout = 60,
+                    DefaultCommandTimeout = 60,
+                    AllowZeroDateTime = false,
+                    ConvertZeroDateTime = true,
+                    RespectBinaryFlags = false
+                };
             SharedDbConnection = new MySqlConnection(connectionBuilder.ToString());
         }
 
         internal static string GetDatabaseByYear(int year)
         {
-            return string.Format("{0}_{1}_{2}", Settings.Default.BranchName, year,
+            return string.Format("{0}_{1}_{2}",
+                                 Settings.Default.BranchName,
+                                 year,
                                  Settings.Default.DatabaseEnvironment).ToLower();
+        }
+
+        internal static void CloseDatabase()
+        {
+            try
+            {
+                if (SharedDbConnection.State != ConnectionState.Closed)
+                {
+                    SharedDbConnection.Close();
+                }
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception.Message);
+            }
         }
     }
 }

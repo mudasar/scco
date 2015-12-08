@@ -6,6 +6,8 @@ namespace SCCO.WPF.MVC.CS.Views.GeneralLedgerBalanceModule
 {
     public partial class GeneralLedgerBalanceView
     {
+        private readonly GeneralLedgerBalance _currentItem;
+
         public GeneralLedgerBalanceView()
         {
             InitializeComponent();
@@ -14,28 +16,32 @@ namespace SCCO.WPF.MVC.CS.Views.GeneralLedgerBalanceModule
             AccountCodeSearchBox.Click += AccountCodeSearchBoxOnClick;
         }
 
-        private readonly GeneralLedgerBalance _currentItem;
-
         public GeneralLedgerBalanceView(int id)
             : this()
         {
-            _currentItem = new GeneralLedgerBalance();
+            DateTime loginDate = MainController.LoggedUser.TransactionDate;
+            _currentItem = new GeneralLedgerBalance
+                {
+                    DocumentDate = new DateTime(loginDate.Year - 1, 12, 31),
+                    DocumentNo = 0,
+                    DocumentType = VoucherTypes.BG.ToString(),
+                };
             if (id > 0)
             {
                 _currentItem.Find(id); // edit mode
                 btnUpdate.Content = "Update";
-            }else
+            }
+            else
             {
                 btnUpdate.Content = "Create";
             }
 
             DataContext = _currentItem;
-
         }
 
         private void AccountCodeSearchBoxOnClick(object sender, EventArgs e)
         {
-            var account = MainController.SearchAccount();
+            Account account = MainController.SearchAccount();
             if (account == null) return;
             _currentItem.AccountCode = account.AccountCode;
             _currentItem.AccountTitle = account.AccountTitle;
@@ -47,10 +53,6 @@ namespace SCCO.WPF.MVC.CS.Views.GeneralLedgerBalanceModule
             {
                 if (_currentItem.IsNewRecord())
                 {
-                    var loginDate = MainController.LoggedUser.TransactionDate;
-                    _currentItem.DocumentDate = new DateTime(loginDate.Year - 1, 12, 31);
-                    _currentItem.DocumentNo = 0;
-                    _currentItem.DocumentType = VoucherTypes.BG.ToString();
                     _currentItem.Create();
                 }
                 else

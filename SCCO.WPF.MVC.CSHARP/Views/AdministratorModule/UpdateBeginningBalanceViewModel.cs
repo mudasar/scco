@@ -12,51 +12,90 @@ namespace SCCO.WPF.MVC.CS.Views.AdministratorModule
 {
     internal class UpdateBeginningBalanceViewModel : ViewModelBase
     {
+        private DateTime _cutoffDate;
+        private bool _isUpdateGeneralLedger;
+        private bool _isUpdateSubsidiaryLedger;
         private int _progressValue;
+
         public int ProgressValue
         {
             get { return _progressValue; }
-            set { _progressValue = value; OnPropertyChanged("ProgressValue"); }
+            set
+            {
+                _progressValue = value;
+                OnPropertyChanged("ProgressValue");
+            }
         }
 
-        public Result Process2()
+        public DateTime CutoffDate
         {
-            var transactionDate = MainController.LoggedUser.TransactionDate;
-            var newYear = transactionDate.Year;
-            var oldYear = newYear - 1;
+            get { return _cutoffDate; }
+            set
+            {
+                _cutoffDate = value;
+                OnPropertyChanged("CutoffDate");
+            }
+        }
 
-            var branch = Settings.Default.BranchName;
-            var environment = Settings.Default.DatabaseEnvironment;
+        public bool IsUpdateGeneralLedger
+        {
+            get { return _isUpdateGeneralLedger; }
+            set
+            {
+                _isUpdateGeneralLedger = value;
+                OnPropertyChanged("IsUpdateGeneralLedger");
+            }
+        }
 
-            var oldDatabase = string.Format("{0}_{1}_{2}", branch, oldYear, environment);
-            var newDatabase = string.Format("{0}_{1}_{2}", branch, newYear, environment);
+        public bool IsUpdateSubsidiaryLedger
+        {
+            get { return _isUpdateSubsidiaryLedger; }
+            set
+            {
+                _isUpdateSubsidiaryLedger = value;
+                OnPropertyChanged("IsUpdateSubsidiaryLedger");
+            }
+        }
+
+
+        public Result PerformUpdate()
+        {
+            DateTime transactionDate = MainController.LoggedUser.TransactionDate;
+            int newYear = transactionDate.Year;
+            int oldYear = CutoffDate.Year;
+
+            string branch = Settings.Default.BranchName;
+            string environment = Settings.Default.DatabaseEnvironment;
+
+            string oldDatabase = string.Format("{0}_{1}_{2}", branch, oldYear, environment);
+            string newDatabase = string.Format("{0}_{1}_{2}", branch, newYear, environment);
 
             // execute sp for updating "end_balances" table for previous year
             const string storedProcedure = "sp_update_end_balances";
-            var parameters = new List<SqlParameter> { new SqlParameter("ti_transaction_year", oldYear) };
-            //DatabaseController.ExecuteStoredProcedure(storedProcedure, parameters.ToArray());
+            var parameters = new List<SqlParameter> {new SqlParameter("td_cutoff_date", CutoffDate)};
 
             var connectionBuilder = new MySqlConnectionStringBuilder
-            {
-                Server = Settings.Default.DatabaseServer,
-                Port = Settings.Default.DatabasePort,
-                Database = oldDatabase,
-                UserID = Settings.Default.DatabaseUser,
-                Password = Password.Decrypt(Settings.Default.DatabasePassword),
-                ConnectionTimeout = 60,
-                DefaultCommandTimeout = 60,
-                AllowZeroDateTime = false,
-                ConvertZeroDateTime = true,
-                RespectBinaryFlags = false
-            };
+                {
+                    Server = Settings.Default.DatabaseServer,
+                    Port = Settings.Default.DatabasePort,
+                    Database = oldDatabase,
+                    UserID = Settings.Default.DatabaseUser,
+                    Password = Password.Decrypt(Settings.Default.DatabasePassword),
+                    ConnectionTimeout = 60,
+                    DefaultCommandTimeout = 60,
+                    AllowZeroDateTime = false,
+                    ConvertZeroDateTime = true,
+                    RespectBinaryFlags = false
+                };
+
             var sqlConnection = new MySqlConnection(connectionBuilder.ToString());
             var sqlCommand = new MySqlCommand
-            {
-                CommandType = CommandType.StoredProcedure,
-                CommandText = storedProcedure,
-                Connection = sqlConnection,
-                CommandTimeout = 0,
-            };
+                {
+                    CommandType = CommandType.StoredProcedure,
+                    CommandText = storedProcedure,
+                    Connection = sqlConnection,
+                    CommandTimeout = 0,
+                };
             foreach (SqlParameter parameter in parameters)
             {
                 sqlCommand.Parameters.AddWithValue(parameter.Key, parameter.Value);
@@ -68,18 +107,30 @@ namespace SCCO.WPF.MVC.CS.Views.AdministratorModule
             {
                 dataAdapter.Fill(dataTable);
 
-                // update slbal of current year
-                var truncateTable = string.Format("TRUNCATE TABLE {0}.slbal", newDatabase);
-                DatabaseController.ExecuteNonQuery(truncateTable);
+                if (IsUpdateSubsidiaryLedger)
+                {
+                    // update slbal of current year
+                    string truncateTable = string.Format("TRUNCATE TABLE {0}.slbal", newDatabase);
+                    DatabaseController.ExecuteNonQuery(truncateTable);
 
-                // INSERT INTO newDatabase.table1 (Column1, Column2) 
-                // SELECT column1, column2 FROM oldDatabase.table1;
-                var sqlStatement = new StringBuilder();
-                sqlStatement.AppendFormat("INSERT INTO {0}.{1} ", newDatabase, "slbal");
-                sqlStatement.AppendLine();
-                sqlStatement.AppendFormat("SELECT * FROM {0}.{1};", oldDatabase, "end_balances");
+                    // INSERT INTO newDatabase.table1 (Column1, Column2) 
+                    // SELECT column1, column2 FROM oldDatabase.table1;
+                    var sqlStatement = new StringBuilder();
+                    sqlStatement.AppendFormat("INSERT INTO {0}.{1} ", newDatabase, "slbal");
+                    sqlStatement.AppendLine();
+                    sqlStatement.AppendFormat("SELECT * FROM {0}.{1};", oldDatabase, "end_balances");
 
-                DatabaseController.ExecuteSelectQuery(sqlStatement);
+                    DatabaseController.ExecuteSelectQuery(sqlStatement);
+                }
+                if (IsUpdateGeneralLedger)
+                {
+                    // present_database VARCHAR(40), previous_database VARCHAR(40), cutoff_date DATE
+                    var sqlParameters = new List<SqlParameter>();
+                    sqlParameters.Add(new SqlParameter("present_database", newDatabase));
+                    sqlParameters.Add(new SqlParameter("previous_database", oldDatabase));
+                    sqlParameters.Add(new SqlParameter("cutoff_date", CutoffDate));
+                    DatabaseController.ExecuteStoredProcedure("sp_update_general_ledger_balances", sqlParameters);
+                }
             }
             catch (Exception exception)
             {
@@ -91,31 +142,6 @@ namespace SCCO.WPF.MVC.CS.Views.AdministratorModule
                 sqlConnection.Dispose();
             }
             return new Result(true, "Success");
-        }
-        public void Process()
-        {
-            var transactionDate = MainController.LoggedUser.TransactionDate;
-            var newYear = transactionDate.Year;
-            var oldYear = newYear - 1;
-
-            var branch = Settings.Default.BranchName;
-            var environment = Settings.Default.DatabaseEnvironment;
-
-            var oldDatabase = string.Format("{0}_{1}_{2}", branch, oldYear, environment);
-            var newDatabase = string.Format("{0}_{1}_{2}", branch, newYear, environment);
-
-            var sqlStatement = new StringBuilder();
-            sqlStatement.AppendFormat("SELECT * FROM {0}.{1};", oldDatabase, "nfmb");
-            var dataTable = DatabaseController.ExecuteSelectQuery(sqlStatement);
-            var totalCount = dataTable.Rows.Count;
-            var counter = 0;
-            foreach (System.Data.DataRow dataRow in dataTable.Rows)
-            {
-                counter++;
-                var jea = (counter/totalCount)*100;
-                ProgressValue = jea;
-                System.Threading.Thread.Sleep(300);
-            }
         }
     }
 }

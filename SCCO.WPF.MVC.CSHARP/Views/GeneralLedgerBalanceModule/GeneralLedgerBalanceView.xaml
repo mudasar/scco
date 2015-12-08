@@ -4,7 +4,6 @@
                   xmlns:Models="clr-namespace:SCCO.WPF.MVC.CS.Models"
                   xmlns:UserControls="clr-namespace:SCCO.WPF.MVC.CS.UserControls"
                   xmlns:Views="clr-namespace:SCCO.WPF.MVC.CS.Views"
-                  Title="Forwarded Balance"
                   FontFamily="Ubuntu"
                   Icon="/SCCO.WPF.MVC.CS;component/Images/general_ledger_reports.png"
                   SizeToContent="WidthAndHeight"
@@ -120,6 +119,13 @@
                              Style="{StaticResource RoundedTextBox}"
                              Text="{Binding Credit,
                                             Converter={StaticResource DecimalConverter1}}" />
+                    <Label Grid.Row="6" Content="Document Date" />
+                    <DatePicker x:Name="TransactionDatePicker"
+                                Grid.Row="6"
+                                Grid.Column="1"
+                                Margin="0,0,0,8"
+                                SelectedDate="{Binding DocumentDate}"
+                                Style="{DynamicResource RoundedDatePicker}" />
 
                 </Grid>
             </StackPanel>

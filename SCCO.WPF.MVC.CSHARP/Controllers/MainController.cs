@@ -16,7 +16,6 @@ namespace SCCO.WPF.MVC.CS.Controllers
 {
     internal class MainController
     {
-        //internal static User LoggedUser;
         internal static User LoggedUser;
 
         private static DateTime _userTransactionDate = DateTime.Now;
@@ -49,10 +48,6 @@ namespace SCCO.WPF.MVC.CS.Controllers
                     UserNameLabel = { Content = LoggedUser.UserName }
                 };
             UserTransactionDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
-            // hide backup button
-            //if (!Directory.Exists(Properties.Settings.Default.MySQLServerPath))
-            //    _mainWindow.DatabaseBackupButton.Visibility = Visibility.Hidden;
-
             _mainWindow.Show();
         }
 

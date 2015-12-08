@@ -12,6 +12,30 @@ namespace SCCO.WPF.MVC.CS.Views.UserModule
 
         private void UpdateButtonOnClick(object sender, RoutedEventArgs e)
         {
+            if (string.IsNullOrEmpty(txtLoginName.Text))
+            {
+                MessageWindow.ShowAlertMessage("Login name is required!");
+                return;
+            }
+            
+            if (string.IsNullOrEmpty(NewPasswordBox.Password))
+            {
+                MessageWindow.ShowAlertMessage("Password is required!");
+                return;
+            }
+            
+            if (NewPasswordBox.Password.Length < 6)
+            {
+                MessageWindow.ShowAlertMessage("Minimum password length is 6 characters!");
+                return;
+            }
+            
+            if (NewPasswordBox.Password != ConfirmPasswordBox.Password)
+            {
+                MessageWindow.ShowAlertMessage("New Password and Confirm Password does not match!");
+                return;
+            }
+
             if (NewPasswordBox.Password != ConfirmPasswordBox.Password)
             {
                 MessageWindow.ShowAlertMessage("New Password and Confirm Password does not match!");

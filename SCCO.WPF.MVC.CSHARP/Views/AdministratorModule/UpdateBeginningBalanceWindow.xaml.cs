@@ -1,58 +1,52 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Text;
-using System.Threading;
 using System.Windows;
-using SCCO.WPF.MVC.CS.Database;
+using SCCO.WPF.MVC.CS.Controllers;
 
 namespace SCCO.WPF.MVC.CS.Views.AdministratorModule
 {
     /// <summary>
-    /// Update subsidiary ledger beginning balance
+    ///     Update subsidiary ledger beginning balance
     /// </summary>
     public partial class UpdateBeginningBalanceWindow
     {
         private readonly UpdateBeginningBalanceViewModel _viewModel;
+
         public UpdateBeginningBalanceWindow()
         {
             InitializeComponent();
-            _viewModel = new UpdateBeginningBalanceViewModel();
-            DataContext = _viewModel;
-            ProcessButton.Click += (s, e) =>
+            DateTime loginDate = MainController.LoggedUser.TransactionDate;
+            _viewModel = new UpdateBeginningBalanceViewModel
                 {
-
-                    //try
-                    //{
-                    //    _viewModel.Process();
-                    //    MessageWindow.ShowNotifyMessage("Updating beginning balance complete and successful!");
-                    //    DialogResult = true;
-                    //    Close();
-                    //}
-                    //catch (Exception exception)
-                    //{
-                    //    MessageWindow.ShowAlertMessage(exception.Message);
-                    //}
-                    _startProcessing();
-
+                    CutoffDate = Convert.ToDateTime(string.Format("12/31/{0}", loginDate.Year - 1))
                 };
+            DataContext = _viewModel;
+            ProcessButton.Click += (s, e) => StartProcessing();
         }
-
 
         private void worker_DoWork(object sender, DoWorkEventArgs e)
         {
-
             var backgroundWorker = sender as BackgroundWorker;
             if (backgroundWorker == null) return;
 
-            _viewModel.Process2();
+            _viewModel.PerformUpdate();
         }
-        void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+
+        private void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             ProgressBar.Value = e.ProgressPercentage;
         }
 
-        private void _startProcessing()
+        private void StartProcessing()
         {
+            int validCutoffYear = MainController.LoggedUser.TransactionDate.Year - 1;
+            if (_viewModel.CutoffDate.Year != validCutoffYear)
+            {
+                string notValidCutoffYear = string.Format("Cutoff Year is not valid. Must be year {0}.", validCutoffYear);
+                MessageWindow.ShowAlertMessage(notValidCutoffYear);
+                return;
+            }
+
             ProcessButton.IsEnabled = false;
             CloseButton.IsEnabled = false;
             ProgressBar.Visibility = Visibility.Visible;

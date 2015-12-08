@@ -253,11 +253,12 @@ namespace SCCO.WPF.MVC.CS.Models.AccountVerifier
                     new SqlParameter("td_as_of", asOf)
                 };
             DataTable dataTable;
-            if (AccountHelper.IsOpeningYear(asOf))
+            DateTime forwardedDate = ForwardedBalance.MaxDocumentDate();
+            if (forwardedDate != Convert.ToDateTime(string.Format("12/31/{0}", asOf.Year - 1)))
             {
                 sqlParams.Add(new SqlParameter("ts_present_database", DatabaseController.GetDatabaseByYear(asOf.Year)));
                 sqlParams.Add(new SqlParameter("ts_previous_database",
-                                               DatabaseController.GetDatabaseByYear(asOf.Year - 1)));
+                                               DatabaseController.GetDatabaseByYear(forwardedDate.Year)));
                 dataTable = DatabaseController.ExecuteStoredProcedure("sp_account_details_opening_year", sqlParams.ToArray());
             }
             else

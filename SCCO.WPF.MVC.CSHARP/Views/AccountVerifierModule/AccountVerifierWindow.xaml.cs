@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
@@ -13,6 +14,7 @@ using SCCO.WPF.MVC.CS.Models.SavingsDeposit;
 using SCCO.WPF.MVC.CS.Models.TimeDeposit;
 using SCCO.WPF.MVC.CS.Utilities;
 using SCCO.WPF.MVC.CS.Views.LoanModule;
+using SCCO.WPF.MVC.CS.Views.SalaryAdvanceModule;
 using SCCO.WPF.MVC.CS.Views.SavingsDepositModule;
 using SCCO.WPF.MVC.CS.Views.TimeDepositModule;
 
@@ -68,14 +70,14 @@ namespace SCCO.WPF.MVC.CS.Views.AccountVerifierModule
             btnLoanDetails.Click += (s, e) => ShowLoanDetails();
             btnFines.Click += (s, e) => ShowFinesRebateCalculator();
 
-            btnOfficialReceipts.Click += (s, e) => ShowOfficialReceipts();
+            btnOfficialReceipts.Click += (s, e) => ShowTellerCollectorWindow();
 
             btnMakers.Click += (s, e) =>
                 {
-                    var code = _viewModel.Member.MemberCode;
-                    var date = MainController.LoggedUser.TransactionDate;
-                    var result = ReportController.ShowBorrowerMakers(code, date);
-                    if(!result.Success)
+                    string code = _viewModel.Member.MemberCode;
+                    DateTime date = MainController.LoggedUser.TransactionDate;
+                    Result result = ReportController.ShowBorrowerMakers(code, date);
+                    if (!result.Success)
                     {
                         MessageWindow.ShowAlertMessage(result.Message);
                     }
@@ -88,9 +90,13 @@ namespace SCCO.WPF.MVC.CS.Views.AccountVerifierModule
                     {
                         ShowCalculator();
                     }
+
+                    if (e.Key == Key.F5)
+                    {
+                        RefreshAccountInformation();
+                    }
                 };
         }
-
 
         #region --- Members ---
 
@@ -149,6 +155,7 @@ namespace SCCO.WPF.MVC.CS.Views.AccountVerifierModule
             btnSavingsDepositEntry.IsEnabled = true;
             btnTimeDepositEntry.IsEnabled = true;
         }
+
         #endregion
 
         #region --- Account Details / Summary ---
@@ -179,16 +186,16 @@ namespace SCCO.WPF.MVC.CS.Views.AccountVerifierModule
 
         private void PrintStatementOfAccount()
         {
-            var asOf = MainController.LoggedUser.TransactionDate;
+            DateTime asOf = MainController.LoggedUser.TransactionDate;
             Result result;
             if (_accountDisplayed == ShownAccount.Summary)
             {
-                var data = _viewModel.AccountSummaries;
+                ObservableCollection<AccountSummary> data = _viewModel.AccountSummaries;
                 result = ReportController.ShowStatementAccountSummary(data, asOf);
             }
             else
             {
-                var data = _viewModel.AccountDetails;
+                ObservableCollection<AccountDetail> data = _viewModel.AccountDetails;
                 result = ReportController.ShowStatementAccountDetailed(data, asOf);
             }
 
@@ -205,7 +212,7 @@ namespace SCCO.WPF.MVC.CS.Views.AccountVerifierModule
 
         private void ShowAccountDetails()
         {
-            _viewModel.SelectedAccount = (AccountSummary)grdSummary.SelectedItem;
+            _viewModel.SelectedAccount = (AccountSummary) grdSummary.SelectedItem;
             if (_viewModel.SelectedAccount == null) return;
 
             List<AccountDetail> accountDetails;
@@ -245,16 +252,17 @@ namespace SCCO.WPF.MVC.CS.Views.AccountVerifierModule
 
         private void RefreshAccountInformation()
         {
-            List<AccountSummary> accountSummaries = AccountSummary.Find(_viewModel.Member.MemberCode, MainController.LoggedUser.TransactionDate);
-            _accountDetailsLookup = new Dictionary<string, List<AccountDetail>>();
+            List<AccountSummary> accountSummaries =
+                AccountSummary.Find(_viewModel.Member.MemberCode, MainController.LoggedUser.TransactionDate);
 
+            _accountDetailsLookup = new Dictionary<string, List<AccountDetail>>();
             _viewModel.AccountSummaries = new ObservableCollection<AccountSummary>();
+
             foreach (AccountSummary accountSummary in accountSummaries)
             {
                 _viewModel.AccountSummaries.Add(accountSummary);
             }
 
-            //grdSummary.ItemsSource = accountSummaries;
             ShowAccount(ShownAccount.Summary);
         }
 
@@ -264,6 +272,12 @@ namespace SCCO.WPF.MVC.CS.Views.AccountVerifierModule
 
         private void DepositSavingsAccount()
         {
+            if (_viewModel.Member == null)
+            {
+                MessageWindow.ShowAlertMessage("Please select a member first.");
+                return;
+            }
+
             if (_listSavingsDepositCode == null) return;
             if (_listSavingsDepositCode.Count == 0) return;
 
@@ -272,7 +286,22 @@ namespace SCCO.WPF.MVC.CS.Views.AccountVerifierModule
                                                          orderby account.AccountCode
                                                          select account;
 
-            if (!savings.Any()) return;
+            if (!savings.Any())
+            {
+                var messageBuilder = new StringBuilder();
+                messageBuilder.AppendLine("Member has no existing savings deposit account.");
+                if (MainController.LoggedUser.CanAccessTellerCollector)
+                {
+                    messageBuilder.AppendLine("Use Teller and Collector Entry feature instead?");
+                    if (MessageWindow.ShowConfirmMessage(messageBuilder.ToString()) == MessageBoxResult.Yes)
+                    {
+                        ShowTellerCollectorWindow();
+                    }
+                    return;
+                }
+                MessageWindow.ShowAlertMessage(messageBuilder.ToString());
+                return;
+            }
 
             Account sd = Account.FindByCode(savings.First().AccountCode);
 
@@ -377,7 +406,7 @@ namespace SCCO.WPF.MVC.CS.Views.AccountVerifierModule
             }
             else
             {
-                var detail = LatestTimeDepositEntry();
+                AccountDetail detail = LatestTimeDepositEntry();
                 if (detail == null)
                 {
                     MessageWindow.ShowAlertMessage("No valid Time Deposit details found.");
@@ -411,7 +440,7 @@ namespace SCCO.WPF.MVC.CS.Views.AccountVerifierModule
         private AccountDetail LatestTimeDepositEntry()
         {
             AccountDetail accountDetail = null;
-            foreach (var item in grdDetails.Items)
+            foreach (object item in grdDetails.Items)
             {
                 var td = (AccountDetail) item;
                 if (td.TimeDepositDetails.IsValid)
@@ -452,7 +481,7 @@ namespace SCCO.WPF.MVC.CS.Views.AccountVerifierModule
 
         private void ShowSalaryAdvance()
         {
-            var view = new SalaryAdvanceModule.SalaryAdvanceView(_viewModel.Member);
+            var view = new SalaryAdvanceView(_viewModel.Member);
             view.ShowDialog();
         }
 
@@ -472,10 +501,10 @@ namespace SCCO.WPF.MVC.CS.Views.AccountVerifierModule
             if (!_listLoanReceivableCode.Contains(_viewModel.SelectedAccount.AccountCode)) return;
             if (!_viewModel.AccountDetails.Any()) return;
 
-            var loanDetails = from detail in _viewModel.AccountDetails
-                              where detail.LoanDetails != null
-                              orderby detail.LoanDetails.GrantedDate ascending
-                              select detail;
+            IOrderedEnumerable<AccountDetail> loanDetails = from detail in _viewModel.AccountDetails
+                                                            where detail.LoanDetails != null
+                                                            orderby detail.LoanDetails.GrantedDate ascending
+                                                            select detail;
 
             if (!loanDetails.Any()) return;
 
@@ -496,7 +525,7 @@ namespace SCCO.WPF.MVC.CS.Views.AccountVerifierModule
 
         #endregion
 
-        private void ShowOfficialReceipts()
+        private void ShowTellerCollectorWindow()
         {
             var tellerCollectorWindow = new TellerCollectorWindow();
             tellerCollectorWindow.ShowDialog();

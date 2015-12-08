@@ -3,7 +3,6 @@
                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                   xmlns:local="clr-namespace:SCCO.WPF.MVC.CS.Views.AdministratorModule"
                   xmlns:views="clr-namespace:SCCO.WPF.MVC.CS.Views"
-                  Title="Patronage Refund"
                   FontFamily="Ubuntu"
                   SizeToContent="WidthAndHeight"
                   Style="{DynamicResource BaseWindow}"
@@ -58,10 +57,9 @@
                     Style="{DynamicResource CloseButton}"
                     TabIndex="5" />
         </Grid>
-        <StackPanel Margin="20,60,20,20"
-                    Orientation="Vertical">
+        <StackPanel Margin="20,60,20,20" Orientation="Vertical">
             <TextBlock Foreground="#CCFFFFFF"
-                       Text="This will update the beginning balance of the current subsidiary ledger."
+                       Text="This will update the beginning balance of the current subsidiary ledger and/or general ledger."
                        TextWrapping="Wrap" />
             <Border Height="12" Margin="0,0,20,0" />
             <TextBlock Foreground="#CCFFFFFF"
@@ -72,11 +70,36 @@
                        Text="It is strongly adviced that this module be used on the server machine and no other Accounting System is running."
                        TextWrapping="Wrap" />
             <Border Height="20" Margin="0,0,20,0" />
+            <StackPanel Orientation="Vertical">
+                <CheckBox x:Name="chkUpdateSubsidiaryLedger"
+                          Content="Update Subsidiary Ledger begining balance"
+                          IsChecked="{Binding IsUpdateSubsidiaryLedger}"
+                          Style="{DynamicResource ControlCheckBox}" />
+                <CheckBox x:Name="chkUpdateGeneralLedger"
+                          Content="Update General Ledger begining balance"
+                          IsChecked="{Binding IsUpdateGeneralLedger}"
+                          Style="{DynamicResource ControlCheckBox}" />
+                <Border Height="16"
+                        Background="#7FFFFFFF"
+                        BorderThickness="0,7" />
+                <Label Content="Cutoff Date" />
+                <DatePicker x:Name="TransactionDatePicker"
+                            Margin="0,0,0,8"
+                            SelectedDate="{Binding CutoffDate}"
+                            Style="{DynamicResource RoundedDatePicker}" />
+                <Border Height="16"
+                        Background="#7FFFFFFF"
+                        BorderThickness="0,7" />
+            </StackPanel>
             <Button x:Name="ProcessButton"
                     Width="Auto"
                     Content="Start Process"
                     Style="{DynamicResource ControlButton}" />
-            <ProgressBar Height="12" Name="ProgressBar" Margin="0,20,0,0" IsIndeterminate="True" Visibility="Collapsed" />
+            <ProgressBar Name="ProgressBar"
+                         Height="12"
+                         Margin="0,20,0,0"
+                         IsIndeterminate="True"
+                         Visibility="Collapsed" />
         </StackPanel>
     </Grid>
 </views:BaseWindow>

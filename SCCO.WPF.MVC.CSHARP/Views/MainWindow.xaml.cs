@@ -11,7 +11,8 @@ namespace SCCO.WPF.MVC.CS.Views {
     {
         public MainWindow() {
             InitializeComponent();
-            
+            Closed += (sender, args) => Database.DatabaseController.CloseDatabase();
+
             var dbBranch = Properties.Settings.Default.BranchName;
             var dbYear = MainController.LoggedUser.TransactionDate.Year;
             var dbEnv = Properties.Settings.Default.DatabaseEnvironment;

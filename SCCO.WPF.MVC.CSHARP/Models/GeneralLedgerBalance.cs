@@ -9,13 +9,13 @@ namespace SCCO.WPF.MVC.CS.Models
 {
     public class GeneralLedgerBalance : AModelBase, IModel
     {
-        private string _documentType;
-        private int _documentNo;
-        private DateTime _documentDate;
         private string _accountCode;
         private string _accountTitle;
-        private decimal _debit;
         private decimal _credit;
+        private decimal _debit;
+        private DateTime _documentDate;
+        private int _documentNo;
+        private string _documentType;
 
         public GeneralLedgerBalance()
             : base("glbal")
@@ -92,27 +92,25 @@ namespace SCCO.WPF.MVC.CS.Models
             }
         }
 
-
-
         #region --- Implementation of IModel ---
 
         public Result Create()
         {
             SetClassProperties();
-            var crudResult = VirtualCreate();
+            CrudResult crudResult = VirtualCreate();
             return new Result(crudResult.Success, crudResult.Message);
         }
 
         public Result Update()
         {
             SetClassProperties();
-            var crudResult = VirtualUpdate();
+            CrudResult crudResult = VirtualUpdate();
             return new Result(crudResult.Success, crudResult.Message);
         }
 
         public Result Destroy()
         {
-            var result = VirtualDestroy();
+            CrudResult result = VirtualDestroy();
             return new Result(result.Success, result.Message);
         }
 
@@ -120,7 +118,7 @@ namespace SCCO.WPF.MVC.CS.Models
         {
             try
             {
-                var dataRow = base.VirtualFind(id);
+                DataRow dataRow = base.VirtualFind(id);
                 ResetProperties();
                 if (dataRow != null)
                 {
@@ -133,7 +131,6 @@ namespace SCCO.WPF.MVC.CS.Models
             {
                 return new Result(false, exception.Message);
             }
-
         }
 
         public void ResetProperties()
@@ -179,5 +176,21 @@ namespace SCCO.WPF.MVC.CS.Models
         }
 
         #endregion
+
+        internal static DateTime MaxDocumentDate()
+        {
+            DataTable dataTable = DatabaseController.ExecuteSelectQuery("SELECT MAX(DOC_DATE) as doc_date FROM glbal");
+            foreach (DataRow row in dataTable.Rows)
+            {
+                return DataConverter.ToDateTime(row["doc_date"]);
+            }
+            return new DateTime(DateTime.Now.Year - 1, 12, 31);
+        }
+
+        internal static bool HasYearEndDate(DateTime asOf)
+        {
+            var forwardedDate = MaxDocumentDate();
+            return forwardedDate != Convert.ToDateTime(string.Format("12/31/{0}", asOf.Year - 1));
+        }
     }
 }
