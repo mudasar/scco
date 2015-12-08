@@ -215,6 +215,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>financial_condition_custom.rpt</DependentUpon>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="ReportFiles\financial_operation.cs">
       <AutoGen>True</AutoGen>

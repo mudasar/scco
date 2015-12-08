@@ -26,7 +26,7 @@ namespace SCCO.WPF.MVC.CS.Views.AccountVerifierModule
 
             btnNotices.Click += (s, e) =>
             {
-                var view = new LoanNoticesView();
+                var view = new LoanNoticesView(_loanDetails);
                 view.ShowDialog();
             };
         }     

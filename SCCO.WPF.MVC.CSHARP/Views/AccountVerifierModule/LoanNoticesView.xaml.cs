@@ -1,225 +1,247 @@
 ﻿using System;
 using System.Data;
+using SCCO.WPF.MVC.CS.Controllers;
 using SCCO.WPF.MVC.CS.Database;
 using SCCO.WPF.MVC.CS.Models;
+using SCCO.WPF.MVC.CS.Models.Loan;
 
 namespace SCCO.WPF.MVC.CS.Views.AccountVerifierModule
 {
     /// <summary>
-    /// Interaction logic for LoanNoticesView.xaml
+    ///     Interaction logic for LoanNoticesView.xaml
     /// </summary>
     public partial class LoanNoticesView
     {
-        public LoanNoticesView()
+        private readonly LoanDetails _loanDetails;
+
+        public LoanNoticesView(LoanDetails loanDetails)
         {
             InitializeComponent();
+            _loanDetails = loanDetails;
 
-            LoansNonperformingButton.Click += (sender, args) =>
-                { };
+            LoansNonperformingButton.Click += (sender, args) => GenerateNoticesForLoansNonPerforming();
 
-            LoansNearMaturityButton.Click += (sender, args) =>
-                { };
+            LoansNearMaturityButton.Click += (sender, args) => GenerateNoticesForLoansNearMaturity();
 
-            LoansOverdueButton.Click += (sender, args) =>
-                { };
+            LoansOverdueButton.Click += (sender, args) => GenerateNoticesForLoansOverdue();
 
-            LoansOverdueNonResponsiveButton.Click += (sender, args) =>
-                { };
+            LoansOverdueNonResponsiveButton.Click += (sender, args) => GenerateNoticesForNonResponsiveLoansOverdue();
 
-            LoanNoticeForComakersButton.Click += (sender, args) =>
-                { };
-
+            LoanNoticeForComakersButton.Click += (sender, args) => GenerateNoticesForComakers();
         }
-
 
         private void GenerateNoticesForLoansNonPerforming()
         {
-            //try
-            //{
+            try
+            {
+                DateTime asOf = MainController.LoggedUser.TransactionDate;
 
-            //    var asOf = (DateTime)TransactionDatePicker.SelectedDate;
+                DataTable tableFromSql = DatabaseController.ExecuteStoredProcedure("sp_notice_loan_non_performing",
+                                                                                   new SqlParameter("as_of", asOf));
 
-            //    var loanDetails = DatabaseController.ExecuteStoredProcedure("sp_notice_loan_non_performing",
-            //                                                                new SqlParameter("as_of", asOf));
-            //    loanDetails.TableName = "notice_loan_non_performing";
+                DataTable loanDetails = tableFromSql.AsEnumerable()
+                                                    .Where(
+                                                        row =>
+                                                        row.Field<String>("member_code") == _loanDetails.MemberCode
+                                                        && row.Field<String>("account_code") == _loanDetails.AccountCode)
+                                                    .CopyToDataTable();
 
-            //    DataTable comp = Company.GetData();
-            //    comp.TableName = "comp";
+                loanDetails.TableName = "notice_loan_non_performing";
+                DataTable comp = Company.GetData();
+                comp.TableName = "comp";
 
-            //    var dataSet = new DataSet();
-            //    dataSet.Tables.Add(loanDetails);
-            //    dataSet.Tables.Add(comp);
+                var dataSet = new DataSet();
+                dataSet.Tables.Add(loanDetails);
+                dataSet.Tables.Add(comp);
 
-            //    var ri = new ReportItem();
-            //    ri.ReportFile = "notice_loan_non_performing.rpt";
-            //    ri.Title = "Notice for non-performing loans";
-            //    ri.DataSource = dataSet;
-            //    var result = ri.LoadReport();
-            //    if (!result.Success)
-            //    {
-            //        MessageWindow.ShowAlertMessage(result.Message);
-            //    }
-            //}
-            //catch (Exception e)
-            //{
-            //    MessageWindow.ShowAlertMessage(e.Message);
-            //}
+                var ri = new ReportItem
+                    {
+                        ReportFile = "notice_loan_non_performing.rpt",
+                        Title = "Notice for non-performing loans",
+                        DataSource = dataSet
+                    };
+                Result result = ri.LoadReport();
+                if (!result.Success)
+                {
+                    MessageWindow.ShowAlertMessage(result.Message);
+                }
+            }
+            catch (Exception e)
+            {
+                MessageWindow.ShowAlertMessage(e.Message);
+            }
         }
 
         private void GenerateNoticesForLoansNearMaturity()
         {
-            //try
-            //{
-            //    if (TransactionDatePicker.SelectedDate == null)
-            //    {
-            //        MessageWindow.ShowAlertMessage("Please select a date.");
-            //        return;
-            //    }
+            try
+            {
+                DateTime asOf = MainController.LoggedUser.TransactionDate;
 
-            //    var asOf = (DateTime)TransactionDatePicker.SelectedDate;
+                DataTable tableFromSql = DatabaseController.ExecuteStoredProcedure("sp_notice_loan_near_maturity",
+                                                                                   new SqlParameter("as_of", asOf));
 
-            //    var loanDetails = DatabaseController.ExecuteStoredProcedure("sp_notice_loan_near_maturity",
-            //                                                                new SqlParameter("as_of", asOf));
-            //    loanDetails.TableName = "notice_loan_details";
+                DataTable loanDetails = tableFromSql.AsEnumerable()
+                                                    .Where(
+                                                        row =>
+                                                        row.Field<String>("member_code") == _loanDetails.MemberCode
+                                                        && row.Field<String>("account_code") == _loanDetails.AccountCode)
+                                                    .CopyToDataTable();
 
-            //    DataTable comp = Company.GetData();
-            //    comp.TableName = "comp";
+                loanDetails.TableName = "notice_loan_details";
 
-            //    var dataSet = new DataSet();
-            //    dataSet.Tables.Add(loanDetails);
-            //    dataSet.Tables.Add(comp);
+                DataTable comp = Company.GetData();
+                comp.TableName = "comp";
 
-            //    var ri = new ReportItem();
-            //    ri.ReportFile = "notice_loan_near_maturity.rpt";
-            //    ri.Title = "Notice for loan near maturity";
-            //    ri.DataSource = dataSet;
-            //    var result = ri.LoadReport();
-            //    if (!result.Success)
-            //    {
-            //        MessageWindow.ShowAlertMessage(result.Message);
-            //    }
-            //}
-            //catch (Exception e)
-            //{
-            //    MessageWindow.ShowAlertMessage(e.Message);
-            //}
+                var dataSet = new DataSet();
+                dataSet.Tables.Add(loanDetails);
+                dataSet.Tables.Add(comp);
+
+                var ri = new ReportItem
+                    {
+                        ReportFile = "notice_loan_near_maturity.rpt",
+                        Title = "Notice for loan near maturity",
+                        DataSource = dataSet
+                    };
+                Result result = ri.LoadReport();
+                if (!result.Success)
+                {
+                    MessageWindow.ShowAlertMessage(result.Message);
+                }
+            }
+            catch (Exception e)
+            {
+                MessageWindow.ShowAlertMessage(e.Message);
+            }
         }
 
         private void GenerateNoticesForLoansOverdue()
         {
-            //try
-            //{
-            //    if (TransactionDatePicker.SelectedDate == null)
-            //    {
-            //        MessageWindow.ShowAlertMessage("Please select a date.");
-            //        return;
-            //    }
+            try
+            {
+                DateTime asOf = MainController.LoggedUser.TransactionDate;
 
-            //    var asOf = (DateTime)TransactionDatePicker.SelectedDate;
+                DataTable tableFromSql = DatabaseController.ExecuteStoredProcedure("sp_notice_loan_overdue",
+                                                                                   new SqlParameter("as_of", asOf));
 
-            //    var loanDetails = DatabaseController.ExecuteStoredProcedure("sp_notice_loan_overdue",
-            //                                                                new SqlParameter("as_of", asOf));
-            //    loanDetails.TableName = "notice_loan_details";
+                DataTable loanDetails = tableFromSql.AsEnumerable()
+                                                    .Where(
+                                                        row =>
+                                                        row.Field<String>("member_code") == _loanDetails.MemberCode
+                                                        && row.Field<String>("account_code") == _loanDetails.AccountCode)
+                                                    .CopyToDataTable();
 
-            //    DataTable comp = Company.GetData();
-            //    comp.TableName = "comp";
+                loanDetails.TableName = "notice_loan_details";
 
-            //    var dataSet = new DataSet();
-            //    dataSet.Tables.Add(loanDetails);
-            //    dataSet.Tables.Add(comp);
+                DataTable comp = Company.GetData();
+                comp.TableName = "comp";
 
-            //    var ri = new ReportItem();
-            //    ri.ReportFile = "notice_loan_overdue.rpt";
-            //    ri.Title = "Notice for overdue loans";
-            //    ri.DataSource = dataSet;
-            //    var result = ri.LoadReport();
-            //    if (!result.Success)
-            //    {
-            //        MessageWindow.ShowAlertMessage(result.Message);
-            //    }
-            //}
-            //catch (Exception e)
-            //{
-            //    MessageWindow.ShowAlertMessage(e.Message);
-            //}
+                var dataSet = new DataSet();
+                dataSet.Tables.Add(loanDetails);
+                dataSet.Tables.Add(comp);
+
+                var ri = new ReportItem
+                    {
+                        ReportFile = "notice_loan_overdue.rpt",
+                        Title = "Notice for overdue loans",
+                        DataSource = dataSet
+                    };
+                Result result = ri.LoadReport();
+                if (!result.Success)
+                {
+                    MessageWindow.ShowAlertMessage(result.Message);
+                }
+            }
+            catch (Exception e)
+            {
+                MessageWindow.ShowAlertMessage(e.Message);
+            }
         }
 
         private void GenerateNoticesForNonResponsiveLoansOverdue()
         {
-            //try
-            //{
-            //    if (TransactionDatePicker.SelectedDate == null)
-            //    {
-            //        MessageWindow.ShowAlertMessage("Please select a date.");
-            //        return;
-            //    }
+            try
+            {
+                DateTime asOf = MainController.LoggedUser.TransactionDate;
 
-            //    var asOf = (DateTime)TransactionDatePicker.SelectedDate;
+                DataTable tableFromSql = DatabaseController.ExecuteStoredProcedure("sp_notice_loan_overdue",
+                                                                                   new SqlParameter("as_of", asOf));
 
-            //    var loanDetails = DatabaseController.ExecuteStoredProcedure("sp_notice_loan_overdue",
-            //                                                                new SqlParameter("as_of", asOf));
-            //    loanDetails.TableName = "notice_loan_details";
+                DataTable loanDetails = tableFromSql.AsEnumerable()
+                                                    .Where(
+                                                        row =>
+                                                        row.Field<String>("member_code") == _loanDetails.MemberCode
+                                                        && row.Field<String>("account_code") == _loanDetails.AccountCode)
+                                                    .CopyToDataTable();
 
-            //    DataTable comp = Company.GetData();
-            //    comp.TableName = "comp";
+                loanDetails.TableName = "notice_loan_details";
 
-            //    var dataSet = new DataSet();
-            //    dataSet.Tables.Add(loanDetails);
-            //    dataSet.Tables.Add(comp);
+                DataTable comp = Company.GetData();
+                comp.TableName = "comp";
 
-            //    var ri = new ReportItem();
-            //    ri.ReportFile = "notice_loan_overdue_non_responsive.rpt";
-            //    ri.Title = "Notice for overdue loans - Non-responsive";
-            //    ri.DataSource = dataSet;
-            //    var result = ri.LoadReport();
-            //    if (!result.Success)
-            //    {
-            //        MessageWindow.ShowAlertMessage(result.Message);
-            //    }
-            //}
-            //catch (Exception e)
-            //{
-            //    MessageWindow.ShowAlertMessage(e.Message);
-            //}
+                var dataSet = new DataSet();
+                dataSet.Tables.Add(loanDetails);
+                dataSet.Tables.Add(comp);
+
+                var ri = new ReportItem
+                    {
+                        ReportFile = "notice_loan_overdue_non_responsive.rpt",
+                        Title = "Notice for overdue loans - Non-responsive",
+                        DataSource = dataSet
+                    };
+                Result result = ri.LoadReport();
+                if (!result.Success)
+                {
+                    MessageWindow.ShowAlertMessage(result.Message);
+                }
+            }
+            catch (Exception e)
+            {
+                MessageWindow.ShowAlertMessage(e.Message);
+            }
         }
 
         private void GenerateNoticesForComakers()
         {
-            //try
-            //{
-            //    if (TransactionDatePicker.SelectedDate == null)
-            //    {
-            //        MessageWindow.ShowAlertMessage("Please select a date.");
-            //        return;
-            //    }
+            try
+            {
+                DateTime asOf = MainController.LoggedUser.TransactionDate;
 
-            //    var asOf = (DateTime)TransactionDatePicker.SelectedDate;
+                DataTable tableFromSql = DatabaseController.ExecuteStoredProcedure("sp_notice_comakers",
+                                                                                   new SqlParameter("as_of", asOf));
 
-            //    var loanDetails = DatabaseController.ExecuteStoredProcedure("sp_notice_comakers",
-            //                                                                new SqlParameter("as_of", asOf));
-            //    loanDetails.TableName = "notice_comakers";
+                DataTable loanDetails = tableFromSql.AsEnumerable()
+                                                    .Where(
+                                                        row =>
+                                                        row.Field<String>("member_code") == _loanDetails.MemberCode
+                                                        && row.Field<String>("account_code") == _loanDetails.AccountCode)
+                                                    .CopyToDataTable();
 
-            //    DataTable comp = Company.GetData();
-            //    comp.TableName = "comp";
+                loanDetails.TableName = "notice_comakers";
 
-            //    var dataSet = new DataSet();
-            //    dataSet.Tables.Add(loanDetails);
-            //    dataSet.Tables.Add(comp);
+                DataTable comp = Company.GetData();
+                comp.TableName = "comp";
 
-            //    var ri = new ReportItem();
-            //    ri.ReportFile = "notice_comakers.rpt";
-            //    ri.Title = "Notice for Comakers";
-            //    ri.DataSource = dataSet;
-            //    var result = ri.LoadReport();
-            //    if (!result.Success)
-            //    {
-            //        MessageWindow.ShowAlertMessage(result.Message);
-            //    }
-            //}
-            //catch (Exception e)
-            //{
-            //    MessageWindow.ShowAlertMessage(e.Message);
-            //}
+                var dataSet = new DataSet();
+                dataSet.Tables.Add(loanDetails);
+                dataSet.Tables.Add(comp);
+
+                var ri = new ReportItem
+                    {
+                        ReportFile = "notice_comakers.rpt",
+                        Title = "Notice for Comakers",
+                        DataSource = dataSet
+                    };
+                Result result = ri.LoadReport();
+                if (!result.Success)
+                {
+                    MessageWindow.ShowAlertMessage(result.Message);
+                }
+            }
+            catch (Exception e)
+            {
+                MessageWindow.ShowAlertMessage(e.Message);
+            }
         }
     }
 }
