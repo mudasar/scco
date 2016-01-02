@@ -45,7 +45,7 @@ namespace SCCO.WPF.MVC.CS.Views
 
             if (_dataManipulationType == ModelController.DataManipulationType.Create)
             {
-                Nfmb foundMember = Nfmb.FindByName(memberCode);
+                Nfmb foundMember = Nfmb.FindByCode(memberCode);
                 if (foundMember != null && foundMember.ID > 0)
                 {
                     return new Result(false, "Member Code already exists.");

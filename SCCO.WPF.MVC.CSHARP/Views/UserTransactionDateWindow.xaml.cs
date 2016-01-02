@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 
 namespace SCCO.WPF.MVC.CS.Views
 {
@@ -22,7 +23,17 @@ namespace SCCO.WPF.MVC.CS.Views
         {
             if(datePicker1.SelectedDate != null)
             {
-                _selectedTransactionDate = (DateTime)datePicker1.SelectedDate;
+                var transactionDate = (DateTime)datePicker1.SelectedDate;
+                var database = Database.DatabaseController.GetDatabaseByYear(transactionDate.Year);
+                if (!Database.DatabaseController.IsDatabaseExist(database))
+                {
+                    var messageBuilder = new StringBuilder();
+                    messageBuilder.AppendLine("A database for this transaction date does not exist or not yet created.");
+                    messageBuilder.AppendLine("Please consult your system administrator.");
+                    MessageWindow.ShowAlertMessage(messageBuilder.ToString());
+                    return;
+                }
+                _selectedTransactionDate = transactionDate;
                 DialogResult = true;
             }
             Close();

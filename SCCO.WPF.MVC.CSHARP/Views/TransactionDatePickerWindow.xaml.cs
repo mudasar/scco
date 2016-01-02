@@ -18,7 +18,7 @@ namespace SCCO.WPF.MVC.CS.Views
         {
             if (datePicker1.SelectedDate != null)
             {
-                var selectedDate = (DateTime)datePicker1.SelectedDate;
+                var selectedDate = (DateTime) datePicker1.SelectedDate;
                 if (SelectedDate.ToShortDateString() != selectedDate.ToShortDateString())
                 {
                     SelectedDate = selectedDate;
@@ -30,7 +30,3 @@ namespace SCCO.WPF.MVC.CS.Views
         }
     }
 }
-
-//var gvTransactionDate = GlobalVariable.GetByKeyword("TransactionDate");
-//gvTransactionDate.CurrentValue = transactionDatePicker.SelectedDate.ToShortDateString();
-//gvTransactionDate.Update();

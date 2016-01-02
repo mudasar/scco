@@ -43,7 +43,7 @@
                    HorizontalAlignment="Left"
                    VerticalAlignment="Top"
                    VerticalContentAlignment="Center"
-                   Content="Initial Setup"
+                   Content="Admin Setup"
                    Foreground="White"
                    MouseLeftButtonDown="DragWindow"
                    Style="{DynamicResource FormTitle2}" />
@@ -59,7 +59,7 @@
                     TabIndex="5" />
         </Grid>
         <StackPanel Margin="20,60,20,20" VerticalAlignment="Bottom">
-            <Label Content="Transaction Date" />
+            <Label Content="Open Transaction Date" />
             <DatePicker x:Name="datePicker1"
                         Width="250"
                         SelectedDateFormat="Long"

@@ -575,10 +575,7 @@
                      Background="#66D4D0C8"
                      Foreground="White"
                      Header="Contact Information"
-                     Style="{StaticResource styleTabItemDefault}">
-                <TabItem.DataContext>
-                    <Models:Contact />
-                </TabItem.DataContext>
+                     Style="{StaticResource styleTabItemDefault}" DataContext="{Binding Path=ContactInformation}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="395" />
