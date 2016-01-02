@@ -80,11 +80,8 @@ namespace SCCO.WPF.MVC.CS.Utilities
                 try
                 {
                     var logFolder = CreateLogFolder();
-
-                    var destination = Path.GetFileNameWithoutExtension(logFile);
-                    var fullPath = Path.Combine(logFolder, destination);
-                    File.AppendAllText(Path.ChangeExtension(fullPath, ".log"),
-                                       string.Format("{0}\t{1}\n", DateTime.Now, message));
+                    var fullPath = Path.Combine(logFolder, Path.ChangeExtension(logFile,".log"));
+                    File.AppendAllText(fullPath, string.Format("{0}\t{1}\n", DateTime.Now, message));
 
                     SaveToDatabase(message);
                 }
@@ -95,15 +92,20 @@ namespace SCCO.WPF.MVC.CS.Utilities
             }
         }
 
-        private static void SaveToDatabase(string message)
+        public static void SaveToDatabase(string message)
         {
             try
             {
-                const string sql = "INSERT INTO admin.`logs` (date, message) VALUES (?date, ?message)";
-                var parameters = new List<SqlParameter>();
-                parameters.Add(new SqlParameter("?date", DateTime.Now));
-                parameters.Add(new SqlParameter("?message", message));
-                DatabaseController.ExecuteInsertQuery(sql, parameters.ToArray());
+                if (DatabaseController.IsDatabaseExist("admin"))
+                {
+                    const string sql = "INSERT INTO admin.`logs` (date, message) VALUES (?date, ?message)";
+                    var parameters = new List<SqlParameter>
+                        {
+                            new SqlParameter("?date", DateTime.Now),
+                            new SqlParameter("?message", message)
+                        };
+                    DatabaseController.ExecuteInsertQuery(sql, parameters.ToArray());
+                }
             }
             catch (Exception exception)
             {

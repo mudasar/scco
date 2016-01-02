@@ -122,7 +122,7 @@
                         <Label Margin="5,0,50,0" Content="Backup Database" />
                     </StackPanel>
                 </Button>
-                <Button x:Name="MigrateFromDbfButton"
+                <Button x:Name="RestoreFromBackupButton"
                 	Width="250"
                 	Height="62"
                 	Margin="2"
@@ -136,7 +136,7 @@
                 			Margin="5,0,0,0"
                 			Source="/SCCO.WPF.MVC.CS;component/Images/data_backup.png"
                 			Stretch="Fill" />
-                		<Label Margin="5,0,50,0" Content="Migrate from DBF" />
+                		<Label Margin="5,0,50,0" Content="Restore Database from Backup" />
                 	</StackPanel>
                 </Button>
             </StackPanel>

@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using SCCO.WPF.MVC.CS.Database;
+using SCCO.WPF.MVC.CS.Utilities;
 
 namespace SCCO.WPF.MVC.CS.Models
 {
@@ -116,7 +117,7 @@ namespace SCCO.WPF.MVC.CS.Models
             }
             catch (Exception exception)
             {
-                Utilities.Logger.ExceptionLogger(action, exception);
+                Logger.ExceptionLogger(action, exception);
                 return new CrudResult(false, exception.Message);
             }
         }

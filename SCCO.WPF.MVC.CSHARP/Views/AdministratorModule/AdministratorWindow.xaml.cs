@@ -1,6 +1,5 @@
 ﻿using System.Windows;
 using SCCO.WPF.MVC.CS.Database;
-using SCCO.WPF.MVC.CS.Utilities.DbfMigration.Views;
 
 namespace SCCO.WPF.MVC.CS.Views.AdministratorModule
 {
@@ -42,9 +41,15 @@ namespace SCCO.WPF.MVC.CS.Views.AdministratorModule
                     view.ShowDialog();
                 };
 
-            MigrateFromDbfButton.Click += (sender, args) =>
+            //MigrateFromDbfButton.Click += (sender, args) =>
+            //    {
+            //        var view = new MigrateDbfToMySqlWindow();
+            //        view.ShowDialog();
+            //    };
+
+            RestoreFromBackupButton.Click += (sender, args) =>
                 {
-                    var view = new MigrateDbfToMySqlWindow();
+                    var view = new RestoreFromBackupWindow();
                     view.ShowDialog();
                 };
 

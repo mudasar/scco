@@ -101,7 +101,7 @@ namespace SCCO.WPF.MVC.CS.Models
                         new SqlParameter("?ReportScheduleId", ReportScheduleId),
                         new SqlParameter("?Description", Description),
                     };
-                Database.DatabaseController.ExecuteNonQuery(sqlCommandText, sqlParameters.ToArray());
+                DatabaseController.ExecuteNonQuery(sqlCommandText, sqlParameters.ToArray());
                 return new Result(true, "Upudate successful");
             }
             catch (Exception exception)

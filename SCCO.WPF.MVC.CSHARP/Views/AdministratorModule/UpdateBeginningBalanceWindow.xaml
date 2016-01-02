@@ -67,7 +67,7 @@
                        TextWrapping="Wrap" />
             <Border Height="12" Margin="0,0,20,0" />
             <TextBlock Foreground="#CCFFFFFF"
-                       Text="It is strongly adviced that this module be used on the server machine and no other Accounting System is running."
+                       Text="It is strongly advised that this module be used on the server machine and no other Accounting System is running."
                        TextWrapping="Wrap" />
             <Border Height="20" Margin="0,0,20,0" />
             <StackPanel Orientation="Vertical">

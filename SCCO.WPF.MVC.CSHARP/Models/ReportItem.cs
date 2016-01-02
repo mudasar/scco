@@ -412,10 +412,10 @@ namespace SCCO.WPF.MVC.CS.Models
 
                 return new Result(true, "Report loaded successful.");
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                Logger.ExceptionLogger(GetType(), ex);
-                return new Result(false, ex.Message);
+                Logger.ExceptionLogger(GetType(), exception);
+                return new Result(false, exception.Message);
             }
         }
 
@@ -491,10 +491,10 @@ namespace SCCO.WPF.MVC.CS.Models
 
                 return new Result(true, "Report loaded successful.");
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                Logger.ExceptionLogger(GetType(), ex);
-                return new Result(false, ex.Message);
+                Logger.ExceptionLogger(GetType(), exception);
+                return new Result(false, exception.Message);
             }
         }
 
@@ -569,10 +569,10 @@ namespace SCCO.WPF.MVC.CS.Models
 
                 return new Result(true, "Report loaded successful.");
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                Logger.ExceptionLogger(GetType(), ex);
-                return new Result(false, ex.Message);
+                Logger.ExceptionLogger(GetType(), exception);
+                return new Result(false, exception.Message);
             }
         }
         #endregion
@@ -655,10 +655,10 @@ namespace SCCO.WPF.MVC.CS.Models
 
                 return new Result(true, "Report loaded successful.");
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                Logger.ExceptionLogger(GetType(), ex);
-                return new Result(false, ex.Message);
+                Logger.ExceptionLogger(GetType(), exception);
+                return new Result(false, exception.Message);
             }
         }
     }

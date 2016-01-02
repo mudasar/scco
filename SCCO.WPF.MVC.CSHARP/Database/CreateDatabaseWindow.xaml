@@ -1,9 +1,10 @@
-﻿<views:BaseWindow
+﻿<views:BaseWindow x:Class="SCCO.WPF.MVC.CS.Database.CreateDatabaseWindow"
                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:local="clr-namespace:SCCO.WPF.MVC.CS.Database"
                   xmlns:views="clr-namespace:SCCO.WPF.MVC.CS.Views"
-                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="SCCO.WPF.MVC.CS.Database.DatabaseConfigurationView"
-                  Title="{Binding Content, ElementName=FormTitle}"
+                  Title="{Binding Content,
+                                  ElementName=FormTitle}"
                   AllowsTransparency="True"
                   Background="{x:Null}"
                   ResizeMode="NoResize"
@@ -11,11 +12,14 @@
                   Topmost="True"
                   WindowStartupLocation="CenterScreen"
                   WindowStyle="None">
+    <views:BaseWindow.DataContext>
+        <local:CreateDatabaseViewModel />
+    </views:BaseWindow.DataContext>
     <Grid Margin="5">
 
         <Grid x:Name="FormLayout">
             <Rectangle x:Name="Canvass"
-                       Fill="#FF554006"
+                       Fill="#FFE2062C"
                        MouseLeftButtonDown="DragWindow"
                        RadiusX="5"
                        RadiusY="5"
@@ -45,7 +49,7 @@
                    HorizontalAlignment="Left"
                    VerticalAlignment="Top"
                    VerticalContentAlignment="Center"
-                   Content="Database Configuration"
+                   Content="Create Database"
                    FontFamily="Segoe UI"
                    FontSize="13.333"
                    FontWeight="SemiBold"
@@ -64,60 +68,42 @@
                     Style="{StaticResource CloseButton}" />
         </Grid>
         <Grid x:Name="ControlsGrid"
-              Width="260"
+              Width="280"
               Margin="40,60,20,16">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="24" />
+				<RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <StackPanel Orientation="Vertical">
                 <StackPanel>
-                    <Label Content="Server" />
-                    <TextBox x:Name="DatabaseServerBox" Style="{StaticResource RoundedTextBox}" />
+                    <Label Content="Source Database" />
+                    <ComboBox x:Name="DatabasesComboBox"
+                              Height="28"
+                              Style="{DynamicResource RoundedComboBox}"
+                              Text="{Binding SourceDatabase}" />
                     <TextBlock Foreground="#7FFFFFFF"
-                    	Text="The IP address of the Server machine"
-                    	TextWrapping="Wrap" />
+                               Text="The database that will be copied"
+                               TextWrapping="Wrap" />
                 </StackPanel>
-                <StackPanel Margin="0,12,0,0">
-                    <Label Content="Environment" />
-                    <ComboBox x:Name="DatabaseEnvironmentComboBox" Height="28"/>
+                <Border Height="12" />
+                <StackPanel>
+                    <Label Content="Output Database" />
+                    <TextBox x:Name="OutputDatabaseTextBox"
+                             Style="{StaticResource RoundedTextBox}"
+                             Text="{Binding TargetDatabase}" />
                     <TextBlock Foreground="#7FFFFFFF"
-                    	Text="Select whether to use the Production or Demo database"
-                    	TextWrapping="Wrap" />
+                               Text="The database that will be created"
+                               TextWrapping="Wrap" />
                 </StackPanel>
-				<StackPanel Margin="0,12,0,0">
-					<Label Content="Branch" />
-					<ComboBox x:Name="BranchComboBox" Height="28"/>
-					<TextBlock Foreground="#7FFFFFFF"
-						Text="This will set the branch dedicated for this application's database."
-						TextWrapping="Wrap" /></StackPanel>
-				<StackPanel x:Name="AdvancePanel" Orientation="Vertical" Margin="0,12,0,0" Visibility="Collapsed">
-					<StackPanel Margin="0,12,0,0">
-						<Label Content="Password" />
-						<PasswordBox x:Name="DatabasePassword" Height="28"/>
-						<TextBlock Foreground="#7FFFFFFF"
-							Text="The password used to connect with the database"
-							TextWrapping="Wrap" />
-					</StackPanel>
-					<StackPanel Margin="0,12,0,0">
-						<Label Content="Port" />
-						<TextBox x:Name="DatabasePort" Style="{StaticResource RoundedTextBox}" />
-						<TextBlock Foreground="#7FFFFFFF"
-							Text="The dedicated port for the database"
-							TextWrapping="Wrap" />
-					</StackPanel>
-				</StackPanel>
             </StackPanel>
-        	<StackPanel Height="28" Orientation="Horizontal" Grid.Row="2" VerticalAlignment="Bottom" d:LayoutOverrides="Width" HorizontalAlignment="Right">
-        		<Button x:Name="CreateDatabaseButton"
-        			Content="Create Database"
-        			Style="{StaticResource ControlButton}" Width="120" d:LayoutOverrides="Width, HorizontalMargin" Visibility="Collapsed" />
-        		<Button x:Name="UpdateButton"
-        			Click="UpdateButtonOnClick"
-        			Content="Update"
-        			Style="{StaticResource ControlButton}" />
-        	</StackPanel>
+            <ProgressBar x:Name="ProgressIndicator" Value="{Binding Percent, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Height="20" Margin="0,0,0,6" Visibility="Collapsed"/>
+            <Button x:Name="CreateButton"
+                    Grid.Row="3"
+                    HorizontalAlignment="Right"
+                    Content="Create"
+                    Style="{StaticResource ControlButton}" />
         </Grid>
 
     </Grid>

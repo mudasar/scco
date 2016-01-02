@@ -39,6 +39,13 @@ namespace SCCO.WPF.MVC.CS.Views.AdministratorModule
 
         private void StartProcessing()
         {
+            var database = Database.DatabaseController.GetDatabaseByYear(MainController.LoggedUser.TransactionDate.Year);
+            if (!Database.DatabaseController.IsDatabaseExist(database))
+            {
+                MessageWindow.ShowAlertMessage(string.Format("Database '{0}' does not exist!", database));
+                return;
+            }
+        
             int validCutoffYear = MainController.LoggedUser.TransactionDate.Year - 1;
             if (_viewModel.CutoffDate.Year != validCutoffYear)
             {

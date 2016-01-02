@@ -33,7 +33,14 @@ namespace SCCO.WPF.MVC.CS.Database
                         AdvancePanel.Visibility = AdvancePanel.Visibility == Visibility.Collapsed
                                                       ? Visibility.Visible
                                                       : Visibility.Collapsed;
+                        CreateDatabaseButton.Visibility = AdvancePanel.Visibility;
                     }
+                };
+
+            CreateDatabaseButton.Click += (sender, args) =>
+                {
+                    var view = new CreateDatabaseWindow();
+                    view.ShowDialog();
                 };
         }
 
