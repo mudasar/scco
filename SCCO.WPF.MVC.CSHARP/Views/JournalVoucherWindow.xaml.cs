@@ -24,7 +24,7 @@ namespace SCCO.WPF.MVC.CS.Views
         private decimal _debitTotal;
         private DateTime _voucherDate;
         private int _voucherNumber;
-        private VoucherTypes _voucherType = VoucherTypes.JV;
+        private const VoucherTypes _voucherType = VoucherTypes.JV;
         private bool _hasModified;
 
 
@@ -308,17 +308,18 @@ namespace SCCO.WPF.MVC.CS.Views
 
             JournalVoucher.DeleteAll(_voucherNumber);
 
-            var cancelledJournalVoucher = new JournalVoucher();
-            cancelledJournalVoucher.MemberCode = "CANCEL";
-            cancelledJournalVoucher.MemberName = "CANCELLED";
-            cancelledJournalVoucher.AccountCode = "CANCEL";
-            cancelledJournalVoucher.AccountTitle = "CANCELLED";
-            cancelledJournalVoucher.Debit = 0m;
-            cancelledJournalVoucher.Credit = 0m;
-
-            cancelledJournalVoucher.VoucherDate = _voucherDate;
-            cancelledJournalVoucher.VoucherNo = _voucherNumber;
-            cancelledJournalVoucher.VoucherType = _voucherType;
+            var cancelledJournalVoucher = new JournalVoucher
+                {
+                    MemberCode = "CANCEL",
+                    MemberName = "CANCELLED",
+                    AccountCode = "CANCEL",
+                    AccountTitle = "CANCELLED",
+                    Debit = 0m,
+                    Credit = 0m,
+                    VoucherDate = _voucherDate,
+                    VoucherNo = _voucherNumber,
+                    VoucherType = _voucherType
+                };
 
             cancelledJournalVoucher.Create();
             Find(_voucherNumber);
@@ -345,10 +346,12 @@ namespace SCCO.WPF.MVC.CS.Views
                 MessageWindow.ShowAlertMessage("Please select an item.");
                 return;
             }
-            var explanationWindow = new ExplanationWindow();
-            explanationWindow.CanModify = CanModify;
+            var explanationWindow = new ExplanationWindow
+                {
+                    CanModify = CanModify,
+                    CurrentValue = currentRecord.Explanation
+                };
 
-            explanationWindow.CurrentValue = currentRecord.Explanation;
             if (explanationWindow.ShowDialog() == true)
             {
                 foreach (JournalVoucher currentItem in _currentItems)
@@ -469,8 +472,10 @@ namespace SCCO.WPF.MVC.CS.Views
 
         private void btnReport_Click(object sender, RoutedEventArgs e)
         {
-            var voucherReportWindow = new VoucherReportWindow(_voucherType, _voucherNumber);
-            voucherReportWindow.TransactionDatePicker.SelectedDate = _voucherDate;
+            var voucherReportWindow = new VoucherReportWindow(_voucherType, _voucherNumber)
+                {
+                    TransactionDatePicker = {SelectedDate = _voucherDate}
+                };
             voucherReportWindow.ShowDialog();
         }
 

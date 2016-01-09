@@ -1549,7 +1549,7 @@ namespace SCCO.WPF.MVC.CS.Controllers
                             jvdoc1Row[colCredit] = DataConverter.ToDecimal(journalVoucherTable.Rows[i]["CREDIT"]);
                             jvdoc1Row[colDebit] = DataConverter.ToDecimal(journalVoucherTable.Rows[i]["DEBIT"]);
 
-                            if (string.IsNullOrEmpty(explanation) || DataConverter.ToString(jvdoc1Row["EXPLAIN"]) == String.Empty)
+                            if (string.IsNullOrEmpty(explanation.Trim()) || DataConverter.ToString(jvdoc1Row["EXPLAIN"]) == String.Empty)
                             {
                                 //jvdoc1Row["EXPLAIN"] = journalVoucherTable.Rows[i]["EXPLAIN"];
                                 explanation = DataConverter.ToUtf8String(journalVoucherTable.Rows[i]["EXPLAIN"]);
@@ -1662,7 +1662,7 @@ namespace SCCO.WPF.MVC.CS.Controllers
                             cvdoc1Row[colCredit] = DataConverter.ToDecimal(cashVoucherTable.Rows[i]["CREDIT"]);
                             cvdoc1Row[colDebit] = DataConverter.ToDecimal(cashVoucherTable.Rows[i]["DEBIT"]);
 
-                            if (string.IsNullOrEmpty(explanation) || DataConverter.ToString(cvdoc1Row["EXPLAIN"]) == String.Empty)
+                            if (string.IsNullOrEmpty(explanation.Trim()) || DataConverter.ToString(cvdoc1Row["EXPLAIN"]) == String.Empty)
                             {
                                 //cvdoc1Row["EXPLAIN"] = cashVoucherTable.Rows[i]["EXPLAIN"];
                                 explanation = DataConverter.ToUtf8String(cashVoucherTable.Rows[i]["EXPLAIN"]);

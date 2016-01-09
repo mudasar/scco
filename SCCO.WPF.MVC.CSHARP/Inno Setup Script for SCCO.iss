@@ -47,6 +47,9 @@ Source: "F:\github\scco\SCCO.WPF.MVC.CSHARP\bin\Debug\ReportFiles\*.*"; DestDir:
 ; MySQL
 Source: "F:\github\scco\SCCO.WPF.MVC.CSHARP\bin\Debug\mysql.data.dll"; DestDir: "{app}"; Flags: ignoreversion
 
+; MySqlBackup
+Source: "F:\github\scco\SCCO.WPF.MVC.CSHARP\bin\Debug\MySqlBackup.dll"; DestDir: "{app}"; Flags: ignoreversion
+
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
