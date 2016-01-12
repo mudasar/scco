@@ -27,7 +27,6 @@ namespace SCCO.WPF.MVC.CS.Database
             CreateButton.Click += (sender, args) => CreateDatabase();
         }
 
-
         private void CreateDatabase()
         {
             if (!CheckRequirements()) return;
@@ -48,16 +47,7 @@ namespace SCCO.WPF.MVC.CS.Database
         {
             try
             {
-                var queryBuilder = new StringBuilder();
-                queryBuilder.AppendLine("DROP DATABASE IF EXISTS");
-                queryBuilder.AppendLine(_viewModel.TargetDatabase);
-                DatabaseController.ExecuteNonQuery(queryBuilder.ToString());
-
-                queryBuilder = new StringBuilder();
-                queryBuilder.AppendLine("CREATE DATABASE");
-                queryBuilder.AppendLine(_viewModel.TargetDatabase);
-                DatabaseController.ExecuteNonQuery(queryBuilder.ToString());
-
+                DatabaseController.CreateDatabase(_viewModel.TargetDatabase);
                 return true;
             }
             catch (Exception exception)
@@ -72,11 +62,12 @@ namespace SCCO.WPF.MVC.CS.Database
             try
             {
                 const string csvFileName = "proc.csv";
-                string csvFullName = Path.Combine(DatabaseUtility.ProgramDataDirectory(), csvFileName);
+                string csvFullName = Path.Combine(DatabaseController.ProgramDataDirectory(), csvFileName);
                 if (File.Exists(csvFullName))
                 {
                     File.Delete(csvFullName);
                 }
+                var conn = DatabaseController.GenericConnection(null);
                 var paramCsvFile = new SqlParameter("@csv_file", csvFullName);
                 var queryBuilder = new StringBuilder();
                 queryBuilder.AppendLine("SELECT * FROM mysql.proc WHERE db = @source_db");
@@ -86,7 +77,7 @@ namespace SCCO.WPF.MVC.CS.Database
                 var params1 = new SqlParameter[2];
                 params1[0] = new SqlParameter("@source_db", _viewModel.SourceDatabase);
                 params1[1] = paramCsvFile;
-                DatabaseController.ExecuteSelectQuery(queryBuilder.ToString(), params1);
+                DatabaseController.ExecuteSelectQuery(conn, queryBuilder.ToString(), params1);
 
                 queryBuilder = new StringBuilder();
                 queryBuilder.AppendLine("LOAD DATA INFILE @csv_file");
@@ -95,7 +86,7 @@ namespace SCCO.WPF.MVC.CS.Database
                 var params2 = new SqlParameter[2];
                 params2[0] = new SqlParameter("@target_db", _viewModel.TargetDatabase);
                 params2[1] = paramCsvFile;
-                DatabaseController.ExecuteSelectQuery(queryBuilder.ToString(), params2);
+                DatabaseController.ExecuteSelectQuery(conn, queryBuilder.ToString(), params2);
 
                 if (File.Exists(csvFullName))
                 {
@@ -110,15 +101,19 @@ namespace SCCO.WPF.MVC.CS.Database
             return false;
         }
 
-        private bool CopyDatabase()
+        private void CopyDatabase()
         {
             try
             {
+                var connection = DatabaseController.GenericConnection(null);
+                
                 var paramSourceDB = new SqlParameter("@source_db", _viewModel.SourceDatabase);
                 var queryTableNames = new StringBuilder();
                 queryTableNames.AppendLine("SELECT table_name FROM information_schema.tables");
                 queryTableNames.AppendLine("WHERE table_schema = @source_db");
-                DataTable tableNames = DatabaseController.ExecuteSelectQuery(queryTableNames, paramSourceDB);
+                DataTable tableNames = DatabaseController.ExecuteSelectQuery(connection,
+                                                                             queryTableNames.ToString(),
+                                                                             new[] {paramSourceDB});
 
                 int processed = 0;
                 int total = tableNames.Rows.Count;
@@ -134,7 +129,8 @@ namespace SCCO.WPF.MVC.CS.Database
                     queryTableType.AppendLine("WHERE table_schema = @source_db AND table_name = @table_name");
                     var tableTypeParams = new List<SqlParameter> {paramSourceDB, paramTableName};
 
-                    DataTable tableTypes = DatabaseController.ExecuteSelectQuery(queryTableType.ToString(),
+                    DataTable tableTypes = DatabaseController.ExecuteSelectQuery(connection,
+                                                                                 queryTableType.ToString(),
                                                                                  tableTypeParams.ToArray());
                     foreach (DataRow type in tableTypes.Rows)
                     {
@@ -148,7 +144,8 @@ namespace SCCO.WPF.MVC.CS.Database
                                                                         _viewModel.TargetDatabase,
                                                                         _viewModel.SourceDatabase,
                                                                         tableName));
-                            DatabaseController.ExecuteNonQuery(executeCreateTable.ToString());
+
+                            DatabaseController.ExecuteNonQuery(connection, executeCreateTable.ToString());
 
                             // do not copy vouchers
                             switch (tableName)
@@ -168,7 +165,7 @@ namespace SCCO.WPF.MVC.CS.Database
                                                                              _viewModel.SourceDatabase,
                                                                              tableName));
 
-                                    DatabaseController.ExecuteInsertQuery(executeCopyData.ToString());
+                                    DatabaseController.ExecuteInsertQuery(connection, executeCopyData.ToString());
                                     break;
                             }
                         }
@@ -177,14 +174,12 @@ namespace SCCO.WPF.MVC.CS.Database
                     _viewModel.Progress = Convert.ToInt32((processed*100m)/total);
                     _worker.ReportProgress(_viewModel.Progress);
                 }
-                return true;
             }
             catch (Exception exception)
             {
                 MessageWindow.ShowAlertMessage(exception.Message);
                 _worker.CancelAsync();
             }
-            return false;
         }
 
         private bool CheckRequirements()
@@ -259,7 +254,6 @@ namespace SCCO.WPF.MVC.CS.Database
             {
                 ProgressIndicator.Visibility = Visibility.Collapsed;
                 MessageWindow.ShowNotifyMessage("Processing complete.");
-                DatabaseController.CloseDatabase();
             }
             Close();
         }

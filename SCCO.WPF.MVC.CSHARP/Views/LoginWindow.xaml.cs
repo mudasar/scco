@@ -25,7 +25,7 @@ namespace SCCO.WPF.MVC.CS.Views
 
             Loaded += (sender, args) => txtLoginName.Focus();
 
-            btnOK.Click += (sender, args) => Loggin();
+            btnOK.Click += (sender, args) => Login();
             btnCancel.Click += (sender, args) => CancelLoggin();
 
             btnOK.GotFocus += OkButtonOnGotFocus;
@@ -50,7 +50,7 @@ namespace SCCO.WPF.MVC.CS.Views
             Environment.Exit(0);
         }
 
-        private void Loggin()
+        private void Login()
         {
             if (!DatabaseController.IsServerConnected())
             {

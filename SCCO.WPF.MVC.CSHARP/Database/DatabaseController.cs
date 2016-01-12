@@ -5,12 +5,13 @@ using System.Linq;
 using System.Text;
 using MySql.Data.MySqlClient;
 using SCCO.WPF.MVC.CS.Properties;
-using SCCO.WPF.MVC.CS.Utilities;
 
 namespace SCCO.WPF.MVC.CS.Database
 {
     public class DatabaseController
     {
+        #region --- PROPERTIES ---
+
         private MySqlConnectionStringBuilder _connectionBuilder;
         private MySqlCommand _dbCommand;
 
@@ -63,12 +64,19 @@ namespace SCCO.WPF.MVC.CS.Database
             }
         }
 
+        #endregion
+
+        /// <summary>
+        /// Executes an insert query
+        /// </summary>
+        /// <param name="sqlInsert">SQL insert statement</param>
+        /// <param name="sqlParameters">SQL parameters</param>
+        /// <returns>Last Insert ID</returns>
         public static int ExecuteInsertQuery(string sqlInsert, params SqlParameter[] sqlParameters)
         {
-            if (sqlInsert == string.Empty) return 0;
-
-            if (SharedDbConnection != null)
+            try
             {
+                OpenConnection();
                 var sqlCommand = new MySqlCommand
                     {
                         CommandType = CommandType.Text,
@@ -81,79 +89,70 @@ namespace SCCO.WPF.MVC.CS.Database
                     sqlCommand.Parameters.AddWithValue(parameter.Key, parameter.Value);
                 }
 
-                if (SharedDbConnection.State != ConnectionState.Open)
-                {
-                    SharedDbConnection.Open();
-                }
-                int sqlResult = sqlCommand.ExecuteNonQuery();
+                var sqlResult = sqlCommand.ExecuteNonQuery();
                 if (sqlResult > 0)
                 {
                     sqlCommand.CommandText = "SELECT LAST_INSERT_ID()";
                     sqlCommand.Parameters.Clear();
                     sqlResult = Convert.ToInt32(sqlCommand.ExecuteScalar());
                 }
-                SharedDbConnection.Close();
                 return sqlResult;
             }
-            if (Validate())
+            finally
             {
-                return ExecuteInsertQuery(sqlInsert, sqlParameters);
+                CloseConnection();
             }
-            throw new Exception("ExecuteInsertQuery failed.");
         }
 
         public static int ExecuteNonQuery(string sqlStatement, params SqlParameter[] sqlParameters)
         {
-            if (SharedDbConnection != null)
+            try
             {
+                OpenConnection();
                 var sqlCommand = new MySqlCommand
                     {
                         CommandType = CommandType.Text,
                         CommandText = sqlStatement,
                         Connection = SharedDbConnection
                     };
-
                 foreach (SqlParameter parameter in sqlParameters)
                 {
                     sqlCommand.Parameters.AddWithValue(parameter.Key, parameter.Value);
                 }
-
-                if (SharedDbConnection.State != ConnectionState.Open)
-                {
-                    SharedDbConnection.Open();
-                }
-                int sqlResult = sqlCommand.ExecuteNonQuery();
+                var sqlResult = sqlCommand.ExecuteNonQuery();
                 return sqlResult;
             }
-            if (Validate())
+            finally
             {
-                return ExecuteInsertQuery(sqlStatement, sqlParameters);
+                CloseConnection();
             }
-            throw new Exception("ExecuteNonQuery failed.");
         }
 
         public static DataTable ExecuteSelectQuery(string sqlSelect, params SqlParameter[] parameters)
         {
-            if (SharedDbConnection == null)
+            try
             {
-                Validate();
-            }
-
-            var sqlCommand = new MySqlCommand
+                OpenConnection();
+                var sqlCommand = new MySqlCommand
+                    {
+                        CommandType = CommandType.Text,
+                        CommandText = sqlSelect,
+                        Connection = SharedDbConnection
+                    };
+                foreach (SqlParameter parameter in parameters)
                 {
-                    CommandType = CommandType.Text,
-                    CommandText = sqlSelect,
-                    Connection = SharedDbConnection
-                };
-            foreach (SqlParameter parameter in parameters)
-            {
-                sqlCommand.Parameters.AddWithValue(parameter.Key, parameter.Value);
-            }
+                    sqlCommand.Parameters.AddWithValue(parameter.Key, parameter.Value);
+                }
 
-            var dataAdapter = new MySqlDataAdapter(sqlCommand);
-            var dataTable = new DataTable();
-            dataAdapter.Fill(dataTable);
-            return dataTable;
+                var dataAdapter = new MySqlDataAdapter(sqlCommand);
+                var dataTable = new DataTable();
+                dataAdapter.Fill(dataTable);
+                return dataTable;
+            }
+            finally
+            {
+                CloseConnection();
+            }
         }
 
         public static DataTable ExecuteSelectQuery(StringBuilder sqlBuilder)
@@ -168,26 +167,29 @@ namespace SCCO.WPF.MVC.CS.Database
 
         public static DataTable ExecuteStoredProcedure(string storedProcedure, params SqlParameter[] parameters)
         {
-            if (SharedDbConnection == null)
+            try
             {
-                Validate();
-            }
-
-            var sqlCommand = new MySqlCommand
+                OpenConnection();
+                var sqlCommand = new MySqlCommand
+                    {
+                        CommandType = CommandType.StoredProcedure,
+                        CommandText = storedProcedure,
+                        Connection = SharedDbConnection
+                    };
+                foreach (SqlParameter parameter in parameters)
                 {
-                    CommandType = CommandType.StoredProcedure,
-                    CommandText = storedProcedure,
-                    Connection = SharedDbConnection
-                };
-            foreach (SqlParameter parameter in parameters)
-            {
-                sqlCommand.Parameters.AddWithValue(parameter.Key, parameter.Value);
-            }
+                    sqlCommand.Parameters.AddWithValue(parameter.Key, parameter.Value);
+                }
 
-            var dataAdapter = new MySqlDataAdapter(sqlCommand);
-            var dataTable = new DataTable();
-            dataAdapter.Fill(dataTable);
-            return dataTable;
+                var dataAdapter = new MySqlDataAdapter(sqlCommand);
+                var dataTable = new DataTable();
+                dataAdapter.Fill(dataTable);
+                return dataTable;
+            }
+            finally
+            {
+                CloseConnection();
+            }
         }
 
         public static DataTable ExecuteStoredProcedure(string storedProcedure, List<SqlParameter> parameters)
@@ -283,19 +285,7 @@ namespace SCCO.WPF.MVC.CS.Database
         // static methods
         public static bool IsServerConnected()
         {
-            var connectionBuilder = new MySqlConnectionStringBuilder
-                {
-                    Server = Settings.Default.DatabaseServer,
-                    Port = Settings.Default.DatabasePort,
-                    UserID = Settings.Default.DatabaseUser,
-                    Password = Utilities.Password.Decrypt(Settings.Default.DatabasePassword),
-                    ConnectionTimeout = 60,
-                    DefaultCommandTimeout = 60,
-                    AllowZeroDateTime = false,
-                    ConvertZeroDateTime = true,
-                    RespectBinaryFlags = false
-                };
-            using (var connection = new MySqlConnection(connectionBuilder.ToString()))
+            using (var connection = new MySqlConnection(ConnectionString()))
             {
                 try
                 {
@@ -310,28 +300,18 @@ namespace SCCO.WPF.MVC.CS.Database
                 }
                 finally
                 {
-                    connection.Close();
+                    if (connection.State != ConnectionState.Closed)
+                    {
+                        connection.Close();
+                    }
                 }
             }
         }
 
         public static bool IsDatabaseExist(string databaseName)
         {
-            string sql =
-                string.Format("SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = ?db_name");
-            var connectionBuilder = new MySqlConnectionStringBuilder
-                {
-                    Server = Settings.Default.DatabaseServer,
-                    Port = Settings.Default.DatabasePort,
-                    UserID = Settings.Default.DatabaseUser,
-                    Password = Utilities.Password.Decrypt(Settings.Default.DatabasePassword),
-                    ConnectionTimeout = 60,
-                    DefaultCommandTimeout = 60,
-                    AllowZeroDateTime = false,
-                    ConvertZeroDateTime = true,
-                    RespectBinaryFlags = false
-                };
-            using (var connection = new MySqlConnection(connectionBuilder.ToString()))
+            const string sql = "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = ?databaseName";
+            using (var connection = new MySqlConnection(ConnectionString()))
             {
                 try
                 {
@@ -341,7 +321,7 @@ namespace SCCO.WPF.MVC.CS.Database
                             CommandText = sql,
                             Connection = connection
                         };
-                    sqlCommand.Parameters.AddWithValue("?db_name", databaseName);
+                    sqlCommand.Parameters.AddWithValue("?databaseName", databaseName);
 
                     var dataAdapter = new MySqlDataAdapter(sqlCommand);
                     var dataTable = new DataTable();
@@ -359,43 +339,27 @@ namespace SCCO.WPF.MVC.CS.Database
             }
         }
 
-        public static bool Validate()
-        {
-            string database = string.Format("{0}_{1}_{2}", Settings.Default.BranchName, DateTime.Now.Year,
-                                            Settings.Default.DatabaseEnvironment);
-            try
-            {
-                if (SharedDbConnection == null)
-                {
-                    var connectionBuilder = new MySqlConnectionStringBuilder
-                        {
-                            Server = Settings.Default.DatabaseServer,
-                            Port = Settings.Default.DatabasePort,
-                            Database = database,
-                            UserID = Settings.Default.DatabaseUser,
-                            Password = Utilities.Password.Decrypt(Settings.Default.DatabasePassword),
-                            ConnectionTimeout = 60,
-                            DefaultCommandTimeout = 60,
-                            AllowZeroDateTime = false,
-                            ConvertZeroDateTime = true,
-                            RespectBinaryFlags = false
-                        };
-                    var sqlConnection = new MySqlConnection(connectionBuilder.ToString());
-
-                    SharedDbConnection = sqlConnection;
-                }
-                if (SharedDbConnection.State != ConnectionState.Open)
-                {
-                    SharedDbConnection.Open();
-                }
-                return true;
-            }
-            catch (Exception exception)
-            {
-                Logger.ExceptionLogger(new DatabaseController(), exception);
-            }
-            return false;
-        }
+        //public static bool Validate()
+        //{
+        //    try
+        //    {
+        //        if (SharedDbConnection == null)
+        //        {
+        //            var sqlConnection = new MySqlConnection(ConnectionString(database));
+        //            SharedDbConnection = sqlConnection;
+        //        }
+        //        if (SharedDbConnection.State != ConnectionState.Open)
+        //        {
+        //            SharedDbConnection.Open();
+        //        }
+        //        return true;
+        //    }
+        //    catch (Exception exception)
+        //    {
+        //        Logger.ExceptionLogger(new DatabaseController(), exception);
+        //    }
+        //    return false;
+        //}
 
         public static DataTable FindRecord(string tableName, int id)
         {
@@ -406,6 +370,29 @@ namespace SCCO.WPF.MVC.CS.Database
 
             var parameter = new SqlParameter("?id", id);
             return ExecuteSelectQuery(sqlBuilder, parameter);
+        }
+
+        public static DataTable ExecuteStoredProcedure(string storedProcedure, string databaseName,
+                                                       params SqlParameter[] parameters)
+        {
+            var sqlConnection = new MySqlConnection(ConnectionString(databaseName));
+            var sqlCommand = new MySqlCommand
+                {
+                    CommandType = CommandType.StoredProcedure,
+                    CommandText = storedProcedure,
+                    Connection = sqlConnection
+                };
+            foreach (SqlParameter parameter in parameters)
+            {
+                sqlCommand.Parameters.AddWithValue(parameter.Key, parameter.Value);
+            }
+
+            var dataAdapter = new MySqlDataAdapter(sqlCommand);
+            var dataTable = new DataTable();
+            dataAdapter.Fill(dataTable);
+            sqlConnection.Close();
+            sqlConnection.Dispose();
+            return dataTable;
         }
 
         internal static int DeleteRecord(string tableName, int id)
@@ -433,47 +420,6 @@ namespace SCCO.WPF.MVC.CS.Database
             return ExecuteInsertQuery(sql, parameters.ToArray());
         }
 
-        public static DataTable ExecuteStoredProcedure(string storedProcedure, string databaseName,
-                                                       params SqlParameter[] parameters)
-        {
-            #region -- setup database -- 
-
-            var connectionBuilder = new MySqlConnectionStringBuilder
-                {
-                    Server = Settings.Default.DatabaseServer,
-                    Port = Settings.Default.DatabasePort,
-                    Database = databaseName,
-                    UserID = Settings.Default.DatabaseUser,
-                    Password = Utilities.Password.Decrypt(Settings.Default.DatabasePassword),
-                    ConnectionTimeout = 60,
-                    DefaultCommandTimeout = 60,
-                    AllowZeroDateTime = false,
-                    ConvertZeroDateTime = true,
-                    RespectBinaryFlags = false
-                };
-            var sqlConnection = new MySqlConnection(connectionBuilder.ToString());
-
-            #endregion
-
-            var sqlCommand = new MySqlCommand
-                {
-                    CommandType = CommandType.StoredProcedure,
-                    CommandText = storedProcedure,
-                    Connection = sqlConnection
-                };
-            foreach (SqlParameter parameter in parameters)
-            {
-                sqlCommand.Parameters.AddWithValue(parameter.Key, parameter.Value);
-            }
-
-            var dataAdapter = new MySqlDataAdapter(sqlCommand);
-            var dataTable = new DataTable();
-            dataAdapter.Fill(dataTable);
-            sqlConnection.Close();
-            sqlConnection.Dispose();
-            return dataTable;
-        }
-
         internal static void SwitchDatabase(int year)
         {
             // generate databasename based on branch and year
@@ -481,46 +427,6 @@ namespace SCCO.WPF.MVC.CS.Database
                                             Settings.Default.DatabaseEnvironment);
 
             SwitchDatabase(database);
-        }
-
-        private static void SwitchDatabase(string database)
-        {
-            if (SharedDbConnection != null)
-            {
-                // do nothing if database is not changed
-                if (database == SharedDbConnection.Database)
-                {
-                    if (SharedDbConnection.State == ConnectionState.Closed)
-                    {
-                        SharedDbConnection.Open();
-                    }
-                    return;
-                }
-
-                if (SharedDbConnection.State != ConnectionState.Closed)
-                {
-                    SharedDbConnection.Close();
-                    SharedDbConnection.Dispose();
-                }
-                SharedDbConnection.Close();
-                SharedDbConnection.Dispose();
-            }
-
-            var connectionBuilder = new MySqlConnectionStringBuilder
-                {
-                    Server = Settings.Default.DatabaseServer,
-                    Port = Settings.Default.DatabasePort,
-                    Database = database,
-                    UserID = Settings.Default.DatabaseUser,
-                    Password = Utilities.Password.Decrypt(Settings.Default.DatabasePassword),
-                    ConnectionTimeout = 60,
-                    DefaultCommandTimeout = 60,
-                    AllowZeroDateTime = false,
-                    ConvertZeroDateTime = true,
-                    RespectBinaryFlags = false
-                };
-            SharedDbConnection = new MySqlConnection(connectionBuilder.ToString());
-            SharedDbConnection.Open();
         }
 
         internal static string GetDatabaseByYear(int year)
@@ -577,21 +483,7 @@ namespace SCCO.WPF.MVC.CS.Database
 
         internal static void Backup(string database, string backupFile)
         {
-            var connectionBuilder = new MySqlConnectionStringBuilder
-            {
-                Server = Settings.Default.DatabaseServer,
-                Port = Settings.Default.DatabasePort,
-                Database = database,
-                UserID = Settings.Default.DatabaseUser,
-                Password = Utilities.Password.Decrypt(Settings.Default.DatabasePassword),
-                ConnectionTimeout = 60,
-                DefaultCommandTimeout = 60,
-                AllowZeroDateTime = false,
-                ConvertZeroDateTime = true,
-                RespectBinaryFlags = false
-            };
-
-            using (var conn = new MySqlConnection(connectionBuilder.ToString()))
+            using (var conn = new MySqlConnection(ConnectionString(database)))
             {
                 using (var cmd = new MySqlCommand())
                 {
@@ -608,20 +500,7 @@ namespace SCCO.WPF.MVC.CS.Database
 
         internal static void Restore(string database, string backupFile)
         {
-            var connectionBuilder = new MySqlConnectionStringBuilder
-            {
-                Server = Settings.Default.DatabaseServer,
-                Port = Settings.Default.DatabasePort,
-                Database = database,
-                UserID = Settings.Default.DatabaseUser,
-                Password = Utilities.Password.Decrypt(Settings.Default.DatabasePassword),
-                ConnectionTimeout = 60,
-                DefaultCommandTimeout = 60,
-                AllowZeroDateTime = false,
-                ConvertZeroDateTime = true,
-                RespectBinaryFlags = false
-            };
-            using (var conn = new MySqlConnection(connectionBuilder.ToString()))
+            using (var conn = new MySqlConnection(ConnectionString(database)))
             {
                 using (var cmd = new MySqlCommand())
                 {
@@ -634,6 +513,326 @@ namespace SCCO.WPF.MVC.CS.Database
                     }
                 }
             }
+        }
+
+        internal static string ConnectionString()
+        {
+            var connectionBuilder = new MySqlConnectionStringBuilder
+                {
+                    Server = Settings.Default.DatabaseServer,
+                    Port = Settings.Default.DatabasePort,
+                    UserID = Settings.Default.DatabaseUser,
+                    Password = Utilities.Password.Decrypt(Settings.Default.DatabasePassword),
+                    ConnectionTimeout = 60,
+                    DefaultCommandTimeout = 60,
+                    AllowZeroDateTime = false,
+                    ConvertZeroDateTime = true,
+                    RespectBinaryFlags = false
+                };
+            return connectionBuilder.ToString();
+        }
+
+        internal static string ConnectionString(string database)
+        {
+            var connectionBuilder = new MySqlConnectionStringBuilder
+                {
+                    Server = Settings.Default.DatabaseServer,
+                    Port = Settings.Default.DatabasePort,
+                    UserID = Settings.Default.DatabaseUser,
+                    Password = Utilities.Password.Decrypt(Settings.Default.DatabasePassword),
+                    Database = database,
+                    ConnectionTimeout = 60,
+                    DefaultCommandTimeout = 60,
+                    AllowZeroDateTime = false,
+                    ConvertZeroDateTime = true,
+                    RespectBinaryFlags = false
+                };
+            return connectionBuilder.ToString();
+        }
+
+        internal static DataTable ShowDatabases()
+        {
+            // "SHOW DATABASES"
+            const string commandText = "SHOW DATABASES";
+            using (var connection = new MySqlConnection(ConnectionString()))
+            {
+                try
+                {
+                    var sqlCommand = new MySqlCommand
+                        {
+                            CommandType = CommandType.Text,
+                            CommandText = commandText,
+                            Connection = connection
+                        };
+                    var dataAdapter = new MySqlDataAdapter(sqlCommand);
+                    var dataTable = new DataTable();
+                    dataAdapter.Fill(dataTable);
+                    return dataTable;
+                }
+                catch (MySqlException)
+                {
+                    return null;
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+        }
+
+        internal static void DropDatabase(string database)
+        {
+            var queryBuilder = new StringBuilder();
+            queryBuilder.AppendLine("DROP DATABASE IF EXISTS");
+            queryBuilder.AppendLine(database);
+
+            var conn = new MySqlConnection(ConnectionString());
+            try
+            {
+                Console.WriteLine(@"Connecting to MySQL...");
+                conn.Open();
+
+                var sql = queryBuilder.ToString();
+                var cmd = new MySqlCommand(sql, conn);
+                Console.WriteLine(@"Execute: {0}", sql);
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            finally
+            {
+                conn.Close();
+                Console.WriteLine(@"Done.");
+            }
+        }
+
+        internal static void CreateDatabase(string database)
+        {
+            DropDatabase(database);
+
+            var queryBuilder = new StringBuilder();
+            queryBuilder.AppendLine("CREATE DATABASE");
+            queryBuilder.AppendLine(database);
+
+            var conn = new MySqlConnection(ConnectionString());
+            try
+            {
+                Console.WriteLine(@"Connecting to MySQL...");
+                conn.Open();
+
+                var sql = queryBuilder.ToString();
+                var cmd = new MySqlCommand(sql, conn);
+                Console.WriteLine(@"Execute: {0}", sql);
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            finally
+            {
+                conn.Close();
+                Console.WriteLine(@"Done.");
+            }
+        }
+
+        internal static MySqlConnection GenericConnection(string database)
+        {
+            if (database == null)
+            {
+                return new MySqlConnection(ConnectionString());
+            }
+            return string.IsNullOrEmpty(database)
+                       ? new MySqlConnection(ConnectionString())
+                       : new MySqlConnection(ConnectionString(database));
+        }
+
+        internal static void ExecuteNonQuery(MySqlConnection conn, string sql, params SqlParameter[] parameters)
+        {
+            try
+            {
+                if (conn.State != ConnectionState.Open)
+                {
+                    Console.WriteLine(@"Connecting to MySQL...");
+                    conn.Open();
+                }
+                var cmd = new MySqlCommand
+                    {
+                        CommandType = CommandType.Text,
+                        CommandText = sql,
+                        Connection = conn
+                    };
+                foreach (SqlParameter parameter in parameters)
+                {
+                    cmd.Parameters.AddWithValue(parameter.Key, parameter.Value);
+                }
+                Console.WriteLine(cmd.CommandText);
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            finally
+            {
+                conn.Close();
+                Console.WriteLine(@"Done.");
+            }
+        }
+
+        internal static DataTable ExecuteSelectQuery(MySqlConnection conn, string sql, params SqlParameter[] parameters)
+        {
+            try
+            {
+                if (conn.State != ConnectionState.Open)
+                {
+                    Console.WriteLine(@"Connecting to MySQL...");
+                    conn.Open();
+                }
+                var cmd = new MySqlCommand
+                    {
+                        CommandType = CommandType.Text,
+                        CommandText = sql,
+                        Connection = conn
+                    };
+                foreach (SqlParameter parameter in parameters)
+                {
+                    cmd.Parameters.AddWithValue(parameter.Key, parameter.Value);
+                }
+
+                var dataAdapter = new MySqlDataAdapter(cmd);
+                var dataTable = new DataTable();
+                Console.WriteLine(cmd.CommandText);
+                dataAdapter.Fill(dataTable);
+                return dataTable;
+            }
+            finally
+            {
+                conn.Close();
+                Console.WriteLine(@"Done.");
+            }
+        }
+
+        internal static int ExecuteInsertQuery(MySqlConnection conn, string sql, params SqlParameter[] parameters)
+        {
+            try
+            {
+                var cmd = new MySqlCommand
+                    {
+                        CommandType = CommandType.Text,
+                        CommandText = sql,
+                        Connection = conn
+                    };
+
+                foreach (SqlParameter parameter in parameters)
+                {
+                    cmd.Parameters.AddWithValue(parameter.Key, parameter.Value);
+                }
+
+                if (conn.State != ConnectionState.Open)
+                {
+                    Console.WriteLine(@"Connecting to MySQL...");
+                    conn.Open();
+                }
+                Console.WriteLine(cmd.CommandText);
+                var sqlResult = cmd.ExecuteNonQuery();
+                return sqlResult;
+            }
+            finally
+            {
+                conn.Close();
+                Console.WriteLine(@"Done.");
+            }
+        }
+
+        #region --- PRIVATES ---
+
+
+        /// <summary>
+        /// Ensure connection is closed
+        /// </summary>
+        private static void CloseConnection()
+        {
+            if (SharedDbConnection.State != ConnectionState.Closed)
+            {
+                SharedDbConnection.Close();
+            }
+        }
+
+        /// <summary>
+        /// Ensure connection is open
+        /// </summary>
+        private static void OpenConnection()
+        {
+            if (SharedDbConnection == null)
+            {
+                SharedDbConnection = new MySqlConnection(ConnectionString(DefaultDatabase()));
+            }
+            if (SharedDbConnection.State != ConnectionState.Open)
+            {
+                SharedDbConnection.Open();
+            }
+        }
+
+        private static string DefaultDatabase()
+        {
+            return string.Format("{0}_{1}_{2}",
+                                 Settings.Default.BranchName,
+                                 DateTime.Now.Year,
+                                 Settings.Default.DatabaseEnvironment);
+        }
+
+        private static void SwitchDatabase(string database)
+        {
+            if (SharedDbConnection != null)
+            {
+                // do nothing if database is not changed
+                if (database == SharedDbConnection.Database)
+                {
+                    if (SharedDbConnection.State == ConnectionState.Closed)
+                    {
+                        SharedDbConnection.Open();
+                    }
+                    return;
+                }
+
+                if (SharedDbConnection.State != ConnectionState.Closed)
+                {
+                    SharedDbConnection.Close();
+                    SharedDbConnection.Dispose();
+                }
+                SharedDbConnection.Close();
+                SharedDbConnection.Dispose();
+            }
+
+            SharedDbConnection = new MySqlConnection(ConnectionString(database));
+            SharedDbConnection.Open();
+        }
+
+        #endregion
+
+        internal static string BaseDirectory()
+        {
+            const string query = "SHOW VARIABLES WHERE Variable_Name = 'basedir'";
+            DataTable dataTable = ExecuteSelectQuery(GenericConnection(null), query);
+            foreach (DataRow dataRow in dataTable.Rows)
+            {
+                return dataRow[1].ToString();
+            }
+            return "";
+        }
+
+        internal static string ProgramDataDirectory()
+        {
+            const string query = "SHOW VARIABLES WHERE Variable_Name = 'datadir'";
+            DataTable dataTable = ExecuteSelectQuery(GenericConnection(null), query);
+            foreach (DataRow dataRow in dataTable.Rows)
+            {
+                return dataRow[1].ToString();
+            }
+            return "";
         }
     }
 }

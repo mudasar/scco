@@ -59,6 +59,25 @@ namespace SCCO.WPF.MVC.CS.Database
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        internal void Initialize()
+        {
+            Databases = new List<string>();
+            if (DatabaseController.IsServerConnected())
+            {
+                DataTable dataTable = DatabaseController.ShowDatabases();
+                foreach (DataRow dataRow in dataTable.Rows)
+                {
+                    Databases.Add(dataRow[0].ToString());
+                }
+            }
+        }
+
         private string GenerateTargetDatabase(string value)
         {
             string[] arr = value.Split('_');
@@ -75,25 +94,6 @@ namespace SCCO.WPF.MVC.CS.Database
             }
 
             return string.Join("_", arr);
-        }
-
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        internal void Initialize()
-        {
-            Databases = new List<string>();
-            if (DatabaseController.IsServerConnected())
-            {
-                DataTable dataTable = DatabaseController.ExecuteSelectQuery("SHOW DATABASES");
-                foreach (DataRow dataRow in dataTable.Rows)
-                {
-                    Databases.Add(dataRow[0].ToString());
-                }
-            }
         }
     }
 }

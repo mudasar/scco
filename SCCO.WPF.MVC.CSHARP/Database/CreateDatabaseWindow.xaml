@@ -73,7 +73,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="24" />
-				<RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <StackPanel Orientation="Vertical">
@@ -98,7 +98,11 @@
                                TextWrapping="Wrap" />
                 </StackPanel>
             </StackPanel>
-            <ProgressBar x:Name="ProgressIndicator" Value="{Binding Percent, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Height="20" Margin="0,0,0,6" Visibility="Collapsed"/>
+            <ProgressBar x:Name="ProgressIndicator"
+                         Grid.Row="2"
+                         Height="20"
+                         Margin="0,0,0,6"
+                         Visibility="Collapsed" />
             <Button x:Name="CreateButton"
                     Grid.Row="3"
                     HorizontalAlignment="Right"

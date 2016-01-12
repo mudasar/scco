@@ -1,6 +1,5 @@
 ﻿using System.Windows;
 using System.Windows.Input;
-using SCCO.WPF.MVC.CS.Controllers;
 using SCCO.WPF.MVC.CS.Properties;
 
 namespace SCCO.WPF.MVC.CS.Database
@@ -23,7 +22,7 @@ namespace SCCO.WPF.MVC.CS.Database
             DatabaseEnvironmentComboBox.Items.Add("PRODUCTION");
             DatabaseEnvironmentComboBox.SelectedItem = Settings.Default.DatabaseEnvironment.ToUpper();
 
-            DatabasePassword.Password = Utilities.Password.Decrypt(Settings.Default.DatabasePassword);
+            //DatabasePassword.Password = Utilities.Password.Decrypt(Settings.Default.DatabasePassword);
             DatabasePort.Text = string.Format("{0}",Settings.Default.DatabasePort);
 
             KeyDown += (s, e) =>
@@ -39,12 +38,21 @@ namespace SCCO.WPF.MVC.CS.Database
 
             CreateDatabaseButton.Click += (sender, args) =>
                 {
+                    SaveSettings();
                     var view = new CreateDatabaseWindow();
                     view.ShowDialog();
                 };
         }
 
         private void UpdateButtonOnClick(object sender, RoutedEventArgs e)
+        {
+            SaveSettings();
+
+            Views.MessageWindow.ShowNotifyMessage("Database configuration updated!");
+            Close();
+        }
+
+        private void SaveSettings()
         {
             Settings.Default.DatabaseServer = DatabaseServerBox.Text;
 
@@ -62,9 +70,6 @@ namespace SCCO.WPF.MVC.CS.Database
                 Settings.Default.DatabasePort = port;
             }
             Settings.Default.Save();
-            
-            Views.MessageWindow.ShowNotifyMessage("Database configuration updated!");
-            Close();
         }
     }
 }
