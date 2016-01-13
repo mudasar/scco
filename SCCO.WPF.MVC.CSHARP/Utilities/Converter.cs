@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.ComponentModel;
+using System.Data;
 using System.Text;
 using SCCO.WPF.MVC.CS.Models;
 using SCCO.WPF.MVC.CS.Models.Loan;
@@ -10,7 +10,6 @@ namespace SCCO.WPF.MVC.CS.Utilities
 {
     public static class Converter
     {
-
         #region --- Convert An Amount to Words ---
 
         public static string AmountToWords(decimal number, string currency = "Peso")
@@ -202,12 +201,14 @@ namespace SCCO.WPF.MVC.CS.Utilities
         {
             return string.Format("{0:yyyy-MM-dd}", datetime);
         }
+
         #endregion
 
         #region --- Convert A List to DataTable
+
         public static DataTable ConvertToDataTable<T>(IList<T> data)
         {
-            PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(typeof(T));
+            PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(typeof (T));
             var table = new DataTable();
             foreach (PropertyDescriptor prop in properties)
                 table.Columns.Add(prop.Name, Nullable.GetUnderlyingType(prop.PropertyType) ?? prop.PropertyType);
@@ -221,44 +222,42 @@ namespace SCCO.WPF.MVC.CS.Utilities
             }
             return table;
         }
-#endregion 
 
+        #endregion
 
         public static object ToNullIfDefault(object param)
         {
-            if(param is string)
+            if (param is string)
             {
-                var value = Convert.ToString(param);
+                string value = Convert.ToString(param);
                 if (value.Length == 0) return null;
                 return param;
             }
             if (param is DateTime)
             {
-                var value = Convert.ToDateTime(param);
+                DateTime value = Convert.ToDateTime(param);
                 if (value == new DateTime()) return null;
                 return param;
             }
             if (param is int)
             {
-                var value = Convert.ToInt32(param);
+                int value = Convert.ToInt32(param);
                 if (value == 0) return null;
                 return param;
             }
             if (param is decimal)
             {
-                var value = Convert.ToDecimal(param);
+                decimal value = Convert.ToDecimal(param);
                 if (value == 0) return null;
                 return param;
             }
 
             return param;
         }
-
     }
 
     public static class DataConverter
     {
-
         internal static string ToUtf8String(object param)
         {
             return param == DBNull.Value ? string.Empty : Encoding.UTF8.GetString(ToByteArray(param));
@@ -301,13 +300,13 @@ namespace SCCO.WPF.MVC.CS.Utilities
 
         public static ModeOfPayments ToModeOfPayment(object param)
         {
-            var value = ToString(param);
+            string value = ToString(param);
             if (value.Length < 1)
             {
                 return ModeOfPayments.NotSpecified;
             }
 
-            var initial = value.Substring(0, 1);
+            string initial = value.Substring(0, 1);
             switch (initial)
             {
                 case "D":
@@ -323,7 +322,7 @@ namespace SCCO.WPF.MVC.CS.Utilities
                     return ModeOfPayments.SemiMonthly;
 
                 case "M":
-                case "m":     
+                case "m":
                     return ModeOfPayments.Monthly;
 
                 default:
@@ -333,7 +332,7 @@ namespace SCCO.WPF.MVC.CS.Utilities
 
         public static VoucherTypes ToVoucherType(object param)
         {
-            var docType = ToString(param);
+            string docType = ToString(param);
             switch (docType)
             {
                 case "CV":
@@ -364,8 +363,8 @@ namespace SCCO.WPF.MVC.CS.Utilities
 
         public static string ToTermsMode(object terms, object termsMode)
         {
-            var iterms = ToInteger(terms);
-            var value = ToString(termsMode);
+            int iterms = ToInteger(terms);
+            string value = ToString(termsMode);
             if (value.Length < 1)
             {
                 switch (iterms)
@@ -397,7 +396,7 @@ namespace SCCO.WPF.MVC.CS.Utilities
                 return "";
             }
 
-            var initial = value.Substring(0, 1);
+            string initial = value.Substring(0, 1);
             switch (initial)
             {
                 case "D":

@@ -16,6 +16,8 @@ namespace SCCO.WPF.MVC.CS.Models
         CodeOfLoanReceivables,
         CodeOfMiscellaneousIncome,
         CodeOfSalaryAdvance,
+        CodeOfGoNegosyo,
+        CodeOfAccountsPayableMerchandise,
         CodeOfSavingsDeposit,
         CodeOfTimeDeposit,
         CodeOfUnearnedIncome,
@@ -94,6 +96,24 @@ namespace SCCO.WPF.MVC.CS.Models
             get
             {
                 const GlobalKeys key = GlobalKeys.CodeOfSalaryAdvance;
+                return DataConverter.ToString(SearchDatabase(key)["CurrentValue"]);
+            }
+        }
+
+        public static string CodeOfGoNegosyo
+        {
+            get
+            {
+                const GlobalKeys key = GlobalKeys.CodeOfGoNegosyo;
+                return DataConverter.ToString(SearchDatabase(key)["CurrentValue"]);
+            }
+        }
+
+        public static string CodeOfAccountsPayableMerchandise
+        {
+            get
+            {
+                const GlobalKeys key = GlobalKeys.CodeOfAccountsPayableMerchandise;
                 return DataConverter.ToString(SearchDatabase(key)["CurrentValue"]);
             }
         }
@@ -263,9 +283,9 @@ namespace SCCO.WPF.MVC.CS.Models
 
         public static object GetSettingsFromKey(Enum key)
         {
-            var row = SearchDatabase(key);
+            DataRow row = SearchDatabase(key);
 
-            var keyword = GetKeywordFromEnum(key);
+            string keyword = GetKeywordFromEnum(key);
             if (keyword.ToLower().Contains("amountof") || keyword.ToLower().Contains("rateof"))
             {
                 return DataConverter.ToDecimal(row);
@@ -294,7 +314,7 @@ namespace SCCO.WPF.MVC.CS.Models
         {
             try
             {
-                var globalVariable = GlobalVariable.FindByKeyword(keyword);
+                GlobalVariable globalVariable = GlobalVariable.FindByKeyword(keyword);
 
                 if (keyword.ToLower().Contains("amountof") || keyword.ToLower().Contains("rateof"))
                 {
@@ -320,31 +340,31 @@ namespace SCCO.WPF.MVC.CS.Models
             }
             catch (Exception exception)
             {
-                Logger.ExceptionLogger(typeof(GlobalSettings), exception);
+                Logger.ExceptionLogger(typeof (GlobalSettings), exception);
             }
         }
 
         private static string GetKeywordFromEnum(Enum key)
         {
-            return Enum.GetName(typeof(GlobalKeys), key);
+            return Enum.GetName(typeof (GlobalKeys), key);
         }
 
         private static DataRow SearchDatabase(Enum key)
         {
             try
             {
-                var keyword = GetKeywordFromEnum(key);
+                string keyword = GetKeywordFromEnum(key);
 
                 const string sqlCommandText =
                     "SELECT CurrentValue FROM global_variables WHERE Keyword = ?Keyword LIMIT 1";
                 var sqlParameter = new SqlParameter("?Keyword", keyword);
-                var dataTable = DatabaseController.ExecuteSelectQuery(sqlCommandText, sqlParameter);
+                DataTable dataTable = DatabaseController.ExecuteSelectQuery(sqlCommandText, sqlParameter);
 
                 if (dataTable.Rows.Count > 0)
                     return dataTable.Rows[0];
 
                 // save settings if not yet existing in the database
-                var value = string.Empty;
+                string value = string.Empty;
                 if (keyword.ToLower().Contains("amountof") || keyword.ToLower().Contains("rateof"))
                 {
                     value = "0.00";
@@ -368,7 +388,7 @@ namespace SCCO.WPF.MVC.CS.Models
             }
             catch (Exception exception)
             {
-                Logger.ExceptionLogger(typeof(GlobalSettings), exception);
+                Logger.ExceptionLogger(typeof (GlobalSettings), exception);
                 return null;
             }
         }

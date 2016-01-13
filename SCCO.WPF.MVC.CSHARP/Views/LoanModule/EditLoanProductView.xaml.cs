@@ -11,21 +11,18 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
 {
     public partial class EditLoanProductView
     {
-        private readonly LoanProduct _loanProduct = new LoanProduct();
         private readonly LoanCharge _loanCharge1;
         private readonly LoanCharge _loanCharge2;
-
         private readonly LoanCharge _loanCharge3;
-
         private readonly LoanCharge _loanCharge4;
-
         private readonly LoanCharge _loanCharge5;
-
         private readonly LoanCharge _loanCharge6;
 
         private readonly LoanDeduction _loanDeduction1;
         private readonly LoanDeduction _loanDeduction2;
         private readonly LoanDeduction _loanDeduction3;
+
+        private readonly LoanProduct _loanProduct = new LoanProduct();
 
         public EditLoanProductView()
         {
@@ -44,137 +41,137 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
             }
 
             stbCode1.Click += delegate
-                                  {
-                                      var account = FindAccount();
-                                      if (account == null)
-                                      {
-                                          _loanCharge1.AccountCode = "";
-                                          _loanCharge1.AccountTitle = "";
-                                          _loanCharge1.Amount = 0;
-                                          return;
-                                      }
-                                      _loanCharge1.AccountCode = account.AccountCode;
-                                      _loanCharge1.AccountTitle = account.AccountTitle;
-                                  };
+                {
+                    Account account = FindAccount();
+                    if (account == null)
+                    {
+                        _loanCharge1.AccountCode = "";
+                        _loanCharge1.AccountTitle = "";
+                        _loanCharge1.Amount = 0;
+                        return;
+                    }
+                    _loanCharge1.AccountCode = account.AccountCode;
+                    _loanCharge1.AccountTitle = account.AccountTitle;
+                };
 
             stbCode2.Click += delegate
-                                  {
-                                      var account = FindAccount();
-                                      if (account == null)
-                                      {
-                                          _loanCharge2.AccountCode = "";
-                                          _loanCharge2.AccountTitle = "";
-                                          _loanCharge2.Amount = 0;
-                                          return;
-                                      }
-                                      _loanCharge2.AccountCode = account.AccountCode;
-                                      _loanCharge2.AccountTitle = account.AccountTitle;
-                                  };
+                {
+                    Account account = FindAccount();
+                    if (account == null)
+                    {
+                        _loanCharge2.AccountCode = "";
+                        _loanCharge2.AccountTitle = "";
+                        _loanCharge2.Amount = 0;
+                        return;
+                    }
+                    _loanCharge2.AccountCode = account.AccountCode;
+                    _loanCharge2.AccountTitle = account.AccountTitle;
+                };
 
             stbCode3.Click += delegate
-                                  {
-                                      var account = FindAccount();
-                                      if (account == null)
-                                      {
-                                          _loanCharge3.AccountCode = "";
-                                          _loanCharge3.AccountTitle = "";
-                                          _loanCharge3.Amount = 0;
-                                          return;
-                                      }
-                                      _loanCharge3.AccountCode = account.AccountCode;
-                                      _loanCharge3.AccountTitle = account.AccountTitle;
-                                  };
+                {
+                    Account account = FindAccount();
+                    if (account == null)
+                    {
+                        _loanCharge3.AccountCode = "";
+                        _loanCharge3.AccountTitle = "";
+                        _loanCharge3.Amount = 0;
+                        return;
+                    }
+                    _loanCharge3.AccountCode = account.AccountCode;
+                    _loanCharge3.AccountTitle = account.AccountTitle;
+                };
 
             stbCode4.Click += delegate
-                                  {
-                                      var account = FindAccount();
-                                      if (account == null)
-                                      {
-                                          _loanCharge4.AccountCode = "";
-                                          _loanCharge4.AccountTitle = "";
-                                          _loanCharge4.Amount = 0;
-                                          return;
-                                      }
-                                      _loanCharge4.AccountCode = account.AccountCode;
-                                      _loanCharge4.AccountTitle = account.AccountTitle;
-                                  };
+                {
+                    Account account = FindAccount();
+                    if (account == null)
+                    {
+                        _loanCharge4.AccountCode = "";
+                        _loanCharge4.AccountTitle = "";
+                        _loanCharge4.Amount = 0;
+                        return;
+                    }
+                    _loanCharge4.AccountCode = account.AccountCode;
+                    _loanCharge4.AccountTitle = account.AccountTitle;
+                };
 
             stbCode5.Click += delegate
-                                  {
-                                      var account = FindAccount();
-                                      if (account == null)
-                                      {
-                                          _loanCharge5.AccountCode = "";
-                                          _loanCharge5.AccountTitle = "";
-                                          _loanCharge5.Amount = 0;
-                                          return;
-                                      }
-                                      _loanCharge5.AccountCode = account.AccountCode;
-                                      _loanCharge5.AccountTitle = account.AccountTitle;
-                                  };
+                {
+                    Account account = FindAccount();
+                    if (account == null)
+                    {
+                        _loanCharge5.AccountCode = "";
+                        _loanCharge5.AccountTitle = "";
+                        _loanCharge5.Amount = 0;
+                        return;
+                    }
+                    _loanCharge5.AccountCode = account.AccountCode;
+                    _loanCharge5.AccountTitle = account.AccountTitle;
+                };
 
             stbCode6.Click += delegate
-                                  {
-                                      var account = FindAccount();
-                                      if (account == null)
-                                      {
-                                          _loanCharge6.AccountCode = "";
-                                          _loanCharge6.AccountTitle = "";
-                                          _loanCharge6.Amount = 0;
-                                          return;
-                                      }
-                                      _loanCharge6.AccountCode = account.AccountCode;
-                                      _loanCharge6.AccountTitle = account.AccountTitle;
-                                  };
+                {
+                    Account account = FindAccount();
+                    if (account == null)
+                    {
+                        _loanCharge6.AccountCode = "";
+                        _loanCharge6.AccountTitle = "";
+                        _loanCharge6.Amount = 0;
+                        return;
+                    }
+                    _loanCharge6.AccountCode = account.AccountCode;
+                    _loanCharge6.AccountTitle = account.AccountTitle;
+                };
 
             stbDeductCode1.Click += delegate
-                                        {
-                                            var account = FindAccount();
-                                            if (account == null)
-                                            {
-                                                _loanDeduction1.AccountCode = "";
-                                                _loanDeduction1.AccountTitle = "";
-                                                _loanDeduction1.Amount = 0;
-                                                return;
-                                            }
-                                            _loanDeduction1.AccountCode = account.AccountCode;
-                                            _loanDeduction1.AccountTitle = account.AccountTitle;
-                                        };
+                {
+                    Account account = FindAccount();
+                    if (account == null)
+                    {
+                        _loanDeduction1.AccountCode = "";
+                        _loanDeduction1.AccountTitle = "";
+                        _loanDeduction1.Amount = 0;
+                        return;
+                    }
+                    _loanDeduction1.AccountCode = account.AccountCode;
+                    _loanDeduction1.AccountTitle = account.AccountTitle;
+                };
 
             stbDeductCode2.Click += delegate
-                                        {
-                                            var account = FindAccount();
-                                            if (account == null)
-                                            {
-                                                _loanDeduction2.AccountCode = "";
-                                                _loanDeduction2.AccountTitle = "";
-                                                _loanDeduction2.Amount = 0;
-                                                return;
-                                            }
-                                            _loanDeduction2.AccountCode = account.AccountCode;
-                                            _loanDeduction2.AccountTitle = account.AccountTitle;
-                                        };
+                {
+                    Account account = FindAccount();
+                    if (account == null)
+                    {
+                        _loanDeduction2.AccountCode = "";
+                        _loanDeduction2.AccountTitle = "";
+                        _loanDeduction2.Amount = 0;
+                        return;
+                    }
+                    _loanDeduction2.AccountCode = account.AccountCode;
+                    _loanDeduction2.AccountTitle = account.AccountTitle;
+                };
 
             stbDeductCode3.Click += delegate
-                                        {
-                                            var account = FindAccount();
-                                            if (account == null)
-                                            {
-                                                _loanDeduction3.AccountCode = "";
-                                                _loanDeduction3.AccountTitle = "";
-                                                _loanDeduction3.Amount = 0;
-                                                return;
-                                            }
-                                            _loanDeduction3.AccountCode = account.AccountCode;
-                                            _loanDeduction3.AccountTitle = account.AccountTitle;
-                                        };
+                {
+                    Account account = FindAccount();
+                    if (account == null)
+                    {
+                        _loanDeduction3.AccountCode = "";
+                        _loanDeduction3.AccountTitle = "";
+                        _loanDeduction3.Amount = 0;
+                        return;
+                    }
+                    _loanDeduction3.AccountCode = account.AccountCode;
+                    _loanDeduction3.AccountTitle = account.AccountTitle;
+                };
         }
 
         public EditLoanProductView(int id)
             : this()
         {
             _loanProduct.Find(id);
-            var loanCharges = LoanCharge.GetListByLoanProductId(_loanProduct.ID);
+            List<LoanCharge> loanCharges = LoanCharge.GetListByLoanProductId(_loanProduct.ID);
 
             int countCharges = loanCharges.Count;
 
@@ -191,7 +188,7 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
             _loanCharge6 = countCharges >= 6 ? loanCharges[5] : new LoanCharge();
 
             List<LoanDeduction> loanDeductions = LoanDeduction.GetListByLoanProductId(_loanProduct.ID);
-            var countDeductions = loanDeductions.Count;
+            int countDeductions = loanDeductions.Count;
 
             _loanDeduction1 = countDeductions >= 1 ? loanDeductions[0] : new LoanDeduction();
 
@@ -216,26 +213,17 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
 
         public EditLoanProductView(string newLoanProductName) : this()
         {
-            _loanProduct = new LoanProduct();
-            _loanProduct.Name = newLoanProductName;
-
+            _loanProduct = new LoanProduct {Name = newLoanProductName};
 
             _loanCharge1 = new LoanCharge();
-
             _loanCharge2 = new LoanCharge();
-
             _loanCharge3 = new LoanCharge();
-
             _loanCharge4 = new LoanCharge();
-
             _loanCharge5 = new LoanCharge();
-
             _loanCharge6 = new LoanCharge();
 
             _loanDeduction1 = new LoanDeduction();
-
             _loanDeduction2 = new LoanDeduction();
-
             _loanDeduction3 = new LoanDeduction();
 
             DataContext = _loanProduct;
@@ -251,6 +239,11 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
             grdDeduction1.DataContext = _loanDeduction1;
             grdDeduction2.DataContext = _loanDeduction2;
             grdDeduction3.DataContext = _loanDeduction3;
+        }
+
+        public LoanProduct CurrentItem
+        {
+            get { return _loanProduct; }
         }
 
         private void OkButtonOnClick()
@@ -272,13 +265,13 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
                     successMessage = "Loan Product has been created!";
                 }
 
-                var loanCharges = LoanCharge.GetListByLoanProductId(_loanProduct.ID);
+                List<LoanCharge> loanCharges = LoanCharge.GetListByLoanProductId(_loanProduct.ID);
                 foreach (LoanCharge loanCharge in loanCharges)
                 {
                     loanCharge.Destroy();
                 }
 
-                var loanDeductions = LoanDeduction.GetListByLoanProductId(_loanProduct.ID);
+                List<LoanDeduction> loanDeductions = LoanDeduction.GetListByLoanProductId(_loanProduct.ID);
                 foreach (LoanDeduction loanDeduction in loanDeductions)
                 {
                     loanDeduction.Destroy();
@@ -348,8 +341,8 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
 
         private void SearchProductCode(object sender, RoutedEventArgs e)
         {
-            var loanAccounts = Account.GetListOfLoanReceivables();
-            var searchItems =
+            List<Account> loanAccounts = Account.GetListOfLoanReceivables();
+            List<SearchItem> searchItems =
                 loanAccounts.Select(
                     loan =>
                     new SearchItem(loan.ID, loan.AccountTitle) {ItemCode = loan.AccountCode}).ToList();
@@ -363,8 +356,8 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
 
         private Account FindAccount()
         {
-            var accounts = Account.GetList();
-            var searchItems =
+            List<Account> accounts = Account.GetList();
+            List<SearchItem> searchItems =
                 accounts.Select(
                     loan =>
                     new SearchItem(loan.ID, loan.AccountTitle) {ItemCode = loan.AccountCode}).ToList();
@@ -375,11 +368,9 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
             {
                 return null;
             }
-            var account = accounts.SingleOrDefault(ac => ac.ID == searchByCodeWindow.SelectedItem.ItemId);
+            Account account = accounts.SingleOrDefault(ac => ac.ID == searchByCodeWindow.SelectedItem.ItemId);
 
             return account;
         }
-
-        public LoanProduct CurrentItem { get { return _loanProduct; } }
     }
 }

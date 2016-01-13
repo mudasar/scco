@@ -5,17 +5,18 @@ using SCCO.WPF.MVC.CS.Models;
 using SCCO.WPF.MVC.CS.Models.Loan;
 using SCCO.WPF.MVC.CS.Utilities;
 
-namespace SCCO.WPF.MVC.CS.Views.SalaryAdvanceModule
+namespace SCCO.WPF.MVC.CS.Views.SpecialLoansModule
 {
-    public partial class SalaryAdvanceView
+    public partial class GoNegosyoView
     {
         private readonly CashVoucher _cashVoucher;
         private readonly Nfmb _member;
         private readonly LoanProduct _loanProduct;
 
-        private SalaryAdvanceView()
+        public GoNegosyoView(Nfmb member)
         {
             InitializeComponent();
+            _member = member;
 
             if (MainController.LoggedUser.TransactionDate != GlobalSettings.DateOfOpenTransaction)
             {
@@ -24,20 +25,20 @@ namespace SCCO.WPF.MVC.CS.Views.SalaryAdvanceModule
                 return;
             }
 
-            var code = GlobalSettings.CodeOfSalaryAdvance;
+            var code = GlobalSettings.CodeOfGoNegosyo;
             if (string.IsNullOrEmpty(code))
             {
-                MessageWindow.ShowAlertMessage("Salary Advance code not set!");
+                MessageWindow.ShowAlertMessage("Go Negosyo code not set!");
                 btnDetails.IsEnabled = btnPost.IsEnabled = false;
                 return;
             }
 
-            btnPost.Click += btnPost_Click;
-            btnDetails.Click += btnDetails_Click;
+            btnPost.Click += (sender, args) =>  Post();
+            btnDetails.Click += (sender, args) => ShowDetails();
 
             _loanProduct = LoanProduct.GetList().First(a => a.ProductCode == code);
 
-            // initialize cash voucher entry for salary advance
+            // initialize cash voucher entry for go negosyo
             _cashVoucher = new CashVoucher
             {
                 VoucherNo = Voucher.LastDocumentNo(VoucherTypes.CV) + 1,
@@ -46,22 +47,17 @@ namespace SCCO.WPF.MVC.CS.Views.SalaryAdvanceModule
             DataContext = _cashVoucher;
         }
 
-        public SalaryAdvanceView(Nfmb member) : this()
-        {
-            _member = member;
-        }
-
-        private void btnPost_Click(object sender, EventArgs e)
+        private void Post()
         {
             var loanAmount = _cashVoucher.Debit;
             var voucherNo = _cashVoucher.VoucherNo;
             var voucherDate = MainController.LoggedUser.TransactionDate;
             var document = new VoucherDocument(VoucherTypes.CV, voucherNo, voucherDate);
 
-            // is there already a loan product for salary advance?
+            // is there already a loan product for Go Negosyo?
             if (_loanProduct == null)
             {
-                MessageWindow.ShowAlertMessage("No Loan Products found for Salary Advance.");
+                MessageWindow.ShowAlertMessage("No Loan Products found for Go Negosyo.");
                 return;
             }
 
@@ -82,10 +78,8 @@ namespace SCCO.WPF.MVC.CS.Views.SalaryAdvanceModule
 
             try
             {
-                // what is the account for salary advance?
-                var salaryAdvance = Account.FindByCode(GlobalSettings.CodeOfSalaryAdvance);
-
-                var cashOnHandReceived = loanAmount;
+                // what is the account for Go Negosyo?
+                var goNegosyo = Account.FindByCode(GlobalSettings.CodeOfGoNegosyo);
 
                 #region --- Finally add entry for the loan applied ---
 
@@ -93,7 +87,7 @@ namespace SCCO.WPF.MVC.CS.Views.SalaryAdvanceModule
                 var loanDetails = GenerateLoanDetails();
 
                 _cashVoucher.SetMember(_member);
-                _cashVoucher.SetAccount(salaryAdvance);
+                _cashVoucher.SetAccount(goNegosyo);
                 _cashVoucher.SetDocument(document);
                 _cashVoucher.Explanation = loanDetails.GenerateExplanation();
                 _cashVoucher.LoanDetails = loanDetails;
@@ -108,57 +102,17 @@ namespace SCCO.WPF.MVC.CS.Views.SalaryAdvanceModule
 
                 #endregion
 
-                #region --- Interest Charge ---
+                // NO CHARGES
 
-                var interest = new CashVoucher();
-                interest.SetMember(_member);
-                interest.SetAccount(Account.FindByCode(GlobalSettings.CodeOfMiscellaneousIncome));
-                interest.SetDocument(document);
-                interest.Credit = loanDetails.InterestAmount;
-                postResult = interest.Create();
-                if (!postResult.Success)
-                {
-                    CashVoucher.DeleteAll(document.Number);
-                    MessageWindow.ShowAlertMessage(postResult.Message);
-                    return;
-                }
-                cashOnHandReceived -= interest.Credit;
-
-                #endregion
-
-                #region --- Add entries for Charges ---
-
-                foreach (var charge in _loanProduct.LoanCharges)
-                {
-                    var entry = new CashVoucher();
-                    entry.SetMember(_member);
-                    entry.SetAccount(Account.FindByCode(charge.AccountCode));
-                    entry.SetDocument(document);
-                    entry.Credit = loanAmount * charge.Rate;
-
-                    postResult = entry.Create();
-                    if (postResult.Success)
-                    {
-                        cashOnHandReceived -= entry.Credit;
-                        continue;
-                    }
-
-                    CashVoucher.DeleteAll(document.Number);
-                    MessageWindow.ShowAlertMessage(postResult.Message);
-                    return;
-                }
-
-                #endregion
-
-                #region --- Add entry for Cash On Hand ---
+                #region --- Add entry for Accounts Payable Merchandise ---
 
                 var net = new CashVoucher();
                 net.SetMember(_member);
-                net.SetAccount(Account.FindByCode(GlobalSettings.CodeOfCashOnHand));
+                net.SetAccount(Account.FindByCode(GlobalSettings.CodeOfAccountsPayableMerchandise));
                 net.SetDocument(document);
-                net.Credit = cashOnHandReceived;
-                net.Amount = cashOnHandReceived;
-                net.AmountInWords = Converter.AmountToWords(cashOnHandReceived);
+                net.Credit = loanAmount;
+                net.Amount = loanAmount;
+                net.AmountInWords = Converter.AmountToWords(loanAmount);
                 postResult = net.Create();
                 if (!postResult.Success)
                 {
@@ -179,7 +133,7 @@ namespace SCCO.WPF.MVC.CS.Views.SalaryAdvanceModule
 
                 #endregion
 
-                MessageWindow.ShowNotifyMessage("Salary Advance created. Please check CV# " + voucherNo);
+                MessageWindow.ShowNotifyMessage("Go Negosyo created. Please check CV# " + voucherNo);
                 DialogResult = true;
                 Close();
             }
@@ -222,7 +176,7 @@ namespace SCCO.WPF.MVC.CS.Views.SalaryAdvanceModule
             return loanDetails;
         }
 
-        private void btnDetails_Click(object sender, EventArgs e)
+        private void ShowDetails()
         {
              var view = new LoanModule.LoanDetailsWindow(GenerateLoanDetails());
             view.ShowDialog();

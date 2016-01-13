@@ -14,8 +14,8 @@ using SCCO.WPF.MVC.CS.Models.SavingsDeposit;
 using SCCO.WPF.MVC.CS.Models.TimeDeposit;
 using SCCO.WPF.MVC.CS.Utilities;
 using SCCO.WPF.MVC.CS.Views.LoanModule;
-using SCCO.WPF.MVC.CS.Views.SalaryAdvanceModule;
 using SCCO.WPF.MVC.CS.Views.SavingsDepositModule;
+using SCCO.WPF.MVC.CS.Views.SpecialLoansModule;
 using SCCO.WPF.MVC.CS.Views.TimeDepositModule;
 
 namespace SCCO.WPF.MVC.CS.Views.AccountVerifierModule
@@ -66,7 +66,7 @@ namespace SCCO.WPF.MVC.CS.Views.AccountVerifierModule
 
             // Loans
             btnLoanApplication.Click += (s, e) => ShowLoanApplication();
-            btnSalaryAdvance.Click += (s, e) => ShowSalaryAdvance();
+            btnSpecialLoanApplication.Click += (s, e) => ShowSpecialLoanApplication();
             btnLoanDetails.Click += (s, e) => ShowLoanDetails();
             btnFines.Click += (s, e) => ShowFinesRebateCalculator();
 
@@ -96,6 +96,79 @@ namespace SCCO.WPF.MVC.CS.Views.AccountVerifierModule
                         RefreshAccountInformation();
                     }
                 };
+        }
+
+        private void ShowTellerCollectorWindow()
+        {
+            var tellerCollectorWindow = new TellerCollectorWindow();
+            tellerCollectorWindow.ShowDialog();
+        }
+
+        private void PrintPassbook()
+        {
+            IEnumerable<AccountVerifierDetail> accountDetails = grdDetails.Items.OfType<AccountVerifierDetail>();
+            ReportController.GeneratePassbook(
+                Converter.ConvertToDataTable(accountDetails.ToList().Where(o => o.IsMarked).ToList()));
+        }
+
+        private void RefreshButtons()
+        {
+            bool isMemberShown = _viewModel.Member != null;
+
+            btnAccountDisplayed.IsEnabled = isMemberShown;
+            btnMemberInformation.IsEnabled = isMemberShown;
+            btnPrint.IsEnabled = isMemberShown;
+            btnOfficialReceipts.IsEnabled = isMemberShown;
+
+            if (_accountDisplayed == ShownAccount.Summary)
+            {
+                // savings deposit buttons
+                btnSavingsDepositEntry.IsEnabled = true;
+                btnSavingsWithdrawal.IsEnabled = false;
+
+                // time deposit buttons
+                btnTimeDepositEntry.IsEnabled = true;
+                btnTimeDepositDetails.IsEnabled = false;
+
+                // loans
+                btnLoanDetails.IsEnabled = false;
+                btnFines.IsEnabled = false;
+                btnMakers.IsEnabled = false;
+                return;
+            }
+
+            if (_viewModel.SelectedAccount == null) return;
+
+            if (_listSavingsDepositCode.Contains(_viewModel.SelectedAccount.AccountCode))
+            {
+                btnSavingsWithdrawal.IsEnabled = true;
+                btnTimeDepositDetails.IsEnabled = false;
+            }
+            if (_listTimeDepositCode.Contains(_viewModel.SelectedAccount.AccountCode))
+            {
+                btnTimeDepositDetails.IsEnabled = true;
+                btnSavingsWithdrawal.IsEnabled = false;
+            }
+            if (_listLoanReceivableCode.Contains(_viewModel.SelectedAccount.AccountCode))
+            {
+                btnLoanDetails.IsEnabled = true;
+                btnFines.IsEnabled = true;
+                btnMakers.IsEnabled = true;
+            }
+        }
+
+        private void ShowCalculator()
+        {
+            Process process = Process.Start("calc.exe");
+            if (process != null) process.WaitForInputIdle();
+        }
+
+        // how the withdrawal and deposit displayed
+        private void grdDetails_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (grdDetails.SelectedItem == null) return;
+            var selectedItem = (AccountDetail) grdDetails.SelectedItem;
+            selectedItem.Mark = !selectedItem.Mark;
         }
 
         #region --- Members ---
@@ -149,7 +222,7 @@ namespace SCCO.WPF.MVC.CS.Views.AccountVerifierModule
 
             //borrower's buttons
             btnLoanApplication.IsEnabled = isMemberCanLoan;
-            btnSalaryAdvance.IsEnabled = isMemberCanLoan;
+            btnSpecialLoanApplication.IsEnabled = isMemberCanLoan;
             btnMakers.IsEnabled = isMemberCanLoan;
 
             btnSavingsDepositEntry.IsEnabled = true;
@@ -252,6 +325,14 @@ namespace SCCO.WPF.MVC.CS.Views.AccountVerifierModule
 
         private void RefreshAccountInformation()
         {
+            if (_viewModel == null)
+            {
+                return;
+            }
+            if (_viewModel.Member == null)
+            {
+                return;
+            }
             List<AccountSummary> accountSummaries =
                 AccountSummary.Find(_viewModel.Member.MemberCode, MainController.LoggedUser.TransactionDate);
 
@@ -479,10 +560,20 @@ namespace SCCO.WPF.MVC.CS.Views.AccountVerifierModule
             loanAmortizationWindow.ShowDialog();
         }
 
-        private void ShowSalaryAdvance()
+        //private void ShowSalaryAdvance()
+        //{
+        //    var view = new SalaryAdvanceView(_viewModel.Member);
+        //    view.ShowDialog();
+        //}
+
+        private void ShowSpecialLoanApplication()
         {
-            var view = new SalaryAdvanceView(_viewModel.Member);
-            view.ShowDialog();
+            var view = new SpecialLoanApplicationView(_viewModel.Member);
+            if (view.ShowDialog() == true)
+            {
+                RefreshAccountInformation();
+            }
+            
         }
 
         private void ShowLoanDetails()
@@ -511,10 +602,12 @@ namespace SCCO.WPF.MVC.CS.Views.AccountVerifierModule
             AccountDetail last = loanDetails.LastOrDefault();
             if (last == null) return;
 
-            var model = new FinesRebateCalculatorViewModel();
-            model.LoanDetails = last.LoanDetails;
-            model.LoanBalance = _viewModel.SelectedAccount.Balance;
-            model.ProcessDate = MainController.LoggedUser.TransactionDate;
+            var model = new FinesRebateCalculatorViewModel
+                {
+                    LoanDetails = last.LoanDetails,
+                    LoanBalance = _viewModel.SelectedAccount.Balance,
+                    ProcessDate = MainController.LoggedUser.TransactionDate
+                };
             //model.FinesRatePerMonth = 2/100; // 2% per month
             //model.FinesRatePerMonth = GlobalSettings.RateOfFinesPerMonth;
 
@@ -524,79 +617,6 @@ namespace SCCO.WPF.MVC.CS.Views.AccountVerifierModule
         }
 
         #endregion
-
-        private void ShowTellerCollectorWindow()
-        {
-            var tellerCollectorWindow = new TellerCollectorWindow();
-            tellerCollectorWindow.ShowDialog();
-        }
-
-        private void PrintPassbook()
-        {
-            IEnumerable<AccountVerifierDetail> accountDetails = grdDetails.Items.OfType<AccountVerifierDetail>();
-            ReportController.GeneratePassbook(
-                Converter.ConvertToDataTable(accountDetails.ToList().Where(o => o.IsMarked).ToList()));
-        }
-
-        private void RefreshButtons()
-        {
-            bool isMemberShown = _viewModel.Member != null;
-
-            btnAccountDisplayed.IsEnabled = isMemberShown;
-            btnMemberInformation.IsEnabled = isMemberShown;
-            btnPrint.IsEnabled = isMemberShown;
-            btnOfficialReceipts.IsEnabled = isMemberShown;
-
-            if (_accountDisplayed == ShownAccount.Summary)
-            {
-                // savings deposit buttons
-                btnSavingsDepositEntry.IsEnabled = true;
-                btnSavingsWithdrawal.IsEnabled = false;
-
-                // time deposit buttons
-                btnTimeDepositEntry.IsEnabled = true;
-                btnTimeDepositDetails.IsEnabled = false;
-
-                // loans
-                btnLoanDetails.IsEnabled = false;
-                btnFines.IsEnabled = false;
-                btnMakers.IsEnabled = false;
-                return;
-            }
-
-            if (_viewModel.SelectedAccount == null) return;
-
-            if (_listSavingsDepositCode.Contains(_viewModel.SelectedAccount.AccountCode))
-            {
-                btnSavingsWithdrawal.IsEnabled = true;
-                btnTimeDepositDetails.IsEnabled = false;
-            }
-            if (_listTimeDepositCode.Contains(_viewModel.SelectedAccount.AccountCode))
-            {
-                btnTimeDepositDetails.IsEnabled = true;
-                btnSavingsWithdrawal.IsEnabled = false;
-            }
-            if (_listLoanReceivableCode.Contains(_viewModel.SelectedAccount.AccountCode))
-            {
-                btnLoanDetails.IsEnabled = true;
-                btnFines.IsEnabled = true;
-                btnMakers.IsEnabled = true;
-            }
-        }
-
-        private void ShowCalculator()
-        {
-            Process process = Process.Start("calc.exe");
-            if (process != null) process.WaitForInputIdle();
-        }
-
-        // how the withdrawal and deposit displayed
-        private void grdDetails_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            if (grdDetails.SelectedItem == null) return;
-            var selectedItem = (AccountDetail) grdDetails.SelectedItem;
-            selectedItem.Mark = !selectedItem.Mark;
-        }
 
         private enum ShownAccount
         {

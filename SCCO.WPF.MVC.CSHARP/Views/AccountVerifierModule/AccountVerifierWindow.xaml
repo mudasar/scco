@@ -180,10 +180,10 @@
                         Content="Loan Application"
                         IsEnabled="False"
                         Style="{DynamicResource ControlButton}" />
-                <Button x:Name="btnSalaryAdvance"
+                <Button x:Name="btnSpecialLoanApplication"
                         Width="Auto"
                         Margin="0,2"
-                        Content="Salary Advance"
+                        Content="Special Loans"
                         IsEnabled="False"
                         Style="{DynamicResource ControlButton}" />
                 <Button x:Name="btnLoanDetails"
@@ -199,18 +199,23 @@
                         IsEnabled="False"
                         Style="{DynamicResource ControlButton}" />
                 <Grid Height="28">
-                	<Grid.ColumnDefinitions>
-                		<ColumnDefinition Width=".45*"/>
-                		<ColumnDefinition Width=".55*"/>
-                	</Grid.ColumnDefinitions>
-                	<Button x:Name="btnMakers"
-                		Content="Makers"
-                		IsEnabled="False"
-                		Style="{DynamicResource ControlButton}" Height="Auto" Width="Auto" />
-                	<Button x:Name="btnComakers"
-                		Content="Co-makers"
-                		IsEnabled="False"
-                		Style="{DynamicResource ControlButton}" Height="Auto" Grid.Column="1" Width="Auto" />
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width=".45*" />
+                        <ColumnDefinition Width=".55*" />
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="btnMakers"
+                            Width="Auto"
+                            Height="Auto"
+                            Content="Makers"
+                            IsEnabled="False"
+                            Style="{DynamicResource ControlButton}" />
+                    <Button x:Name="btnComakers"
+                            Grid.Column="1"
+                            Width="Auto"
+                            Height="Auto"
+                            Content="Co-makers"
+                            IsEnabled="False"
+                            Style="{DynamicResource ControlButton}" />
                 </Grid>
             </StackPanel>
         </StackPanel>

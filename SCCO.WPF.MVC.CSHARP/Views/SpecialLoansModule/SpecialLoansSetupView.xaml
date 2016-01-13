@@ -1,0 +1,104 @@
+﻿<views:BaseWindow x:Class="SCCO.WPF.MVC.CS.Views.SpecialLoansModule.SpecialLoansSetupView"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:views="clr-namespace:SCCO.WPF.MVC.CS.Views"
+                  Icon="/SCCO.WPF.MVC.CS;component/Images/teller_collector.png"
+                  ResizeMode="NoResize"
+                  SizeToContent="WidthAndHeight"
+                  Style="{DynamicResource BaseWindow}"
+                  WindowStartupLocation="CenterScreen"
+                  WindowStyle="None">
+    <Grid Margin="5">
+        <Grid x:Name="FormLayout">
+            <Rectangle x:Name="Canvass"
+                       Margin="0,1,0,-1"
+                       Fill="#FFE30B5D"
+                       MouseLeftButtonDown="DragWindow"
+                       RadiusX="5"
+                       RadiusY="5"
+                       Stroke="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"
+                       StrokeLineJoin="Round">
+                <Rectangle.Effect>
+                    <DropShadowEffect BlurRadius="10" ShadowDepth="0" />
+                </Rectangle.Effect>
+            </Rectangle>
+            <Border x:Name="ShineEffect"
+                    Height="16"
+                    Margin="2,2,2,0"
+                    VerticalAlignment="Top"
+                    CornerRadius="4"
+                    MouseLeftButtonDown="DragWindow"
+                    Style="{DynamicResource ShineEffectStyle}" />
+            <Image x:Name="WindowIcon"
+                   Width="24"
+                   Height="24"
+                   Margin="10,10,0,0"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top"
+                   Source="/SCCO.WPF.MVC.CS;component/Images/teller_collector.png"
+                   Stretch="Fill" />
+            <Label x:Name="FormTitle"
+                   Margin="34,10,0,0"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top"
+                   VerticalContentAlignment="Center"
+                   Content="Special Loans"
+                   MouseLeftButtonDown="DragWindow"
+                   Style="{StaticResource FormTitle2}"
+                   ToolTip="Notices" />
+            <Button x:Name="CloseButton"
+                    Margin="0,8,8,0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Background="#00E4D2D2"
+                    Click="CloseWindow"
+                    Content="x"
+                    IsCancel="True"
+                    IsTabStop="False"
+                    Style="{DynamicResource CloseButton}"
+                    TabIndex="5" />
+        </Grid>
+        <StackPanel Margin="20,60,20,20" Orientation="Vertical">
+            <StackPanel Width="220">
+                <Button x:Name="btnSalaryAdvancesSetup"
+                        Width="Auto"
+                        Height="40"
+                        Margin="0,0,0,4"
+                        Content="Salary Advances Setup"
+                        Style="{DynamicResource ControlButton}" />
+                <Button x:Name="btnSalaryAdvancesProduct"
+                	Width="Auto"
+                	Height="40"
+                	Margin="0,0,0,4"
+                	Content="Salary Advances Product"
+                	Style="{DynamicResource ControlButton}" />
+                <Border Height="16"
+                        Background="#7FFFFFFF"
+                        BorderThickness="0,7" />
+
+                <Button x:Name="btnGoNegosyoSetup"
+                        Height="40"
+                        Margin="0,0,0,4"
+                        Content="Go Negosyo Setup"
+                        Style="{DynamicResource ControlButton}" Width="Auto" />
+                <Button x:Name="btnGoNegosyoProduct"
+                	Height="40"
+                	Margin="0,0,0,4"
+                	Content="Go Negosyo Product"
+                	Style="{DynamicResource ControlButton}" Width="Auto" />
+                <Border Height="16"
+                        Background="#7FFFFFFF"
+                        BorderThickness="0,7" />
+                <Button x:Name="btnComingSoon"
+                        Width="220"
+                        Height="40"
+                        Margin="0,0,0,4"
+                        Content="Other"
+                        IsEnabled="False"
+                        Style="{DynamicResource ControlButton}" />
+
+            </StackPanel>
+
+        </StackPanel>
+    </Grid>
+</views:BaseWindow>

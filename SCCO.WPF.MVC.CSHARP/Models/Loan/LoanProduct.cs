@@ -155,12 +155,15 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
                 ModelController.AddParameter(sqlParameters, "?ProductCode", ProductCode);
                 ModelController.AddParameter(sqlParameters, "?LoanType", LoanType);
                 ModelController.AddParameter(sqlParameters, "?ModeOfPayment", ModeOfPayment);
-                ModelController.AddParameter(sqlParameters, "?AnnualInterestRate", AnnualInterestRate);
-                ModelController.AddParameter(sqlParameters, "?MinimumTerm", MinimumTerm);
-                ModelController.AddParameter(sqlParameters, "?MaximumTerm", MaximumTerm);
-                ModelController.AddParameter(sqlParameters, "?MinimumLoanableAmount", MinimumLoanableAmount);
-                ModelController.AddParameter(sqlParameters, "?MaximumLoanableAmount", MaximumLoanableAmount);
-                ModelController.AddParameter(sqlParameters, "?MonthlyCapitalBuildUp", MonthlyCapitalBuildUp);
+                
+                // Do not nullify these fields...
+                sqlParameters.Add(new SqlParameter("?AnnualInterestRate", AnnualInterestRate));
+                sqlParameters.Add(new SqlParameter("?MinimumTerm", MinimumTerm));
+                sqlParameters.Add(new SqlParameter("?MaximumTerm", MaximumTerm));
+                sqlParameters.Add(new SqlParameter("?MinimumLoanableAmount", MinimumLoanableAmount));
+                sqlParameters.Add(new SqlParameter("?MaximumLoanableAmount", MaximumLoanableAmount));
+                sqlParameters.Add(new SqlParameter("?MonthlyCapitalBuildUp", MonthlyCapitalBuildUp));
+
                 return sqlParameters;
             }
         }
@@ -343,7 +346,7 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
             
             if(string.IsNullOrEmpty(ModeOfPayment)) return new Result(false, "No Mode of Payment specified.");
             
-            if(AnnualInterestRate <= 0) return new Result(false,"Invalid Interest Rate.");
+            if(AnnualInterestRate < 0) return new Result(false,"Invalid Interest Rate.");
             
             if(MinimumTerm <= 0) return new Result(false,"Invalid Minimum Term.");
 
@@ -399,6 +402,22 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
             return collection;
         }
 
+        internal static LoanProduct FindBy(string column, string value)
+        {
+            var queryBuilder = new StringBuilder();
+            queryBuilder.AppendLine("SELECT * FROM");
+            queryBuilder.AppendLine(TABLE_NAME);
+            queryBuilder.AppendFormat("WHERE `{0}` = ?{0} LIMIT 1", column);
+            var param = new SqlParameter(string.Format("?{0}", column), value);
+            var dataTable = DatabaseController.ExecuteSelectQuery(queryBuilder, param);
+            foreach (DataRow dataRow in dataTable.Rows)
+            {
+                var item = new LoanProduct();
+                item.SetPropertiesFromDataRow(dataRow);
+                return item;
+            }
+            return null;
+        }
     }
 
     public class LoanProductCollection : System.Collections.ObjectModel.ObservableCollection<LoanProduct>

@@ -10,6 +10,7 @@
                   Style="{DynamicResource BaseWindow}"
                   WindowStartupLocation="CenterScreen">
     <Views:BaseWindow.Resources>
+        <my:PersistedDecimalPercentageConverter x:Key="PersistedDecimalPercentageConverter" />
         <my:DecimalConverterDefaultZero x:Key="DecimalConverterDefaultZero1" />
     </Views:BaseWindow.Resources>
     <Grid Margin="5">
@@ -73,8 +74,7 @@
                                  Height="28"
                                  VerticalContentAlignment="Center"
                                  Style="{DynamicResource RoundedTextBox}"
-                                 Text="{Binding Title}"
-                                 TextWrapping="Wrap" />
+                                 Text="{Binding Title}" />
                         <Label Margin="0,8,0,2" Content="Product Code" />
                         <UserControls:TextBoxSearchControl x:Name="stbProductCode"
                                                            Height="28"
@@ -98,17 +98,16 @@
                                  VerticalContentAlignment="Center"
                                  Style="{DynamicResource RoundedTextBox}"
                                  Text="{Binding AnnualInterestRate,
-                                                Converter={StaticResource PercentageConverter1},
-                                                StringFormat=\{0:P\}}"
-                                 TextWrapping="Wrap" />
+                                                Converter={StaticResource PersistedDecimalPercentageConverter},
+                                                StringFormat=\{0:P\}}" />
+
                         <Label Margin="0,8,0,2" Content="Monthly Capital Build-Up" />
                         <TextBox Height="28"
                                  VerticalContentAlignment="Center"
                                  Style="{DynamicResource RoundedTextBox}"
                                  Text="{Binding Converter={StaticResource DecimalConverterDefaultZero1},
                                                 Path=MonthlyCapitalBuildUp,
-                                                StringFormat=\{0:N\}}"
-                                 TextWrapping="Wrap" />
+                                                StringFormat=\{0:N\}}" />
                         <Label Margin="0,8,0,2" Content="Terms Range (In Months)" />
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -180,8 +179,7 @@
                                  IsReadOnly="True"
                                  IsTabStop="False"
                                  Style="{DynamicResource RoundedTextBox}"
-                                 Text="{Binding AccountTitle,
-                                                StringFormat=\{0:P\}}" />
+                                 Text="{Binding AccountTitle}" />
 
                         <TextBox x:Name="txtRate1"
                                  Grid.Column="2"
@@ -240,8 +238,7 @@
                                  IsReadOnly="True"
                                  IsTabStop="False"
                                  Style="{DynamicResource RoundedTextBox}"
-                                 Text="{Binding AccountTitle}"
-                                 TextWrapping="Wrap" />
+                                 Text="{Binding AccountTitle}" />
 
                         <TextBox x:Name="txtRate3"
                                  Grid.Column="2"

@@ -342,6 +342,12 @@
                         Margin="2"
                         Content="Loan Products"
                         Style="{DynamicResource ControlButton}" />
+                <Button x:Name="btnSpecialLoans"
+                	Width="Auto"
+                	Height="40"
+                	Margin="2"
+                	Content="Special Loans"
+                	Style="{DynamicResource ControlButton}" />
 
                 <TextBlock Margin="2" />
                 <Button x:Name="btnForwardingBalance"

@@ -468,6 +468,12 @@
     <Compile Include="Views\AccountVerifierModule\AccountVerifierGLWindow.xaml.cs">
       <DependentUpon>AccountVerifierGLWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\SpecialLoansModule\GoNegosyoView.xaml.cs">
+      <DependentUpon>GoNegosyoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SpecialLoansModule\SpecialLoanApplicationView.xaml.cs">
+      <DependentUpon>SpecialLoanApplicationView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\FinancialConditionReportConfigurationModule\AddItemView.xaml.cs">
       <DependentUpon>AddItemView.xaml</DependentUpon>
     </Compile>
@@ -573,6 +579,17 @@
       <DependentUpon>GeneralLedgerBalanceListView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\GeneralLedgerBalanceModule\GeneralLedgerBalanceViewModel.cs" />
+    <Compile Include="Views\SpecialLoansModule\SalaryAdvanceSetupViewModel.cs" />
+    <Compile Include="Views\SpecialLoansModule\SalaryAdvanceSetupView.xaml.cs">
+      <DependentUpon>SalaryAdvanceSetupView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SpecialLoansModule\GoNegosyoSetupView.xaml.cs">
+      <DependentUpon>GoNegosyoSetupView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SpecialLoansModule\SpecialLoansSetupView.xaml.cs">
+      <DependentUpon>SpecialLoansSetupView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SpecialLoansModule\GoNegosyoSetupViewModel.cs" />
     <Compile Include="Views\LoanModule\FinesRebateCalculatorViewModel.cs" />
     <Compile Include="Views\LoanModule\FinesRebateCalculatorWindow.xaml.cs">
       <DependentUpon>FinesRebateCalculatorWindow.xaml</DependentUpon>
@@ -617,7 +634,7 @@
     <Compile Include="Views\ReportsModule\LoanReportsView.xaml.cs">
       <DependentUpon>LoanReportsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\SalaryAdvanceModule\SalaryAdvanceView.xaml.cs">
+    <Compile Include="Views\SpecialLoansModule\SalaryAdvanceView.xaml.cs">
       <DependentUpon>SalaryAdvanceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SavingsDepositModule\PostSavingsDepositView.xaml.cs">
@@ -923,6 +940,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\SpecialLoansModule\GoNegosyoView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\SpecialLoansModule\SpecialLoanApplicationView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\FinancialConditionReportConfigurationModule\AddItemView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1055,6 +1080,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\SpecialLoansModule\SalaryAdvanceSetupView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\SpecialLoansModule\GoNegosyoSetupView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\SpecialLoansModule\SpecialLoansSetupView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\LoanModule\FinesRebateCalculatorWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -1180,7 +1217,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\SalaryAdvanceModule\SalaryAdvanceView.xaml">
+    <Page Include="Views\SpecialLoansModule\SalaryAdvanceView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
