@@ -9,6 +9,11 @@ namespace SCCO.WPF.MVC.CS.Views.AdministratorModule
         {
             InitializeComponent();
 
+            if (Controllers.MainController.LoggedUser.LoginName == "jess.alejo")
+            {
+                MigrateFromDbfButton.Visibility = Visibility.Visible;
+            }
+
             InterestOnSavingsDepositButton.Click += InterestOnSavingsDepositButtonOnClick;
 
             OpenTransactionDateButton.Click += (sender, args) => ShowTransactionDateSetup();
@@ -41,11 +46,11 @@ namespace SCCO.WPF.MVC.CS.Views.AdministratorModule
                     view.ShowDialog();
                 };
 
-            //MigrateFromDbfButton.Click += (sender, args) =>
-            //    {
-            //        var view = new MigrateDbfToMySqlWindow();
-            //        view.ShowDialog();
-            //    };
+            MigrateFromDbfButton.Click += (sender, args) =>
+                {
+                    var view = new Utilities.DbfMigration.Views.MigrateDbfToMySqlWindow();
+                    view.ShowDialog();
+                };
 
             RestoreFromBackupButton.Click += (sender, args) =>
                 {

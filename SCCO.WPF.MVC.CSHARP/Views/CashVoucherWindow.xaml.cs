@@ -539,7 +539,7 @@ namespace SCCO.WPF.MVC.CS.Views
             {
                 CancelledLabel.Visibility = Visibility.Collapsed;
 
-                _currentItems = CashVoucher.WhereDocumentNumberIs(docNum);
+                _currentItems = CashVoucher.FindByDocumentNumber(docNum);
                 _currentItems.CollectionChanged += CurrentItemsCollectionChanged;
 
                 foreach (CashVoucher currentItem in _currentItems)

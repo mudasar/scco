@@ -386,7 +386,7 @@ namespace SCCO.WPF.MVC.CS.Models
 
         }
 
-        public static ObservableCollection<JournalVoucher> WhereDocumentNumberIs(int documentNo)
+        public static ObservableCollection<JournalVoucher> FindByDocumentNumber(int documentNo)
         {
             var sqlBuilder = new StringBuilder();
             sqlBuilder.AppendFormat("SELECT * FROM `{0}` WHERE DOC_NUM = ?DOC_NUM", TABLE_NAME);
@@ -408,7 +408,7 @@ namespace SCCO.WPF.MVC.CS.Models
             return DatabaseController.ExecuteNonQuery(sqlBuilder.ToString(), new SqlParameter("?DOC_NUM", documentNo));
         }
 
-        internal static ObservableCollection<JournalVoucher> WhereMemberCodeIs(string memberCode)
+        internal static ObservableCollection<JournalVoucher> FindByMemberCode(string memberCode)
         {
             var sqlBuilder = new StringBuilder();
             sqlBuilder.AppendFormat("SELECT * FROM `{0}` WHERE MEM_CODE = ?MEM_CODE", TABLE_NAME);

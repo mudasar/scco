@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
 using System.Reflection;
@@ -13,95 +14,153 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
 {
     public class LoanProduct : IEquatable<LoanProduct>, INotifyPropertyChanged, IModel
     {
-        private string _productCode;
         private decimal _annualInterestRate;
-        private string _name;
-        private List<LoanCharge> _loanCharges;
-        private int _id;
-        private int _minimumTerm;
-        private string _loanType;
-        private string _modeOfPayment;
-        private decimal _minimumLoanableAmount;
-        private decimal _maximumLoanableAmount;
-        private string _description;
-
         private BitmapImage _bitmapImage;
+        private string _description;
+        private int _id;
+        private List<LoanCharge> _loanCharges;
+        private string _loanType;
+        private decimal _maximumLoanableAmount;
         private int _maximumTerm;
+        private decimal _minimumLoanableAmount;
+        private int _minimumTerm;
+        private string _modeOfPayment;
         private decimal _monthlyCapitalBuildUp;
+        private string _name;
+        private string _productCode;
+        private decimal _shareRetentionRate;
 
         #region --PROPERTIES--
 
         public string ProductCode
         {
             get { return _productCode; }
-            set { _productCode = value; OnPropertyChanged("ProductCode"); }
+            set
+            {
+                _productCode = value;
+                OnPropertyChanged("ProductCode");
+            }
         }
 
         public decimal AnnualInterestRate
         {
             get { return _annualInterestRate; }
-            set { _annualInterestRate = value; OnPropertyChanged("AnnualInterestRate"); }
+            set
+            {
+                _annualInterestRate = value;
+                OnPropertyChanged("AnnualInterestRate");
+            }
         }
 
         public string Name
         {
             get { return _name; }
-            set { _name = value; OnPropertyChanged("Name"); }
+            set
+            {
+                _name = value;
+                OnPropertyChanged("Name");
+            }
         }
 
         public List<LoanCharge> LoanCharges
         {
             get { return _loanCharges; }
-            set { _loanCharges = value; OnPropertyChanged("LoanCharges"); }
+            set
+            {
+                _loanCharges = value;
+                OnPropertyChanged("LoanCharges");
+            }
         }
 
         public int ID
         {
             get { return _id; }
-            set { _id = value; OnPropertyChanged("ID"); }
+            set
+            {
+                _id = value;
+                OnPropertyChanged("ID");
+            }
         }
 
         public int MinimumTerm
         {
             get { return _minimumTerm; }
-            set { _minimumTerm = value; OnPropertyChanged("MinimumTerm"); }
+            set
+            {
+                _minimumTerm = value;
+                OnPropertyChanged("MinimumTerm");
+            }
         }
 
         public int MaximumTerm
         {
             get { return _maximumTerm; }
-            set { _maximumTerm = value; OnPropertyChanged("MaximumTerm"); }
+            set
+            {
+                _maximumTerm = value;
+                OnPropertyChanged("MaximumTerm");
+            }
         }
 
         public string LoanType
         {
             get { return _loanType; }
-            set { _loanType = value; OnPropertyChanged("LoanType"); }
+            set
+            {
+                _loanType = value;
+                OnPropertyChanged("LoanType");
+            }
         }
 
         public string ModeOfPayment
         {
             get { return _modeOfPayment; }
-            set { _modeOfPayment = value; OnPropertyChanged("ModeOfPayment"); }
+            set
+            {
+                _modeOfPayment = value;
+                OnPropertyChanged("ModeOfPayment");
+            }
         }
 
         public decimal MinimumLoanableAmount
         {
             get { return _minimumLoanableAmount; }
-            set { _minimumLoanableAmount = value; OnPropertyChanged("MinimumLoanableAmount"); }
+            set
+            {
+                _minimumLoanableAmount = value;
+                OnPropertyChanged("MinimumLoanableAmount");
+            }
         }
 
         public decimal MaximumLoanableAmount
         {
             get { return _maximumLoanableAmount; }
-            set { _maximumLoanableAmount = value; OnPropertyChanged("MaximumLoanableAmount"); }
+            set
+            {
+                _maximumLoanableAmount = value;
+                OnPropertyChanged("MaximumLoanableAmount");
+            }
         }
 
 
         public decimal MonthlyCapitalBuildUp
         {
             get { return _monthlyCapitalBuildUp; }
-            set { _monthlyCapitalBuildUp = value; OnPropertyChanged("MonthlyCapitalBuildUp"); }
+            set
+            {
+                _monthlyCapitalBuildUp = value;
+                OnPropertyChanged("MonthlyCapitalBuildUp");
+            }
+        }
+
+        public decimal ShareRetentionRate
+        {
+            get { return _shareRetentionRate; }
+            set
+            {
+                _shareRetentionRate = value;
+                OnPropertyChanged("ShareRetentionRate");
+            }
         }
 
         #region --- List Item Properties ----
@@ -134,10 +193,6 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
 
         #endregion
 
-
-
-
-
         #endregion --PROPERTIES--
 
         #region --- CRUD ---
@@ -155,7 +210,7 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
                 ModelController.AddParameter(sqlParameters, "?ProductCode", ProductCode);
                 ModelController.AddParameter(sqlParameters, "?LoanType", LoanType);
                 ModelController.AddParameter(sqlParameters, "?ModeOfPayment", ModeOfPayment);
-                
+
                 // Do not nullify these fields...
                 sqlParameters.Add(new SqlParameter("?AnnualInterestRate", AnnualInterestRate));
                 sqlParameters.Add(new SqlParameter("?MinimumTerm", MinimumTerm));
@@ -163,6 +218,7 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
                 sqlParameters.Add(new SqlParameter("?MinimumLoanableAmount", MinimumLoanableAmount));
                 sqlParameters.Add(new SqlParameter("?MaximumLoanableAmount", MaximumLoanableAmount));
                 sqlParameters.Add(new SqlParameter("?MonthlyCapitalBuildUp", MonthlyCapitalBuildUp));
+                sqlParameters.Add(new SqlParameter("?ShareRetentionRate", ShareRetentionRate));
 
                 return sqlParameters;
             }
@@ -203,19 +259,19 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
         public Result Find(int id)
         {
             Action findRecord = () =>
-                                    {
-                                        ResetProperties();
-                                        ID = id;
+                {
+                    ResetProperties();
+                    ID = id;
 
-                                        SqlParameter key = ParamKey;
-                                        string sql = DatabaseController.GenerateSelectStatement(TABLE_NAME, key);
+                    SqlParameter key = ParamKey;
+                    string sql = DatabaseController.GenerateSelectStatement(TABLE_NAME, key);
 
-                                        DataTable dataTable = DatabaseController.ExecuteSelectQuery(sql, key);
-                                        foreach (DataRow dataRow in dataTable.Rows)
-                                        {
-                                            SetPropertiesFromDataRow(dataRow);
-                                        }
-                                    };
+                    DataTable dataTable = DatabaseController.ExecuteSelectQuery(sql, key);
+                    foreach (DataRow dataRow in dataTable.Rows)
+                    {
+                        SetPropertiesFromDataRow(dataRow);
+                    }
+                };
 
             return ActionController.InvokeAction(findRecord);
         }
@@ -233,24 +289,25 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
 
         public void SetPropertiesFromDataRow(DataRow dataRow)
         {
-            ID = (int)dataRow["ID"];
-            Name = (string)dataRow["Name"];
-            LoanType = (string)dataRow["LoanType"];
-            ModeOfPayment = (string)dataRow["ModeOfPayment"];
-            AnnualInterestRate = (decimal)dataRow["AnnualInterestRate"];
+            ID = (int) dataRow["ID"];
+            Name = (string) dataRow["Name"];
+            LoanType = (string) dataRow["LoanType"];
+            ModeOfPayment = (string) dataRow["ModeOfPayment"];
+            AnnualInterestRate = (decimal) dataRow["AnnualInterestRate"];
             ProductCode = DataConverter.ToString(dataRow["ProductCode"]);
             MinimumTerm = DataConverter.ToInteger(dataRow["MinimumTerm"]);
             MaximumTerm = DataConverter.ToInteger(dataRow["MaximumTerm"]);
             MinimumLoanableAmount = DataConverter.ToDecimal(dataRow["MinimumLoanableAmount"]);
             MaximumLoanableAmount = DataConverter.ToDecimal(dataRow["MaximumLoanableAmount"]);
             MonthlyCapitalBuildUp = DataConverter.ToDecimal(dataRow["MonthlyCapitalBuildUp"]);
-            
+            ShareRetentionRate = DataConverter.ToDecimal(dataRow["ShareRetentionRate"]);
+
             LoanCharges = LoanCharge.GetListByLoanProductId(ID);
 
             Description = string.Format("Loanable amount of P{0:N} - P{1:N}", MinimumLoanableAmount,
                                         MaximumLoanableAmount);
 
-            var productImage = ProductImage.WhereProductCodeIs(ProductCode);
+            ProductImage productImage = ProductImage.WhereProductCodeIs(ProductCode);
             if (null == productImage) return;
 
             BitmapImage = productImage.BitmapImage;
@@ -259,18 +316,18 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
         public Result Update()
         {
             Action updateRecord = () =>
-                                      {
-                                          SqlParameter key = ParamKey;
+                {
+                    SqlParameter key = ParamKey;
 
-                                          List<SqlParameter> sqlParameter = Parameters;
-                                          sqlParameter.Add(key);
+                    List<SqlParameter> sqlParameter = Parameters;
+                    sqlParameter.Add(key);
 
-                                          string sql = DatabaseController.GenerateUpdateStatement(TABLE_NAME,
-                                                                                                  sqlParameter,
-                                                                                                  key);
+                    string sql = DatabaseController.GenerateUpdateStatement(TABLE_NAME,
+                                                                            sqlParameter,
+                                                                            key);
 
-                                          DatabaseController.ExecuteNonQuery(sql, sqlParameter.ToArray());
-                                      };
+                    DatabaseController.ExecuteNonQuery(sql, sqlParameter.ToArray());
+                };
 
             return ActionController.InvokeAction(updateRecord);
         }
@@ -298,11 +355,11 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
         internal static List<LoanProduct> GetList()
         {
             string sqlCommandText = string.Format("SELECT * FROM {0}", TABLE_NAME);
-            DataTable dataTable = DatabaseController.ExecuteSelectQuery(sqlCommandText); 
+            DataTable dataTable = DatabaseController.ExecuteSelectQuery(sqlCommandText);
             var result = new List<LoanProduct>();
             foreach (DataRow dataRow in dataTable.Rows)
             {
-                var lp = new LoanProduct(); 
+                var lp = new LoanProduct();
                 lp.SetPropertiesFromDataRow(dataRow);
                 result.Add(lp);
             }
@@ -315,16 +372,16 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
             if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public static LoanProduct WhereTitleIs(string title)
+        public static LoanProduct FindByName(string name)
         {
             var sqlBuilder = new StringBuilder();
             sqlBuilder.AppendLine("SELECT * FROM");
             sqlBuilder.AppendLine(TABLE_NAME);
             sqlBuilder.AppendLine("WHERE Name = ?Name LIMIT 1");
 
-            var sqlParam = new SqlParameter("?Name", title);
+            var sqlParam = new SqlParameter("?Name", name);
 
-            var dataTable = DatabaseController.ExecuteSelectQuery(sqlBuilder, sqlParam);
+            DataTable dataTable = DatabaseController.ExecuteSelectQuery(sqlBuilder, sqlParam);
 
             if (dataTable.Rows.Count == 0) return null;
 
@@ -340,58 +397,40 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
         {
             if (string.IsNullOrEmpty(Name)) return new Result(false, "Product name must not be empty.");
 
-            if(string.IsNullOrEmpty(ProductCode)) return new Result(false, "No Product Code specified.");
+            if (string.IsNullOrEmpty(ProductCode)) return new Result(false, "No Product Code specified.");
 
-            if(string.IsNullOrEmpty(LoanType)) return new Result(false,"No Loan Type specified.");
-            
-            if(string.IsNullOrEmpty(ModeOfPayment)) return new Result(false, "No Mode of Payment specified.");
-            
-            if(AnnualInterestRate < 0) return new Result(false,"Invalid Interest Rate.");
-            
-            if(MinimumTerm <= 0) return new Result(false,"Invalid Minimum Term.");
+            if (string.IsNullOrEmpty(LoanType)) return new Result(false, "No Loan Type specified.");
 
-            if(MinimumTerm > MaximumTerm) return new Result(false,"Minimum Term must not be greater than Maximum Term.");
-            
-            if(MaximumTerm <= 0) return new Result(false,"Invalid Maximum Term.");
+            if (string.IsNullOrEmpty(ModeOfPayment)) return new Result(false, "No Mode of Payment specified.");
 
-            if(MaximumTerm < MinimumTerm) return new Result(false, "Maximum Term must not be less than Minimum Term.");
+            if (AnnualInterestRate < 0) return new Result(false, "Invalid Interest Rate.");
+
+            if (MinimumTerm <= 0) return new Result(false, "Invalid Minimum Term.");
+
+            if (MinimumTerm > MaximumTerm)
+                return new Result(false, "Minimum Term must not be greater than Maximum Term.");
+
+            if (MaximumTerm <= 0) return new Result(false, "Invalid Maximum Term.");
+
+            if (MaximumTerm < MinimumTerm) return new Result(false, "Maximum Term must not be less than Minimum Term.");
 
             if (MinimumLoanableAmount <= 0) return new Result(false, "Invalid Minimum Loanable Amount.");
 
-            if (MinimumLoanableAmount > MaximumLoanableAmount) return new Result(false, "Minimum Loanable Amount must not be greater than Maximum Loanable Amount.");
+            if (MinimumLoanableAmount > MaximumLoanableAmount)
+                return new Result(false, "Minimum Loanable Amount must not be greater than Maximum Loanable Amount.");
 
             if (MaximumLoanableAmount <= 0) return new Result(false, "Invalid Maximum Loanable Amount.");
 
-            if (MaximumLoanableAmount < MinimumLoanableAmount) return new Result(false, "Maximum Loanable Amount must not be less than Minimum Loanable Amount.");
+            if (MaximumLoanableAmount < MinimumLoanableAmount)
+                return new Result(false, "Maximum Loanable Amount must not be less than Minimum Loanable Amount.");
 
-            return new Result(true,"All properties are valid.");
+            return new Result(true, "All properties are valid.");
         }
-
-        #region Implementation of IEquatable<LoanProduct>
-
-        public bool Equals(LoanProduct other)
-        {
-            Type thisType = GetType();
-            PropertyInfo[] thisProperties = thisType.GetProperties();
-
-            var countProperties = thisProperties.Length;
-            Type otherType = other.GetType();
-            PropertyInfo[] otherProperties = otherType.GetProperties();
-
-            for (int i = 0; i < countProperties; i++)
-            {
-                if (thisProperties[i].Name != otherProperties[i].Name)
-                    return false;
-            }
-
-            return true;
-        }
-
-        #endregion
 
         internal static LoanProductCollection CollectAll()
         {
-            var dataTable = DatabaseController.ExecuteSelectQuery("SELECT * FROM " + TABLE_NAME + " ORDER BY `Name`");
+            DataTable dataTable =
+                DatabaseController.ExecuteSelectQuery("SELECT * FROM " + TABLE_NAME + " ORDER BY `Name`");
             var collection = new LoanProductCollection();
             foreach (DataRow dataRow in dataTable.Rows)
             {
@@ -409,7 +448,7 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
             queryBuilder.AppendLine(TABLE_NAME);
             queryBuilder.AppendFormat("WHERE `{0}` = ?{0} LIMIT 1", column);
             var param = new SqlParameter(string.Format("?{0}", column), value);
-            var dataTable = DatabaseController.ExecuteSelectQuery(queryBuilder, param);
+            DataTable dataTable = DatabaseController.ExecuteSelectQuery(queryBuilder, param);
             foreach (DataRow dataRow in dataTable.Rows)
             {
                 var item = new LoanProduct();
@@ -418,9 +457,31 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
             }
             return null;
         }
+
+        #region Implementation of IEquatable<LoanProduct>
+
+        public bool Equals(LoanProduct other)
+        {
+            Type thisType = GetType();
+            PropertyInfo[] thisProperties = thisType.GetProperties();
+
+            int countProperties = thisProperties.Length;
+            Type otherType = other.GetType();
+            PropertyInfo[] otherProperties = otherType.GetProperties();
+
+            for (int i = 0; i < countProperties; i++)
+            {
+                if (thisProperties[i].Name != otherProperties[i].Name)
+                    return false;
+            }
+
+            return true;
+        }
+
+        #endregion
     }
 
-    public class LoanProductCollection : System.Collections.ObjectModel.ObservableCollection<LoanProduct>
+    public class LoanProductCollection : ObservableCollection<LoanProduct>
     {
     }
 }

@@ -101,13 +101,13 @@
                                                 Converter={StaticResource PersistedDecimalPercentageConverter},
                                                 StringFormat=\{0:P\}}" />
 
-                        <Label Margin="0,8,0,2" Content="Monthly Capital Build-Up" />
+                        <Label Margin="0,8,0,2" Content="Share Retention Rate" />
                         <TextBox Height="28"
                                  VerticalContentAlignment="Center"
                                  Style="{DynamicResource RoundedTextBox}"
-                                 Text="{Binding Converter={StaticResource DecimalConverterDefaultZero1},
-                                                Path=MonthlyCapitalBuildUp,
-                                                StringFormat=\{0:N\}}" />
+                                 Text="{Binding ShareRetentionRate,
+                                                Converter={StaticResource PersistedDecimalPercentageConverter},
+                                                StringFormat=\{0:P\}}" />
                         <Label Margin="0,8,0,2" Content="Terms Range (In Months)" />
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -335,17 +335,17 @@
                                                 Converter={StaticResource PercentageConverter1},
                                                 StringFormat=\{0:P\}}" />
                     </Grid>
-                    <TextBlock />
-                    <Grid>
+                    <Border Height="16" />
+                    <Grid x:Name="grdDeductionsLabel">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="100" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="100" />
+                        	<ColumnDefinition Width="100" />
+                        	<ColumnDefinition Width="*" />
+                        	<ColumnDefinition Width="100" />
                         </Grid.ColumnDefinitions>
-                        <Label Margin="0,0,0,2" Content="Deductions" />
-                        <Label Grid.Column="2"
-                               Margin="0,0,0,2"
-                               Content="Amount" />
+                    	<Label Margin="0,0,0,2" Content="Deductions" />
+                    	<Label Grid.Column="2"
+                    		Margin="0,0,0,2"
+                    		Content="Amount" />
                     </Grid>
 
                     <Grid x:Name="grdDeduction1">

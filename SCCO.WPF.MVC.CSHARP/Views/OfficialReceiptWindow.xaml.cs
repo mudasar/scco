@@ -518,7 +518,7 @@ namespace SCCO.WPF.MVC.CS.Views
             {
                 CancelledLabel.Visibility = Visibility.Collapsed;
 
-                _currentItems = OfficialReceipt.WhereDocumentNumberIs(docNum);
+                _currentItems = OfficialReceipt.FindByDocumentNumber(docNum);
                 _currentItems.CollectionChanged += CurrentItemsCollectionChanged;
 
                 foreach (OfficialReceipt currentItem in _currentItems)

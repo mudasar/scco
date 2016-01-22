@@ -30,7 +30,7 @@ namespace SCCO.WPF.MVC.CS.Views.TimeDepositModule
 
         private void btnPost_Click(object sender, EventArgs e)
         {
-            var collection = OfficialReceipt.WhereDocumentNumberIs(_officialReceipt.VoucherNo);
+            var collection = OfficialReceipt.FindByDocumentNumber(_officialReceipt.VoucherNo);
             if (collection.Count > 0)
             {
                 MessageWindow.ShowAlertMessage("OR No. already in use.");

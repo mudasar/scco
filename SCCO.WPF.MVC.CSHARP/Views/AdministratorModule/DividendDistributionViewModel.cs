@@ -84,7 +84,7 @@ namespace SCCO.WPF.MVC.CS.Views.AdministratorModule
                 return new Result(false, "Cooperative Code is required.");
 
             // with database related validation
-            var collection = JournalVoucher.WhereDocumentNumberIs(JournalVoucherNumber);
+            var collection = JournalVoucher.FindByDocumentNumber(JournalVoucherNumber);
             if (collection.Any()) return new Result(false, "Journal Voucher Number already in use.");
 
             _shareCapitalAccount = Account.FindByCode(ShareCapitalCode);

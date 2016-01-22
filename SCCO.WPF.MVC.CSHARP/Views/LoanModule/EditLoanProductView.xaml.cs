@@ -30,12 +30,12 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
 
             btnOk.Click += delegate { OkButtonOnClick(); };
 
-            foreach (var lt in Enum.GetValues(typeof (Enums.LoanTypes)))
+            foreach (object lt in Enum.GetValues(typeof (Enums.LoanTypes)))
             {
                 cboLoanType.Items.Add(lt.ToString());
             }
 
-            foreach (var mop in Enum.GetValues(typeof (Enums.ModeOfPayment)))
+            foreach (object mop in Enum.GetValues(typeof (Enums.ModeOfPayment)))
             {
                 cboModeOfPayment.Items.Add(mop.ToString());
             }

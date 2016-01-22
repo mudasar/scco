@@ -42,23 +42,7 @@ namespace SCCO.WPF.MVC.CS.Models
                 _image = value;
                 OnPropertyChanged("Image");
 
-                if (Image == null || Image.Length == 1)
-                {
-                    BitmapImage = null;
-                    return;
-                }
-                try
-                {
-                    var imageSource = new BitmapImage();
-                    imageSource.BeginInit();
-                    imageSource.StreamSource = new MemoryStream(Image);
-                    imageSource.EndInit();
-                    BitmapImage = imageSource;
-                }
-                catch (Exception exception)
-                {
-                    Logger.ExceptionLogger(new ImageTool(), exception);
-                }
+                BitmapImage = ImageTool.CreateImageSourceFromBytes(Image);
             }
         }
 

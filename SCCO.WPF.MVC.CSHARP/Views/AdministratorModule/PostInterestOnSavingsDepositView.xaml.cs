@@ -30,7 +30,7 @@ namespace SCCO.WPF.MVC.CS.Views.AdministratorModule
 
         private void btnPost_Click(object sender, EventArgs e)
         {
-            var collection = JournalVoucher.WhereDocumentNumberIs(_journalVoucher.VoucherNo);
+            var collection = JournalVoucher.FindByDocumentNumber(_journalVoucher.VoucherNo);
             if (collection.Count > 0)
             {
                 MessageWindow.ShowAlertMessage("JV No. already in use.");

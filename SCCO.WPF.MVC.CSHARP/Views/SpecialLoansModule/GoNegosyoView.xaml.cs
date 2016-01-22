@@ -69,7 +69,7 @@ namespace SCCO.WPF.MVC.CS.Views.SpecialLoansModule
             }
 
             // does the voucher number been used?
-            var collection = CashVoucher.WhereDocumentNumberIs(voucherNo);
+            var collection = CashVoucher.FindByDocumentNumber(voucherNo);
             if (collection.Count > 0)
             {
                 MessageWindow.ShowAlertMessage("CV No. already in use.");

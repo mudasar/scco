@@ -127,12 +127,12 @@
                                         StringFormat=\{0:P\}}" />
 
                 <TextBlock />
-                <Label Content="Monthly Capital Build-Up" />
+                <Label Content="Share Retention Rate" />
                 <TextBox x:Name="txtCompulsarySavings"
                          IsReadOnly="True"
                          Style="{DynamicResource RoundedTextBox}"
-                         Text="{Binding Path=SelectedItem.MonthlyCapitalBuildUp,
-                                        Converter={StaticResource DecimalConverterDefaultZero1}}" />
+                         Text="{Binding SelectedItem.ShareRetentionRate,
+                                        StringFormat=\{0:P\}}" />
 
                 <TextBlock />
                 <Label Content="Mode of Payment" />

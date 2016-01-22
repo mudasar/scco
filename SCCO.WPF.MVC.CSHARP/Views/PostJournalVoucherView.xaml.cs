@@ -22,7 +22,7 @@ namespace SCCO.WPF.MVC.CS.Views
 
         private void btnPost_Click(object sender, EventArgs e)
         {
-            var collection = JournalVoucher.WhereDocumentNumberIs(_viewModel.VoucherNo);
+            var collection = JournalVoucher.FindByDocumentNumber(_viewModel.VoucherNo);
             if (collection.Count > 0)
             {
                 MessageWindow.ShowAlertMessage("JV No. already in use.");

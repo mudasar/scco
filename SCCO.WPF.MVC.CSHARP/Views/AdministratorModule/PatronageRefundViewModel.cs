@@ -95,7 +95,7 @@ namespace SCCO.WPF.MVC.CS.Views.AdministratorModule
             if(string.IsNullOrEmpty(interestRebateAccount.AccountTitle))
                 return new Result(false, "Interest Rebate Code is not valid or does not exist.");
 
-            var collection = JournalVoucher.WhereDocumentNumberIs(JournalVoucherNumber);
+            var collection = JournalVoucher.FindByDocumentNumber(JournalVoucherNumber);
             if(collection.Any()) return new Result(false, "Journal Voucher Number already in use.");
 
             _patronageRefundAccount = Account.FindByCode(PatronageRefundCode);

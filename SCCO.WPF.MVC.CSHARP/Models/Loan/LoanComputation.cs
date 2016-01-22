@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Data;
 using SCCO.WPF.MVC.CS.Controllers;
 using SCCO.WPF.MVC.CS.Database;
+using SCCO.WPF.MVC.CS.Utilities;
 
 namespace SCCO.WPF.MVC.CS.Models.Loan
 {
     public class LoanComputation : ModelBase, IModel
     {
+        #region --- PRIVATE FIELDS ---
+
         private decimal _chargeAmount1;
         private decimal _chargeAmount2;
         private decimal _chargeAmount3;
@@ -46,81 +49,81 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
         private string _deductTitle4;
         private string _deductTitle5;
         private string _deductTitle6;
-        private decimal _netProceedsAmount;
-        private string _netProceedsCode;
-        private string _netProceedsTitle;
         private decimal _loanAmount;
         private string _loanDescription;
         private LoanDetails _loanDetails;
+        private decimal _netProceedsAmount;
+        private string _netProceedsCode;
+        private string _netProceedsTitle;
+
+        #endregion
 
         #region --- CONSTRUCTORS ---
 
-        public LoanComputation():base("loan_computation")
+        public LoanComputation() : base("loan_computation")
         {
             LoanDetails = new LoanDetails();
         }
 
-        public LoanComputation(decimal loanAmount, int loanProductId):this()
+        public LoanComputation(LoanDetails loanDetails, LoanProduct loanProduct)
+            : this()
         {
-            LoanAmount = loanAmount;
-
-            var loanProduct = new LoanProduct();
-            loanProduct.Find(loanProductId);
-
-
-            var loanApplied = Account.FindByCode(loanProduct.ProductCode);
+            LoanDetails = loanDetails;
+            LoanAmount = loanDetails.LoanAmount;
+            InitialCalculation(loanProduct);
+            Account loanApplied = Account.FindByCode(loanProduct.ProductCode);
             LoanDescription = string.Format("{0} - {1}", loanApplied.AccountCode, loanApplied.AccountTitle);
+        }
 
-            LoanDetails.AccountCode = loanApplied.AccountCode;
-            
-
+        private void InitialCalculation(LoanProduct loanProduct)
+        {
             #region --- Populate Charges ---
 
-            var loanCharges = LoanCharge.GetListByLoanProductId(loanProduct.ID);
+            List<LoanCharge> loanCharges = LoanCharge.GetListByLoanProductId(loanProduct.ID);
             int i = 0;
-            foreach (var loanCharge in loanCharges)
+            foreach (LoanCharge loanCharge in loanCharges)
             {
                 i++;
                 if (i == 1)
                 {
                     ChargeCode1 = loanCharge.AccountCode;
                     ChargeTitle1 = loanCharge.AccountTitle;
-                    ChargeAmount1 = Math.Round(loanCharge.Rate * LoanAmount, 2);
+                    ChargeAmount1 = CalculateCharge(loanCharge.Rate, _loanDetails.LoanAmount, _loanDetails.LoanTerms);
                     continue;
                 }
                 if (i == 2)
                 {
                     ChargeCode2 = loanCharge.AccountCode;
                     ChargeTitle2 = loanCharge.AccountTitle;
-                    ChargeAmount2 = Math.Round(loanCharge.Rate * LoanAmount, 2);
+                    ChargeAmount2 = CalculateCharge(loanCharge.Rate, _loanDetails.LoanAmount, _loanDetails.LoanTerms);
                     continue;
                 }
                 if (i == 3)
                 {
                     ChargeCode3 = loanCharge.AccountCode;
                     ChargeTitle3 = loanCharge.AccountTitle;
-                    ChargeAmount3 = Math.Round(loanCharge.Rate * LoanAmount, 2);
+                    ChargeAmount3 = CalculateCharge(loanCharge.Rate, _loanDetails.LoanAmount, _loanDetails.LoanTerms);
                     continue;
                 }
                 if (i == 4)
                 {
                     ChargeCode4 = loanCharge.AccountCode;
                     ChargeTitle4 = loanCharge.AccountTitle;
-                    ChargeAmount4 = Math.Round(loanCharge.Rate * LoanAmount, 2);
+                    ChargeAmount4 = CalculateCharge(loanCharge.Rate, _loanDetails.LoanAmount, _loanDetails.LoanTerms);
                     continue;
                 }
                 if (i == 5)
                 {
                     ChargeCode5 = loanCharge.AccountCode;
                     ChargeTitle5 = loanCharge.AccountTitle;
-                    ChargeAmount5 = Math.Round(loanCharge.Rate * LoanAmount, 2);
+                    ChargeAmount5 = CalculateCharge(loanCharge.Rate, _loanDetails.LoanAmount, _loanDetails.LoanTerms);
                     continue;
                 }
                 if (i == 6)
                 {
                     ChargeCode6 = loanCharge.AccountCode;
                     ChargeTitle6 = loanCharge.AccountTitle;
-                    ChargeAmount6 = Math.Round(loanCharge.Rate * LoanAmount, 2);
+                    ChargeAmount6 = CalculateCharge(loanCharge.Rate, _loanDetails.LoanAmount, _loanDetails.LoanTerms);
                     break;
                 }
             }
@@ -129,9 +132,18 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
 
             #region --- Populate Deductions ---
 
-            var loanDeductions = LoanDeduction.GetListByLoanProductId(loanProduct.ID);
+            List<LoanDeduction> loanDeductions = LoanDeduction.GetListByLoanProductId(loanProduct.ID);
             i = 0;
-            foreach (var loanDeduct in loanDeductions)
+            if (loanProduct.ShareRetentionRate > 0)
+            {
+                i = 1;
+                Account account = Account.FindByCode(GlobalSettings.CodeOfCapitalBuildUp);
+                DeductCode1 = account.AccountCode;
+                DeductTitle1 = account.AccountTitle;
+                DeductAmount1 = CalculateCharge(loanProduct.ShareRetentionRate, _loanDetails.LoanAmount,
+                                                _loanDetails.LoanTerms);
+            }
+            foreach (LoanDeduction loanDeduct in loanDeductions)
             {
                 i++;
                 if (i == 1)
@@ -182,11 +194,24 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
 
             #region --- INITIALIZE DEFAULT NET PROCEEDS ---
 
-            var netProceedsAccount = Account.FindByCode(GlobalSettings.CodeOfCashOnHand);
+            Account netProceedsAccount = Account.FindByCode(GlobalSettings.CodeOfCashOnHand);
             NetProceedsCode = netProceedsAccount.AccountCode;
             //NetProceedsTitle = netProceedsAccount.AccountTitle;
 
             #endregion --- INITIALIZE DEFAULT NET PROCEEDS ---
+        }
+
+        /// <summary>
+        ///     Calculates the pro-rated charge in a loan computation
+        /// </summary>
+        /// <param name="rate">Per annum charge rate</param>
+        /// <param name="loanAmount">Amount being loaned</param>
+        /// <param name="loanTerm">Length of loan in months</param>
+        /// <returns>Charged amount based on loan term</returns>
+        private decimal CalculateCharge(decimal rate, decimal loanAmount, int loanTerm)
+        {
+            decimal charge = Math.Round(rate*loanAmount, 2);
+            return (charge/12)*loanTerm;
         }
 
         #endregion --- CONSTRUCTORS ---
@@ -196,19 +221,31 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
         public decimal LoanAmount
         {
             get { return _loanAmount; }
-            set { _loanAmount = value; OnPropertyChanged("LoanAmount"); }
+            set
+            {
+                _loanAmount = value;
+                OnPropertyChanged("LoanAmount");
+            }
         }
 
         public string LoanDescription
         {
             get { return _loanDescription; }
-            set { _loanDescription = value; OnPropertyChanged("LoanDescription"); }
+            set
+            {
+                _loanDescription = value;
+                OnPropertyChanged("LoanDescription");
+            }
         }
 
         public LoanDetails LoanDetails
         {
             get { return _loanDetails; }
-            set { _loanDetails = value; OnPropertyChanged("LoanDetails"); }
+            set
+            {
+                _loanDetails = value;
+                OnPropertyChanged("LoanDetails");
+            }
         }
 
         #region --- CHARGES ---
@@ -299,7 +336,7 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
                 OnPropertyChanged("ChargeCode1");
                 if (value.Length >= 3)
                 {
-                    var account = Account.FindByCode(value);
+                    Account account = Account.FindByCode(value);
                     ChargeTitle1 = account.AccountTitle;
                 }
                 else
@@ -314,9 +351,11 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
             get { return _chargeCode2; }
             set
             {
-                _chargeCode2 = value; OnPropertyChanged("ChargeCode2"); if (value.Length >= 3)
+                _chargeCode2 = value;
+                OnPropertyChanged("ChargeCode2");
+                if (value.Length >= 3)
                 {
-                    var account = Account.FindByCode(value);
+                    Account account = Account.FindByCode(value);
                     ChargeTitle2 = account.AccountTitle;
                 }
                 else
@@ -331,9 +370,11 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
             get { return _chargeCode3; }
             set
             {
-                _chargeCode3 = value; OnPropertyChanged("ChargeCode3"); if (value.Length >= 3)
+                _chargeCode3 = value;
+                OnPropertyChanged("ChargeCode3");
+                if (value.Length >= 3)
                 {
-                    var account = Account.FindByCode(value);
+                    Account account = Account.FindByCode(value);
                     ChargeTitle3 = account.AccountTitle;
                 }
                 else
@@ -352,14 +393,13 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
                 OnPropertyChanged("ChargeCode4");
                 if (value.Length >= 3)
                 {
-                    var account = Account.FindByCode(value);
+                    Account account = Account.FindByCode(value);
                     ChargeTitle4 = account.AccountTitle;
                 }
                 else
                 {
                     ChargeTitle4 = "";
                 }
-
             }
         }
 
@@ -368,10 +408,11 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
             get { return _chargeCode5; }
             set
             {
-                _chargeCode5 = value; OnPropertyChanged("ChargeCode5");
+                _chargeCode5 = value;
+                OnPropertyChanged("ChargeCode5");
                 if (value.Length >= 3)
                 {
-                    var account = Account.FindByCode(value);
+                    Account account = Account.FindByCode(value);
                     ChargeTitle5 = account.AccountTitle;
                 }
                 else
@@ -386,60 +427,84 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
             get { return _chargeCode6; }
             set
             {
-                _chargeCode6 = value; OnPropertyChanged("ChargeCode6");
+                _chargeCode6 = value;
+                OnPropertyChanged("ChargeCode6");
                 if (value.Length >= 3)
                 {
-                    var account = Account.FindByCode(value);
+                    Account account = Account.FindByCode(value);
                     ChargeTitle6 = account.AccountTitle;
                 }
                 else
                 {
                     ChargeTitle6 = "";
                 }
-
             }
         }
 
         public string ChargeTitle1
         {
             get { return _chargeTitle1; }
-            set { _chargeTitle1 = value; OnPropertyChanged("ChargeTitle1"); }
+            set
+            {
+                _chargeTitle1 = value;
+                OnPropertyChanged("ChargeTitle1");
+            }
         }
 
         public string ChargeTitle2
         {
             get { return _chargeTitle2; }
-            set { _chargeTitle2 = value; OnPropertyChanged("ChargeTitle2"); }
+            set
+            {
+                _chargeTitle2 = value;
+                OnPropertyChanged("ChargeTitle2");
+            }
         }
 
         public string ChargeTitle3
         {
             get { return _chargeTitle3; }
-            set { _chargeTitle3 = value; OnPropertyChanged("ChargeTitle3"); }
+            set
+            {
+                _chargeTitle3 = value;
+                OnPropertyChanged("ChargeTitle3");
+            }
         }
 
         public string ChargeTitle4
         {
             get { return _chargeTitle4; }
-            set { _chargeTitle4 = value; OnPropertyChanged("ChargeTitle4"); }
+            set
+            {
+                _chargeTitle4 = value;
+                OnPropertyChanged("ChargeTitle4");
+            }
         }
 
         public string ChargeTitle5
         {
             get { return _chargeTitle5; }
-            set { _chargeTitle5 = value; OnPropertyChanged("ChargeTitle5"); }
+            set
+            {
+                _chargeTitle5 = value;
+                OnPropertyChanged("ChargeTitle5");
+            }
         }
 
         public string ChargeTitle6
         {
             get { return _chargeTitle6; }
-            set { _chargeTitle6 = value; OnPropertyChanged("ChargeTitle6"); }
+            set
+            {
+                _chargeTitle6 = value;
+                OnPropertyChanged("ChargeTitle6");
+            }
         }
 
         private void CalculateTotalCharges()
         {
-            var totalCharges = _chargeAmount1 + _chargeAmount2 + _chargeAmount3 + _chargeAmount4 + _chargeAmount5 +
-                               _chargeAmount6;
+            decimal totalCharges = _chargeAmount1 + _chargeAmount2 + _chargeAmount3 + _chargeAmount4 + _chargeAmount5 +
+                                   _chargeAmount6;
 
             ChargeAmountTotal = totalCharges;
         }
@@ -453,7 +518,8 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
             get { return _deductAmount1; }
             set
             {
-                _deductAmount1 = value; OnPropertyChanged("DeductAmount1");
+                _deductAmount1 = value;
+                OnPropertyChanged("DeductAmount1");
                 CalculateTotalDeductions();
             }
         }
@@ -461,25 +527,45 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
         public decimal DeductAmount2
         {
             get { return _deductAmount2; }
-            set { _deductAmount2 = value; OnPropertyChanged("DeductAmount2"); CalculateTotalDeductions(); }
+            set
+            {
+                _deductAmount2 = value;
+                OnPropertyChanged("DeductAmount2");
+                CalculateTotalDeductions();
+            }
         }
 
         public decimal DeductAmount3
         {
             get { return _deductAmount3; }
-            set { _deductAmount3 = value; OnPropertyChanged("DeductAmount3"); CalculateTotalDeductions(); }
+            set
+            {
+                _deductAmount3 = value;
+                OnPropertyChanged("DeductAmount3");
+                CalculateTotalDeductions();
+            }
         }
 
         public decimal DeductAmount4
         {
             get { return _deductAmount4; }
-            set { _deductAmount4 = value; OnPropertyChanged("DeductAmount4"); CalculateTotalDeductions(); }
+            set
+            {
+                _deductAmount4 = value;
+                OnPropertyChanged("DeductAmount4");
+                CalculateTotalDeductions();
+            }
         }
 
         public decimal DeductAmount5
         {
             get { return _deductAmount5; }
-            set { _deductAmount5 = value; OnPropertyChanged("DeductAmount5"); CalculateTotalDeductions(); }
+            set
+            {
+                _deductAmount5 = value;
+                OnPropertyChanged("DeductAmount5");
+                CalculateTotalDeductions();
+            }
         }
 
         public decimal DeductAmount6
@@ -502,7 +588,6 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
                 OnPropertyChanged("DeductAmountTotal");
                 CalculateNetProceeds();
             }
-
         }
 
         public string DeductCode1
@@ -514,7 +599,7 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
                 OnPropertyChanged("DeductCode1");
                 if (value.Length >= 3)
                 {
-                    var account = Account.FindByCode(value);
+                    Account account = Account.FindByCode(value);
                     DeductTitle1 = account.AccountTitle;
                 }
                 else
@@ -533,7 +618,7 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
                 OnPropertyChanged("DeductCode2");
                 if (value.Length >= 3)
                 {
-                    var account = Account.FindByCode(value);
+                    Account account = Account.FindByCode(value);
                     DeductTitle2 = account.AccountTitle;
                 }
                 else
@@ -552,7 +637,7 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
                 OnPropertyChanged("DeductCode3");
                 if (value.Length >= 3)
                 {
-                    var account = Account.FindByCode(value);
+                    Account account = Account.FindByCode(value);
                     DeductTitle3 = account.AccountTitle;
                 }
                 else
@@ -571,7 +656,7 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
                 OnPropertyChanged("DeductCode4");
                 if (value.Length >= 3)
                 {
-                    var account = Account.FindByCode(value);
+                    Account account = Account.FindByCode(value);
                     DeductTitle4 = account.AccountTitle;
                 }
                 else
@@ -590,7 +675,7 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
                 OnPropertyChanged("DeductCode5");
                 if (value.Length >= 3)
                 {
-                    var account = Account.FindByCode(value);
+                    Account account = Account.FindByCode(value);
                     DeductTitle5 = account.AccountTitle;
                 }
                 else
@@ -609,7 +694,7 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
                 OnPropertyChanged("DeductCode6");
                 if (value.Length >= 3)
                 {
-                    var account = Account.FindByCode(value);
+                    Account account = Account.FindByCode(value);
                     DeductTitle6 = account.AccountTitle;
                 }
                 else
@@ -622,43 +707,67 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
         public string DeductTitle1
         {
             get { return _deductTitle1; }
-            set { _deductTitle1 = value; OnPropertyChanged("DeductTitle1");}
+            set
+            {
+                _deductTitle1 = value;
+                OnPropertyChanged("DeductTitle1");
+            }
         }
 
         public string DeductTitle2
         {
             get { return _deductTitle2; }
-            set { _deductTitle2 = value; OnPropertyChanged("DeductTitle2"); }
+            set
+            {
+                _deductTitle2 = value;
+                OnPropertyChanged("DeductTitle2");
+            }
         }
 
         public string DeductTitle3
         {
             get { return _deductTitle3; }
-            set { _deductTitle3 = value; OnPropertyChanged("DeductTitle3"); }
+            set
+            {
+                _deductTitle3 = value;
+                OnPropertyChanged("DeductTitle3");
+            }
         }
 
         public string DeductTitle4
         {
             get { return _deductTitle4; }
-            set { _deductTitle4 = value; OnPropertyChanged("DeductTitle4"); }
+            set
+            {
+                _deductTitle4 = value;
+                OnPropertyChanged("DeductTitle4");
+            }
         }
 
         public string DeductTitle5
         {
             get { return _deductTitle5; }
-            set { _deductTitle5 = value; OnPropertyChanged("DeductTitle5"); }
+            set
+            {
+                _deductTitle5 = value;
+                OnPropertyChanged("DeductTitle5");
+            }
         }
 
         public string DeductTitle6
         {
             get { return _deductTitle6; }
-            set { _deductTitle6 = value; OnPropertyChanged("DeductTitle6"); }
+            set
+            {
+                _deductTitle6 = value;
+                OnPropertyChanged("DeductTitle6");
+            }
         }
 
         private void CalculateTotalDeductions()
         {
-            var totalDeductions = _deductAmount1 + _deductAmount2 + _deductAmount3 + _deductAmount4 + _deductAmount5 +
-                                  _deductAmount6;
+            decimal totalDeductions = _deductAmount1 + _deductAmount2 + _deductAmount3 + _deductAmount4 + _deductAmount5 +
+                                      _deductAmount6;
 
             DeductAmountTotal = totalDeductions;
         }
@@ -670,7 +779,11 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
         public decimal NetProceedsAmount
         {
             get { return _netProceedsAmount; }
-            set { _netProceedsAmount = value; OnPropertyChanged("NetProceedsAmount"); }
+            set
+            {
+                _netProceedsAmount = value;
+                OnPropertyChanged("NetProceedsAmount");
+            }
         }
 
         public string NetProceedsCode
@@ -682,7 +795,7 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
                 OnPropertyChanged("NetProceedsCode");
                 if (value.Length >= 3)
                 {
-                    var account = Account.FindByCode(value);
+                    Account account = Account.FindByCode(value);
                     NetProceedsTitle = account.AccountTitle;
                 }
                 else
@@ -713,7 +826,6 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
 
         public List<ComputationDetail> Charges
         {
-            
             get
             {
                 var charges = new List<ComputationDetail>();
@@ -736,7 +848,6 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
 
         public List<ComputationDetail> Deductions
         {
-
             get
             {
                 var deductions = new List<ComputationDetail>();
@@ -762,13 +873,14 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
             if (ID > 0)
             {
                 Update();
-            }else
+            }
+            else
             {
                 Create();
             }
 
             var key = new SqlParameter("?ID", ID);
-            var sql = DatabaseController.GenerateSelectStatement(_tableName, key);
+            string sql = DatabaseController.GenerateSelectStatement(_tableName, key);
 
             DataTable dataTable = DatabaseController.ExecuteSelectQuery(sql, key);
 
@@ -783,12 +895,12 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
         public Result Create()
         {
             Action createRecord = () =>
-            {
-                var sqlParameter = Parameters;
-                var sql = DatabaseController.GenerateInsertStatement(_tableName, sqlParameter);
+                {
+                    List<SqlParameter> sqlParameter = Parameters;
+                    string sql = DatabaseController.GenerateInsertStatement(_tableName, sqlParameter);
 
-                ID = DatabaseController.ExecuteInsertQuery(sql, sqlParameter.ToArray());
-            };
+                    ID = DatabaseController.ExecuteInsertQuery(sql, sqlParameter.ToArray());
+                };
 
             return ActionController.InvokeAction(createRecord);
         }
@@ -796,14 +908,14 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
         public Result Update()
         {
             Action updateRecord = () =>
-            {
-                var key = _paramKey;
-                var sqlParameters = Parameters;
-                var sql = DatabaseController.GenerateUpdateStatement(_tableName, Parameters,
-                                                                     _paramKey);
-                sqlParameters.Add(key);
-                DatabaseController.ExecuteNonQuery(sql, sqlParameters.ToArray());
-            };
+                {
+                    SqlParameter key = _paramKey;
+                    List<SqlParameter> sqlParameters = Parameters;
+                    string sql = DatabaseController.GenerateUpdateStatement(_tableName, Parameters,
+                                                                            _paramKey);
+                    sqlParameters.Add(key);
+                    DatabaseController.ExecuteNonQuery(sql, sqlParameters.ToArray());
+                };
 
             return ActionController.InvokeAction(updateRecord);
         }
@@ -811,11 +923,11 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
         public Result Destroy()
         {
             Action deleteRecord = () =>
-            {
-                var key = _paramKey;
-                var sql = DatabaseController.GenerateDeleteStatement(_tableName, key);
-                DatabaseController.ExecuteNonQuery(sql, key);
-            };
+                {
+                    SqlParameter key = _paramKey;
+                    string sql = DatabaseController.GenerateDeleteStatement(_tableName, key);
+                    DatabaseController.ExecuteNonQuery(sql, key);
+                };
 
             return ActionController.InvokeAction(deleteRecord);
         }
@@ -823,19 +935,19 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
         public Result Find(int id)
         {
             Action findRecord = () =>
-            {
-                ResetProperties();
-                ID = id;
-
-                var key = new SqlParameter("?ID", ID);
-                var sql = DatabaseController.GenerateSelectStatement(_tableName, key);
-
-                DataTable dataTable = DatabaseController.ExecuteSelectQuery(sql, key);
-                foreach (DataRow dataRow in dataTable.Rows)
                 {
-                    SetPropertiesFromDataRow(dataRow);
-                }
-            };
+                    ResetProperties();
+                    ID = id;
+
+                    var key = new SqlParameter("?ID", ID);
+                    string sql = DatabaseController.GenerateSelectStatement(_tableName, key);
+
+                    DataTable dataTable = DatabaseController.ExecuteSelectQuery(sql, key);
+                    foreach (DataRow dataRow in dataTable.Rows)
+                    {
+                        SetPropertiesFromDataRow(dataRow);
+                    }
+                };
 
             return ActionController.InvokeAction(findRecord);
         }
@@ -848,7 +960,7 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
             {
                 // DO NOT INCLUDE KEY !!!
                 var sqlParameters = new List<SqlParameter>();
-                ModelController.AddParameter(sqlParameters, "?id", ID);
+                //ModelController.AddParameter(sqlParameters, "?id", ID);
 
                 ModelController.AddParameter(sqlParameters, "?charge_code1", ChargeCode1);
                 ModelController.AddParameter(sqlParameters, "?charge_title1", ChargeTitle1);
@@ -856,7 +968,7 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
 
                 ModelController.AddParameter(sqlParameters, "?charge_code2", ChargeCode2);
                 ModelController.AddParameter(sqlParameters, "?charge_title2", ChargeTitle2);
-                ModelController.AddParameter(sqlParameters, "?charge_amount2", ChargeAmount2);                
+                ModelController.AddParameter(sqlParameters, "?charge_amount2", ChargeAmount2);
 
                 ModelController.AddParameter(sqlParameters, "?charge_code3", ChargeCode3);
                 ModelController.AddParameter(sqlParameters, "?charge_title3", ChargeTitle3);
@@ -865,7 +977,7 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
                 ModelController.AddParameter(sqlParameters, "?charge_code4", ChargeCode4);
                 ModelController.AddParameter(sqlParameters, "?charge_title4", ChargeTitle4);
                 ModelController.AddParameter(sqlParameters, "?charge_amount4", ChargeAmount4);
-                
+
                 ModelController.AddParameter(sqlParameters, "?charge_code5", ChargeCode5);
                 ModelController.AddParameter(sqlParameters, "?charge_title5", ChargeTitle5);
                 ModelController.AddParameter(sqlParameters, "?charge_amount5", ChargeAmount5);
@@ -898,25 +1010,27 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
                 ModelController.AddParameter(sqlParameters, "?deduct_title6", DeductTitle6);
                 ModelController.AddParameter(sqlParameters, "?deduct_amount6", DeductAmount6);
 
-                ModelController.AddParameter(sqlParameters, "?total_charges", ChargeAmountTotal);
-                ModelController.AddParameter(sqlParameters, "?total_deductions", DeductAmountTotal);
+                // DO NOT NULLIFY TOTALS
+                sqlParameters.Add(new SqlParameter("?total_charges", ChargeAmountTotal));
+                sqlParameters.Add(new SqlParameter("?total_deductions", DeductAmountTotal));
 
                 ModelController.AddParameter(sqlParameters, "?net_code", NetProceedsCode);
                 ModelController.AddParameter(sqlParameters, "?net_title", NetProceedsTitle);
-                ModelController.AddParameter(sqlParameters, "?net_amount", NetProceedsAmount);
+                sqlParameters.Add(new SqlParameter("?net_amount", NetProceedsAmount));
 
                 ModelController.AddParameter(sqlParameters, "?member_code", LoanDetails.MemberCode);
                 ModelController.AddParameter(sqlParameters, "?member_name", LoanDetails.MemberName);
 
                 ModelController.AddParameter(sqlParameters, "?loan_code", LoanDetails.AccountCode);
                 ModelController.AddParameter(sqlParameters, "?loan_title", LoanDetails.AccountTitle);
-                ModelController.AddParameter(sqlParameters, "?loan_amount", LoanDetails.LoanAmount);
+                sqlParameters.Add(new SqlParameter("?loan_amount", LoanDetails.LoanAmount));
 
-                var loanTerms = LoanDetails.LoanTerms +" " + Utilities.DataConverter.ToTermsMode(LoanDetails.LoanTerms, LoanDetails.TermsMode);
+                string loanTerms = LoanDetails.LoanTerms + " " +
+                                   DataConverter.ToTermsMode(LoanDetails.LoanTerms, LoanDetails.TermsMode);
                 ModelController.AddParameter(sqlParameters, "?loan_term", loanTerms);
 
                 ModelController.AddParameter(sqlParameters, "?mode_payment", LoanDetails.ModeOfPayment.ToString());
-                ModelController.AddParameter(sqlParameters, "?payment", LoanDetails.Payment);
+                sqlParameters.Add(new SqlParameter("?payment", LoanDetails.Payment));
 
                 ModelController.AddParameter(sqlParameters, "?release_date", LoanDetails.DateReleased);
                 ModelController.AddParameter(sqlParameters, "?granted_date", LoanDetails.GrantedDate);
@@ -941,16 +1055,14 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
 
         public void ResetProperties()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public void SetPropertiesFromDataRow(DataRow dataRow)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         #endregion
     }
-
-   
 }

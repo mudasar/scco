@@ -88,7 +88,7 @@ namespace SCCO.WPF.MVC.CS.Database
                 {
                     sqlCommand.Parameters.AddWithValue(parameter.Key, parameter.Value);
                 }
-
+                Log(sqlCommand);
                 var sqlResult = sqlCommand.ExecuteNonQuery();
                 if (sqlResult > 0)
                 {
@@ -119,6 +119,7 @@ namespace SCCO.WPF.MVC.CS.Database
                 {
                     sqlCommand.Parameters.AddWithValue(parameter.Key, parameter.Value);
                 }
+                Log(sqlCommand);
                 var sqlResult = sqlCommand.ExecuteNonQuery();
                 return sqlResult;
             }
@@ -143,7 +144,7 @@ namespace SCCO.WPF.MVC.CS.Database
                 {
                     sqlCommand.Parameters.AddWithValue(parameter.Key, parameter.Value);
                 }
-
+                Log(sqlCommand);
                 var dataAdapter = new MySqlDataAdapter(sqlCommand);
                 var dataTable = new DataTable();
                 dataAdapter.Fill(dataTable);
@@ -183,6 +184,7 @@ namespace SCCO.WPF.MVC.CS.Database
 
                 var dataAdapter = new MySqlDataAdapter(sqlCommand);
                 var dataTable = new DataTable();
+                Log(sqlCommand);
                 dataAdapter.Fill(dataTable);
                 return dataTable;
             }
@@ -389,6 +391,7 @@ namespace SCCO.WPF.MVC.CS.Database
 
             var dataAdapter = new MySqlDataAdapter(sqlCommand);
             var dataTable = new DataTable();
+            Log(sqlCommand);
             dataAdapter.Fill(dataTable);
             sqlConnection.Close();
             sqlConnection.Dispose();
@@ -747,6 +750,28 @@ namespace SCCO.WPF.MVC.CS.Database
             }
         }
 
+        internal static string BaseDirectory()
+        {
+            const string query = "SHOW VARIABLES WHERE Variable_Name = 'basedir'";
+            DataTable dataTable = ExecuteSelectQuery(GenericConnection(null), query);
+            foreach (DataRow dataRow in dataTable.Rows)
+            {
+                return dataRow[1].ToString();
+            }
+            return "";
+        }
+
+        internal static string ProgramDataDirectory()
+        {
+            const string query = "SHOW VARIABLES WHERE Variable_Name = 'datadir'";
+            DataTable dataTable = ExecuteSelectQuery(GenericConnection(null), query);
+            foreach (DataRow dataRow in dataTable.Rows)
+            {
+                return dataRow[1].ToString();
+            }
+            return "";
+        }
+
         #region --- PRIVATES ---
 
 
@@ -811,28 +836,11 @@ namespace SCCO.WPF.MVC.CS.Database
             SharedDbConnection.Open();
         }
 
+        private static void Log(MySqlCommand sqlCommand)
+        {
+            Console.WriteLine(sqlCommand.CommandText);
+        }
+
         #endregion
-
-        internal static string BaseDirectory()
-        {
-            const string query = "SHOW VARIABLES WHERE Variable_Name = 'basedir'";
-            DataTable dataTable = ExecuteSelectQuery(GenericConnection(null), query);
-            foreach (DataRow dataRow in dataTable.Rows)
-            {
-                return dataRow[1].ToString();
-            }
-            return "";
-        }
-
-        internal static string ProgramDataDirectory()
-        {
-            const string query = "SHOW VARIABLES WHERE Variable_Name = 'datadir'";
-            DataTable dataTable = ExecuteSelectQuery(GenericConnection(null), query);
-            foreach (DataRow dataRow in dataTable.Rows)
-            {
-                return dataRow[1].ToString();
-            }
-            return "";
-        }
     }
 }

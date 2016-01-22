@@ -28,11 +28,7 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
             InitializeComponent();
 
             _loanProducts = LoanProduct.GetList();
-            //_loanAmortization = new LoanAmortization();
-            _loanDetails = new LoanDetails();
-            _loanDetails.GrantedDate = DateTime.Now;
-            _loanDetails.DateReleased = DateTime.Now;
-            _loanDetails.TermsMode = "MO";
+            _loanDetails = new LoanDetails {GrantedDate = DateTime.Now, DateReleased = DateTime.Now, TermsMode = "MO"};
 
             InitializeLookups();
             DataContext = _loanDetails;
@@ -56,35 +52,17 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
             RefreshBorrowerInformation();
         }
 
-        private void GenerateStraightLineAmortization()
-        {
-            Result result = ValidateEntries();
-            if (!result.Success)
-            {
-                MessageWindow.ShowAlertMessage(result.Message);
-                return;
-            }
+        //private void GenerateStraightLineAmortization()
+        //{
+        //    Result result = ValidateEntries();
+        //    if (!result.Success)
+        //    {
+        //        MessageWindow.ShowAlertMessage(result.Message);
+        //        return;
+        //    }
 
-            //_loanAmortization.NumberOfPayments = LoanTermsCombo.SelectedIndex + 1;
-
-            //var selectedTerm = (string) LoanTermsCombo.SelectedItem;
-
-            //if (selectedTerm == null)
-            //{
-            //    _loanAmortization.NumberOfPayments = _loanProduct.MinimumTerm;
-            //}else{
-            //    var jea = selectedTerm.Split();
-            //    var numberOfPayments = Convert.ToInt16(jea[0]);
-            //    _loanAmortization.NumberOfPayments = numberOfPayments;
-            //}
-
-            //_loanAmortization.LoanAmount = _loanDetails.LoanAmount;
-            //_loanAmortization.NumberOfPayments = _loanDetails.LoanTerms;
-            //_loanAmortization.AnnualInterestRate = _loanDetails.InterestRate;
-            //_loanAmortization.CreateStraightLineAmortizationSchedule();
-
-            _loanAmortizationHeader = GenerateLoanAmortizationHeader();
-        }
+        //    _loanAmortizationHeader = GenerateLoanAmortizationHeader();
+        //}
 
         private void InitializeLookups()
         {
@@ -193,45 +171,11 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
 
             // loan product
             var loanProduct = (LoanProduct) LoanProductsCombo.SelectionBoxItem;
-
-
-            //_loanDetails.LoanAmount = _loanAmortization.LoanAmount;
-            //_loanDetails.LoanTerms = _loanAmortization.Term;
-            //_loanDetails.InterestRate = _loanAmortization.AnnualInterestRate;
-            //_loanDetails.GrantedDate = _loanAmortization.StartDate;
-            //_loanDetails.MaturityDate = _loanAmortization.PayOffDate;
-
-            //_loanDetails.InterestAmount = _loanAmortization.TotalInterestPaid;
-            //var firstSchedule = _loanAmortization.AmortizationSchedule.FirstOrDefault();
-            //if (firstSchedule != null)
-            //{
-            //    _loanDetails.InterestAmortization = firstSchedule.Interest;
-            //    _loanDetails.InterestAmortization = firstSchedule.Interest;
-            //}
-            //_loanDetails.ModeOfPayment = ModeOfPayments.Monthly;
-            //_loanDetails.Payment = _loanAmortization.MonthlyPayment;
-
-            //_loanDetails.LoanTerms = _loanAmortization.NumberOfPayments;
-            //_loanDetails.IsWithCollateral = Convert.ToBoolean(IsWithCollateralCheck.IsChecked);
-            //_loanDetails.Description = WithCollateralBox.Text;
-
-            //_loanDetails.Charges =
-            //    _loanProduct.LoanCharges.Select(
-            //        charge =>
-            //        new ComputationDetail(charge.AccountCode, charge.AccountTitle,
-            //                              _loanAmortization.LoanAmount*charge.Rate)).ToArray();
-            //var coh = Account.GetByCode(GlobalSettings.CashOnHandCode);
-            //_loanDetails.NetProceeds = new ComputationDetail(coh.AccountCode, coh.AccountTitle, _loanDetails.LoanAmount);
-
             return loanProduct;
         }
 
         private void ShowLoanComputationFormButtonOnClick(object sender, RoutedEventArgs e)
         {
-            //var loanComputationWindow = new LoanComputationWindow();
-            //loanComputationWindow.Borrower = _borrower;
-            //loanComputationWindow.LoanProduct = _loanProduct;
-
             if (_borrower == null)
             {
                 MessageWindow.ShowAlertMessage("No member information entered!");
@@ -366,8 +310,7 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
             if (scheduleLoanAmortization == null)
                 return;
 
-            var dtLoanAmortizationDetails = new DataTable();
-            dtLoanAmortizationDetails.TableName = "loan_amortization_details";
+            var dtLoanAmortizationDetails = new DataTable {TableName = "loan_amortization_details"};
             dtLoanAmortizationDetails.Columns.Add("payment_date", typeof (DateTime));
             dtLoanAmortizationDetails.Columns.Add("payment_no", typeof (int));
             dtLoanAmortizationDetails.Columns.Add("beginning_balance", typeof (decimal));
@@ -440,8 +383,7 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
                 var dataTables = new DataTable[2];
                 dataTables[0] = dtLoanAmortizationHeader;
                 dataTables[1] = dtLoanAmortizationDetails;
-                var reportItem = new ReportItem();
-                reportItem.Title = "Loan Amortization Schedule";
+                var reportItem = new ReportItem {Title = "Loan Amortization Schedule"};
                 dataTables[0].TableName = "loan_amortization_header";
                 dataTables[1].TableName = "loan_amortization_details";
 

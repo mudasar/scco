@@ -540,7 +540,7 @@ namespace SCCO.WPF.MVC.CS.Views
             {
                 CancelledLabel.Visibility = Visibility.Collapsed;
 
-                _currentItems = JournalVoucher.WhereDocumentNumberIs(docNum);
+                _currentItems = JournalVoucher.FindByDocumentNumber(docNum);
                 _currentItems.CollectionChanged += CurrentItemsCollectionChanged;
 
                 foreach (JournalVoucher currentItem in _currentItems)

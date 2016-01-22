@@ -37,7 +37,7 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
                     MessageWindow.ShowAlertMessage("Please specify a Loan Product Name");
                     return;
                 }
-                var newLoanProduct = LoanProduct.WhereTitleIs(input);
+                var newLoanProduct = LoanProduct.FindByName(input);
                 if (newLoanProduct != null)
                 {
                     MessageWindow.ShowAlertMessage(input + "already exists");

@@ -54,6 +54,10 @@ namespace SCCO.WPF.MVC.CS.Views.AdministratorModule
                 return;
             }
 
+            if (MessageWindow.ShowConfirmMessage("Start updating beginning balance?") != MessageBoxResult.Yes)
+            {
+                return;
+            }
             ProcessButton.IsEnabled = false;
             CloseButton.IsEnabled = false;
             ProgressBar.Visibility = Visibility.Visible;

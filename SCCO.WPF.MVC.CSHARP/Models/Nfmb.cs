@@ -730,7 +730,7 @@ namespace SCCO.WPF.MVC.CS.Models
         }
         #endregion
 
-        //public static Nfmb WhereMemberCodeIs(string memberCode)
+        //public static Nfmb FindByMemberCode(string memberCode)
         //{
         //    var sqlBuilder = new StringBuilder();
         //    sqlBuilder.Append("SELECT * FROM nfmb WHERE MEM_CODE = ?MEM_CODE LIMIT 1");
