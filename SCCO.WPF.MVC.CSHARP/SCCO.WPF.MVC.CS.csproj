@@ -1836,7 +1836,7 @@
     <Content Include="COM\mysql.data.dll" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\SoftwareProjects\mysqlbackupnet\mysqlbackupnet_2bc3ad307d1e\MySqlBackup.NET\MySqlBackup\MySqlBackup.csproj">
+    <ProjectReference Include="..\MySqlBackup\MySqlBackup.csproj">
       <Project>{2625A6B7-505A-43F7-9282-24AFE5A3DB64}</Project>
       <Name>MySqlBackup</Name>
     </ProjectReference>
