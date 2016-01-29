@@ -30,6 +30,9 @@ namespace SCCO.WPF.MVC.CS.Views.AdministratorModule
             _model.CodeOfSavingsDeposit.Update();
             _model.CodeOfTimeDeposit.Update();
             _model.CodeOfUnearnedIncome.Update();
+            _model.CodeOfFinesAndPenalty.Update();
+            _model.RateOfTimeDepositServiceFee.Update();
+
             DialogResult = true;
             Close();
         }

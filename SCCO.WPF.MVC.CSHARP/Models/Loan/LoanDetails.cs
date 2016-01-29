@@ -37,7 +37,7 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
             InterestRate = DataConverter.ToDecimal(dataRow["INT_RATE"]);
             if (InterestRate >= 1)
                 InterestRate = InterestRate/100m;
-            
+
             InterestAmount = DataConverter.ToDecimal(dataRow["INT_AMT"]);
             InterestAmortization = DataConverter.ToDecimal(dataRow["INT_AMORT"]);
             DateApproved = DataConverter.ToDateTime(dataRow["APPROVED"]);
@@ -105,7 +105,7 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
 
         private decimal _thisMonth;
         private string _collector;
-        
+
         private string _remarks;
         private bool _isWithCollateral;
         private string _description;
@@ -127,32 +127,50 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
         public string MemberCode
         {
             get { return _memberCode; }
-            set { _memberCode = value; OnPropertyChanged("MemberCode"); }
+            set
+            {
+                _memberCode = value;
+                OnPropertyChanged("MemberCode");
+            }
         }
 
         public string MemberName
         {
             get { return _memberName; }
-            set { _memberName = value; OnPropertyChanged("MemberName"); }
+            set
+            {
+                _memberName = value;
+                OnPropertyChanged("MemberName");
+            }
         }
 
 
         public string AccountCode
         {
             get { return _accountCode; }
-            set { _accountCode = value; OnPropertyChanged("AccountCode"); }
+            set
+            {
+                _accountCode = value;
+                OnPropertyChanged("AccountCode");
+            }
         }
 
         public string AccountTitle
         {
             get { return _accountTitle; }
-            set { _accountTitle = value; OnPropertyChanged("AccountTitle"); }
+            set
+            {
+                _accountTitle = value;
+                OnPropertyChanged("AccountTitle");
+            }
         }
 
         public string DocumentType
         {
             get { return _documentType; }
-            set { _documentType = value;
+            set
+            {
+                _documentType = value;
                 OnPropertyChanged("DocumentType");
             }
         }
@@ -160,7 +178,9 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
         public DateTime DocumentDate
         {
             get { return _documentDate; }
-            set { _documentDate = value;
+            set
+            {
+                _documentDate = value;
                 OnPropertyChanged("DocumentDate");
             }
         }
@@ -168,7 +188,9 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
         public int DocumentNo
         {
             get { return _documentNo; }
-            set { _documentNo = value;
+            set
+            {
+                _documentNo = value;
                 OnPropertyChanged("DocumentNo");
             }
         }
@@ -176,7 +198,9 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
         public string BankName
         {
             get { return _bankName; }
-            set { _bankName = value;
+            set
+            {
+                _bankName = value;
                 OnPropertyChanged("BankName");
             }
         }
@@ -184,7 +208,9 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
         public string CheckNo
         {
             get { return _checkNo; }
-            set { _checkNo = value;
+            set
+            {
+                _checkNo = value;
                 OnPropertyChanged("CheckNo");
             }
         }
@@ -368,7 +394,11 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
         public CoMaker[] CoMakers
         {
             get { return _coMakers; }
-            set { _coMakers = value; OnPropertyChanged("CoMakers"); }
+            set
+            {
+                _coMakers = value;
+                OnPropertyChanged("CoMakers");
+            }
         }
 
         //THIS_MONTH	double
@@ -430,14 +460,22 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
         public Decimal CompulsarySavings
         {
             get { return _compulsarySavings; }
-            set { _compulsarySavings = value; OnPropertyChanged("CompulsarySavings"); }
+            set
+            {
+                _compulsarySavings = value;
+                OnPropertyChanged("CompulsarySavings");
+            }
         }
 
 
         public bool[] Notices
         {
             get { return _notices; }
-            set { _notices = value; OnPropertyChanged("Notices");}
+            set
+            {
+                _notices = value;
+                OnPropertyChanged("Notices");
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -497,6 +535,40 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
 
             return new LoanDetails(dataRow);
         }
+
+        internal static LoanDetails GenerateCompromiseLoanDetails(Voucher voucher,decimal loanAmount,
+                                                                  decimal finesAndPenalty, int term,
+                                                                  CoMaker[] comakers)
+        {
+            var loanDetails = new LoanDetails
+                {
+                    LoanTerms = term,
+                    TermsMode = "Month",
+                    GrantedDate = voucher.VoucherDate,
+                    MaturityDate = voucher.VoucherDate.AddMonths(term),
+                    CutOffDate = voucher.VoucherDate.AddDays(7),
+                    ModeOfPayment = ModeOfPayments.Monthly,
+                    DateReleased = voucher.VoucherDate
+                };
+
+            loanDetails.LoanAmount = loanAmount + finesAndPenalty;
+            loanDetails.Payment = loanDetails.LoanAmount/term;
+
+            loanDetails.AccountCode = voucher.AccountCode;
+            loanDetails.AccountTitle = voucher.AccountTitle;
+
+            loanDetails.MemberCode = voucher.MemberCode;
+            loanDetails.MemberName = voucher.MemberName;
+
+            loanDetails.ReleaseNo = Controllers.ModelController.Releases.MaxReleaseNumber() + 1;
+
+            loanDetails.CoMakers = comakers;
+
+            loanDetails.DocumentDate = voucher.VoucherDate;
+            loanDetails.DocumentNo = voucher.VoucherNo;
+            loanDetails.DocumentType = voucher.VoucherType.ToString();
+
+            return loanDetails;
+        }
     }
 }
-

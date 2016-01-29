@@ -35,7 +35,7 @@ namespace SCCO.WPF.MVC.CS.Views.SpecialLoansModule
             btnPost.Click += btnPost_Click;
             btnDetails.Click += btnDetails_Click;
 
-            _loanProduct = LoanProduct.GetList().First(a => a.ProductCode == code);
+            _loanProduct = LoanProduct.FindBy("ProductCode", code);
 
             // initialize cash voucher entry for salary advance
             _cashVoucher = new CashVoucher

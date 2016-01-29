@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Data;
 using System.Text;
 using SCCO.WPF.MVC.CS.Database;
 using SCCO.WPF.MVC.CS.Utilities;
@@ -161,6 +162,14 @@ namespace SCCO.WPF.MVC.CS.Models
             sqlBuilder.AppendFormat("SELECT IFNULL(MAX(DOC_NUM),0) FROM `{0}`", voucherType);
             var dataTable = DatabaseController.ExecuteSelectQuery(sqlBuilder.ToString());
             return  DataConverter.ToInteger(dataTable.Rows[0][0]);
+        }
+
+        protected internal static bool Exist(VoucherTypes voucherType, int documentNo)
+        {
+            var sqlBuilder = new StringBuilder();
+            sqlBuilder.AppendFormat("SELECT COUNT(DOC_NUM) FROM `{0}` WHERE DOC_NUM = ?DOC_NUM", voucherType);
+            DataTable dataTable = DatabaseController.ExecuteSelectQuery(sqlBuilder.ToString(), new SqlParameter("?DOC_NUM", documentNo));
+            return DataConverter.ToInteger(dataTable.Rows[0][0]) > 0;
         }
     }
 

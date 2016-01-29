@@ -162,6 +162,13 @@
       <SubType>Component</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
+    <Compile Include="ReportFiles\notice_loan_overdue.cs">
+      <DependentUpon>notice_loan_overdue.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="ReportFiles\cv_attachment.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -337,13 +344,6 @@
       <SubType>Component</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="ReportFiles\notice_loan_overdue.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>notice_loan_overdue.rpt</DependentUpon>
-      <SubType>Component</SubType>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
     <Compile Include="ReportFiles\notice_loan_overdue_non_responsive.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -468,6 +468,10 @@
     <Compile Include="Views\AccountVerifierModule\AccountVerifierGLWindow.xaml.cs">
       <DependentUpon>AccountVerifierGLWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\AccountVerifierModule\LoanCompromiseAgreementView.xaml.cs">
+      <DependentUpon>LoanCompromiseAgreementView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AccountVerifierModule\LoanCompromiseAgreementViewModel.cs" />
     <Compile Include="Views\SpecialLoansModule\GoNegosyoView.xaml.cs">
       <DependentUpon>GoNegosyoView.xaml</DependentUpon>
     </Compile>
@@ -940,6 +944,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\AccountVerifierModule\LoanCompromiseAgreementView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\SpecialLoansModule\GoNegosyoView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1405,6 +1413,11 @@
       <LastGenOutput>borrower_makers.cs</LastGenOutput>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
+    <None Include="ReportFiles\notice_loan_overdue.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>notice_loan_overdue.cs</LastGenOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
     <None Include="ReportFiles\financial_condition_custom.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
@@ -1543,11 +1556,6 @@
     <None Include="ReportFiles\notice_loan_non_performing.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>notice_loan_non_performing.cs</LastGenOutput>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="ReportFiles\notice_loan_overdue.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>notice_loan_overdue.cs</LastGenOutput>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="ReportFiles\notice_loan_overdue_non_responsive.rpt">

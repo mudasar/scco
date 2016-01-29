@@ -563,46 +563,60 @@
                 </Label>
             </Grid>
         </Border>
-        <Border x:Name="CollateralBorder"
-                Margin="12,416,131,12"
-                BorderBrush="#3FFFFFFF"
-                BorderThickness="1"
-                CornerRadius="4">
-            <Grid Margin="1,1,-1,-1">
-                <CheckBox x:Name="WithCollateralCheckBox"
-                          Width="120"
-                          Margin="10,7,0,0"
-                          HorizontalAlignment="Left"
-                          VerticalAlignment="Top"
-                          Content="With Collateral"
-                          Foreground="White"
-                          IsChecked="{Binding IsWithCollateral}"
-                          IsEnabled="False"
-                          Style="{DynamicResource ControlCheckBox}" />
-                <Label x:Name="CollateralDescriptionLabel"
-                       Width="447"
-                       Margin="11,28,0,7"
-                       HorizontalAlignment="Left"
-                       Foreground="White"
-                       Padding="0"
-                       ScrollViewer.CanContentScroll="True">
-                    <TextBlock Text="{Binding Description}" />
-                </Label>
-            </Grid>
-        </Border>
-        <Border x:Name="NoticeButtonsBorder"
-                Width="115"
-                Margin="0,416,12,12"
-                HorizontalAlignment="Right"
-                BorderBrush="#3FFFFFFF"
-                BorderThickness="1"
-                CornerRadius="4">
-            <StackPanel Margin="4">
-                <Button x:Name="btnNotices"
-                        Width="Auto"
-                        Content="Print Notices"
-                        Style="{DynamicResource ControlButton}" />
-            </StackPanel>
-        </Border>
+        <Grid Height="82"
+              Margin="12,0,12,12"
+              VerticalAlignment="Bottom">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Border x:Name="CollateralBorder"
+                    BorderBrush="#3FFFFFFF"
+                    BorderThickness="1"
+                    CornerRadius="4"
+                    d:LayoutOverrides="VerticalAlignment">
+                <Grid Margin="1,1,-1,-1">
+                    <CheckBox x:Name="WithCollateralCheckBox"
+                              Width="120"
+                              Margin="10,7,0,0"
+                              HorizontalAlignment="Left"
+                              VerticalAlignment="Top"
+                              Content="With Collateral"
+                              Foreground="White"
+                              IsChecked="{Binding IsWithCollateral}"
+                              IsEnabled="False"
+                              Style="{DynamicResource ControlCheckBox}" />
+                    <Label x:Name="CollateralDescriptionLabel"
+                           Width="447"
+                           Margin="11,28,0,7"
+                           HorizontalAlignment="Left"
+                           Foreground="White"
+                           Padding="0"
+                           ScrollViewer.CanContentScroll="True">
+                        <TextBlock Text="{Binding Description}" />
+                    </Label>
+                </Grid>
+            </Border>
+            <Border x:Name="ButtonsBorder"
+                    Grid.Column="1"
+                    HorizontalAlignment="Right"
+                    BorderBrush="#3FFFFFFF"
+                    BorderThickness="1"
+                    CornerRadius="4"
+                    d:LayoutOverrides="VerticalAlignment">
+                <StackPanel Margin="4">
+                    <Button x:Name="btnNotices"
+                            Width="Auto"
+                            Content="Print Notices"
+                            Style="{DynamicResource ControlButton}" />
+                    <Button x:Name="btnCompromiseSettlement"
+                            Width="160"
+                            Content="Compromise Settlement"
+                            IsEnabled="False"
+                            Style="{DynamicResource ControlButton}" />
+                </StackPanel>
+            </Border>
+        </Grid>
     </Grid>
 </views:BaseWindow>

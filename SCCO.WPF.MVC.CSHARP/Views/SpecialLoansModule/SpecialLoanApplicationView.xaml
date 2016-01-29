@@ -64,7 +64,7 @@
                         Width="Auto"
                         Height="40"
                         Margin="0,0,0,4"
-                        Content="Salary Advances Setup"
+                        Content="Salary Advances"
                         Style="{DynamicResource ControlButton}" />
                 <Border Height="16"
                         Background="#7FFFFFFF"
@@ -74,7 +74,7 @@
                         Width="Auto"
                         Height="40"
                         Margin="0,0,0,4"
-                        Content="Go Negosyo Setup"
+                        Content="Go Negosyo"
                         Style="{DynamicResource ControlButton}" />
                 <Border Height="16"
                         Background="#7FFFFFFF"

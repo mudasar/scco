@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Windows;
+using System.Windows.Input;
 using SCCO.WPF.MVC.CS.Models.Loan;
 
 namespace SCCO.WPF.MVC.CS.Views.LoanModule
@@ -12,6 +13,7 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
         public LoanProductsListWindow()
         {
             InitializeComponent();
+            Requery();
             RefreshDisplay();
 
             txtSearch.TextChanged += (sender, args) => Search();
@@ -19,10 +21,18 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
             btnAdd.Click += (sender, args) => Add();
             btnEdit.Click += (sender, args) => Edit();
             btnDelete.Click += (sender, args) => Delete();
+
+            KeyDown += (sender, e) =>
+                {
+                    if (e.Key == Key.F5)
+                    {
+                        Requery();
+                    }
+                };
         }
 
-       
- #region Implementation of IListDetailView
+
+        #region Implementation of IListDetailView
 
         public void Add()
         {
@@ -71,6 +81,7 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
             if (MessageWindow.ConfirmDeleteRecord() == MessageBoxResult.Yes)
             {
                 _viewModel.SelectedItem.Destroy();
+                Requery();
                 RefreshDisplay();
             }
         }
@@ -103,14 +114,18 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
 
         public void RefreshDisplay()
         {
-            _lookup = LoanProduct.CollectAll();
             _viewModel = new LoanProductViewModel();
             {
-                _viewModel.Collection = LoanProduct.CollectAll();
+                _viewModel.Collection = _lookup;
             }
             DataContext = _viewModel;
         }
 
         #endregion
+
+        private void Requery()
+        {
+            _lookup = LoanProduct.CollectAll();
+        }
     }
 }

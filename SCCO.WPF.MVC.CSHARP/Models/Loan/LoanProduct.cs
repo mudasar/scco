@@ -233,10 +233,7 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
         {
             Action createRecord = () =>
                 {
-                    List<SqlParameter> sqlParameter = Parameters;
-
-                    string sql = DatabaseController.GenerateInsertStatement(TABLE_NAME, sqlParameter);
-                    ID = DatabaseController.ExecuteInsertQuery(sql, sqlParameter.ToArray());
+                    ID = DatabaseController.CreateRecord(TABLE_NAME, Parameters);
                 };
 
             return ActionController.InvokeAction(createRecord);
@@ -244,15 +241,7 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
 
         public Result Destroy()
         {
-            Action deleteRecord = () =>
-                {
-                    SqlParameter key = ParamKey;
-
-                    string sql = DatabaseController.GenerateDeleteStatement(TABLE_NAME, key);
-
-                    DatabaseController.ExecuteNonQuery(sql, key);
-                };
-
+            Action deleteRecord = () => DatabaseController.DeleteRecord(TABLE_NAME, ID);
             return ActionController.InvokeAction(deleteRecord);
         }
 
@@ -262,11 +251,7 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
                 {
                     ResetProperties();
                     ID = id;
-
-                    SqlParameter key = ParamKey;
-                    string sql = DatabaseController.GenerateSelectStatement(TABLE_NAME, key);
-
-                    DataTable dataTable = DatabaseController.ExecuteSelectQuery(sql, key);
+                    DataTable dataTable = DatabaseController.FindRecord(TABLE_NAME, ID);
                     foreach (DataRow dataRow in dataTable.Rows)
                     {
                         SetPropertiesFromDataRow(dataRow);
@@ -315,19 +300,7 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
 
         public Result Update()
         {
-            Action updateRecord = () =>
-                {
-                    SqlParameter key = ParamKey;
-
-                    List<SqlParameter> sqlParameter = Parameters;
-                    sqlParameter.Add(key);
-
-                    string sql = DatabaseController.GenerateUpdateStatement(TABLE_NAME,
-                                                                            sqlParameter,
-                                                                            key);
-
-                    DatabaseController.ExecuteNonQuery(sql, sqlParameter.ToArray());
-                };
+            Action updateRecord = () => DatabaseController.UpdateRecord(TABLE_NAME, ParamKey, Parameters);
 
             return ActionController.InvokeAction(updateRecord);
         }

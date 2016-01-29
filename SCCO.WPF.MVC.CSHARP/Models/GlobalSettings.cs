@@ -33,6 +33,7 @@ namespace SCCO.WPF.MVC.CS.Models
         RateOfInterestOnSavingsDeposit,
         RateOfTimeDepositServiceFee,
         DateOfSavingsDepositWithdrawalCashVoucher,
+        CodeOfFinesAndPenalty,
     }
 
     public static class GlobalSettings
@@ -276,6 +277,15 @@ namespace SCCO.WPF.MVC.CS.Models
             {
                 const GlobalKeys key = GlobalKeys.RateOfTimeDepositServiceFee;
                 return DataConverter.ToDecimal(SearchDatabase(key)["CurrentValue"]);
+            }
+        }
+
+        public static string CodeOfFinesAndPenalty
+        {
+            get
+            {
+                const GlobalKeys key = GlobalKeys.CodeOfFinesAndPenalty;
+                return DataConverter.ToString(SearchDatabase(key)["CurrentValue"]);
             }
         }
 

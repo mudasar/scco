@@ -583,8 +583,51 @@ namespace SCCO.WPF.MVC.CS.Views.AccountVerifierModule
 
             LoanDetails loanDetails = currentItem.LoanDetails;
             if (loanDetails.LoanAmount == 0) return;
-            var loanDetailsWindow = new LoanDetailsWindow(loanDetails);
+            var loanDetailsWindow = new LoanDetailsWindow(loanDetails)
+                {
+                    EnableCompromiseSettlement = CanEnableCompromiseSettlement(loanDetails),
+                    LoanBalance = _viewModel.SelectedAccount.Balance
+                };
             loanDetailsWindow.ShowDialog();
+        }
+
+        private bool CanEnableCompromiseSettlement(LoanDetails loanDetail)
+        {
+            // consider transaction date and access
+            if (MainController.LoggedUser.TransactionDate != GlobalSettings.DateOfOpenTransaction)
+            {
+                return false;
+            }
+            if (!MainController.LoggedUser.CanAccessCashVoucher)
+            {
+                return false;
+            }
+            if (!MainController.LoggedUser.CanAccessJournalVoucher)
+            {
+                return false;
+            }
+
+            // 1. Overdue
+            if (loanDetail.MaturityDate > MainController.LoggedUser.TransactionDate)
+            {
+                return false;
+            }
+            // 2. With Balance
+            if (_viewModel.SelectedAccount.Balance <= 0)
+            {
+                return false;
+            }
+
+            // 3. Last Loan Details
+            IOrderedEnumerable<AccountDetail> loanDetails = from detail in _viewModel.AccountDetails
+                                                            where detail.LoanDetails != null
+                                                            orderby detail.LoanDetails.GrantedDate ascending
+                                                            select detail;
+
+            if (!loanDetails.Any()) return false;
+            AccountDetail last = loanDetails.LastOrDefault();
+            if (last == null) return false;
+            return last.LoanDetails.Equals(loanDetail);
         }
 
         private void ShowFinesRebateCalculator()

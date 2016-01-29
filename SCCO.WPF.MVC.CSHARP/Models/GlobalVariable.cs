@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Text;
 using SCCO.WPF.MVC.CS.Controllers;
 using SCCO.WPF.MVC.CS.Database;
 using SCCO.WPF.MVC.CS.Utilities;
@@ -10,35 +11,51 @@ namespace SCCO.WPF.MVC.CS.Models
 {
     public class GlobalVariable : INotifyPropertyChanged, IModel
     {
-        private int _id;
-        private string _keyword;
         private string _currentValue;
         private string _description;
+        private int _id;
+        private string _keyword;
 
         #region --- PROPERTIES ---
 
         public int ID
         {
             get { return _id; }
-            set { _id = value; OnPropertyChanged("ID"); }
+            set
+            {
+                _id = value;
+                OnPropertyChanged("ID");
+            }
         }
 
         public string Keyword
         {
             get { return _keyword; }
-            set { _keyword = value; OnPropertyChanged("Keyword"); }
+            set
+            {
+                _keyword = value;
+                OnPropertyChanged("Keyword");
+            }
         }
 
         public string CurrentValue
         {
             get { return _currentValue; }
-            set { _currentValue = value; OnPropertyChanged("CurrentValue"); }
+            set
+            {
+                _currentValue = value;
+                OnPropertyChanged("CurrentValue");
+            }
         }
 
         public string Description
         {
             get { return _description; }
-            set { _description = value; OnPropertyChanged("Description"); }
+            set
+            {
+                _description = value;
+                OnPropertyChanged("Description");
+            }
         }
 
         #endregion --- PROPERTIES ---
@@ -68,12 +85,9 @@ namespace SCCO.WPF.MVC.CS.Models
         public Result Create()
         {
             Action createRecord = () =>
-            {
-                var sqlParameter = Parameters;
-
-                var sql = DatabaseController.GenerateInsertStatement(TABLE_NAME, sqlParameter);
-                ID = DatabaseController.ExecuteInsertQuery(sql, sqlParameter.ToArray());
-            };
+                {
+                    ID = DatabaseController.CreateRecord(TABLE_NAME, Parameters);
+                };
 
             return ActionController.InvokeAction(createRecord);
         }
@@ -82,52 +96,28 @@ namespace SCCO.WPF.MVC.CS.Models
         {
             if (ID == 0) return Create();
 
-            Action updateRecord = () =>
-            {
-                var key = ParamKey;
-
-                var sqlParameter = Parameters;
-                sqlParameter.Add(key);
-
-                var sql = DatabaseController.GenerateUpdateStatement(TABLE_NAME, sqlParameter,
-                                                                     key);
-
-                DatabaseController.ExecuteNonQuery(sql, sqlParameter.ToArray());
-            };
-
+            Action updateRecord = () => DatabaseController.UpdateRecord(TABLE_NAME, ParamKey, Parameters);
             return ActionController.InvokeAction(updateRecord);
         }
 
         public Result Destroy()
         {
-            Action deleteRecord = () =>
-            {
-                var key = ParamKey;
-
-                var sql = DatabaseController.GenerateDeleteStatement(TABLE_NAME, key);
-
-                DatabaseController.ExecuteNonQuery(sql, key);
-            };
-
+            Action deleteRecord = () => DatabaseController.DeleteRecord(TABLE_NAME, ID);
             return ActionController.InvokeAction(deleteRecord);
         }
 
         public Result Find(int id)
         {
             Action findRecord = () =>
-            {
-                ResetProperties();
-                ID = id;
-
-                var key = ParamKey;
-                var sql = DatabaseController.GenerateSelectStatement(TABLE_NAME, key);
-
-                DataTable dataTable = DatabaseController.ExecuteSelectQuery(sql, key);
-                foreach (DataRow dataRow in dataTable.Rows)
                 {
-                    SetPropertiesFromDataRow(dataRow);
-                }
-            };
+                    ResetProperties();
+                    ID = id;
+                    DataTable dataTable = DatabaseController.FindRecord(TABLE_NAME, id);
+                    foreach (DataRow dataRow in dataTable.Rows)
+                    {
+                        SetPropertiesFromDataRow(dataRow);
+                    }
+                };
 
             return ActionController.InvokeAction(findRecord);
         }
@@ -150,18 +140,19 @@ namespace SCCO.WPF.MVC.CS.Models
 
         #endregion --- CRUD ---
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public static GlobalVariable FindByKeyword(string keyword)
         {
-            var queryBuilder = new System.Text.StringBuilder();
+            var queryBuilder = new StringBuilder();
             queryBuilder.AppendLine("SELECT * FROM");
             queryBuilder.AppendLine(TABLE_NAME);
             queryBuilder.AppendLine("WHERE Keyword = ?Keyword LIMIT 1");
 
-            DataTable dataTable = DatabaseController.ExecuteSelectQuery(queryBuilder, new SqlParameter("?Keyword", keyword));
+            DataTable dataTable = DatabaseController.ExecuteSelectQuery(queryBuilder,
+                                                                        new SqlParameter("?Keyword", keyword));
 
-            var globalVariable = new GlobalVariable();
-            globalVariable.Keyword = keyword;
-            globalVariable.CurrentValue = string.Empty;
+            var globalVariable = new GlobalVariable {Keyword = keyword, CurrentValue = string.Empty};
             foreach (DataRow dataRow in dataTable.Rows)
             {
                 globalVariable.SetPropertiesFromDataRow(dataRow);
@@ -169,8 +160,6 @@ namespace SCCO.WPF.MVC.CS.Models
 
             return globalVariable;
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged(string propertyName)
         {
@@ -180,7 +169,7 @@ namespace SCCO.WPF.MVC.CS.Models
 
         internal static GlobalVariable FindByKeyword(GlobalKeys key)
         {
-            var keyword = Enum.GetName(typeof(GlobalKeys), key);
+            string keyword = Enum.GetName(typeof (GlobalKeys), key);
             return FindByKeyword(keyword);
         }
     }

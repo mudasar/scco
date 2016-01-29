@@ -36,7 +36,7 @@ namespace SCCO.WPF.MVC.CS.Views.SpecialLoansModule
             btnPost.Click += (sender, args) =>  Post();
             btnDetails.Click += (sender, args) => ShowDetails();
 
-            _loanProduct = LoanProduct.GetList().First(a => a.ProductCode == code);
+            _loanProduct = LoanProduct.FindBy("ProductCode", code);
 
             // initialize cash voucher entry for go negosyo
             _cashVoucher = new CashVoucher
