@@ -445,6 +445,7 @@
     <Compile Include="Utilities\DbfMigration\Views\MigrationProgessWindow.xaml.cs">
       <DependentUpon>MigrationProgessWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Utilities\MessageBuilder.cs" />
     <Compile Include="Utilities\TransactionHelper.cs" />
     <Compile Include="Views\AccountModule\AccountCategoryView.xaml.cs">
       <DependentUpon>AccountCategoryView.xaml</DependentUpon>

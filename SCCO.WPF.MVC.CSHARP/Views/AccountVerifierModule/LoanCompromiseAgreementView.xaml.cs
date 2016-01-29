@@ -179,7 +179,7 @@ namespace SCCO.WPF.MVC.CS.Views.AccountVerifierModule
 
                 #endregion
 
-                MessageWindow.ShowNotifyMessage("Loan Compromised Agreement created. Please check JV# " + voucherNo);
+                MessageWindow.ShowNotifyMessage(MessageBuilder.TransactionPosted(_journalVoucher));
                 DialogResult = true;
                 Close();
             }
