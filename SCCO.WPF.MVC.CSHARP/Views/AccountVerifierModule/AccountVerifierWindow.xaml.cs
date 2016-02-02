@@ -104,12 +104,12 @@ namespace SCCO.WPF.MVC.CS.Views.AccountVerifierModule
             tellerCollectorWindow.ShowDialog();
         }
 
-        private void PrintPassbook()
-        {
-            IEnumerable<AccountVerifierDetail> accountDetails = grdDetails.Items.OfType<AccountVerifierDetail>();
-            ReportController.GeneratePassbook(
-                Converter.ConvertToDataTable(accountDetails.ToList().Where(o => o.IsMarked).ToList()));
-        }
+        //private void PrintPassbook()
+        //{
+        //    IEnumerable<AccountVerifierDetail> accountDetails = grdDetails.Items.OfType<AccountVerifierDetail>();
+        //    ReportController.GeneratePassbook(
+        //        Converter.ConvertToDataTable(accountDetails.ToList().Where(o => o.IsMarked).ToList()));
+        //}
 
         private void RefreshButtons()
         {
@@ -200,31 +200,15 @@ namespace SCCO.WPF.MVC.CS.Views.AccountVerifierModule
             imgPhoto.Source = ImageTool.CreateImageSourceFromBytes(_viewModel.Member.ContactInformation.Picture);
 
             var infoBuilder = new StringBuilder();
-
-            bool isMemberCanLoan = false;
-
             if (!string.IsNullOrEmpty(_viewModel.Member.MembershipType))
             {
                 infoBuilder.AppendFormat("{0} Member\n", _viewModel.Member.MembershipType);
-                switch (_viewModel.Member.MembershipType)
-                {
-                    case "Associate (Loaning)":
-                    case "Regular":
-                        isMemberCanLoan = true;
-                        break;
-                }
             }
             if (_viewModel.Member.IsDamayanMember)
             {
                 infoBuilder.AppendFormat("PTTK Member\n");
             }
             blkMemberInformationSummary.Content = infoBuilder.ToString();
-
-            //borrower's buttons
-            btnLoanApplication.IsEnabled = isMemberCanLoan;
-            btnSpecialLoanApplication.IsEnabled = isMemberCanLoan;
-            btnMakers.IsEnabled = isMemberCanLoan;
-
             btnSavingsDepositEntry.IsEnabled = true;
             btnTimeDepositEntry.IsEnabled = true;
         }
@@ -308,13 +292,9 @@ namespace SCCO.WPF.MVC.CS.Views.AccountVerifierModule
             {
                 _viewModel.AccountDetails.Add(accountDetail);
             }
-            //grdDetails.ItemsSource = accountDetails;
             grdSummary.Visibility = Visibility.Collapsed;
             grdDetails.Visibility = Visibility.Visible;
             grdDetails.SelectedIndex = accountDetails.Count - 1;
-            //grdDetails.ScrollIntoView(grdDetails.SelectedItem);
-            //var nTotalDebit = accountDetails.Sum(d => d.Debit);
-            //var nTotalCredit = accountDetails.Sum(d => d.Credit);
         }
 
         private void ShowAccountSummary()
@@ -345,6 +325,22 @@ namespace SCCO.WPF.MVC.CS.Views.AccountVerifierModule
             }
 
             ShowAccount(ShownAccount.Summary);
+
+            bool memberCanLoan = false;
+
+            AccountCollection shareCapitalAccounts = Account.Where("CODE1", "SC");
+            if (shareCapitalAccounts.Any())
+            {
+                IEnumerable<string> shareCapitalCodes = shareCapitalAccounts.Select(t => t.AccountCode);
+                IEnumerable<string> accountCodes = _viewModel.AccountSummaries.Select(t => t.AccountCode);
+
+                memberCanLoan = shareCapitalCodes.Intersect(accountCodes).Any();
+            }
+
+            ////borrower's buttons
+            btnLoanApplication.IsEnabled = memberCanLoan;
+            btnSpecialLoanApplication.IsEnabled = memberCanLoan;
+            btnMakers.IsEnabled = memberCanLoan;
         }
 
         #endregion
@@ -573,7 +569,6 @@ namespace SCCO.WPF.MVC.CS.Views.AccountVerifierModule
             {
                 RefreshAccountInformation();
             }
-            
         }
 
         private void ShowLoanDetails()
