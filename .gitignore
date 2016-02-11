@@ -205,3 +205,8 @@ FakesAssemblies/
 # Visual Studio 6 workspace options file
 *.opt
 SCCO.WPF.MVC.CSHARP/Output/
+
+TestProject1/
+TraceAndTestImpact.testsettings
+scco.vsmdi
+Local.testsettings

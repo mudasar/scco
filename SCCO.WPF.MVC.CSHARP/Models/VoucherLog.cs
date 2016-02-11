@@ -116,10 +116,7 @@ namespace SCCO.WPF.MVC.CS.Models
                 ResetProperties();
                 ID = id;
 
-                var key = new SqlParameter("?ID", ID);
-                var sql = DatabaseController.GenerateSelectStatement(_tableName, key);
-
-                DataTable dataTable = DatabaseController.ExecuteSelectQuery(sql, key);
+                DataTable dataTable = DatabaseController.FindRecord(_tableName, id);
                 foreach (DataRow dataRow in dataTable.Rows)
                 {
                     SetPropertiesFromDataRow(dataRow);

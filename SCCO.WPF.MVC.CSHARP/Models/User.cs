@@ -288,7 +288,7 @@ namespace SCCO.WPF.MVC.CS.Models
 
         #endregion
 
-        private const string TABLE_NAME = "SECURE";
+        private const string TABLE_NAME = "secure";
 
         public static string DefaultPassword
         {
@@ -532,7 +532,6 @@ namespace SCCO.WPF.MVC.CS.Models
                 ModelController.AddParameter(sqlParameters, "?COLLECTOR", CollectorName);
                 ModelController.AddParameter(sqlParameters, "?INITIAL", Initials);
 
-
                 ModelController.AddParameter(sqlParameters, "?MODULE1", CanAccessAccountVerifier);
                 ModelController.AddParameter(sqlParameters, "?MODULE2", CanAccessOfficialReceipts);
                 ModelController.AddParameter(sqlParameters, "?MODULE3", CanAccessCashVoucher);
@@ -544,6 +543,7 @@ namespace SCCO.WPF.MVC.CS.Models
                 ModelController.AddParameter(sqlParameters, "?MODULE10", CanAccessTellerCollector);
 
                 ModelController.AddParameter(sqlParameters, "?MODULE31", CanAccessMemberInformation);
+                ModelController.AddParameter(sqlParameters, "?MODULE14", IsAdministrator);
 
                 return sqlParameters;
             }
@@ -589,8 +589,7 @@ namespace SCCO.WPF.MVC.CS.Models
         {
             Action createRecord = () =>
                 {
-                    string sql = DatabaseController.GenerateInsertStatement(TABLE_NAME, SqlParameters);
-                    ID = DatabaseController.ExecuteInsertQuery(sql, SqlParameters.ToArray());
+                    ID = DatabaseController.CreateRecord(TABLE_NAME, SqlParameters);
                 };
 
             return ActionController.InvokeAction(createRecord);
@@ -601,13 +600,7 @@ namespace SCCO.WPF.MVC.CS.Models
             Action updateRecord = () =>
                 {
                     var key = new SqlParameter("?ID", ID);
-
-                    List<SqlParameter> sqlParameters = SqlParameters;
-                    string sql = DatabaseController.GenerateUpdateStatement(TABLE_NAME, sqlParameters,
-                                                                            key);
-
-                    sqlParameters.Add(key);
-                    DatabaseController.ExecuteNonQuery(sql, sqlParameters.ToArray());
+                    DatabaseController.UpdateRecord(TABLE_NAME, key, SqlParameters);
                 };
 
             return ActionController.InvokeAction(updateRecord);
@@ -615,14 +608,7 @@ namespace SCCO.WPF.MVC.CS.Models
 
         public Result Destroy()
         {
-            Action deleteRecord = () =>
-                {
-                    var key = new SqlParameter("?ID", ID);
-
-                    string sql = DatabaseController.GenerateDeleteStatement(TABLE_NAME, key);
-
-                    DatabaseController.ExecuteNonQuery(sql, key);
-                };
+            Action deleteRecord = () => DatabaseController.DeleteRecord(TABLE_NAME, ID);
 
             return ActionController.InvokeAction(deleteRecord);
         }
@@ -634,10 +620,7 @@ namespace SCCO.WPF.MVC.CS.Models
                     ResetProperties();
                     ID = id;
 
-                    var key = new SqlParameter("?ID", ID);
-                    string sql = DatabaseController.GenerateSelectStatement(TABLE_NAME, key);
-
-                    DataTable dataTable = DatabaseController.ExecuteSelectQuery(sql, key);
+                    DataTable dataTable = DatabaseController.FindRecord(TABLE_NAME, ID);
                     foreach (DataRow dataRow in dataTable.Rows)
                     {
                         SetPropertiesFromDataRow(dataRow);
@@ -667,6 +650,8 @@ namespace SCCO.WPF.MVC.CS.Models
             CanAccessMemberInformation = false;
             CanAccessGeneralLedgerReports = false;
             CanAccessOtherReports = false;
+
+            IsAdministrator = false;
         }
 
         public void SetPropertiesFromDataRow(DataRow dataRow)

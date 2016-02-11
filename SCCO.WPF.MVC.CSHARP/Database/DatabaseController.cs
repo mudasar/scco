@@ -201,15 +201,9 @@ namespace SCCO.WPF.MVC.CS.Database
 
         public static string GenerateDeleteStatement(string tableName, SqlParameter whereParameter)
         {
+            var whereCondition = whereParameter.Key.Replace("?", "") + " = " + whereParameter.Key;
             var queryBuilder = new StringBuilder();
-            queryBuilder.Append("DELETE FROM ");
-            queryBuilder.Append(tableName);
-
-            // where condition
-            queryBuilder.Append(" WHERE ");
-            string whereCondition = whereParameter.Key.Replace("?", "") + "=" + whereParameter.Key;
-            queryBuilder.Append(whereCondition);
-
+            queryBuilder.AppendFormat("DELETE FROM `{0}` WHERE {1}", tableName, whereCondition);
             return queryBuilder.ToString();
         }
 
@@ -225,12 +219,12 @@ namespace SCCO.WPF.MVC.CS.Database
 
             // generate fields
             List<string> fields = parameters.Select(parameter => parameter.Key.Replace("?", "")).ToList();
-            queryBuilder.Append(string.Join("`,`", fields));
+            queryBuilder.Append(string.Join("`, `", fields));
             queryBuilder.Append("`) VALUES (");
 
             // generate values
             List<string> values = parameters.Select(parameter => parameter.Key).ToList();
-            queryBuilder.Append(string.Join(",", values));
+            queryBuilder.Append(string.Join(", ", values));
             queryBuilder.Append(")");
 
             #endregion --- AUTO-GENERATE QUERY BASED ON SQLPARAMETERS ---
@@ -240,17 +234,18 @@ namespace SCCO.WPF.MVC.CS.Database
 
         public static string GenerateSelectStatement(string tableName, SqlParameter whereParameter)
         {
+            var whereCondition = whereParameter.Key.Replace("?", "") + " = " + whereParameter.Key;
             var queryBuilder = new StringBuilder();
-            queryBuilder.Append("SELECT * FROM ");
-            queryBuilder.Append(tableName);
-
-            // where condition
-            queryBuilder.Append(" WHERE ");
-            string whereCondition = whereParameter.Key.Replace("?", "") + "=" + whereParameter.Key;
-            queryBuilder.Append(whereCondition);
-            queryBuilder.Append(" LIMIT 1");
-
+            queryBuilder.AppendFormat("SELECT * FROM `{0}` WHERE {1}", tableName, whereCondition);
             return queryBuilder.ToString();
+        }
+
+        public static string GenerateFindStatement(string tableName, SqlParameter whereParameter)
+        {
+            var whereCondition = whereParameter.Key.Replace("?", "") + " = " + whereParameter.Key;
+            var sqlBuilder = new StringBuilder();
+            sqlBuilder.AppendFormat("SELECT * FROM `{0}` WHERE {1} LIMIT 1", tableName, whereCondition);
+            return sqlBuilder.ToString();
         }
 
         public static string GenerateSelectStatement(string tableName)
@@ -270,13 +265,13 @@ namespace SCCO.WPF.MVC.CS.Database
             // set values for each field
             queryBuilder.Append("SET ");
             List<string> fields =
-                parameters.Select(parameter => "`" + parameter.Key.Replace("?", "") + "`" + "=" + parameter.Key)
+                parameters.Select(parameter => "`" + parameter.Key.Replace("?", "") + "`" + " = " + parameter.Key)
                           .ToList();
-            queryBuilder.Append(string.Join(",", fields));
+            queryBuilder.Append(string.Join(", ", fields));
 
             // where condition
             queryBuilder.Append(" WHERE ");
-            string whereCondition = whereParameter.Key.Replace("?", "") + "=" + whereParameter.Key;
+            string whereCondition = whereParameter.Key.Replace("?", "") + " = " + whereParameter.Key;
             queryBuilder.Append(whereCondition);
 
             #endregion --- AUTO-GENERATE QUERY BASED ON SQLPARAMETERS ---
@@ -363,17 +358,6 @@ namespace SCCO.WPF.MVC.CS.Database
         //    return false;
         //}
 
-        public static DataTable FindRecord(string tableName, int id)
-        {
-            var sqlBuilder = new StringBuilder();
-            sqlBuilder.AppendLine("SELECT * FROM");
-            sqlBuilder.AppendLine(tableName);
-            sqlBuilder.AppendLine("WHERE id = ?id");
-
-            var parameter = new SqlParameter("?id", id);
-            return ExecuteSelectQuery(sqlBuilder, parameter);
-        }
-
         public static DataTable ExecuteStoredProcedure(string storedProcedure, string databaseName,
                                                        params SqlParameter[] parameters)
         {
@@ -398,22 +382,22 @@ namespace SCCO.WPF.MVC.CS.Database
             return dataTable;
         }
 
-        internal static int DeleteRecord(string tableName, int id)
+        internal static DataTable FindRecord(string tableName, int id)
         {
-            var sqlBuilder = new StringBuilder();
-            sqlBuilder.AppendLine("DELETE FROM");
-            sqlBuilder.AppendLine(tableName);
-            sqlBuilder.AppendLine("WHERE id = ?id");
-
-            var parameter = new SqlParameter("?id", id);
-
-            return ExecuteNonQuery(sqlBuilder.ToString(), parameter);
+            var paramID = new SqlParameter("?ID", id);
+            return ExecuteSelectQuery(GenerateFindStatement(tableName, paramID), paramID);
         }
 
-        internal static int UpdateRecord(string tableName, SqlParameter paramKey, List<SqlParameter> parameters)
+        internal static int DeleteRecord(string tableName, int id)
         {
-            string sql = GenerateUpdateStatement(tableName, parameters, paramKey);
-            parameters.Add(paramKey);
+            var paramID = new SqlParameter("?ID", id);
+            return ExecuteNonQuery(GenerateDeleteStatement(tableName, paramID), paramID);
+        }
+
+        internal static int UpdateRecord(string tableName, SqlParameter paramID, List<SqlParameter> parameters)
+        {
+            string sql = GenerateUpdateStatement(tableName, parameters, paramID);
+            parameters.Add(paramID);
             return ExecuteNonQuery(sql, parameters.ToArray());
         }
 

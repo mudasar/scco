@@ -867,6 +867,13 @@ namespace SCCO.WPF.MVC.CS.Models
             }
             return collection;
         }
+
+        internal static AccountCollection Where(string columnName, object value)
+        {
+            var condition = new Dictionary<string, object>();
+            condition.Add(columnName, value);
+            return Where(condition);
+        }
     }
 
 

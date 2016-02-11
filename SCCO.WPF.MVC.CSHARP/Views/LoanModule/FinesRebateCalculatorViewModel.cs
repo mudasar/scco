@@ -124,15 +124,14 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
 
             decimal dailyFinesRate = (FinesRatePerMonth*12)/totalDaysInYear;
             var interestRatePerDay = LoanDetails.InterestRate/totalDaysInYear;
-            int daysDue;
 
             // REBATE - Loan must be paid (zero balance) before the maturity date
             if (LoanBalance == 0)
             {
                 if (ProcessDate <= LoanDetails.MaturityDate)
                 {
-                    daysDue = (int) LoanDetails.MaturityDate.Subtract(ProcessDate).TotalDays;
-                    Rebate = (daysDue * interestRatePerDay) * LoanDetails.LoanAmount;
+                    var daysBeforeMaturity = (int) LoanDetails.MaturityDate.Subtract(ProcessDate).TotalDays;
+                    Rebate = (LoanDetails.LoanAmount * interestRatePerDay) * daysBeforeMaturity;
                     Status = "Settled";
                 }
             }
@@ -140,9 +139,9 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
             {
                 if (ProcessDate > LoanDetails.MaturityDate)
                 {
-                    daysDue = (int) ProcessDate.Subtract(LoanDetails.MaturityDate).TotalDays;
-                    Interest = (daysDue * interestRatePerDay) * LoanDetails.LoanAmount;
-                    Fines = (LoanBalance * dailyFinesRate) * daysDue;
+                    var daysOverDue = (int) ProcessDate.Subtract(LoanDetails.MaturityDate).TotalDays;
+                    Interest = (LoanDetails.LoanAmount * interestRatePerDay) * daysOverDue;
+                    Fines = (LoanBalance * dailyFinesRate) * daysOverDue;
                     Status = "Overdue";
                 }
             }

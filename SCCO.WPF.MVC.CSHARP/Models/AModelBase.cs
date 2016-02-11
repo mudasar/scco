@@ -98,11 +98,7 @@ namespace SCCO.WPF.MVC.CS.Models
 
         protected virtual DataRow VirtualFind(int id)
         {
-            var key = new SqlParameter("?id", id);
-            string sql = DatabaseController.GenerateSelectStatement(_tableName, key);
-
-            DataTable dataTable = DatabaseController.ExecuteSelectQuery(sql, key);
-
+            DataTable dataTable = DatabaseController.FindRecord(_tableName, id);
             return dataTable.Rows.Cast<DataRow>().FirstOrDefault();
         }
 

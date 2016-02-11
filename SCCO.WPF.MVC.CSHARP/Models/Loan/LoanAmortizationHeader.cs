@@ -92,11 +92,7 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
                 {
                     ResetProperties();
                     ID = id;
-
-                    SqlParameter key = ParamKey;
-                    string sql = DatabaseController.GenerateSelectStatement(_tableName, key);
-
-                    DataTable dataTable = DatabaseController.ExecuteSelectQuery(sql, key);
+                    DataTable dataTable = DatabaseController.FindRecord(_tableName, id);
                     foreach (DataRow dataRow in dataTable.Rows)
                     {
                         SetPropertiesFromDataRow(dataRow);
@@ -270,10 +266,7 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
                     ResetProperties();
                     ID = id;
 
-                    SqlParameter key = ParamKey;
-                    string sql = DatabaseController.GenerateSelectStatement(_tableName, key);
-
-                    DataTable dataTable = DatabaseController.ExecuteSelectQuery(sql, key);
+                    DataTable dataTable = DatabaseController.FindRecord(_tableName, id);
                     foreach (DataRow dataRow in dataTable.Rows)
                     {
                         SetPropertiesFromDataRow(dataRow);

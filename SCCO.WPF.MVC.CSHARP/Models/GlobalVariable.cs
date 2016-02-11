@@ -144,13 +144,10 @@ namespace SCCO.WPF.MVC.CS.Models
 
         public static GlobalVariable FindByKeyword(string keyword)
         {
-            var queryBuilder = new StringBuilder();
-            queryBuilder.AppendLine("SELECT * FROM");
-            queryBuilder.AppendLine(TABLE_NAME);
-            queryBuilder.AppendLine("WHERE Keyword = ?Keyword LIMIT 1");
+            var paramKey = new SqlParameter("?Keyword", keyword);
+            var sql = DatabaseController.GenerateSelectStatement(TABLE_NAME, paramKey);
 
-            DataTable dataTable = DatabaseController.ExecuteSelectQuery(queryBuilder,
-                                                                        new SqlParameter("?Keyword", keyword));
+            DataTable dataTable = DatabaseController.ExecuteSelectQuery(sql, paramKey);
 
             var globalVariable = new GlobalVariable {Keyword = keyword, CurrentValue = string.Empty};
             foreach (DataRow dataRow in dataTable.Rows)
