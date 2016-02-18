@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Data;
 using SCCO.WPF.MVC.CS.Utilities;
 
 namespace SCCO.WPF.MVC.CS.Models
@@ -11,13 +12,13 @@ namespace SCCO.WPF.MVC.CS.Models
         private decimal _bankAmount3;
         private decimal _bankAmount4;
         private decimal _bankAmount5;
-        
+
         private string _bankCheck1;
         private string _bankCheck2;
         private string _bankCheck3;
         private string _bankCheck4;
         private string _bankCheck5;
-        
+
         private DateTime _bankDate1;
         private DateTime _bankDate2;
         private DateTime _bankDate3;
@@ -54,7 +55,6 @@ namespace SCCO.WPF.MVC.CS.Models
         private decimal _totalCashAmount;
         private decimal _totalCashAndCheckAmount;
         private decimal _totalCheckAmount;
-        public event PropertyChangedEventHandler PropertyChanged;
 
         public decimal BankAmount1
         {
@@ -276,7 +276,7 @@ namespace SCCO.WPF.MVC.CS.Models
                 _deno01 = value;
                 OnPropertyChanged("Deno01");
 
-                DenoAmount01 = value * 1000m;
+                DenoAmount01 = value*1000m;
             }
         }
 
@@ -288,7 +288,7 @@ namespace SCCO.WPF.MVC.CS.Models
                 _deno02 = value;
                 OnPropertyChanged("Deno02");
 
-                DenoAmount02 = value * 500m;
+                DenoAmount02 = value*500m;
             }
         }
 
@@ -300,7 +300,7 @@ namespace SCCO.WPF.MVC.CS.Models
                 _deno03 = value;
                 OnPropertyChanged("Deno03");
 
-                DenoAmount03 = value * 100m;
+                DenoAmount03 = value*100m;
             }
         }
 
@@ -312,7 +312,7 @@ namespace SCCO.WPF.MVC.CS.Models
                 _deno04 = value;
                 OnPropertyChanged("Deno04");
 
-                DenoAmount04 = value * 50m;
+                DenoAmount04 = value*50m;
             }
         }
 
@@ -324,7 +324,7 @@ namespace SCCO.WPF.MVC.CS.Models
                 _deno05 = value;
                 OnPropertyChanged("Deno05");
 
-                DenoAmount05 = value * 20m;
+                DenoAmount05 = value*20m;
             }
         }
 
@@ -336,7 +336,7 @@ namespace SCCO.WPF.MVC.CS.Models
                 _deno06 = value;
                 OnPropertyChanged("Deno06");
 
-                DenoAmount06 = value * 10m;
+                DenoAmount06 = value*10m;
             }
         }
 
@@ -348,7 +348,7 @@ namespace SCCO.WPF.MVC.CS.Models
                 _deno07 = value;
                 OnPropertyChanged("Deno07");
 
-                DenoAmount07 = value * 5m;
+                DenoAmount07 = value*5m;
             }
         }
 
@@ -360,7 +360,7 @@ namespace SCCO.WPF.MVC.CS.Models
                 _deno08 = value;
                 OnPropertyChanged("Deno08");
 
-                DenoAmount08 = value * 1m;
+                DenoAmount08 = value*1m;
             }
         }
 
@@ -372,7 +372,7 @@ namespace SCCO.WPF.MVC.CS.Models
                 _deno09 = value;
                 OnPropertyChanged("Deno09");
 
-                DenoAmount09 = value * 200m;
+                DenoAmount09 = value*200m;
             }
         }
 
@@ -512,25 +512,39 @@ namespace SCCO.WPF.MVC.CS.Models
         public decimal TotalCashAmount
         {
             get { return _totalCashAmount; }
-            set { _totalCashAmount = value; OnPropertyChanged("TotalCashAmount"); }
+            set
+            {
+                _totalCashAmount = value;
+                OnPropertyChanged("TotalCashAmount");
+            }
         }
 
         public decimal TotalCheckAmount
         {
             get { return _totalCheckAmount; }
-            set { _totalCheckAmount = value; OnPropertyChanged("TotalCheckAmount"); }
+            set
+            {
+                _totalCheckAmount = value;
+                OnPropertyChanged("TotalCheckAmount");
+            }
         }
 
         public decimal TotalCashAndCheckAmount
         {
             get { return _totalCashAndCheckAmount; }
-            set { _totalCashAndCheckAmount = value; OnPropertyChanged("TotalCashAndCheckAmount"); }
+            set
+            {
+                _totalCashAndCheckAmount = value;
+                OnPropertyChanged("TotalCashAndCheckAmount");
+            }
         }
 
         public bool HasCheckDeposit
         {
             get { return _totalCheckAmount > 0; }
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
 
         public void Copy(CashAndCheckBreakDown model)
@@ -605,43 +619,80 @@ namespace SCCO.WPF.MVC.CS.Models
             TotalCashAndCheckAmount = TotalCashAmount + TotalCheckAmount;
         }
 
-        internal static CashAndCheckBreakDown ExtractFromDataRow(System.Data.DataRow dataRow)
+        internal static CashAndCheckBreakDown ExtractFromDataRow(DataRow dataRow)
         {
-            var breakDown = new CashAndCheckBreakDown();
-            breakDown.Deno01 = DataConverter.ToInteger(dataRow["DEN1"]);
-            breakDown.Deno02 = DataConverter.ToInteger(dataRow["DEN2"]);
-            breakDown.Deno03 = DataConverter.ToInteger(dataRow["DEN3"]);
-            breakDown.Deno04 = DataConverter.ToInteger(dataRow["DEN4"]);
-            breakDown.Deno05 = DataConverter.ToInteger(dataRow["DEN5"]);
-            breakDown.Deno06 = DataConverter.ToInteger(dataRow["DEN6"]);
-            breakDown.Deno07 = DataConverter.ToInteger(dataRow["DEN7"]);
-            breakDown.Deno08 = DataConverter.ToInteger(dataRow["DEN8"]);
-            breakDown.Deno09 = DataConverter.ToInteger(dataRow["DEN9"]);
-            breakDown.Deno10 = DataConverter.ToInteger(dataRow["DEN10"]);
+            var breakDown = new CashAndCheckBreakDown
+                {
+                    Deno01 = DataConverter.ToInteger(dataRow["DEN1"]),
+                    Deno02 = DataConverter.ToInteger(dataRow["DEN2"]),
+                    Deno03 = DataConverter.ToInteger(dataRow["DEN3"]),
+                    Deno04 = DataConverter.ToInteger(dataRow["DEN4"]),
+                    Deno05 = DataConverter.ToInteger(dataRow["DEN5"]),
+                    Deno06 = DataConverter.ToInteger(dataRow["DEN6"]),
+                    Deno07 = DataConverter.ToInteger(dataRow["DEN7"]),
+                    Deno08 = DataConverter.ToInteger(dataRow["DEN8"]),
+                    Deno09 = DataConverter.ToInteger(dataRow["DEN9"]),
+                    Deno10 = DataConverter.ToInteger(dataRow["DEN10"]),
+                    BankName1 = DataConverter.ToString(dataRow["BNAME1"]),
+                    BankName2 = DataConverter.ToString(dataRow["BNAME2"]),
+                    BankName3 = DataConverter.ToString(dataRow["BNAME3"]),
+                    BankName4 = DataConverter.ToString(dataRow["BNAME4"]),
+                    BankName5 = DataConverter.ToString(dataRow["BNAME5"]),
+                    BankCheck1 = DataConverter.ToString(dataRow["BCHECK1"]),
+                    BankCheck2 = DataConverter.ToString(dataRow["BCHECK2"]),
+                    BankCheck3 = DataConverter.ToString(dataRow["BCHECK3"]),
+                    BankCheck4 = DataConverter.ToString(dataRow["BCHECK4"]),
+                    BankCheck5 = DataConverter.ToString(dataRow["BCHECK5"]),
+                    BankDate1 = DataConverter.ToDateTime(dataRow["BDATE1"]),
+                    BankDate2 = DataConverter.ToDateTime(dataRow["BDATE2"]),
+                    BankDate3 = DataConverter.ToDateTime(dataRow["BDATE3"]),
+                    BankDate4 = DataConverter.ToDateTime(dataRow["BDATE4"]),
+                    BankDate5 = DataConverter.ToDateTime(dataRow["BDATE5"]),
+                    BankAmount1 = DataConverter.ToDecimal(dataRow["BAMT1"]),
+                    BankAmount2 = DataConverter.ToDecimal(dataRow["BAMT2"]),
+                    BankAmount3 = DataConverter.ToDecimal(dataRow["BAMT3"]),
+                    BankAmount4 = DataConverter.ToDecimal(dataRow["BAMT4"]),
+                    BankAmount5 = DataConverter.ToDecimal(dataRow["BAMT5"])
+                };
 
-            breakDown.BankName1 = DataConverter.ToString(dataRow["BNAME1"]);
-            breakDown.BankName2 = DataConverter.ToString(dataRow["BNAME2"]);
-            breakDown.BankName3 = DataConverter.ToString(dataRow["BNAME3"]);
-            breakDown.BankName4 = DataConverter.ToString(dataRow["BNAME4"]);
-            breakDown.BankName5 = DataConverter.ToString(dataRow["BNAME5"]);
+            return breakDown;
+        }
 
-            breakDown.BankCheck1 = DataConverter.ToString(dataRow["BCHECK1"]);
-            breakDown.BankCheck2 = DataConverter.ToString(dataRow["BCHECK2"]);
-            breakDown.BankCheck3 = DataConverter.ToString(dataRow["BCHECK3"]);
-            breakDown.BankCheck4 = DataConverter.ToString(dataRow["BCHECK4"]);
-            breakDown.BankCheck5 = DataConverter.ToString(dataRow["BCHECK5"]);
-
-            breakDown.BankDate1 = DataConverter.ToDateTime(dataRow["BDATE1"]);
-            breakDown.BankDate2 = DataConverter.ToDateTime(dataRow["BDATE2"]);
-            breakDown.BankDate3 = DataConverter.ToDateTime(dataRow["BDATE3"]);
-            breakDown.BankDate4 = DataConverter.ToDateTime(dataRow["BDATE4"]);
-            breakDown.BankDate5 = DataConverter.ToDateTime(dataRow["BDATE5"]);
-
-            breakDown.BankAmount1 = DataConverter.ToDecimal(dataRow["BAMT1"]);
-            breakDown.BankAmount2 = DataConverter.ToDecimal(dataRow["BAMT2"]);
-            breakDown.BankAmount3 = DataConverter.ToDecimal(dataRow["BAMT3"]);
-            breakDown.BankAmount4 = DataConverter.ToDecimal(dataRow["BAMT4"]);
-            breakDown.BankAmount5 = DataConverter.ToDecimal(dataRow["BAMT5"]);
+        public static CashAndCheckBreakDown ExtractFromCashOnHand(OfficialReceipt cashOnHand)
+        {
+            var breakDown = new CashAndCheckBreakDown
+                {
+                    Deno01 = cashOnHand.Deno01,
+                    Deno02 = cashOnHand.Deno02,
+                    Deno03 = cashOnHand.Deno03,
+                    Deno04 = cashOnHand.Deno04,
+                    Deno05 = cashOnHand.Deno05,
+                    Deno06 = cashOnHand.Deno06,
+                    Deno07 = cashOnHand.Deno07,
+                    Deno08 = cashOnHand.Deno08,
+                    Deno09 = cashOnHand.Deno09,
+                    Deno10 = cashOnHand.Deno10,
+                    BankName1 = cashOnHand.BankName1,
+                    BankName2 = cashOnHand.BankName2,
+                    BankName3 = cashOnHand.BankName3,
+                    BankName4 = cashOnHand.BankName4,
+                    BankName5 = cashOnHand.BankName5,
+                    BankCheck1 = cashOnHand.BankCheck1,
+                    BankCheck2 = cashOnHand.BankCheck2,
+                    BankCheck3 = cashOnHand.BankCheck3,
+                    BankCheck4 = cashOnHand.BankCheck4,
+                    BankCheck5 = cashOnHand.BankCheck5,
+                    BankDate1 = cashOnHand.BankDate1,
+                    BankDate2 = cashOnHand.BankDate2,
+                    BankDate3 = cashOnHand.BankDate3,
+                    BankDate4 = cashOnHand.BankDate4,
+                    BankDate5 = cashOnHand.BankDate5,
+                    BankAmount1 = cashOnHand.BankAmount1,
+                    BankAmount2 = cashOnHand.BankAmount2,
+                    BankAmount3 = cashOnHand.BankAmount3,
+                    BankAmount4 = cashOnHand.BankAmount4,
+                    BankAmount5 = cashOnHand.BankAmount5
+                };
 
             return breakDown;
         }

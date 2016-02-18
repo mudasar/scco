@@ -45,6 +45,14 @@
                    FontSize="13.333"
                    Foreground="White"
                    MouseLeftButtonDown="DragWindow" />
+            <Image x:Name="WindowIcon"
+            	Width="24"
+            	Height="24"
+            	Margin="10,10,0,0"
+            	HorizontalAlignment="Left"
+            	VerticalAlignment="Top"
+            	Source="/SCCO.WPF.MVC.CS;component/Images/member_information.png"
+            	Stretch="Fill" Visibility="Collapsed" />
             <Button x:Name="CloseButton"
                     Margin="0,8,8,0"
                     HorizontalAlignment="Right"

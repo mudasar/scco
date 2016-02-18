@@ -64,7 +64,7 @@ namespace SCCO.WPF.MVC.CS.Views
                 Nfmb foundMember = Nfmb.FindByName(memberName);
                 if (foundMember != null && foundMember.ID > 0)
                 {
-                    if (foundMember.MemberCode != memberCode)
+                    if (foundMember.MemberCode.Trim() != memberCode.Trim())
                         return new Result(false, "Member Name already exists.");
                 }
             }

@@ -692,8 +692,6 @@ namespace SCCO.WPF.MVC.CS.Models
             Classification = DataConverter.ToString(dataRow["CLASS"]);
             StubNo = DataConverter.ToInteger(dataRow["STUB_NO"]);
             PrecintNo = DataConverter.ToInteger(dataRow["PRECINT"]);
-
-            ContactInformation = Contact.WhereMemberCodeIs(MemberCode);
         }
 
         public static Nfmb FindByCode(string code)
@@ -725,6 +723,12 @@ namespace SCCO.WPF.MVC.CS.Models
             }
             return member;
         }
+
+        public void LoadContactInformation()
+        {
+            ContactInformation = Contact.FindByMemberCode(MemberCode);
+        }
+
         #endregion
 
         //public static Nfmb FindByMemberCode(string memberCode)

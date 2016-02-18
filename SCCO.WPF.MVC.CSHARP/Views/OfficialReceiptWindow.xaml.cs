@@ -26,6 +26,7 @@ namespace SCCO.WPF.MVC.CS.Views
         private VoucherTypes _voucherType = VoucherTypes.OR;
         private bool _hasModified;
 
+        private Account _cashOnHand;
 
         public OfficialReceiptWindow()
         {
@@ -33,6 +34,8 @@ namespace SCCO.WPF.MVC.CS.Views
             Closing += OnClosing;
             _transactionDateAdmin = GlobalSettings.DateOfOpenTransaction;
             _transactionDateUser = MainController.UserTransactionDate;
+            _cashOnHand = Account.FindByCode(GlobalSettings.CodeOfCashOnHand);
+
             OnNavigateLast(this, null);
 
             #region --- Quick Search ---
@@ -47,10 +50,19 @@ namespace SCCO.WPF.MVC.CS.Views
                 {
                     MainController.SearchAccount();
                 }
-
             };
 
             #endregion
+
+            btnDenomination.Click += (sender, args) => ShowDenomination();
+        }
+
+        private void ShowDenomination()
+        {
+            var cashOnHand = _currentItems.FirstOrDefault(t => t.AccountCode == _cashOnHand.AccountCode);
+            var cashAndCheckBreakDown = CashAndCheckBreakDown.ExtractFromCashOnHand(cashOnHand);
+            var denomination = new CashAndCheckBreakdownWindow(cashAndCheckBreakDown) {IsReadOnly = true};
+            denomination.ShowDialog();
         }
 
         private void OnClosing(object sender, CancelEventArgs cancelEventArgs)

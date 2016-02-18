@@ -31,7 +31,7 @@ namespace SCCO.WPF.MVC.CS.Views
             DataContext = _member;
             TabItemContactInformation.DataContext = _member.ContactInformation;
 
-            _member.ContactInformation = Contact.WhereMemberCodeIs(memberCode);
+            _member.ContactInformation = Contact.FindByMemberCode(memberCode);
 
             imgPhoto.Source = ImageTool.CreateImageSourceFromBytes(_member.ContactInformation.Picture);
             imgSignature.Source = ImageTool.CreateImageSourceFromBytes(_member.ContactInformation.Signature);
@@ -81,6 +81,7 @@ namespace SCCO.WPF.MVC.CS.Views
         private void RefreshDisplay()
         {
             DataContext = _member;
+            _member.LoadContactInformation();
             TabItemContactInformation.DataContext = _member.ContactInformation;
             imgPhoto.Source = ImageTool.CreateImageSourceFromBytes(_member.ContactInformation.Picture);
             imgSignature.Source = ImageTool.CreateImageSourceFromBytes(_member.ContactInformation.Signature);
@@ -194,7 +195,10 @@ namespace SCCO.WPF.MVC.CS.Views
             var biometrics = new Contact();
             if (_member.ContactInformation != null)
             {
-                biometrics = _member.ContactInformation;
+                if (_member.ContactInformation.ID != 0)
+                {
+                    biometrics = _member.ContactInformation;
+                }
             }
             else
             {

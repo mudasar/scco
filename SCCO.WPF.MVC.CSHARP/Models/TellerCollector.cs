@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Text;
@@ -109,6 +110,8 @@ namespace SCCO.WPF.MVC.CS.Models
         private Brush _creditAmount10Brush;
         private Brush _creditAmount11Brush;
         private Brush _creditAmount12Brush;
+        private List<string> _listTimeDepositCode;
+        private Account _cashOnHandAccount;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -121,13 +124,13 @@ namespace SCCO.WPF.MVC.CS.Models
                 OnPropertyChanged("AccountCode01");
                 CreditAmount01Brush = Brushes.Red;
 
-                AccountTitle01 = string.Empty;
-                if (value == string.Empty) return;
-                var account = Account.FindByCode(value);
-                if (account != null)
-                {
-                    AccountTitle01 = account.AccountTitle;
-                }
+                //AccountTitle01 = string.Empty;
+                //if (value == string.Empty) return;
+                //var account = Account.FindByCode(value);
+                //if (account != null)
+                //{
+                //    AccountTitle01 = account.AccountTitle;
+                //}
             }
         }
 
@@ -140,13 +143,13 @@ namespace SCCO.WPF.MVC.CS.Models
                 OnPropertyChanged("AccountCode02");
                 CreditAmount02Brush = Brushes.Red;
 
-                AccountTitle02 = string.Empty;
-                if (value == string.Empty) return;
-                var account = Account.FindByCode(value);
-                if (account != null)
-                {
-                    AccountTitle02 = account.AccountTitle;
-                }
+                //AccountTitle02 = string.Empty;
+                //if (value == string.Empty) return;
+                //var account = Account.FindByCode(value);
+                //if (account != null)
+                //{
+                //    AccountTitle02 = account.AccountTitle;
+                //}
             }
         }
 
@@ -159,13 +162,13 @@ namespace SCCO.WPF.MVC.CS.Models
                 OnPropertyChanged("AccountCode03");
                 CreditAmount03Brush = Brushes.Red;
 
-                AccountTitle03 = string.Empty;
-                if (value == string.Empty) return;
-                var account = Account.FindByCode(value);
-                if (account != null)
-                {
-                    AccountTitle03 = account.AccountTitle;
-                }
+                //AccountTitle03 = string.Empty;
+                //if (value == string.Empty) return;
+                //var account = Account.FindByCode(value);
+                //if (account != null)
+                //{
+                //    AccountTitle03 = account.AccountTitle;
+                //}
             }
         }
 
@@ -178,13 +181,13 @@ namespace SCCO.WPF.MVC.CS.Models
                 OnPropertyChanged("AccountCode04");
                 CreditAmount04Brush = Brushes.Red;
 
-                AccountTitle04 = string.Empty;
-                if (value == string.Empty) return;
-                var account = Account.FindByCode(value);
-                if (account != null)
-                {
-                    AccountTitle04 = account.AccountTitle;
-                }
+                //AccountTitle04 = string.Empty;
+                //if (value == string.Empty) return;
+                //var account = Account.FindByCode(value);
+                //if (account != null)
+                //{
+                //    AccountTitle04 = account.AccountTitle;
+                //}
             }
         }
 
@@ -197,13 +200,13 @@ namespace SCCO.WPF.MVC.CS.Models
                 OnPropertyChanged("AccountCode05");
                 CreditAmount05Brush = Brushes.Red;
 
-                AccountTitle05 = string.Empty;
-                if (value == string.Empty) return;
-                var account = Account.FindByCode(value);
-                if (account != null)
-                {
-                    AccountTitle05 = account.AccountTitle;
-                }
+                //AccountTitle05 = string.Empty;
+                //if (value == string.Empty) return;
+                //var account = Account.FindByCode(value);
+                //if (account != null)
+                //{
+                //    AccountTitle05 = account.AccountTitle;
+                //}
             }
         }
 
@@ -216,13 +219,13 @@ namespace SCCO.WPF.MVC.CS.Models
                 OnPropertyChanged("AccountCode06");
                 CreditAmount06Brush = Brushes.Red;
 
-                AccountTitle06 = string.Empty;
-                if (value == string.Empty) return;
-                var account = Account.FindByCode(value);
-                if (account != null)
-                {
-                    AccountTitle06 = account.AccountTitle;
-                }
+                //AccountTitle06 = string.Empty;
+                //if (value == string.Empty) return;
+                //var account = Account.FindByCode(value);
+                //if (account != null)
+                //{
+                //    AccountTitle06 = account.AccountTitle;
+                //}
             }
         }
 
@@ -235,13 +238,13 @@ namespace SCCO.WPF.MVC.CS.Models
                 OnPropertyChanged("AccountCode07");
                 CreditAmount07Brush = Brushes.Red;
 
-                AccountTitle07 = string.Empty;
-                if (value == string.Empty) return;
-                var account = Account.FindByCode(value);
-                if (account != null)
-                {
-                    AccountTitle07 = account.AccountTitle;
-                }
+                //AccountTitle07 = string.Empty;
+                //if (value == string.Empty) return;
+                //var account = Account.FindByCode(value);
+                //if (account != null)
+                //{
+                //    AccountTitle07 = account.AccountTitle;
+                //}
             }
         }
 
@@ -254,13 +257,13 @@ namespace SCCO.WPF.MVC.CS.Models
                 OnPropertyChanged("AccountCode08");
                 CreditAmount08Brush = Brushes.Red;
 
-                AccountTitle08 = string.Empty;
-                if (value == string.Empty) return;
-                var account = Account.FindByCode(value);
-                if (account != null)
-                {
-                    AccountTitle08 = account.AccountTitle;
-                }
+                //AccountTitle08 = string.Empty;
+                //if (value == string.Empty) return;
+                //var account = Account.FindByCode(value);
+                //if (account != null)
+                //{
+                //    AccountTitle08 = account.AccountTitle;
+                //}
             }
         }
 
@@ -273,13 +276,13 @@ namespace SCCO.WPF.MVC.CS.Models
                 OnPropertyChanged("AccountCode09");
                 CreditAmount09Brush = Brushes.Red;
 
-                AccountTitle09 = string.Empty;
-                if (value == string.Empty) return;
-                var account = Account.FindByCode(value);
-                if (account != null)
-                {
-                    AccountTitle09 = account.AccountTitle;
-                }
+                //AccountTitle09 = string.Empty;
+                //if (value == string.Empty) return;
+                //var account = Account.FindByCode(value);
+                //if (account != null)
+                //{
+                //    AccountTitle09 = account.AccountTitle;
+                //}
             }
         }
 
@@ -292,13 +295,13 @@ namespace SCCO.WPF.MVC.CS.Models
                 OnPropertyChanged("AccountCode10");
                 CreditAmount10Brush = Brushes.Red;
 
-                AccountTitle10 = string.Empty;
-                if (value == string.Empty) return;
-                var account = Account.FindByCode(value);
-                if (account != null)
-                {
-                    AccountTitle10 = account.AccountTitle;
-                }
+                //AccountTitle10 = string.Empty;
+                //if (value == string.Empty) return;
+                //var account = Account.FindByCode(value);
+                //if (account != null)
+                //{
+                //    AccountTitle10 = account.AccountTitle;
+                //}
             }
         }
 
@@ -311,13 +314,13 @@ namespace SCCO.WPF.MVC.CS.Models
                 OnPropertyChanged("AccountCode11");
                 CreditAmount11Brush = Brushes.Red;
 
-                AccountTitle11 = string.Empty;
-                if (value == string.Empty) return;
-                var account = Account.FindByCode(value);
-                if (account != null)
-                {
-                    AccountTitle11 = account.AccountTitle;
-                }
+                //AccountTitle11 = string.Empty;
+                //if (value == string.Empty) return;
+                //var account = Account.FindByCode(value);
+                //if (account != null)
+                //{
+                //    AccountTitle11 = account.AccountTitle;
+                //}
             }
         }
 
@@ -330,13 +333,13 @@ namespace SCCO.WPF.MVC.CS.Models
                 OnPropertyChanged("AccountCode12");
                 CreditAmount12Brush = Brushes.Red;
 
-                AccountTitle12 = string.Empty;
-                if (value == string.Empty) return;
-                var account = Account.FindByCode(value);
-                if (account != null)
-                {
-                    AccountTitle12 = account.AccountTitle;
-                }
+                //AccountTitle12 = string.Empty;
+                //if (value == string.Empty) return;
+                //var account = Account.FindByCode(value);
+                //if (account != null)
+                //{
+                //    AccountTitle12 = account.AccountTitle;
+                //}
             }
         }
 
@@ -872,15 +875,15 @@ namespace SCCO.WPF.MVC.CS.Models
             {
                 _memberCode = value;
                 OnPropertyChanged("MemberCode");
-                MemberName = string.Empty;
-                if (value != string.Empty)
-                {
-                    var member = Nfmb.FindByCode(value);
-                    if (member != null)
-                    {
-                        MemberName = member.MemberName;
-                    }
-                }
+                //MemberName = string.Empty;
+                //if (value != string.Empty)
+                //{
+                //    var member = Nfmb.FindByCode(value);
+                //    if (member != null)
+                //    {
+                //        MemberName = member.MemberName;
+                //    }
+                //}
             }
         }
 
@@ -936,20 +939,35 @@ namespace SCCO.WPF.MVC.CS.Models
         {
             Action create = delegate
                                 {
+                                    var totalAmount = 0m;
                                     for (int i = 1; i < 12; i++)
                                     {
-                                        if (AccountCodes(i) == string.Empty &&
-                                            AccountCodes(i).ToUpper().Contains("CANCEL")) continue;
+                                        if (AccountCodes(i) == string.Empty)
+                                        {
+                                            continue;  // ignore empty account
+                                        }
+
+                                        if (AccountCodes(i).ToUpper().Contains("CANCEL"))
+                                        {
+                                            continue; // ignore cancelled
+                                        }
+
+                                        if (AccountCodes(i).Trim() == _cashOnHandAccount.AccountCode)
+                                        {
+                                            continue; // ignore cash on hand
+                                        }
+
                                         if (CreditAmounts(i) > 0)
                                         {
+                                            totalAmount += CreditAmounts(i);
                                             InsertOfficialReceipt(AccountCodes(i), AccountTitles(i), CreditAmounts(i));
                                         }
                                     }
 
-                                    if (TotalAmount > 0)
+                                    if (totalAmount > 0)
                                     {
-                                        var coh = Account.FindByCode(GlobalSettings.CodeOfCashOnHand);
-                                        InsertOfficialReceipt(coh.AccountCode, coh.AccountTitle, TotalAmount);
+                                        var coh = _cashOnHandAccount;
+                                        InsertOfficialReceipt(coh.AccountCode, coh.AccountTitle, totalAmount);
                                     }
 
                                     #region --- Voucher Log ---
@@ -990,8 +1008,6 @@ namespace SCCO.WPF.MVC.CS.Models
 
                                   ResetProperties();
                                   VoucherNumber = docNum;
-                                  string cashOnHandCode = GlobalSettings.CodeOfCashOnHand;
-                                  string timeDepositCode = GlobalSettings.CodeOfTimeDeposit;
 
                                   int index = 0;
                                   foreach (DataRow dataRow in result.Rows)
@@ -1000,6 +1016,7 @@ namespace SCCO.WPF.MVC.CS.Models
                                       {
                                           VoucherDate = DataConverter.ToDateTime(dataRow["DOC_DATE"]);
                                           MemberCode = DataConverter.ToString(dataRow["MEM_CODE"]);
+                                          MemberName = DataConverter.ToString(dataRow["MEM_NAME"]);
                                           IsCancelled = MemberCode.ToUpper().Contains("CANCEL");
                                           CollectorName = DataConverter.ToString(dataRow["COLLECTOR"]);
                                       }
@@ -1007,13 +1024,15 @@ namespace SCCO.WPF.MVC.CS.Models
                                       index++;
 
                                       string accountCode = DataConverter.ToString(dataRow["ACC_CODE"]);
+                                      string accountTitle = DataConverter.ToString(dataRow["TITLE"]);
                                       decimal credit = DataConverter.ToDecimal(dataRow["CREDIT"]);
 
-                                      if (accountCode != cashOnHandCode)
+                                      if (accountCode != _cashOnHandAccount.AccountCode)
                                       {
                                           SetAccountCode(index, accountCode);
+                                          SetAccountTitle(index, accountTitle);
                                           SetCreditAmount(index, credit);
-                                          if (accountCode == timeDepositCode)
+                                          if (_listTimeDepositCode.Contains(accountCode))
                                           {
                                               TimeDepositDetail = TimeDepositDetails.ExtractFromDataRow(dataRow);
                                           }
@@ -1256,6 +1275,49 @@ namespace SCCO.WPF.MVC.CS.Models
             }
         }
 
+        internal void SetAccountTitle(int index, string value)
+        {
+            switch (index)
+            {
+                case 1:
+                    AccountTitle01 = value;
+                    break;
+                case 2:
+                    AccountTitle02 = value;
+                    break;
+                case 3:
+                    AccountTitle03 = value;
+                    break;
+                case 4:
+                    AccountTitle04 = value;
+                    break;
+                case 5:
+                    AccountTitle05 = value;
+                    break;
+                case 6:
+                    AccountTitle06 = value;
+                    break;
+                case 7:
+                    AccountTitle07 = value;
+                    break;
+                case 8:
+                    AccountTitle08 = value;
+                    break;
+                case 9:
+                    AccountTitle09 = value;
+                    break;
+                case 10:
+                    AccountTitle10 = value;
+                    break;
+                case 11:
+                    AccountTitle11 = value;
+                    break;
+                case 12:
+                    AccountTitle12 = value;
+                    break;
+            }
+        }
+
         private void SetCreditAmount(int index, decimal value)
         {
             switch (index)
@@ -1309,7 +1371,7 @@ namespace SCCO.WPF.MVC.CS.Models
                              AccountTitle = accountTitle
                          };
 
-            if (accountCode == GlobalSettings.CodeOfCashOnHand)
+            if (accountCode == _cashOnHandAccount.AccountCode)
             {
                 // insert denomination details
                 or.Debit = amount;
@@ -1377,9 +1439,11 @@ namespace SCCO.WPF.MVC.CS.Models
             or.Collector = CollectorName;
             or.IsPosted = true;
 
-            if (accountCode == GlobalSettings.CodeOfTimeDeposit)
+            if (_listTimeDepositCode.Contains(accountCode))
+            {
                 if (TimeDepositDetail != null)
                     or.TimeDepositDetails = TimeDepositDetail;
+            }
 
             or.Create();
         }
@@ -1502,6 +1566,12 @@ namespace SCCO.WPF.MVC.CS.Models
                 }
                 return signatureBuilder.ToString();
             }
+        }
+
+        public void InitializeLookup()
+        {
+            _cashOnHandAccount = Account.FindByCode(GlobalSettings.CodeOfCashOnHand);
+            _listTimeDepositCode = Account.GetListOfTimeDepositCode();
         }
     }
 }

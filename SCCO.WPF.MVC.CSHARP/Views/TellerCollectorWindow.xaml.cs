@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
 using SCCO.WPF.MVC.CS.Controllers;
@@ -19,6 +20,8 @@ namespace SCCO.WPF.MVC.CS.Views
         private int _voucherNo;
         private readonly VoucherTypes _voucherType;
 
+        private readonly List<string> _listTimeDepositCode;
+
         public TellerCollectorWindow()
         {
             InitializeComponent();
@@ -30,7 +33,11 @@ namespace SCCO.WPF.MVC.CS.Views
             _transactionDateAdmin = GlobalSettings.DateOfOpenTransaction;
             _transactionDateUser = MainController.UserTransactionDate;
 
+            _listTimeDepositCode = Account.GetListOfTimeDepositCode();
+
             _modelTellerCollector = new TellerCollector();
+            _modelTellerCollector.InitializeLookup();
+
             _modelTellerCollector.Find(_voucherNo);
             DataContext = _modelTellerCollector;
 
@@ -52,6 +59,43 @@ namespace SCCO.WPF.MVC.CS.Views
 
             #endregion
 
+            #region --- Data Input ---
+
+            txtMemberCode.LostFocus += (sender, args) => RefreshMemberField();
+            txtAcctCode01.LostFocus += (sender, args) => RefreshAccountField(1, txtAcctCode01.Text);
+            txtAcctCode02.LostFocus += (sender, args) => RefreshAccountField(2, txtAcctCode02.Text);
+            txtAcctCode03.LostFocus += (sender, args) => RefreshAccountField(3, txtAcctCode03.Text);
+            txtAcctCode04.LostFocus += (sender, args) => RefreshAccountField(4, txtAcctCode04.Text);
+            txtAcctCode05.LostFocus += (sender, args) => RefreshAccountField(5, txtAcctCode05.Text);
+            txtAcctCode06.LostFocus += (sender, args) => RefreshAccountField(6, txtAcctCode06.Text);
+            txtAcctCode07.LostFocus += (sender, args) => RefreshAccountField(7, txtAcctCode07.Text);
+            txtAcctCode08.LostFocus += (sender, args) => RefreshAccountField(8, txtAcctCode08.Text);
+            txtAcctCode09.LostFocus += (sender, args) => RefreshAccountField(9, txtAcctCode09.Text);
+            txtAcctCode10.LostFocus += (sender, args) => RefreshAccountField(10, txtAcctCode10.Text);
+            txtAcctCode11.LostFocus += (sender, args) => RefreshAccountField(11, txtAcctCode11.Text);
+            txtAcctCode12.LostFocus += (sender, args) => RefreshAccountField(12, txtAcctCode12.Text);
+
+            #endregion
+
+        }
+
+        private void RefreshAccountField(int index, string accountCode)
+        {
+            if (!string.IsNullOrEmpty(accountCode))
+            {
+                _modelTellerCollector.SetAccountTitle(index, Account.FindByCode(accountCode).AccountTitle);
+            }
+            else
+            {
+                _modelTellerCollector.SetAccountTitle(index, "");
+            }
+        }
+
+        private void RefreshMemberField()
+        {
+            var memberCode = txtMemberCode.Text;
+            var member = Nfmb.FindByCode(memberCode);
+            _modelTellerCollector.MemberName = member.MemberName;
         }
 
         #region --- UI CONTROLS EVENTS ---
@@ -177,6 +221,7 @@ namespace SCCO.WPF.MVC.CS.Views
                 MessageWindow.ShowAlertMessage(result.Message);
             }
         }
+
 
         #endregion --- UI CONTROLS EVENTS ---
 
@@ -394,10 +439,9 @@ namespace SCCO.WPF.MVC.CS.Views
 
         private void btnTdDetails_Click(object sender, RoutedEventArgs e)
         {
-            string tdCode = GlobalSettings.CodeOfTimeDeposit;
             for (int index = 1; index < 12; index++)
             {
-                if (_modelTellerCollector.AccountCodes(index) == tdCode)
+                if (_listTimeDepositCode.Contains(_modelTellerCollector.AccountCodes(index)))
                 {
                     var timeDepositDetail = new TimeDepositDetails();
                     timeDepositDetail.DateIn = _transactionDateUser;

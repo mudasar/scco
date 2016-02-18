@@ -333,7 +333,7 @@ namespace SCCO.WPF.MVC.CS.Models
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        internal static Contact WhereMemberCodeIs(string memberCode)
+        internal static Contact FindByMemberCode(string memberCode)
         {
             var sqlBuilder = new System.Text.StringBuilder();
             sqlBuilder.AppendFormat("SELECT * FROM {0} WHERE MEM_CODE = ?MEM_CODE LIMIT 1", TABLE_NAME);
@@ -350,6 +350,20 @@ namespace SCCO.WPF.MVC.CS.Models
             return item;
         }
 
+        internal static byte[] FindPictureByMemberCode(string memberCode)
+        {
+            var sqlBuilder = new System.Text.StringBuilder();
+            sqlBuilder.AppendFormat("SELECT PICTURE FROM {0} WHERE MEM_CODE = ?MEM_CODE LIMIT 1", TABLE_NAME);
+
+            var param = new SqlParameter("?MEM_CODE", memberCode);
+            var dataTable = DatabaseController.ExecuteSelectQuery(sqlBuilder.ToString(), param);
+
+            foreach (DataRow dataRow in dataTable.Rows)
+            {
+                return DataConverter.ToByteArray(dataRow["PICTURE"]);
+            }
+            return new byte[0];
+        }
         protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChangedEventHandler handler = PropertyChanged;

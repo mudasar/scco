@@ -45,6 +45,12 @@ namespace SCCO.WPF.MVC.CS.Controllers
             sqlParameters.Add(new SqlParameter(key, Utilities.Converter.ToNullIfDefault(value)));
         }
 
+        public static DateTime DateForwarded()
+        {
+            var dataTable = DatabaseController.ExecuteSelectQuery("SELECT MAX(doc_date) from slbal");
+            return Utilities.DataConverter.ToDateTime(dataTable.Rows[0][0]);
+        }
+
 
         public static void GetAccountMonthEndBalance()
         {
