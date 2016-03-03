@@ -8,14 +8,14 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
 {
     public class FinesRebateCalculatorViewModel : INotifyPropertyChanged
     {
-        private LoanDetails _loanDetails;
-        private decimal _loanBalance;
-        private decimal _interest;
         private decimal _fines;
-        private DateTime _processDate;
         private decimal _finesRatePerMonth;
-        private string _status = "Current";
+        private decimal _interest;
+        private decimal _loanBalance;
+        private LoanDetails _loanDetails;
+        private DateTime _processDate;
         private decimal _rebate;
+        private string _status = "Current";
 
         public LoanDetails LoanDetails
         {
@@ -87,8 +87,6 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
         public decimal FinesRatePerMonth
         {
             get { return _finesRatePerMonth; }
@@ -104,6 +102,8 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
             get { return Fines > 0 ? "Fines" : "Rebate"; }
         }
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
         protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChangedEventHandler handler = PropertyChanged;
@@ -112,26 +112,33 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
 
         public void Calculate()
         {
-            var dateStart = LoanDetails.GrantedDate;
-            var dateEnd = dateStart.AddMonths(12);
-            var totalDaysInYear = (int) (dateEnd - dateStart).TotalDays;
+            DateTime dateStart = LoanDetails.GrantedDate;
+            DateTime dateEnd = dateStart.AddMonths(12);
+            int totalDaysInYear = dateEnd.Subtract(dateStart).Days;
+            int loanTermInDays = LoanDetails.MaturityDate.Subtract(LoanDetails.GrantedDate).Days;
 
             Rebate = 0;
             Interest = 0;
             Fines = 0;
             Status = "Current";
-            FinesRatePerMonth = GlobalSettings.RateOfFines / 12;
+            decimal finesRate = GlobalSettings.RateOfFines;
+            FinesRatePerMonth = finesRate / 12;
 
-            decimal dailyFinesRate = (FinesRatePerMonth*12)/totalDaysInYear;
-            var interestRatePerDay = LoanDetails.InterestRate/totalDaysInYear;
+//            decimal dailyFinesRate = Math.Round((finesRate / totalDaysInYear), 12);
+
+            decimal loanInterestRate = LoanDetails.InterestRate < 1
+                                           ? LoanDetails.InterestRate
+                                           : LoanDetails.InterestRate/100;
+
+            decimal interestRatePerDay = loanInterestRate/loanTermInDays;
 
             // REBATE - Loan must be paid (zero balance) before the maturity date
             if (LoanBalance == 0)
             {
                 if (ProcessDate <= LoanDetails.MaturityDate)
                 {
-                    var daysBeforeMaturity = (int) LoanDetails.MaturityDate.Subtract(ProcessDate).TotalDays;
-                    Rebate = (LoanDetails.LoanAmount * interestRatePerDay) * daysBeforeMaturity;
+                    int daysBeforeMaturity = LoanDetails.MaturityDate.Subtract(ProcessDate).Days;
+                    Rebate = (LoanDetails.LoanAmount*interestRatePerDay)*daysBeforeMaturity;
                     Status = "Settled";
                 }
             }
@@ -139,9 +146,9 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
             {
                 if (ProcessDate > LoanDetails.MaturityDate)
                 {
-                    var daysOverDue = (int) ProcessDate.Subtract(LoanDetails.MaturityDate).TotalDays;
-                    Interest = (LoanDetails.LoanAmount * interestRatePerDay) * daysOverDue;
-                    Fines = (LoanBalance * dailyFinesRate) * daysOverDue;
+                    int daysOverDue = ProcessDate.Subtract(LoanDetails.MaturityDate).Days;
+                    Interest = (LoanDetails.LoanAmount*interestRatePerDay)*daysOverDue;
+                    Fines = ((LoanBalance*finesRate)/totalDaysInYear)*daysOverDue;
                     Status = "Overdue";
                 }
             }
@@ -149,21 +156,20 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
 
         public DataTable GetReportData()
         {
-
             var reportData = new DataTable("fines_rebate");
             reportData.Columns.Add("borrower", typeof (string));
-            reportData.Columns.Add("loan_applied", typeof(string));
+            reportData.Columns.Add("loan_applied", typeof (string));
             reportData.Columns.Add("granted_date", typeof (DateTime));
             reportData.Columns.Add("maturity_date", typeof (DateTime));
-            reportData.Columns.Add("process_date", typeof(DateTime));
+            reportData.Columns.Add("process_date", typeof (DateTime));
             reportData.Columns.Add("loan_amount", typeof (decimal));
             reportData.Columns.Add("payment", typeof (decimal));
             reportData.Columns.Add("payment_made", typeof (decimal));
             reportData.Columns.Add("balance_on_due_date", typeof (decimal));
             reportData.Columns.Add("rebate", typeof (decimal));
-            reportData.Columns.Add("interest", typeof(decimal));
-            reportData.Columns.Add("fines", typeof(decimal));
-            reportData.Columns.Add("payables", typeof(decimal));
+            reportData.Columns.Add("interest", typeof (decimal));
+            reportData.Columns.Add("fines", typeof (decimal));
+            reportData.Columns.Add("payables", typeof (decimal));
 
             DataRow newRow = reportData.NewRow();
             newRow["borrower"] = LoanDetails.MemberCode + " - " + LoanDetails.MemberName;
@@ -185,4 +191,3 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
         }
     }
 }
-
