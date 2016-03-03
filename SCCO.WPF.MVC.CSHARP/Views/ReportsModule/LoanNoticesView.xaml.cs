@@ -44,10 +44,12 @@ namespace SCCO.WPF.MVC.CS.Views.ReportsModule
                 dataSet.Tables.Add(loanDetails);
                 dataSet.Tables.Add(comp);
 
-                var ri = new ReportItem();
-                ri.ReportFile = "notice_loan_non_performing.rpt";
-                ri.Title = "Notice for non-performing loans";
-                ri.DataSource = dataSet;
+                var ri = new ReportItem
+                    {
+                        ReportFile = "notice_loan_non_performing.rpt",
+                        Title = "Notice for non-performing loans",
+                        DataSource = dataSet
+                    };
                 var result = ri.LoadReport();
                 if (!result.Success)
                 {
@@ -83,10 +85,12 @@ namespace SCCO.WPF.MVC.CS.Views.ReportsModule
                 dataSet.Tables.Add(loanDetails);
                 dataSet.Tables.Add(comp);
 
-                var ri = new ReportItem();
-                ri.ReportFile = "notice_loan_near_maturity.rpt";
-                ri.Title = "Notice for loan near maturity";
-                ri.DataSource = dataSet;
+                var ri = new ReportItem
+                    {
+                        ReportFile = "notice_loan_near_maturity.rpt",
+                        Title = "Notice for loan near maturity",
+                        DataSource = dataSet
+                    };
                 var result = ri.LoadReport();
                 if(!result.Success)
                 {
@@ -113,6 +117,7 @@ namespace SCCO.WPF.MVC.CS.Views.ReportsModule
 
                 var loanDetails = DatabaseController.ExecuteStoredProcedure("sp_notice_loan_overdue",
                                                                             new SqlParameter("as_of", asOf));
+
                 loanDetails.TableName = "notice_loan_details";
 
                 DataTable comp = Company.GetData();
@@ -122,10 +127,12 @@ namespace SCCO.WPF.MVC.CS.Views.ReportsModule
                 dataSet.Tables.Add(loanDetails);
                 dataSet.Tables.Add(comp);
 
-                var ri = new ReportItem();
-                ri.ReportFile = "notice_loan_overdue.rpt";
-                ri.Title = "Notice for overdue loans";
-                ri.DataSource = dataSet;
+                var ri = new ReportItem
+                    {
+                        ReportFile = "notice_loan_overdue.rpt",
+                        Title = "Notice for overdue loans",
+                        DataSource = dataSet
+                    };
                 var result = ri.LoadReport();
                 if (!result.Success)
                 {
@@ -161,10 +168,12 @@ namespace SCCO.WPF.MVC.CS.Views.ReportsModule
                 dataSet.Tables.Add(loanDetails);
                 dataSet.Tables.Add(comp);
 
-                var ri = new ReportItem();
-                ri.ReportFile = "notice_loan_overdue_non_responsive.rpt";
-                ri.Title = "Notice for overdue loans - Non-responsive";
-                ri.DataSource = dataSet;
+                var ri = new ReportItem
+                    {
+                        ReportFile = "notice_loan_overdue_non_responsive.rpt",
+                        Title = "Notice for overdue loans - Non-responsive",
+                        DataSource = dataSet
+                    };
                 var result = ri.LoadReport();
                 if (!result.Success)
                 {
@@ -200,10 +209,12 @@ namespace SCCO.WPF.MVC.CS.Views.ReportsModule
                 dataSet.Tables.Add(loanDetails);
                 dataSet.Tables.Add(comp);
 
-                var ri = new ReportItem();
-                ri.ReportFile = "notice_comakers.rpt";
-                ri.Title = "Notice for Comakers";
-                ri.DataSource = dataSet;
+                var ri = new ReportItem
+                    {
+                        ReportFile = "notice_comakers.rpt",
+                        Title = "Notice for Comakers",
+                        DataSource = dataSet
+                    };
                 var result = ri.LoadReport();
                 if (!result.Success)
                 {
