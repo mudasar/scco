@@ -1775,9 +1775,9 @@
     <Resource Include="Images\interest_loan.png" />
     <Resource Include="Images\handshake.png" />
     <Resource Include="Images\barber_scissors.png" />
-    <Resource Include="Scripts\Installation.txt" />
     <Resource Include="Images\document.png" />
-    <Content Include="Scripts\loan_computation.sql" />
+    <Content Include="Scripts\fn_due_fines.sql" />
+    <Content Include="Scripts\fn_due_interest.sql" />
     <Content Include="Scripts\loan_deductions.sql" />
     <Content Include="Scripts\time_deposit_products.sql" />
     <Resource Include="VersionManager.xml">

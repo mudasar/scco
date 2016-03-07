@@ -9,6 +9,8 @@ namespace SCCO.WPF.MVC.CS.Views.AdministratorModule
         {
             InitializeComponent();
 
+            RefreshDisplay();
+
             if (Controllers.MainController.LoggedUser.LoginName == "jess.alejo")
             {
                 MigrateFromDbfButton.Visibility = Visibility.Visible;
@@ -63,6 +65,24 @@ namespace SCCO.WPF.MVC.CS.Views.AdministratorModule
                     var view = new FinancialConditionReportConfigurationModule.ListItemsView();
                     view.ShowDialog();
                 };
+        }
+
+        private void RefreshDisplay()
+        {
+            var currentDate = DatabaseUtility.CurrentDate();
+            var userDate = Controllers.MainController.LoggedUser.TransactionDate;
+            if (currentDate.Year != userDate.Year)
+            {
+                UpdateBeginningBalanceButton.IsEnabled = false;
+                UnearnedInterestFromLoansButton.IsEnabled = false;
+                DividendDistributionButton.IsEnabled = false;
+                PatronageRefundButton.IsEnabled = false;
+
+                if (currentDate.Month >= 2)
+                {
+                    InterestOnSavingsDepositButton.IsEnabled = false;
+                }
+            }           
         }
 
         private void UnearnedInterestFromLoansButtonOnClick(object sender, RoutedEventArgs routedEventArgs)

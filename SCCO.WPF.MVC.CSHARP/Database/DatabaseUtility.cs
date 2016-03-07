@@ -48,5 +48,11 @@ namespace SCCO.WPF.MVC.CS.Database
                 return new Result(false, exception.Message);
             }
         }
+
+        public static DateTime CurrentDate()
+        {
+            var dataTable = DatabaseController.ExecuteSelectQuery("SELECT NOW()");
+            return Utilities.DataConverter.ToDateTime(dataTable.Rows[0][0]);
+        }
     }
 }

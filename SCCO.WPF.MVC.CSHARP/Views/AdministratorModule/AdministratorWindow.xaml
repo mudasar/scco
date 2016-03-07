@@ -56,7 +56,7 @@
         </Grid>
         <StackPanel Margin="50,100,50,50" Orientation="Horizontal">
             <StackPanel Margin="5" Orientation="Vertical">
-                <Button Name="OpenTransactionDateButton"
+                <Button x:Name="OpenTransactionDateButton"
                         Width="250"
                         Height="62"
                         Margin="2"
@@ -87,23 +87,6 @@
                 			Stretch="Fill" />
                 		<Label Margin="5,0" Content="Global Variables" />
                 	</StackPanel>
-                </Button>
-                <Button x:Name="UpdateBeginningBalanceButton"
-                        Width="250"
-                        Height="62"
-                        Margin="2"
-                        Style="{DynamicResource ControlButton}">
-                    <StackPanel Width="220"
-                                Height="Auto"
-                                Margin="10,0"
-                                Orientation="Horizontal">
-                        <Image Width="20"
-                               Height="20"
-                               Margin="5,0,0,0"
-                               Source="/SCCO.WPF.MVC.CS;component/Images/beginning_balance.png"
-                               Stretch="Fill" />
-                        <Label Margin="5,0" Content="Update Beginning Balance" />
-                    </StackPanel>
                 </Button>
                 <Button x:Name="BackupDatabaseButton"
                         Width="250"
@@ -156,9 +139,44 @@
                 		<Label Margin="5,0,50,0" Content="Migrate from DBF" />
                 	</StackPanel>
                 </Button>
+                <Button x:Name="FinancialConditionReportConfigurationButton"
+            		Width="250"
+            		Height="62"
+            		Margin="2"
+            		Style="{DynamicResource ControlButton}">
+                	<StackPanel Width="220"
+                		Height="Auto"
+                		Margin="10,0"
+                		Orientation="Horizontal">
+                		<Image Width="20"
+                			Height="20"
+                			Margin="5,0,0,0"
+                			Source="/SCCO.WPF.MVC.CS;component/Images/initial_setup.png"
+                			Stretch="Fill" />
+                		<Label Margin="5,0,50,0" Content="Financial Report Condition" />
+                	</StackPanel>
+            	</Button>
             </StackPanel>
             <StackPanel Width="10" Margin="5" />
             <StackPanel Margin="5" Orientation="Vertical">
+
+                <Button x:Name="UpdateBeginningBalanceButton"
+            		Width="250"
+            		Height="62"
+            		Margin="2"
+            		Style="{DynamicResource ControlButton}">
+            		<StackPanel Width="220"
+            			Height="Auto"
+            			Margin="10,0"
+            			Orientation="Horizontal">
+            			<Image Width="20"
+            				Height="20"
+            				Margin="5,0,0,0"
+            				Source="/SCCO.WPF.MVC.CS;component/Images/beginning_balance.png"
+            				Stretch="Fill" />
+            			<Label Margin="5,0" Content="Update Beginning Balance" />
+            		</StackPanel>
+            	</Button>
 
                 <Button x:Name="UnearnedInterestFromLoansButton"
                         Width="250"
@@ -228,23 +246,6 @@
                                Stretch="Fill" />
                         <Label Margin="5,0,50,0" Content="Patronage Refund" />
                     </StackPanel>
-                </Button>
-                <Button x:Name="FinancialConditionReportConfigurationButton"
-                	Width="250"
-                	Height="62"
-                	Margin="2"
-                	Style="{DynamicResource ControlButton}">
-                	<StackPanel Width="220"
-                		Height="Auto"
-                		Margin="10,0"
-                		Orientation="Horizontal">
-                		<Image Width="20"
-                			Height="20"
-                			Margin="5,0,0,0"
-                			Source="/SCCO.WPF.MVC.CS;component/Images/initial_setup.png"
-                			Stretch="Fill" />
-                		<Label Margin="5,0,50,0" Content="Financial Report Condition" />
-                	</StackPanel>
                 </Button>
             </StackPanel>
         </StackPanel>
