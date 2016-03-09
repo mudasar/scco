@@ -82,9 +82,7 @@ namespace SCCO.WPF.MVC.CS.Views
         {
             DataContext = _member;
             _member.LoadContactInformation();
-            TabItemContactInformation.DataContext = _member.ContactInformation;
-            imgPhoto.Source = ImageTool.CreateImageSourceFromBytes(_member.ContactInformation.Picture);
-            imgSignature.Source = ImageTool.CreateImageSourceFromBytes(_member.ContactInformation.Signature);
+            RefreshContactionInformation();
         }
 
         private void Update(object sender, RoutedEventArgs e)
@@ -214,10 +212,20 @@ namespace SCCO.WPF.MVC.CS.Views
             var memberNameSetupWindow = new MemberValidationWindow(biometrics, manipulationMode);
             memberNameSetupWindow.ShowDialog();
             if (memberNameSetupWindow.DialogResult != true) return;
+            
             _member.ContactInformation = memberNameSetupWindow.ValidatedBiometrics;
             _member.MemberName = _member.ContactInformation.MemberName;
             _member.MemberCode = _member.ContactInformation.MemberCode;
-            RefreshDisplay();
+            DataContext = _member;
+
+            RefreshContactionInformation();
+        }
+
+        private void RefreshContactionInformation()
+        {
+            TabItemContactInformation.DataContext = _member.ContactInformation;
+            imgPhoto.Source = ImageTool.CreateImageSourceFromBytes(_member.ContactInformation.Picture);
+            imgSignature.Source = ImageTool.CreateImageSourceFromBytes(_member.ContactInformation.Signature);
         }
     }
 }
