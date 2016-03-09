@@ -127,8 +127,6 @@
                     <TextBox x:Name="txtChargeAmount1"
                              Grid.Column="2"
                              Margin="2"
-                             IsReadOnly="True"
-                             IsTabStop="False"
                              Style="{DynamicResource RoundedNumberBox}"
                              Text="{Binding ChargeAmount1,
                                             Converter={StaticResource DecimalConverter1},
@@ -148,8 +146,6 @@
                              Grid.Row="1"
                              Grid.Column="2"
                              Margin="2"
-                             IsReadOnly="True"
-                             IsTabStop="False"
                              Style="{DynamicResource RoundedNumberBox}"
                              Text="{Binding ChargeAmount2,
                                             Converter={StaticResource DecimalConverter1},
@@ -169,8 +165,6 @@
                              Grid.Row="2"
                              Grid.Column="2"
                              Margin="2"
-                             IsReadOnly="True"
-                             IsTabStop="False"
                              Style="{DynamicResource RoundedNumberBox}"
                              Text="{Binding ChargeAmount3,
                                             Converter={StaticResource DecimalConverter1},
@@ -190,8 +184,6 @@
                              Grid.Row="3"
                              Grid.Column="2"
                              Margin="2"
-                             IsReadOnly="True"
-                             IsTabStop="False"
                              Style="{DynamicResource RoundedNumberBox}"
                              Text="{Binding ChargeAmount4,
                                             Converter={StaticResource DecimalConverter1},
@@ -211,8 +203,6 @@
                              Grid.Row="4"
                              Grid.Column="2"
                              Margin="2"
-                             IsReadOnly="True"
-                             IsTabStop="False"
                              Style="{DynamicResource RoundedNumberBox}"
                              Text="{Binding ChargeAmount5,
                                             Converter={StaticResource DecimalConverter1},
@@ -232,8 +222,6 @@
                              Grid.Row="5"
                              Grid.Column="2"
                              Margin="2"
-                             IsReadOnly="True"
-                             IsTabStop="False"
                              Style="{DynamicResource RoundedNumberBox}"
                              Text="{Binding ChargeAmount6,
                                             Converter={StaticResource DecimalConverter1},

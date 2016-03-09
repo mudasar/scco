@@ -58,7 +58,7 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
 
         private void InitializeControls()
         {
-            //_loanComputation must have been initialized befor this
+            //_loanComputation must have been initialized before this
 
             // charges
 
@@ -74,7 +74,7 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
                         _loanComputation.ChargeTitle1 = account.AccountTitle;
                     };
             }
-            txtChargeAmount1.IsReadOnly = _loanComputation.ChargeAmount1 > 0;
+            //txtChargeAmount1.IsReadOnly = _loanComputation.ChargeAmount1 > 0;
 
             #endregion
 
@@ -90,7 +90,7 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
                         _loanComputation.ChargeTitle2 = account.AccountTitle;
                     };
             }
-            txtChargeAmount2.IsReadOnly = _loanComputation.ChargeAmount2 > 0;
+            //txtChargeAmount2.IsReadOnly = _loanComputation.ChargeAmount2 > 0;
 
             #endregion
 
@@ -106,7 +106,7 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
                         _loanComputation.ChargeTitle3 = account.AccountTitle;
                     };
             }
-            txtChargeAmount3.IsReadOnly = _loanComputation.ChargeAmount3 > 0;
+            //txtChargeAmount3.IsReadOnly = _loanComputation.ChargeAmount3 > 0;
 
             #endregion
 
@@ -122,7 +122,7 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
                         _loanComputation.ChargeTitle4 = account.AccountTitle;
                     };
             }
-            txtChargeAmount4.IsReadOnly = _loanComputation.ChargeAmount4 > 0;
+            //txtChargeAmount4.IsReadOnly = _loanComputation.ChargeAmount4 > 0;
 
             #endregion
 
@@ -138,7 +138,7 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
                         _loanComputation.ChargeTitle5 = account.AccountTitle;
                     };
             }
-            txtChargeAmount5.IsReadOnly = _loanComputation.ChargeAmount5 > 0;
+            //txtChargeAmount5.IsReadOnly = _loanComputation.ChargeAmount5 > 0;
 
             #endregion
 
@@ -154,7 +154,7 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
                         _loanComputation.ChargeTitle6 = account.AccountTitle;
                     };
             }
-            txtChargeAmount6.IsReadOnly = _loanComputation.ChargeAmount6 > 0;
+            //txtChargeAmount6.IsReadOnly = _loanComputation.ChargeAmount6 > 0;
 
             #endregion
 
@@ -172,7 +172,7 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
                         _loanComputation.DeductTitle1 = account.AccountTitle;
                     };
             }
-            txtDeductAmount1.IsReadOnly = _loanComputation.DeductAmount1 > 0;
+            //txtDeductAmount1.IsReadOnly = _loanComputation.DeductAmount1 > 0;
 
             #endregion
 
@@ -188,7 +188,7 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
                         _loanComputation.DeductTitle2 = account.AccountTitle;
                     };
             }
-            txtDeductAmount2.IsReadOnly = _loanComputation.DeductAmount2 > 0;
+            //txtDeductAmount2.IsReadOnly = _loanComputation.DeductAmount2 > 0;
 
             #endregion
 
@@ -204,7 +204,7 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
                         _loanComputation.DeductTitle3 = account.AccountTitle;
                     };
             }
-            txtDeductAmount3.IsReadOnly = _loanComputation.DeductAmount3 > 0;
+            //txtDeductAmount3.IsReadOnly = _loanComputation.DeductAmount3 > 0;
 
             #endregion
 
@@ -220,7 +220,7 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
                         _loanComputation.DeductTitle4 = account.AccountTitle;
                     };
             }
-            txtDeductAmount4.IsReadOnly = _loanComputation.DeductAmount4 > 0;
+            //txtDeductAmount4.IsReadOnly = _loanComputation.DeductAmount4 > 0;
 
             #endregion
 
@@ -236,7 +236,7 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
                         _loanComputation.DeductTitle5 = account.AccountTitle;
                     };
             }
-            txtDeductAmount5.IsReadOnly = _loanComputation.DeductAmount5 > 0;
+            //txtDeductAmount5.IsReadOnly = _loanComputation.DeductAmount5 > 0;
 
             #endregion
 
@@ -252,7 +252,7 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
                         _loanComputation.DeductTitle6 = account.AccountTitle;
                     };
             }
-            txtDeductAmount6.IsReadOnly = _loanComputation.DeductAmount6 > 0;
+            //txtDeductAmount6.IsReadOnly = _loanComputation.DeductAmount6 > 0;
 
             #endregion
 
