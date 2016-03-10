@@ -1779,6 +1779,7 @@
     <Content Include="Scripts\fn_due_fines.sql" />
     <Content Include="Scripts\fn_due_interest.sql" />
     <Content Include="Scripts\loan_deductions.sql" />
+    <Resource Include="Scripts\sp_account_monthly_ending_balance_by_code.txt" />
     <Content Include="Scripts\time_deposit_products.sql" />
     <Resource Include="VersionManager.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
