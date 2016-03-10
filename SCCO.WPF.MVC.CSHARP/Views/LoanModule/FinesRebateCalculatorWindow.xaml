@@ -123,9 +123,7 @@
                         <ColumnDefinition Width="100" />
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
-                    <Label x:Name="StatusLabel"
-                           VerticalAlignment="Top"
-                           Content="Status" />
+                    <Label x:Name="StatusLabel" Content="Status" />
                     <TextBox x:Name="StatusTextBox"
                              Grid.Column="1"
                              Width="150"
@@ -134,7 +132,9 @@
                              Text="{Binding Status}" />
                 </Grid>
             </StackPanel>
-            <StackPanel x:Name="RebateStackPanel" Margin="0,0,0,6" Orientation="Horizontal">
+            <StackPanel x:Name="RebateStackPanel"
+                        Margin="0,0,0,6"
+                        Orientation="Horizontal">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="100" />
@@ -151,24 +151,9 @@
                                             StringFormat=\{0:N\}}" />
                 </Grid>
             </StackPanel>
-            <StackPanel x:Name="InterestStackPanel" Margin="0,0,0,6" Orientation="Horizontal">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="100" />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <Label x:Name="InterestLabel" Content="Interest" />
-                    <TextBox x:Name="InterestTextBox"
-                             Grid.Column="1"
-                             Width="150"
-                             IsReadOnly="True"
-                             Style="{DynamicResource RoundedTextBox}"
-                             Text="{Binding Interest,
-                                            Converter={StaticResource DecimalConverterDefaultZero1},
-                                            StringFormat=\{0:N\}}" />
-                </Grid>
-            </StackPanel>
-            <StackPanel x:Name="FinesStackPanel" Margin="0,0,0,6" Orientation="Horizontal">
+            <StackPanel x:Name="FinesStackPanel"
+                        Margin="0,0,0,6"
+                        Orientation="Horizontal">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="100" />
@@ -185,7 +170,26 @@
                                             StringFormat=\{0:N\}}" />
                 </Grid>
             </StackPanel>
-            <StackPanel Orientation="Horizontal">
+            <StackPanel x:Name="InterestStackPanel"
+                        Margin="0,0,0,6"
+                        Orientation="Horizontal">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Label x:Name="InterestLabel" Content="Interest" />
+                    <TextBox x:Name="InterestTextBox"
+                             Grid.Column="1"
+                             Width="150"
+                             IsReadOnly="True"
+                             Style="{DynamicResource RoundedTextBox}"
+                             Text="{Binding Interest,
+                                            Converter={StaticResource DecimalConverterDefaultZero1},
+                                            StringFormat=\{0:N\}}" />
+                </Grid>
+            </StackPanel>
+            <StackPanel Margin="0,12,0,0" Orientation="Horizontal">
                 <Button x:Name="CalculateButton"
                         HorizontalAlignment="Center"
                         Content="Calculate"

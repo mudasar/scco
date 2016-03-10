@@ -120,19 +120,24 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
             Interest = 0;
             Fines = 0;
             Status = "Current";
-            FinesRatePerMonth = GlobalSettings.RateOfFines / 12;
 
-            decimal dailyFinesRate = (FinesRatePerMonth*12)/totalDaysInYear;
-            var interestRatePerDay = LoanDetails.InterestRate/totalDaysInYear;
-            int daysDue;
+            var finesRate = GlobalSettings.RateOfFines;
+            FinesRatePerMonth = finesRate / 12;
+
+            decimal loanInterestRate = LoanDetails.InterestRate < 1
+                                         ? LoanDetails.InterestRate
+                                         : LoanDetails.InterestRate / 100;
+
+            int loanTermInDays = LoanDetails.MaturityDate.Subtract(LoanDetails.GrantedDate).Days;
+            var dailyInterestRate = (LoanDetails.LoanAmount*loanInterestRate)/loanTermInDays;
 
             // REBATE - Loan must be paid (zero balance) before the maturity date
             if (LoanBalance == 0)
             {
                 if (ProcessDate <= LoanDetails.MaturityDate)
                 {
-                    daysDue = (int) LoanDetails.MaturityDate.Subtract(ProcessDate).TotalDays;
-                    Rebate = (daysDue * interestRatePerDay) * LoanDetails.LoanAmount;
+                    int daysBeforeMaturity = LoanDetails.MaturityDate.Subtract(ProcessDate).Days;
+                    Rebate = dailyInterestRate * daysBeforeMaturity;
                     Status = "Settled";
                 }
             }
@@ -140,9 +145,9 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
             {
                 if (ProcessDate > LoanDetails.MaturityDate)
                 {
-                    daysDue = (int) ProcessDate.Subtract(LoanDetails.MaturityDate).TotalDays;
-                    Interest = (daysDue * interestRatePerDay) * LoanDetails.LoanAmount;
-                    Fines = (LoanBalance * dailyFinesRate) * daysDue;
+                    int daysOverDue = ProcessDate.Subtract(LoanDetails.MaturityDate).Days;
+                    Interest = dailyInterestRate * daysOverDue;
+                    Fines = ((LoanBalance*finesRate)/totalDaysInYear)*daysOverDue;
                     Status = "Overdue";
                 }
             }

@@ -5,8 +5,8 @@ using System.Windows;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("SCCO Accounting System v2")]
-[assembly: AssemblyDescription("Accounting System for Savings and Credit Cooperative")]
+[assembly: AssemblyTitle("SCCO Accounting System v2 - Bulacan")]
+[assembly: AssemblyDescription("Accounting System for Savings and Credit Cooperative for Bulacan Branch")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Sta. Cruz Savings and Credit Cooperative")]
 [assembly: AssemblyProduct("SCCO Accounting System v2")]
@@ -51,5 +51,5 @@ using System.Windows;
 // [assembly: AssemblyVersion("1.0.*")]
 // [assembly: AssemblyVersion("2.0.0.0")]
 // [assembly: AssemblyFileVersion("2.0.0.0")]
-[assembly: AssemblyVersion("2.1.3.1")]
-[assembly: AssemblyFileVersionAttribute("2.1.3.1")]
+[assembly: AssemblyVersion("2.1.3.2")]
+[assembly: AssemblyFileVersionAttribute("2.1.3.2")]
