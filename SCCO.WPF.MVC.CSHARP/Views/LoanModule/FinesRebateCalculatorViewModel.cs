@@ -121,16 +121,15 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
             Interest = 0;
             Fines = 0;
             Status = "Current";
+
             decimal finesRate = GlobalSettings.RateOfFines;
-            FinesRatePerMonth = finesRate / 12;
+            FinesRatePerMonth = finesRate/12;
 
-//            decimal dailyFinesRate = Math.Round((finesRate / totalDaysInYear), 12);
-
-            decimal loanInterestRate = LoanDetails.InterestRate < 1
-                                           ? LoanDetails.InterestRate
-                                           : LoanDetails.InterestRate/100;
-
-            decimal interestRatePerDay = loanInterestRate/loanTermInDays;
+            decimal interestPerDay = 0m;
+            if (LoanDetails.InterestRate > 0)
+            {
+                interestPerDay = LoanDetails.InterestAmount / loanTermInDays;
+            }
 
             // REBATE - Loan must be paid (zero balance) before the maturity date
             if (LoanBalance == 0)
@@ -138,7 +137,7 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
                 if (ProcessDate <= LoanDetails.MaturityDate)
                 {
                     int daysBeforeMaturity = LoanDetails.MaturityDate.Subtract(ProcessDate).Days;
-                    Rebate = (LoanDetails.LoanAmount*interestRatePerDay)*daysBeforeMaturity;
+                    Rebate = interestPerDay*daysBeforeMaturity;
                     Status = "Settled";
                 }
             }
@@ -147,7 +146,7 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
                 if (ProcessDate > LoanDetails.MaturityDate)
                 {
                     int daysOverDue = ProcessDate.Subtract(LoanDetails.MaturityDate).Days;
-                    Interest = (LoanDetails.LoanAmount*interestRatePerDay)*daysOverDue;
+                    Interest = interestPerDay*daysOverDue;
                     Fines = ((LoanBalance*finesRate)/totalDaysInYear)*daysOverDue;
                     Status = "Overdue";
                 }
