@@ -387,6 +387,13 @@
                                             IsReadOnly="True" />
                     </DataGrid.Columns>
                 </DataGrid>
+                <Image x:Name="imgClosed"
+                       Width="422"
+                       Height="135"
+                       Source="/SCCO.WPF.MVC.CS;component/Images/closed.png"
+                       Stretch="Fill"
+                       Visibility="Hidden"
+                       d:LayoutOverrides="Height" />
             </Grid>
         </Border>
 

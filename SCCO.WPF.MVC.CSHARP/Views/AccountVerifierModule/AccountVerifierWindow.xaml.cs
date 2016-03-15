@@ -213,6 +213,10 @@ namespace SCCO.WPF.MVC.CS.Views.AccountVerifierModule
             blkMemberInformationSummary.Content = infoBuilder.ToString();
             btnSavingsDepositEntry.IsEnabled = true;
             btnTimeDepositEntry.IsEnabled = true;
+
+            imgClosed.Visibility = _viewModel.Member.IsAccountClosed
+                                       ? Visibility.Visible
+                                       : Visibility.Collapsed;
         }
 
         #endregion
