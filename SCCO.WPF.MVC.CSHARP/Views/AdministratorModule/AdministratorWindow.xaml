@@ -73,20 +73,20 @@
                     </StackPanel>
                 </Button>
                 <Button x:Name="GlobalVariablesButton"
-                	Width="250"
-                	Height="62"
-                	Margin="2"
-                	Style="{DynamicResource ControlButton}">
-                	<StackPanel Width="220"
-                		Height="Auto"
-                		Margin="10,0"
-                		Orientation="Horizontal">
-                		<Image Height="20"
-                			Margin="5,0,0,0"
-                			Source="/SCCO.WPF.MVC.CS;component/Images/worldwide_location.png"
-                			Stretch="Fill" />
-                		<Label Margin="5,0" Content="Global Variables" />
-                	</StackPanel>
+                        Width="250"
+                        Height="62"
+                        Margin="2"
+                        Style="{DynamicResource ControlButton}">
+                    <StackPanel Width="220"
+                                Height="Auto"
+                                Margin="10,0"
+                                Orientation="Horizontal">
+                        <Image Height="20"
+                               Margin="5,0,0,0"
+                               Source="/SCCO.WPF.MVC.CS;component/Images/worldwide_location.png"
+                               Stretch="Fill" />
+                        <Label Margin="5,0" Content="Global Variables" />
+                    </StackPanel>
                 </Button>
                 <Button x:Name="BackupDatabaseButton"
                         Width="250"
@@ -106,111 +106,112 @@
                     </StackPanel>
                 </Button>
                 <Button x:Name="RestoreFromBackupButton"
-                	Width="250"
-                	Height="62"
-                	Margin="2"
-                	Style="{DynamicResource ControlButton}">
-                	<StackPanel Width="220"
-                		Height="Auto"
-                		Margin="10,0"
-                		Orientation="Horizontal">
-                		<Image Width="20"
-                			Height="20"
-                			Margin="5,0,0,0"
-                			Source="/SCCO.WPF.MVC.CS;component/Images/data_backup.png"
-                			Stretch="Fill" />
-                		<Label Margin="5,0,50,0" Content="Restore Database from Backup" />
-                	</StackPanel>
+                        Width="250"
+                        Height="62"
+                        Margin="2"
+                        Style="{DynamicResource ControlButton}">
+                    <StackPanel Width="220"
+                                Height="Auto"
+                                Margin="10,0"
+                                Orientation="Horizontal">
+                        <Image Width="20"
+                               Height="20"
+                               Margin="5,0,0,0"
+                               Source="/SCCO.WPF.MVC.CS;component/Images/data_backup.png"
+                               Stretch="Fill" />
+                        <Label Margin="5,0,50,0" Content="Restore Database from Backup" />
+                    </StackPanel>
                 </Button>
                 <Button x:Name="MigrateFromDbfButton"
-                	Width="250"
-                	Height="62"
-                	Margin="2"
-                	Style="{DynamicResource ControlButton}" Visibility="Collapsed">
-                	<StackPanel Width="220"
-                		Height="Auto"
-                		Margin="10,0"
-                		Orientation="Horizontal">
-                		<Image Width="20"
-                			Height="20"
-                			Margin="5,0,0,0"
-                			Source="/SCCO.WPF.MVC.CS;component/Images/data_backup.png"
-                			Stretch="Fill" />
-                		<Label Margin="5,0,50,0" Content="Migrate from DBF" />
-                	</StackPanel>
+                        Width="250"
+                        Height="62"
+                        Margin="2"
+                        Style="{DynamicResource ControlButton}"
+                        Visibility="Collapsed">
+                    <StackPanel Width="220"
+                                Height="Auto"
+                                Margin="10,0"
+                                Orientation="Horizontal">
+                        <Image Width="20"
+                               Height="20"
+                               Margin="5,0,0,0"
+                               Source="/SCCO.WPF.MVC.CS;component/Images/data_backup.png"
+                               Stretch="Fill" />
+                        <Label Margin="5,0,50,0" Content="Migrate from DBF" />
+                    </StackPanel>
                 </Button>
-                <Button x:Name="FinancialConditionReportConfigurationButton"
-            		Width="250"
-            		Height="62"
-            		Margin="2"
-            		Style="{DynamicResource ControlButton}">
-                	<StackPanel Width="220"
-                		Height="Auto"
-                		Margin="10,0"
-                		Orientation="Horizontal">
-                		<Image Width="20"
-                			Height="20"
-                			Margin="5,0,0,0"
-                			Source="/SCCO.WPF.MVC.CS;component/Images/initial_setup.png"
-                			Stretch="Fill" />
-                		<Label Margin="5,0,50,0" Content="Financial Report Condition" />
-                	</StackPanel>
-            	</Button>
+                <Button x:Name="RunPendingMigrationButton"
+                        Width="250"
+                        Height="62"
+                        Margin="2"
+                        Style="{DynamicResource ControlButton}">
+                    <StackPanel Width="220"
+                                Height="Auto"
+                                Margin="10,0"
+                                Orientation="Horizontal">
+                        <Image Width="20"
+                               Height="20"
+                               Margin="5,0,0,0"
+                               Source="/SCCO.WPF.MVC.CS;component/Images/data_backup.png"
+                               Stretch="Fill" />
+                        <Label Margin="5,0,50,0" Content="Run Pending Migration" />
+                    </StackPanel>
+                </Button>
             </StackPanel>
             <StackPanel Width="10" Margin="5" />
             <StackPanel Margin="5" Orientation="Vertical">
 
                 <Button x:Name="UpdateBeginningBalanceButton"
-            		Width="250"
-            		Height="62"
-            		Margin="2"
-            		Style="{DynamicResource ControlButton}">
-            		<StackPanel Width="220"
-            			Height="Auto"
-            			Margin="10,0"
-            			Orientation="Horizontal">
-            			<Image Width="20"
-            				Height="20"
-            				Margin="5,0,0,0"
-            				Source="/SCCO.WPF.MVC.CS;component/Images/beginning_balance.png"
-            				Stretch="Fill" />
-            			<Label Margin="5,0" Content="Update Beginning Balance" />
-            		</StackPanel>
-            	</Button>
+                        Width="250"
+                        Height="62"
+                        Margin="2"
+                        Style="{DynamicResource ControlButton}">
+                    <StackPanel Width="220"
+                                Height="Auto"
+                                Margin="10,0"
+                                Orientation="Horizontal">
+                        <Image Width="20"
+                               Height="20"
+                               Margin="5,0,0,0"
+                               Source="/SCCO.WPF.MVC.CS;component/Images/beginning_balance.png"
+                               Stretch="Fill" />
+                        <Label Margin="5,0" Content="Update Beginning Balance" />
+                    </StackPanel>
+                </Button>
 
                 <Button x:Name="UnearnedInterestFromLoansButton"
                         Width="250"
                         Height="62"
                         Margin="2"
                         Style="{DynamicResource ControlButton}">
-                	<StackPanel Width="220"
-                		Height="Auto"
-                		Margin="10,0"
-                		Orientation="Horizontal">
-                		<Image Width="20"
-                			Height="20"
-                			Margin="5,0,0,0"
-                			Source="/SCCO.WPF.MVC.CS;component/Images/interest_loan.png"
-                			Stretch="Fill" />
-                		<Label Margin="5,0" Content="Unearned Interest from Loans" />
-                	</StackPanel>
+                    <StackPanel Width="220"
+                                Height="Auto"
+                                Margin="10,0"
+                                Orientation="Horizontal">
+                        <Image Width="20"
+                               Height="20"
+                               Margin="5,0,0,0"
+                               Source="/SCCO.WPF.MVC.CS;component/Images/interest_loan.png"
+                               Stretch="Fill" />
+                        <Label Margin="5,0" Content="Unearned Interest from Loans" />
+                    </StackPanel>
                 </Button>
                 <Button x:Name="InterestOnSavingsDepositButton"
                         Width="250"
                         Height="62"
                         Margin="2"
                         Style="{DynamicResource ControlButton}">
-                	<StackPanel Width="220"
-                		Height="Auto"
-                		Margin="10,0"
-                		Orientation="Horizontal">
-                		<Image Width="20"
-                			Height="20"
-                			Margin="5,0,0,0"
-                			Source="/SCCO.WPF.MVC.CS;component/Images/percent.png"
-                			Stretch="Fill" />
-                		<Label Margin="5,0" Content="Interest on Savings Deposit" />
-                	</StackPanel>
+                    <StackPanel Width="220"
+                                Height="Auto"
+                                Margin="10,0"
+                                Orientation="Horizontal">
+                        <Image Width="20"
+                               Height="20"
+                               Margin="5,0,0,0"
+                               Source="/SCCO.WPF.MVC.CS;component/Images/percent.png"
+                               Stretch="Fill" />
+                        <Label Margin="5,0" Content="Interest on Savings Deposit" />
+                    </StackPanel>
                 </Button>
 
                 <Button x:Name="DividendDistributionButton"
@@ -245,6 +246,23 @@
                                Source="/SCCO.WPF.MVC.CS;component/Images/handshake.png"
                                Stretch="Fill" />
                         <Label Margin="5,0,50,0" Content="Patronage Refund" />
+                    </StackPanel>
+                </Button>
+                <Button x:Name="FinancialConditionReportConfigurationButton"
+                        Width="250"
+                        Height="62"
+                        Margin="2"
+                        Style="{DynamicResource ControlButton}">
+                    <StackPanel Width="220"
+                                Height="Auto"
+                                Margin="10,0"
+                                Orientation="Horizontal">
+                        <Image Width="20"
+                               Height="20"
+                               Margin="5,0,0,0"
+                               Source="/SCCO.WPF.MVC.CS;component/Images/initial_setup.png"
+                               Stretch="Fill" />
+                        <Label Margin="5,0,50,0" Content="Financial Report Condition" />
                     </StackPanel>
                 </Button>
             </StackPanel>

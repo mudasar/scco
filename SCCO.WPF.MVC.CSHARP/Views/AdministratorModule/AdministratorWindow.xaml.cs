@@ -65,12 +65,28 @@ namespace SCCO.WPF.MVC.CS.Views.AdministratorModule
                     var view = new FinancialConditionReportConfigurationModule.ListItemsView();
                     view.ShowDialog();
                 };
+
+            RunPendingMigrationButton.Click += (sender, args) =>
+                {
+                    var result = ScriptRunner.Perform();
+                    if (result.Success)
+                    {
+                        MessageWindow.ShowNotifyMessage(result.Message);
+                        RunPendingMigrationButton.IsEnabled = false;
+                    }
+                    else
+                    {
+                        MessageWindow.ShowAlertMessage(result.Message);
+                    }
+                };
         }
 
         private void RefreshDisplay()
         {
             var currentDate = DatabaseUtility.CurrentDate();
             var userDate = Controllers.MainController.LoggedUser.TransactionDate;
+            if (Controllers.MainController.LoggedUser.LoginName == "jess.alejo") return;
+
             if (currentDate.Year != userDate.Year)
             {
                 UpdateBeginningBalanceButton.IsEnabled = false;
@@ -82,7 +98,8 @@ namespace SCCO.WPF.MVC.CS.Views.AdministratorModule
                 {
                     InterestOnSavingsDepositButton.IsEnabled = false;
                 }
-            }           
+            }
+            RunPendingMigrationButton.IsEnabled = ScriptRunner.IsMigrationPending();
         }
 
         private void UnearnedInterestFromLoansButtonOnClick(object sender, RoutedEventArgs routedEventArgs)

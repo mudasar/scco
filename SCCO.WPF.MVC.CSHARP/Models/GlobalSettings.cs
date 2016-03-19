@@ -34,6 +34,7 @@ namespace SCCO.WPF.MVC.CS.Models
         RateOfTimeDepositServiceFee,
         DateOfSavingsDepositWithdrawalCashVoucher,
         CodeOfFinesAndPenalty,
+        MigrationStamp
     }
 
     public static class GlobalSettings
@@ -330,17 +331,21 @@ namespace SCCO.WPF.MVC.CS.Models
                 {
                     globalVariable.CurrentValue = string.Format("{0:N}", value);
                 }
-                if (keyword.ToLower().Contains("codeof"))
+                else if (keyword.ToLower().Contains("codeof"))
                 {
                     globalVariable.CurrentValue = string.Format("{0}", value);
                 }
-                if (keyword.ToLower().Contains("numberof"))
+                else if (keyword.ToLower().Contains("numberof"))
                 {
                     globalVariable.CurrentValue = string.Format("{0}", value);
                 }
-                if (keyword.ToLower().Contains("dateof"))
+                else if (keyword.ToLower().Contains("dateof"))
                 {
                     globalVariable.CurrentValue = string.Format("{0:d}", value);
+                }
+                else
+                {
+                    globalVariable.CurrentValue = string.Format("{0}", value);
                 }
 
                 if (globalVariable.ID > 0)
@@ -400,6 +405,15 @@ namespace SCCO.WPF.MVC.CS.Models
             {
                 Logger.ExceptionLogger(typeof (GlobalSettings), exception);
                 return null;
+            }
+        }
+
+        public static string MigrationStamp
+        {
+            get
+            {
+                const GlobalKeys key = GlobalKeys.MigrationStamp;
+                return DataConverter.ToString(SearchDatabase(key)["CurrentValue"]);
             }
         }
     }
