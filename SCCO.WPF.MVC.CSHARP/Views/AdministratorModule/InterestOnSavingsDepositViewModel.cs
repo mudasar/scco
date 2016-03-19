@@ -13,6 +13,7 @@ namespace SCCO.WPF.MVC.CS.Views.AdministratorModule
         private decimal _totalInterestEarned;
         private int _quarter;
         private Account _interestExpenseOnSavingsDepositAccount;
+        private Account _savingsDepositAccount;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -38,6 +39,7 @@ namespace SCCO.WPF.MVC.CS.Views.AdministratorModule
                 _selectedItem = value; OnPropertyChanged("SelectedItem");
             }
         }
+
         public decimal InterestRate
         {
             get { return _interestRate; }
@@ -66,6 +68,12 @@ namespace SCCO.WPF.MVC.CS.Views.AdministratorModule
         {
             get { return _interestExpenseOnSavingsDepositAccount; }
             set { _interestExpenseOnSavingsDepositAccount = value; OnPropertyChanged("InterestExpenseOnSavingsDepositAccount"); }
+        }
+
+        public Account SavingsDepositAccount
+        {
+            get { return _savingsDepositAccount; }
+            set { _savingsDepositAccount = value; OnPropertyChanged("SavingsDepositAccount"); }
         }
 
         protected virtual void OnPropertyChanged(string propertyName)

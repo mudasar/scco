@@ -17,6 +17,8 @@ namespace SCCO.WPF.MVC.CS.Controllers
 
             viewModel.InterestExpenseOnSavingsDepositAccount =
                 Account.FindByCode(GlobalSettings.CodeOfInterestExpenseOnSavingsDeposit);
+            viewModel.SavingsDepositAccount =
+                Account.FindByCode(GlobalSettings.CodeOfSavingsDeposit);
         }
 
         public static void ProcessInterestOnSavingsDeposit(InterestOnSavingsDepositViewModel viewModel)
@@ -28,8 +30,8 @@ namespace SCCO.WPF.MVC.CS.Controllers
             int quarter = viewModel.Quarter;
 
             // database
-            const string spName = "sp_account_monthly_ending_balance";
-            var param = new SqlParameter("tn_schedule_code", 5);
+            const string spName = "sp_account_monthly_ending_balance_by_code";
+            var param = new SqlParameter("tc_account_code", viewModel.SavingsDepositAccount.AccountCode);
 
             var dataTable = DatabaseController.ExecuteStoredProcedure(spName, param);
             var voucherCollection = new VoucherCollection();
