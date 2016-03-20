@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Linq;
@@ -346,6 +347,7 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
 
 
             // net proceeds
+            Result postResult;
             var netProceeds = new ComputationDetail
                 {
                     AccountCode = _loanComputation.NetProceedsCode,
@@ -357,23 +359,26 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
             {
                 #region --- Add entry for Cash On Hand ---
 
-                var net = new JournalVoucher
-                    {
-                        MemberCode = _loanDetails.MemberCode,
-                        MemberName = _loanDetails.MemberName,
-                        AccountCode = netProceeds.AccountCode,
-                        AccountTitle = netProceeds.AccountTitle,
-                        Credit = netProceeds.Amount,
-                        VoucherDate = postingDetails.VoucherDate,
-                        VoucherNo = postingDetails.VoucherNumber,
-                    };
-                net.Amount = net.Credit;
-                net.AmountInWords = Converter.AmountToWords(net.Amount);
-                Result postResult = net.Create();
-                if (!postResult.Success)
+                if (netProceeds.Amount != 0)
                 {
-                    JournalVoucher.DeleteAll(postingDetails.VoucherNumber);
-                    return postResult;
+                    var net = new JournalVoucher
+                        {
+                            MemberCode = _loanDetails.MemberCode,
+                            MemberName = _loanDetails.MemberName,
+                            AccountCode = netProceeds.AccountCode,
+                            AccountTitle = netProceeds.AccountTitle,
+                            Credit = netProceeds.Amount,
+                            VoucherDate = postingDetails.VoucherDate,
+                            VoucherNo = postingDetails.VoucherNumber,
+                        };
+                    net.Amount = net.Credit;
+                    net.AmountInWords = Converter.AmountToWords(net.Amount);
+                    postResult = net.Create();
+                    if (!postResult.Success)
+                    {
+                        JournalVoucher.DeleteAll(postingDetails.VoucherNumber);
+                        return postResult;
+                    }
                 }
 
                 #endregion
@@ -426,7 +431,8 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
 
                 #region --- Add entry for Unearned Income ---
 
-                decimal sumUnearnedIncome = _loanAmortizationHeader.PaymentSchedules.Sum(sched => sched.Interest);
+                decimal sumUnearnedIncome =
+                    Math.Round(_loanAmortizationHeader.PaymentSchedules.Sum(sched => sched.Interest), 2);
                 if (sumUnearnedIncome > 0)
                 {
                     Account ui = Account.FindByCode(GlobalSettings.CodeOfUnearnedIncome);
@@ -453,7 +459,8 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
 
                 #region --- Add entry for Capital Build-Up ---
 
-                decimal sumCapitalBuildUp = _loanAmortizationHeader.PaymentSchedules.Sum(sched => sched.CapitalBuildUp);
+                decimal sumCapitalBuildUp =
+                    Math.Round(_loanAmortizationHeader.PaymentSchedules.Sum(sched => sched.CapitalBuildUp), 2);
                 if (sumCapitalBuildUp > 0)
                 {
                     Account cbu = Account.FindByCode(GlobalSettings.CodeOfCapitalBuildUp);
@@ -506,23 +513,26 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
             {
                 #region --- Add entry for Cash On Hand ---
 
-                var net = new CashVoucher
-                    {
-                        MemberCode = _loanDetails.MemberCode,
-                        MemberName = _loanDetails.MemberName,
-                        AccountCode = netProceeds.AccountCode,
-                        AccountTitle = netProceeds.AccountTitle,
-                        Credit = netProceeds.Amount,
-                        VoucherDate = postingDetails.VoucherDate,
-                        VoucherNo = postingDetails.VoucherNumber,
-                    };
-                net.Amount = net.Credit;
-                net.AmountInWords = Converter.AmountToWords(net.Amount);
-                Result postResult = net.Create();
-                if (!postResult.Success)
+                if (netProceeds.Amount != 0)
                 {
-                    CashVoucher.DeleteAll(postingDetails.VoucherNumber);
-                    return postResult;
+                    var net = new CashVoucher
+                        {
+                            MemberCode = _loanDetails.MemberCode,
+                            MemberName = _loanDetails.MemberName,
+                            AccountCode = netProceeds.AccountCode,
+                            AccountTitle = netProceeds.AccountTitle,
+                            Credit = netProceeds.Amount,
+                            VoucherDate = postingDetails.VoucherDate,
+                            VoucherNo = postingDetails.VoucherNumber,
+                        };
+                    net.Amount = net.Credit;
+                    net.AmountInWords = Converter.AmountToWords(net.Amount);
+                    postResult = net.Create();
+                    if (!postResult.Success)
+                    {
+                        CashVoucher.DeleteAll(postingDetails.VoucherNumber);
+                        return postResult;
+                    }
                 }
 
                 #endregion
@@ -575,7 +585,8 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
 
                 #region --- Add entry for Unearned Income ---
 
-                decimal sumUnearnedIncome = _loanAmortizationHeader.PaymentSchedules.Sum(sched => sched.Interest);
+                decimal sumUnearnedIncome =
+                    Math.Round(_loanAmortizationHeader.PaymentSchedules.Sum(sched => sched.Interest), 2);
                 if (sumUnearnedIncome > 0)
                 {
                     Account ui = Account.FindByCode(GlobalSettings.CodeOfUnearnedIncome);
@@ -602,7 +613,8 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
 
                 #region --- Add entry for Capital Build-Up ---
 
-                decimal sumCapitalBuildUp = _loanAmortizationHeader.PaymentSchedules.Sum(sched => sched.CapitalBuildUp);
+                decimal sumCapitalBuildUp =
+                    Math.Round(_loanAmortizationHeader.PaymentSchedules.Sum(sched => sched.CapitalBuildUp), 2);
                 if (sumCapitalBuildUp > 0)
                 {
                     Account cbu = Account.FindByCode(GlobalSettings.CodeOfCapitalBuildUp);

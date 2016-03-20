@@ -586,6 +586,11 @@
                        ScrollViewer.CanContentScroll="True">
                     <TextBlock Text="{Binding Description}" />
                 </Label>
+                <Button x:Name="btnEdit"
+                	Width="100"
+                	HorizontalAlignment="Right"
+                	Content="Edit"
+                	Style="{DynamicResource ControlButton}" VerticalAlignment="Bottom" />
             </Grid>
         </Border>
     </Grid>

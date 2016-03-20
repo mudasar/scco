@@ -211,6 +211,10 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
         private decimal CalculateCharge(decimal rate, decimal loanAmount, int loanTerm)
         {
             decimal charge = Math.Round(rate*loanAmount, 2);
+            if (Properties.Settings.Default.BranchName.ToUpper() == "BULACAN")
+            {
+                return charge;
+            }
             return (charge/12)*loanTerm;
         }
 

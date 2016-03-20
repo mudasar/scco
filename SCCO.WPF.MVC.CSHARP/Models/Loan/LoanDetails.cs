@@ -1,18 +1,59 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data;
 using System.Linq;
+using System.Text;
+using SCCO.WPF.MVC.CS.Controllers;
+using SCCO.WPF.MVC.CS.Database;
 using SCCO.WPF.MVC.CS.Utilities;
 
 namespace SCCO.WPF.MVC.CS.Models.Loan
 {
     public class LoanDetails : INotifyPropertyChanged
     {
-        public LoanDetails(System.Data.DataRow dataRow)
-            : this()
-        {
-            LoanAmount = DataConverter.ToDecimal(dataRow["LOAN_AMT"]);
-            if (LoanAmount == 0) return;
+        #region --- Private Variables ---
 
+        private string _accountCode;
+        private string _accountTitle;
+        private string _bankName;
+        private string _checkNo;
+        private CoMaker[] _coMakers;
+        private string _collector;
+        private decimal _compulsarySavings;
+        private DateTime _cutOffDate;
+        private DateTime _dateApplied;
+
+        private DateTime _dateApproved;
+        private DateTime _dateCancelled;
+        private DateTime _dateReleased;
+
+        private string _description;
+        private DateTime _documentDate;
+        private int _documentNo;
+        private string _documentType;
+        private DateTime _grantedDate;
+        private decimal _interestAmortization;
+        private decimal _interestAmount;
+        private decimal _interestRate;
+        private bool _isWithCollateral;
+        private decimal _loanAmount;
+        private int _loanTerms;
+        private DateTime _maturityDate;
+        private string _memberCode;
+        private string _memberName;
+        private ModeOfPayments _modeOfPayment;
+        private bool[] _notices;
+        private decimal _payment;
+        private int _releaseNo;
+        private string _remarks;
+        private string _termsMode;
+        private decimal _thisMonth;
+
+        #endregion
+
+        public LoanDetails(DataRow dataRow):this()
+        {
             MemberCode = DataConverter.ToString(dataRow["MEM_CODE"]);
             MemberName = DataConverter.ToString(dataRow["MEM_NAME"]);
             AccountCode = DataConverter.ToString(dataRow["ACC_CODE"]);
@@ -21,6 +62,9 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
             DocumentType = DataConverter.ToString(dataRow["DOC_TYPE"]);
             DocumentNo = DataConverter.ToInteger(dataRow["DOC_NUM"]);
             DocumentDate = DataConverter.ToDateTime(dataRow["DOC_DATE"]);
+
+            LoanAmount = DataConverter.ToDecimal(dataRow["LOAN_AMT"]);
+            if (LoanAmount == 0) return;
 
             BankName = DataConverter.ToString(dataRow["BANK_TITLE"]);
             CheckNo = DataConverter.ToString(dataRow["CHECK_NUM1"]);
@@ -50,7 +94,6 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
             Remarks = DataConverter.ToString(dataRow["REMARKS"]);
             IsWithCollateral = DataConverter.ToBoolean(dataRow["COLLAT"]);
             Description = DataConverter.ToString(dataRow["DESC"]);
-
 
             CoMakers[0] = new CoMaker(DataConverter.ToString(dataRow["CO_CODE1"]),
                                       DataConverter.ToString(dataRow["CO_NAME1"]));
@@ -86,44 +129,6 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
             }
         }
 
-        private int _releaseNo;
-        private decimal _loanAmount;
-        private int _loanTerms;
-        private string _termsMode;
-        private DateTime _grantedDate;
-        private DateTime _maturityDate;
-        private DateTime _cutOffDate;
-        private DateTime _dateReleased;
-        private DateTime _dateApplied;
-
-        private decimal _payment;
-        private decimal _interestRate;
-        private decimal _interestAmount;
-        private decimal _interestAmortization;
-        private DateTime _dateApproved;
-        private DateTime _dateCancelled;
-
-        private decimal _thisMonth;
-        private string _collector;
-
-        private string _remarks;
-        private bool _isWithCollateral;
-        private string _description;
-        private ModeOfPayments _modeOfPayment;
-        private CoMaker[] _coMakers;
-        private bool[] _notices;
-        private string _memberCode;
-        private string _memberName;
-        private string _accountCode;
-        private string _accountTitle;
-        private string _documentType;
-        private DateTime _documentDate;
-        private int _documentNo;
-        private string _bankName;
-        private string _checkNo;
-        private decimal _compulsarySavings;
-
-
         public string MemberCode
         {
             get { return _memberCode; }
@@ -143,7 +148,6 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
                 OnPropertyChanged("MemberName");
             }
         }
-
 
         public string AccountCode
         {
@@ -347,7 +351,7 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
             }
         }
 
-        ///APPROVED	date
+        /// APPROVED	date
         public DateTime DateApproved
         {
             get { return _dateApproved; }
@@ -422,7 +426,6 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
                 OnPropertyChanged("Collector");
             }
         }
-
 
         //REMARKS	varchar
         public string Remarks
@@ -507,7 +510,7 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
 
         public string GenerateExplanation()
         {
-            var explanationBuilder = new System.Text.StringBuilder();
+            var explanationBuilder = new StringBuilder();
             explanationBuilder.Append(string.Format("{0} payable within {1} {2} payment{3}", AccountTitle,
                                                     LoanTerms, ModeOfPayment,
                                                     LoanTerms > 1 ? "s" : ""));
@@ -516,9 +519,9 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
 
             if (CoMakers.Any())
             {
-                var comakers = from comaker in CoMakers
-                               where !string.IsNullOrEmpty(comaker.MemberCode)
-                               select comaker;
+                IEnumerable<CoMaker> comakers = from comaker in CoMakers
+                                                where !string.IsNullOrEmpty(comaker.MemberCode)
+                                                select comaker;
                 if (comakers.Any())
                 {
                     explanationBuilder.AppendLine(string.Format("Co-makers: {0}", string.Join(", ", comakers)));
@@ -528,15 +531,15 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
             return explanationBuilder.ToString();
         }
 
-        internal static LoanDetails ExtractFromDataRow(System.Data.DataRow dataRow)
+        internal static LoanDetails ExtractFromDataRow(DataRow dataRow)
         {
-            var loanAmount = DataConverter.ToDecimal(dataRow["LOAN_AMT"]);
+            decimal loanAmount = DataConverter.ToDecimal(dataRow["LOAN_AMT"]);
             if (loanAmount == 0) return null;
 
             return new LoanDetails(dataRow);
         }
 
-        internal static LoanDetails GenerateCompromiseLoanDetails(Voucher voucher,decimal loanAmount,
+        internal static LoanDetails GenerateCompromiseLoanDetails(Voucher voucher, decimal loanAmount,
                                                                   decimal finesAndPenalty, int term,
                                                                   CoMaker[] comakers)
         {
@@ -548,10 +551,10 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
                     MaturityDate = voucher.VoucherDate.AddMonths(term),
                     CutOffDate = voucher.VoucherDate.AddDays(7),
                     ModeOfPayment = ModeOfPayments.Monthly,
-                    DateReleased = voucher.VoucherDate
+                    DateReleased = voucher.VoucherDate,
+                    LoanAmount = loanAmount + finesAndPenalty
                 };
 
-            loanDetails.LoanAmount = loanAmount + finesAndPenalty;
             loanDetails.Payment = loanDetails.LoanAmount/term;
 
             loanDetails.AccountCode = voucher.AccountCode;
@@ -560,7 +563,7 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
             loanDetails.MemberCode = voucher.MemberCode;
             loanDetails.MemberName = voucher.MemberName;
 
-            loanDetails.ReleaseNo = Controllers.ModelController.Releases.MaxReleaseNumber() + 1;
+            loanDetails.ReleaseNo = ModelController.Releases.MaxReleaseNumber() + 1;
 
             loanDetails.CoMakers = comakers;
 
@@ -569,6 +572,77 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
             loanDetails.DocumentType = voucher.VoucherType.ToString();
 
             return loanDetails;
+        }
+
+        public static LoanDetails FindByVoucher(VoucherTypes voucherType, int voucherId)
+        {
+            var item = new LoanDetails();
+            var queryBuilder = new StringBuilder();
+            queryBuilder.AppendFormat("SELECT * FROM `{0}` ", Voucher.GetTableName(voucherType));
+            queryBuilder.AppendFormat("WHERE ID = ?Id");
+            DataTable dataTable = DatabaseController.ExecuteSelectQuery(queryBuilder, new SqlParameter("?Id", voucherId));
+
+            foreach (DataRow dataRow in dataTable.Rows)
+            {
+                item = new LoanDetails(dataRow);
+                if (voucherType == VoucherTypes.BG)
+                {
+                    item.LoanTerms = DataConverter.ToInteger(dataRow["TERMS1"]);
+                    item.ModeOfPayment = DataConverter.ToModeOfPayment(dataRow["MODE_PAY1"]);
+                }
+            }
+            return item;
+        }
+
+        public void Update(VoucherTypes voucherType, int voucherId)
+        {
+            var sqlParameters = new List<SqlParameter>();
+
+            ModelController.AddParameter(sqlParameters, "?RELEASE_NO", ReleaseNo);
+            ModelController.AddParameter(sqlParameters, "?LOAN_AMT", LoanAmount);
+            if (voucherType == VoucherTypes.BG)
+            {
+                ModelController.AddParameter(sqlParameters, "?TERMS1", LoanTerms);
+                ModelController.AddParameter(sqlParameters, "?MODE_PAY1",
+                                             ModeOfPayment.ToString().PadRight(3).Substring(0, 3));
+            }
+            else
+            {
+                ModelController.AddParameter(sqlParameters, "?TERMS", LoanTerms);
+                ModelController.AddParameter(sqlParameters, "?MODE_PAY",
+                                         ModeOfPayment.ToString().PadRight(3).Substring(0, 3));
+            }
+
+            ModelController.AddParameter(sqlParameters, "?TERMS_MODE", TermsMode.PadRight(2).Substring(0, 2));
+            ModelController.AddParameter(sqlParameters, "?DATE_GRANT", GrantedDate);
+            ModelController.AddParameter(sqlParameters, "?MATURITY", MaturityDate);
+            ModelController.AddParameter(sqlParameters, "?CUT_OFF", GrantedDate.AddDays(7));
+            
+
+            ModelController.AddParameter(sqlParameters, "?PAYMENT", Payment);
+
+            ModelController.AddParameter(sqlParameters, "?INT_RATE", InterestRate);
+            ModelController.AddParameter(sqlParameters, "?INT_AMT", InterestAmount);
+            ModelController.AddParameter(sqlParameters, "?INT_AMORT", InterestAmortization);
+
+            if (CoMakers != null)
+            {
+                ModelController.AddParameter(sqlParameters, "?CO_CODE1", CoMakers[0].MemberCode);
+                ModelController.AddParameter(sqlParameters, "?CO_NAME1", CoMakers[0].MemberName);
+
+                ModelController.AddParameter(sqlParameters, "?CO_CODE2", CoMakers[1].MemberCode);
+                ModelController.AddParameter(sqlParameters, "?CO_NAME2", CoMakers[1].MemberName);
+
+                ModelController.AddParameter(sqlParameters, "?CO_CODE3", CoMakers[2].MemberCode);
+                ModelController.AddParameter(sqlParameters, "?CO_NAME3", CoMakers[2].MemberName);
+            }
+
+            var paramId = new SqlParameter("ID", voucherId);
+            string tableName = Voucher.GetTableName(voucherType);
+            string query = DatabaseController.GenerateUpdateStatement(tableName, sqlParameters, paramId);
+
+            sqlParameters.Add(paramId);
+            DatabaseController.ExecuteNonQuery(query, sqlParameters.ToArray());
         }
     }
 }

@@ -37,7 +37,7 @@ namespace SCCO.WPF.MVC.CS.Controllers
             schedule.DateMaturity = grantedDate.AddMonths(termLoan);
             schedule.FirstPaymentDate = grantedDate.AddMonths(1);
 
-            var monthlyInterest = System.Math.Round((amountLoan*(schedule.AnnualInterestRate/12)), 2);
+            var monthlyInterest = System.Math.Round((amountLoan*schedule.AnnualInterestRate)/12, 2);
             var monthlyPayment = System.Math.Round((amountLoan/termLoan), 2);
 
             schedule.MonthlyAmortization = monthlyPayment + monthlyInterest + monthlyCapitalBuildUp;

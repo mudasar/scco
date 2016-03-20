@@ -285,7 +285,11 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
             MinimumLoanableAmount = DataConverter.ToDecimal(dataRow["MinimumLoanableAmount"]);
             MaximumLoanableAmount = DataConverter.ToDecimal(dataRow["MaximumLoanableAmount"]);
             MonthlyCapitalBuildUp = DataConverter.ToDecimal(dataRow["MonthlyCapitalBuildUp"]);
-            ShareRetentionRate = DataConverter.ToDecimal(dataRow["ShareRetentionRate"]);
+
+            if (Properties.Settings.Default.BranchName.ToUpper() != "BULACAN")
+            {
+                ShareRetentionRate = DataConverter.ToDecimal(dataRow["ShareRetentionRate"]);
+            }
 
             LoanCharges = LoanCharge.GetListByLoanProductId(ID);
 

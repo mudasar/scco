@@ -39,7 +39,7 @@ namespace SCCO.WPF.MVC.CS.Views.ForwardedBalanceModule
             if (_viewModel.SelectedItem == null) return;
             if (!_listTimeDepositCode.Contains(_viewModel.SelectedItem.AccountCode)) return;
 
-            var view = new TimeDepositDetailsView(_viewModel.SelectedItem.VoucherType, _viewModel.SelectedItem.ID);
+            var view = new TimeDepositDetailsView(VoucherTypes.BG, _viewModel.SelectedItem.ID);
             view.ShowDialog();
         }
 
@@ -52,7 +52,7 @@ namespace SCCO.WPF.MVC.CS.Views.ForwardedBalanceModule
             {
                 _viewModel.SelectedItem.LoanDetails = new LoanDetails();
             }
-            var view = new LoanDetailsWindow(_viewModel.SelectedItem.LoanDetails);
+            var view = new LoanDetailsWindow(VoucherTypes.BG, _viewModel.SelectedItem.ID);
             view.ShowDialog();
         }
 

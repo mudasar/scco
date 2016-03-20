@@ -375,7 +375,7 @@ namespace SCCO.WPF.MVC.CS.Views
 
             // display loan details
             if (currentItem.LoanDetails == null) return;
-            var loanDetailsWindow = new LoanDetailsWindow(currentItem.LoanDetails);
+            var loanDetailsWindow = new LoanDetailsWindow(currentItem.VoucherType, currentItem.ID);
             loanDetailsWindow.ShowDialog();
         }
 

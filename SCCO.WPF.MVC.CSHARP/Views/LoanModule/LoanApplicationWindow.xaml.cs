@@ -519,7 +519,7 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
             {
                 //GenerateStraightLineAmortization();
                 _loanDetails.Payment = _loanAmortizationHeader.MonthlyAmortization;
-                _loanDetails.InterestAmount = _loanAmortizationHeader.PaymentSchedules.Sum(sched => sched.Interest);
+                _loanDetails.InterestAmount = Math.Round(_loanAmortizationHeader.PaymentSchedules.Sum(sched => sched.Interest),2);
                 _loanDetails.InterestAmortization = _loanAmortizationHeader.PaymentSchedules.First().Interest;
                 _loanDetails.CutOffDate = _loanAmortizationHeader.FirstPaymentDate;
                 _loanDetails.MaturityDate = _loanAmortizationHeader.DateMaturity;
