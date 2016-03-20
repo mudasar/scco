@@ -42,6 +42,11 @@ namespace SCCO.WPF.MVC.CS.Database
 
         public static bool IsMigrationPending()
         {
+            InitializeMigrationStamp();
+            if (!GetScriptFiles().Any())
+            {
+                return false;
+            }
             GlobalVariable scriptStamp = GlobalVariable.FindByKeyword(SCRIPT_STAMP_LABEL);
             return _fileVersionInfo != scriptStamp.CurrentValue;
         }
