@@ -1,0 +1,14 @@
+SET @tc_account_code = '303';
+
+select mem_code, acc_code, cert_no FROM
+(
+select mem_code, acc_code, COALESCE(cert_no,'') as cert_no from slbal where acc_code = @tc_account_code
+union ALL
+select mem_code, acc_code, COALESCE(cert_no,'') as cert_no from cv where acc_code = @tc_account_code
+union ALL
+select mem_code, acc_code, COALESCE(cert_no,'') as cert_no from jv where acc_code = @tc_account_code
+union ALL
+select mem_code, acc_code, COALESCE(cert_no,'') as cert_no from `or` where acc_code = @tc_account_code
+) as lookup
+group by mem_code, acc_code, cert_no
+

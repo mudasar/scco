@@ -1,6 +1,4 @@
-﻿using System;
-using System.Text;
-using System.Windows;
+﻿using System.Windows;
 using SCCO.WPF.MVC.CS.Controllers;
 using SCCO.WPF.MVC.CS.Models;
 using SCCO.WPF.MVC.CS.Models.TimeDeposit;
