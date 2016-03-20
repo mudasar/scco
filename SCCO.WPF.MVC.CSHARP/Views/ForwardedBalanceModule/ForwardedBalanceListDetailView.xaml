@@ -101,6 +101,9 @@
                                             Binding="{Binding AccountTitle}"
                                             ElementStyle="{StaticResource ResourceKey=LeftAlignedTextBlock}"
                                             Header="Account Title" />
+                        <DataGridTextColumn Binding="{Binding TimeDepositDetails.CertificateNo}"
+                                            ElementStyle="{StaticResource ResourceKey=LeftAlignedTextBlock}"
+											Header="Cert. No" />
                         <DataGridTextColumn Width="80"
                                             Binding="{Binding StringFormat=\{0:N2\},
                                                               Path=Debit,

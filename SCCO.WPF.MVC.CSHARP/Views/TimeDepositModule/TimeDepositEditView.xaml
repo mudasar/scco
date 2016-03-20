@@ -5,7 +5,7 @@
                   xmlns:Views="clr-namespace:SCCO.WPF.MVC.CS.Views"
                   SizeToContent="WidthAndHeight"
                   Style="{DynamicResource BaseWindow}"
-                  WindowStartupLocation="CenterScreen">
+                  WindowStartupLocation="CenterScreen" Topmost="True">
 
     <Views:BaseWindow.DataContext>
         <Models:TimeDepositDetails />

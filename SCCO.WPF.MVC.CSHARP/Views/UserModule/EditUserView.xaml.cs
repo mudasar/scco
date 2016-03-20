@@ -39,8 +39,9 @@ namespace SCCO.WPF.MVC.CS.Views.UserModule
             chkInitialSetup.Visibility = canAccessInitialSetup ? Visibility.Visible : Visibility.Collapsed;
 
             var isAdministrator = Controllers.MainController.LoggedUser.IsAdministrator;
-            chkAdministrator.Visibility = isAdministrator ? Visibility.Visible : Visibility.Collapsed;
-
+            var superAdmin = isAdministrator ? Visibility.Visible : Visibility.Collapsed;
+            chkAdministrator.Visibility = superAdmin;
+            AdvancedUsersPanel.Visibility = superAdmin;
             DataContext = _editUserViewModel;
         }
     }

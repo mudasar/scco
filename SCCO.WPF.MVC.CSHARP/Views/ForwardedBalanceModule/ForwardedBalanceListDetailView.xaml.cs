@@ -39,11 +39,7 @@ namespace SCCO.WPF.MVC.CS.Views.ForwardedBalanceModule
             if (_viewModel.SelectedItem == null) return;
             if (!_listTimeDepositCode.Contains(_viewModel.SelectedItem.AccountCode)) return;
 
-            if (_viewModel.SelectedItem.TimeDepositDetails == null)
-            {
-                _viewModel.SelectedItem.TimeDepositDetails = new TimeDepositDetails();
-            }
-            var view = new TimeDepositDetailsView(_viewModel.SelectedItem.TimeDepositDetails);
+            var view = new TimeDepositDetailsView(_viewModel.SelectedItem.VoucherType, _viewModel.SelectedItem.ID);
             view.ShowDialog();
         }
 

@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data;
+using System.Text;
+using SCCO.WPF.MVC.CS.Database;
 using SCCO.WPF.MVC.CS.Utilities;
 
 namespace SCCO.WPF.MVC.CS.Models.TimeDeposit
@@ -20,13 +24,13 @@ namespace SCCO.WPF.MVC.CS.Models.TimeDeposit
 
         private DateTime _timeDepositDateIn;
 
-        public TimeDepositDetails(System.Data.DataRow dataRow)
+        public TimeDepositDetails(DataRow dataRow)
             : this()
         {
-            var certificateNo = DataConverter.ToString(dataRow["CERT_NO"]);
+            string certificateNo = DataConverter.ToString(dataRow["CERT_NO"]);
             if (string.IsNullOrEmpty(certificateNo)) return;
 
-            var amount = DataConverter.ToDecimal(dataRow["DEBIT"]) + DataConverter.ToDecimal(dataRow["CREDIT"]);
+            decimal amount = DataConverter.ToDecimal(dataRow["DEBIT"]) + DataConverter.ToDecimal(dataRow["CREDIT"]);
             if (amount == 0) return;
             CertificateNo = certificateNo;
 
@@ -46,8 +50,6 @@ namespace SCCO.WPF.MVC.CS.Models.TimeDeposit
         public TimeDepositDetails()
         {
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         public decimal Amount
         {
@@ -119,6 +121,13 @@ namespace SCCO.WPF.MVC.CS.Models.TimeDeposit
             }
         }
 
+        public bool IsValid
+        {
+            get { return DateIn != Maturity; }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public decimal EndingBalance(DateTime asOf)
         {
             return _amount + (CalculateInterestEarned(asOf) - CalculateServiceFee(asOf));
@@ -126,23 +135,23 @@ namespace SCCO.WPF.MVC.CS.Models.TimeDeposit
 
         public decimal CalculateInterestEarned(DateTime processingDate)
         {
-            var savingsDepositInterestRatePerAnnum = GlobalSettings.RateOfInterestOnSavingsDeposit;
-            var savingsDepositInterestEarnedPerAnnum = Amount*savingsDepositInterestRatePerAnnum;
-            var savingsDepositInterestEarnedPerDay = savingsDepositInterestEarnedPerAnnum/
-                                                     CountDaysInBetweenDates(DateIn, DateIn.AddYears(1));
+            decimal savingsDepositInterestRatePerAnnum = GlobalSettings.RateOfInterestOnSavingsDeposit;
+            decimal savingsDepositInterestEarnedPerAnnum = Amount*savingsDepositInterestRatePerAnnum;
+            decimal savingsDepositInterestEarnedPerDay = savingsDepositInterestEarnedPerAnnum/
+                                                         CountDaysInBetweenDates(DateIn, DateIn.AddYears(1));
 
-            var timeDepositInterestEarnedPerAnnum = Amount*Rate;
-            var timeDepositInterestEarnedPerDay = timeDepositInterestEarnedPerAnnum/
-                                                  CountDaysInBetweenDates(DateIn, DateIn.AddYears(1));
+            decimal timeDepositInterestEarnedPerAnnum = Amount*Rate;
+            decimal timeDepositInterestEarnedPerDay = timeDepositInterestEarnedPerAnnum/
+                                                      CountDaysInBetweenDates(DateIn, DateIn.AddYears(1));
 
             if (IsMature(processingDate))
             {
                 // get days until maturity
-                var timeDepositDays = CountDaysInBetweenDates(DateIn, Maturity);
-                var timeDepositInterestEarned = timeDepositInterestEarnedPerDay*timeDepositDays;
+                int timeDepositDays = CountDaysInBetweenDates(DateIn, Maturity);
+                decimal timeDepositInterestEarned = timeDepositInterestEarnedPerDay*timeDepositDays;
 
                 // get days a day after maturity until processing date
-                var daysAfterMaturity = CountDaysInBetweenDates(Maturity.AddDays(1), processingDate);
+                int daysAfterMaturity = CountDaysInBetweenDates(Maturity.AddDays(1), processingDate);
                 if (daysAfterMaturity >= 1)
                 {
                     timeDepositInterestEarned += savingsDepositInterestEarnedPerDay*daysAfterMaturity;
@@ -156,10 +165,10 @@ namespace SCCO.WPF.MVC.CS.Models.TimeDeposit
 
         public decimal CalculateServiceFee(DateTime processingDate)
         {
-            var minimumServiceFeeAmount = GlobalSettings.AmountOfMinimumTimeDepositServiceFee;
-            var interestEarned = CalculateInterestEarned(processingDate);
-            var serviceFeeRate = GlobalSettings.RateOfTimeDepositServiceFee;
-            var serviceFee = Math.Round(interestEarned*serviceFeeRate);
+            decimal minimumServiceFeeAmount = GlobalSettings.AmountOfMinimumTimeDepositServiceFee;
+            decimal interestEarned = CalculateInterestEarned(processingDate);
+            decimal serviceFeeRate = GlobalSettings.RateOfTimeDepositServiceFee;
+            decimal serviceFee = Math.Round(interestEarned*serviceFeeRate);
             return serviceFee > minimumServiceFeeAmount ? serviceFee : minimumServiceFeeAmount;
         }
 
@@ -204,17 +213,51 @@ namespace SCCO.WPF.MVC.CS.Models.TimeDeposit
             return new DateTime();
         }
 
-        internal static TimeDepositDetails ExtractFromDataRow(System.Data.DataRow dataRow)
+        internal static TimeDepositDetails ExtractFromDataRow(DataRow dataRow)
         {
-            var certificateNo = DataConverter.ToString(dataRow["CERT_NO"]);
+            string certificateNo = DataConverter.ToString(dataRow["CERT_NO"]);
             if (string.IsNullOrEmpty(certificateNo)) return null;
 
             return new TimeDepositDetails(dataRow);
         }
 
-        public bool IsValid
+        public void Update(VoucherTypes voucherType, int voucherId)
         {
-            get { return DateIn != Maturity; }
+            if (voucherId == 0) return;
+            var queryBuilder = new StringBuilder();
+            queryBuilder.AppendFormat("UPDATE `{0}` ", Voucher.GetTableName(voucherType));
+            queryBuilder.AppendFormat("SET CERT_NO = ?CertificateNo, ");
+            queryBuilder.AppendFormat("TERM = ?Term, ");
+            queryBuilder.AppendFormat("RATE = ?Rate, ");
+            queryBuilder.AppendFormat("DATE_IN = ?DateIn ");
+            queryBuilder.AppendFormat("WHERE ID = ?Id");
+
+            var parameters = new List<SqlParameter>
+                {
+                    new SqlParameter("?CertificateNo", CertificateNo),
+                    new SqlParameter("?Term", Term),
+                    new SqlParameter("?Rate", Rate),
+                    new SqlParameter("?DateIn", DateIn),
+                    new SqlParameter("Id", voucherId)
+                };
+
+            DatabaseController.ExecuteNonQuery(queryBuilder.ToString(), parameters.ToArray());
+        }
+
+        internal static TimeDepositDetails FindByVoucher(VoucherTypes voucherType, int voucherId)
+        {
+            var item = new TimeDepositDetails();
+            var queryBuilder = new StringBuilder();
+            queryBuilder.AppendFormat("SELECT DEBIT, CREDIT, CERT_NO, TERM, RATE, DATE_IN ");
+            queryBuilder.AppendFormat("FROM `{0}` ", Voucher.GetTableName(voucherType));
+            queryBuilder.AppendFormat("WHERE ID = ?Id");
+            var dataTable = DatabaseController.ExecuteSelectQuery(queryBuilder, new SqlParameter("?Id", voucherId));
+
+            foreach (DataRow dataRow in dataTable.Rows)
+            {
+                return new TimeDepositDetails(dataRow);
+            }
+            return item;
         }
     }
 }

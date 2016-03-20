@@ -433,7 +433,7 @@ namespace SCCO.WPF.MVC.CS.Views
             if (!currentItem.AccountCode.Contains(GlobalSettings.CodeOfTimeDeposit)) return;
 
             // display TdDetails
-            var timeDepositDetailsWindow = new TimeDepositDetailsView(currentItem.TimeDepositDetails);
+            var timeDepositDetailsWindow = new TimeDepositDetailsView(currentItem.VoucherType, currentItem.ID);
             timeDepositDetailsWindow.ShowDialog();
         }
 

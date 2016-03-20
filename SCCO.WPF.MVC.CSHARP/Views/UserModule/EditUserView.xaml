@@ -156,6 +156,18 @@
                                       Style="{StaticResource ControlCheckBox}" />
                         </StackPanel>
                         <StackPanel Grid.Column="1" />
+                        <StackPanel x:Name="AdvancedUsersPanel" Grid.Column="1">
+                        	<CheckBox Margin="0,2,0,2"
+                        		Content="Time Deposit Manager"
+                        		Foreground="WhiteSmoke"
+                        		IsChecked="{Binding User.IsTimeDepositManager}"
+                        		Style="{StaticResource ControlCheckBox}" />
+                        	<CheckBox Margin="0,2,0,2"
+                        		Content="Loan Accounts Manager"
+                        		Foreground="WhiteSmoke"
+                        		IsChecked="{Binding User.IsLoanAccountsManager}"
+                        		Style="{StaticResource ControlCheckBox}" />
+                        </StackPanel>
                     </Grid>
                 </StackPanel>
                 <TextBlock />

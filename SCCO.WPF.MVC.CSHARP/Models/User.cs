@@ -409,6 +409,26 @@ namespace SCCO.WPF.MVC.CS.Models
             }
         }
 
+        public bool IsTimeDepositManager
+        {
+            get { return _isTimeDepositManager; }
+            set
+            {
+                _isTimeDepositManager = value;
+                OnPropertyChanged("IsTimeDepositManager");
+            }
+        }
+
+        public bool IsLoanAccountsManager
+        {
+            get { return _isLoanAccountsManager; }
+            set
+            {
+                _isLoanAccountsManager = value;
+                OnPropertyChanged("IsLoanAccountsManager");
+            }
+        }
+
         public bool Module5; //MODULE5
         public bool Module6; //MODULE6
 
@@ -510,6 +530,8 @@ namespace SCCO.WPF.MVC.CS.Models
         private bool _canAccessOfficialReceipts;
         private bool _canAccessJournalVoucher;
         private bool _isAdministrator;
+        private bool _isTimeDepositManager;
+        private bool _isLoanAccountsManager;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -544,6 +566,10 @@ namespace SCCO.WPF.MVC.CS.Models
 
                 ModelController.AddParameter(sqlParameters, "?MODULE31", CanAccessMemberInformation);
                 ModelController.AddParameter(sqlParameters, "?MODULE14", IsAdministrator);
+
+                ModelController.AddParameter(sqlParameters, "?MODULE15", IsTimeDepositManager);
+                ModelController.AddParameter(sqlParameters, "?MODULE16", IsLoanAccountsManager);
+
 
                 return sqlParameters;
             }
@@ -677,6 +703,9 @@ namespace SCCO.WPF.MVC.CS.Models
             CanAccessMemberInformation = DataConverter.ToBoolean(dataRow["MODULE31"]);
 
             IsAdministrator = DataConverter.ToBoolean(dataRow["MODULE14"]);
+
+            IsTimeDepositManager = DataConverter.ToBoolean(dataRow["MODULE15"]);
+            IsLoanAccountsManager = DataConverter.ToBoolean(dataRow["MODULE16"]);
         }
 
         #endregion

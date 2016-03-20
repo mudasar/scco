@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Input;
 using SCCO.WPF.MVC.CS.Controllers;
 using SCCO.WPF.MVC.CS.Models;
+using SCCO.WPF.MVC.CS.Models.TimeDeposit;
 using SCCO.WPF.MVC.CS.Utilities;
 using SCCO.WPF.MVC.CS.Views.LoanModule;
 using SCCO.WPF.MVC.CS.Views.TimeDepositModule;
@@ -436,7 +437,7 @@ namespace SCCO.WPF.MVC.CS.Views
             if (!currentItem.AccountCode.Contains(GlobalSettings.CodeOfTimeDeposit)) return;
 
             // display TdDetails
-            var timeDepositDetailsWindow = new TimeDepositDetailsView(currentItem.TimeDepositDetails);
+            var timeDepositDetailsWindow = new TimeDepositDetailsView(currentItem.VoucherType, currentItem.ID);
             timeDepositDetailsWindow.ShowDialog();
         }
 
