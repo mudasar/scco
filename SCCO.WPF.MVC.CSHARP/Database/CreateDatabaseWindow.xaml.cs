@@ -147,7 +147,7 @@ namespace SCCO.WPF.MVC.CS.Database
 
                             DatabaseController.ExecuteNonQuery(connection, executeCreateTable.ToString());
 
-                            // do not copy vouchers
+                            // do not copy vouchers data from previous year
                             switch (tableName)
                             {
                                 case "or":
@@ -155,6 +155,8 @@ namespace SCCO.WPF.MVC.CS.Database
                                 case "jv":
                                     break;
                                 case "cv":
+                                    break;
+                                case "voucher_logs": // voucher logs should be empty
                                     break;
                                 default:
                                     var executeCopyData = new StringBuilder();
