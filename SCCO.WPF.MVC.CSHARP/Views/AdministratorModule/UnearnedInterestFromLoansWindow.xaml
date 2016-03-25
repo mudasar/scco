@@ -2,12 +2,13 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:SCCO.WPF.MVC.CS.Views.AdministratorModule"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="SCCO.WPF.MVC.CS.Views.AdministratorModule.UnearnedInterestFromLoansWindow"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:Views="clr-namespace:SCCO.WPF.MVC.CS.Views"
-        Title="Unearned Interest From Loans" Style="{DynamicResource BaseWindow}" ResizeMode="NoResize" Icon="/SCCO.WPF.MVC.CS;component/Images/administrator.png" SizeToContent="WidthAndHeight" WindowStyle="None">
-    <Window.DataContext>
+        xmlns:SCCO_WPF_MVC_CS_UserControls="clr-namespace:SCCO.WPF.MVC.CS.UserControls" mc:Ignorable="d" x:Class="SCCO.WPF.MVC.CS.Views.AdministratorModule.UnearnedInterestFromLoansWindow"
+        Title="Unearned Interest From Loans" Style="{DynamicResource BaseWindow}" ResizeMode="NoResize" Icon="/SCCO.WPF.MVC.CS;component/Images/administrator.png" SizeToContent="WidthAndHeight" WindowStyle="None" WindowStartupLocation="CenterScreen">
+    <Views:BaseWindow.DataContext>
         <local:UnearnedInterestFromLoansViewModel />
-    </Window.DataContext>
+    </Views:BaseWindow.DataContext>
     <Grid Margin="5" Height="600" Width="800">
         <Grid x:Name="FormLayout">
         	<Rectangle x:Name="Canvass"
@@ -82,8 +83,13 @@
         		<DataGridTextColumn Binding="{Binding MaturityDate, StringFormat=\{0:d\}}" Header="Maturity Date" />
         	</DataGrid.Columns>
         </DataGrid>
-        <Button x:Name="btnPost"
-        	VerticalAlignment="Bottom"
-        	Content="Post" Style="{DynamicResource ControlButton}" HorizontalAlignment="Right" Margin="0,0,20,20" />
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,20,20">
+        	<Button x:Name="SetupButton"
+        		Content="Setup" Style="{DynamicResource ControlButton}" />
+				        	<Button x:Name="RefreshButton"
+        		Content="Refresh" Style="{DynamicResource ControlButton}" />
+        	<Button x:Name="PostButton"
+        		Content="Post" Style="{DynamicResource ControlButton}" />
+        </StackPanel>
     </Grid>
 </Views:BaseWindow>

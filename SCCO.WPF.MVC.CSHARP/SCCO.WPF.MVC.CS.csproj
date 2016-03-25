@@ -474,6 +474,10 @@
       <DependentUpon>LoanCompromiseAgreementView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\AccountVerifierModule\LoanCompromiseAgreementViewModel.cs" />
+    <Compile Include="Views\AdministratorModule\ShareCapitalSetupView.xaml.cs">
+      <DependentUpon>ShareCapitalSetupView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AdministratorModule\ShareCapitalSetupViewModel.cs" />
     <Compile Include="Views\LoanModule\LoanDetailsEditView.xaml.cs">
       <DependentUpon>LoanDetailsEditView.xaml</DependentUpon>
     </Compile>
@@ -954,6 +958,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountVerifierModule\LoanCompromiseAgreementView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\AdministratorModule\ShareCapitalSetupView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1792,6 +1800,7 @@
     <Resource Include="Images\handshake.png" />
     <Resource Include="Images\barber_scissors.png" />
     <Resource Include="Images\document.png" />
+    <Resource Include="Images\closed-stamp.png" />
     <Content Include="Scripts\2.3.0.0\bulacan\2015\fn_due_fines.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

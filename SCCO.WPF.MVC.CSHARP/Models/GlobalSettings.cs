@@ -22,6 +22,8 @@ namespace SCCO.WPF.MVC.CS.Models
         CodeOfTimeDeposit,
         CodeOfUnearnedIncome,
         CodeOfServiceFee,
+        CodeOfShareCapital,
+        CodeOfFinesAndPenalty,
         DateOfOpenTransaction,
         NumberOfSavingsDepositWithdrawalCashVoucher,
         AmountOfSavingsDepositMaximumDailyWithdrawals,
@@ -33,8 +35,8 @@ namespace SCCO.WPF.MVC.CS.Models
         RateOfInterestOnSavingsDeposit,
         RateOfTimeDepositServiceFee,
         DateOfSavingsDepositWithdrawalCashVoucher,
-        CodeOfFinesAndPenalty,
-        MigrationStamp
+        MigrationStamp,
+        AmountOfShareCapitalRequiredBalance
     }
 
     public static class GlobalSettings
@@ -414,6 +416,24 @@ namespace SCCO.WPF.MVC.CS.Models
             {
                 const GlobalKeys key = GlobalKeys.MigrationStamp;
                 return DataConverter.ToString(SearchDatabase(key)["CurrentValue"]);
+            }
+        }
+
+        public static string CodeOfShareCapital
+        {
+            get
+            {
+                const GlobalKeys key = GlobalKeys.CodeOfShareCapital;
+                return DataConverter.ToString(SearchDatabase(key)["CurrentValue"]);
+            }
+        }
+
+        public static decimal AmountOfShareCapitalRequiredBalance
+        {
+            get
+            {
+                const GlobalKeys key = GlobalKeys.AmountOfShareCapitalRequiredBalance;
+                return DataConverter.ToDecimal(SearchDatabase(key)["CurrentValue"]);
             }
         }
     }

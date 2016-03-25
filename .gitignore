@@ -211,3 +211,4 @@ TraceAndTestImpact.testsettings
 scco.vsmdi
 Local.testsettings
 SCCO.WPF.MVC.CSHARP/Migrations/
+BusinessLayer/

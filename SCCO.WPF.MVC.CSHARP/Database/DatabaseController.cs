@@ -41,7 +41,7 @@ namespace SCCO.WPF.MVC.CS.Database
                             UserID = UserName,
                             Password = Password,
                             ConnectionTimeout = 60,
-                            DefaultCommandTimeout = 60,
+                            DefaultCommandTimeout = 0,
                             AllowZeroDateTime = false,
                             ConvertZeroDateTime = true,
                             RespectBinaryFlags = true

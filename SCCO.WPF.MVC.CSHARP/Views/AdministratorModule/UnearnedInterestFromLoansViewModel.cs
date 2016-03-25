@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel;
-using SCCO.WPF.MVC.CS.Controllers;
-using SCCO.WPF.MVC.CS.Models.Loan;
 using System.Linq;
-using System;
+using SCCO.WPF.MVC.CS.Controllers;
+using SCCO.WPF.MVC.CS.Models;
+using SCCO.WPF.MVC.CS.Models.AccountVerifier;
+using SCCO.WPF.MVC.CS.Models.Loan;
 
 namespace SCCO.WPF.MVC.CS.Views.AdministratorModule
 {
@@ -16,15 +17,14 @@ namespace SCCO.WPF.MVC.CS.Views.AdministratorModule
         private OutstandingLoans _collection;
         private OutstandingLoan _selectedItem;
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
         public OutstandingLoans Collection
         {
             get { return _collection; }
             set
             {
                 if (_collection == value) return;
-                _collection = value; OnPropertyChanged("Collection");
+                _collection = value;
+                OnPropertyChanged("Collection");
             }
         }
 
@@ -34,16 +34,18 @@ namespace SCCO.WPF.MVC.CS.Views.AdministratorModule
             set
             {
                 if (_selectedItem == value) return;
-                _selectedItem = value; OnPropertyChanged("SelectedItem");
+                _selectedItem = value;
+                OnPropertyChanged("SelectedItem");
             }
         }
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public void InitializeData()
         {
-            // Get list of unearned incomes
             var asOf = MainController.LoggedUser.TransactionDate;
-            var code = Models.GlobalVariable.FindByKeyword("CodeOfUnearnedIncome");
-            var unearnedIncomes = Models.AccountVerifier.AccountSummary.PerAccount(code.CurrentValue, asOf);
+            // Get list of unearned incomes
+            var unearnedIncomes = AccountSummary.PerAccount(GlobalSettings.CodeOfUnearnedIncome, asOf);
 
             // Get list of loans
             var loanAccounts = OutstandingLoans.AsOf(asOf);
@@ -54,13 +56,18 @@ namespace SCCO.WPF.MVC.CS.Views.AdministratorModule
             {
                 // process only active
                 if (loan.EndingBalance <= 0) continue;
+
                 // do not process overdue
                 if (loan.MaturityDate < asOf) continue;
+
                 // do not process loan if term is one month or less
                 if ((loan.MaturityDate - loan.GrantedDate).TotalDays <= 31) continue;
 
                 var memberCode = loan.MemberCode;
-                if(unearnedIncomes.Any(ui => ui.MemberCode == memberCode))
+
+                // must have unearned income
+                var unearnedIncome = unearnedIncomes.FirstOrDefault(ui => ui.MemberCode == memberCode);
+                if (unearnedIncome != null && unearnedIncome.Balance > 0)
                 {
                     Collection.Add(loan);
                 }
@@ -69,7 +76,7 @@ namespace SCCO.WPF.MVC.CS.Views.AdministratorModule
 
         protected virtual void OnPropertyChanged(string propertyName)
         {
-            PropertyChangedEventHandler handler = PropertyChanged;
+            var handler = PropertyChanged;
             if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
         }
     }
