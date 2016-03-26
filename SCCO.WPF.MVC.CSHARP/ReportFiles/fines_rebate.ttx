@@ -6,7 +6,7 @@ process_date	Date		2014-02-23
 loan_amount	Number		10000
 payment	Number		100
 payment_made	Number		20
-balance_on_due_date	Number		1000
+balance_on_due_date	Number		0.00
 rebate	Number		20
 interest	Number		30
 fines	Number		15

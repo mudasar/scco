@@ -20,11 +20,11 @@ namespace SCCO.WPF.MVC.CS.Database
         public static Result Perform()
         {
             InitializeMigrationStamp();
-            IEnumerable<FileInfo> scripts = GetScriptFiles();
+            var scripts = GetScriptFiles();
             try
             {
-                MySqlConnection conn = DatabaseController.SharedDbConnection;
-                foreach (FileInfo fileInfo in scripts)
+                var conn = DatabaseController.SharedDbConnection;
+                foreach (var fileInfo in scripts)
                 {
                     if (!fileInfo.Exists) continue;
                     var script = new MySqlScript(conn, File.ReadAllText(fileInfo.FullName)) {Delimiter = "$$"};
@@ -47,13 +47,15 @@ namespace SCCO.WPF.MVC.CS.Database
             {
                 return false;
             }
-            GlobalVariable scriptStamp = GlobalVariable.FindByKeyword(SCRIPT_STAMP_LABEL);
+            var scriptStamp = GlobalVariable.FindByKeyword(SCRIPT_STAMP_LABEL);
             return _fileVersionInfo != scriptStamp.CurrentValue;
         }
 
         private static IEnumerable<FileInfo> GetScriptFiles()
         {
-            string scriptsFolder = GetScriptsFolder();
+            var scriptsFolder = GetScriptsFolder();
+            if (!Directory.Exists(scriptsFolder)) return new FileInfo[0];
+
             return Directory.EnumerateFiles(scriptsFolder, "*.sql", SearchOption.AllDirectories)
                             .Select(file => new FileInfo(file));
         }
@@ -68,12 +70,10 @@ namespace SCCO.WPF.MVC.CS.Database
 
         private static void InitializeMigrationStamp()
         {
-            if (_fileVersionInfo == null)
-            {
-                Assembly assembly = Assembly.GetExecutingAssembly();
-                FileVersionInfo fileVersionInfo = FileVersionInfo.GetVersionInfo(assembly.Location);
-                _fileVersionInfo = string.Format("{0}", fileVersionInfo.FileVersion);
-            }
+            if (_fileVersionInfo != null) return;
+            var assembly = Assembly.GetExecutingAssembly();
+            var fileVersionInfo = FileVersionInfo.GetVersionInfo(assembly.Location);
+            _fileVersionInfo = string.Format("{0}", fileVersionInfo.FileVersion);
         }
     }
 }
