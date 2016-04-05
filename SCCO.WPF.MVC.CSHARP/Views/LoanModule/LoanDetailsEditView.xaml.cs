@@ -33,6 +33,7 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
             }
 
             cboTermsMode.Items.Add("Days");
+            cboTermsMode.Items.Add("Month");
             cboTermsMode.Items.Add("Months");
 
             cboModePay.Items.Add(ModeOfPayments.Daily);
@@ -50,13 +51,15 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
                 switch (_loanDetails.TermsMode)
                 {
                     case "Days":
+                    case "Day":
                         _loanDetails.MaturityDate = _loanDetails.GrantedDate.AddDays(_loanDetails.LoanTerms);
                         break;
                     case "Months":
+                    case "Month":
                         _loanDetails.MaturityDate = _loanDetails.GrantedDate.AddMonths(_loanDetails.LoanTerms);
                         break;
                     default:
-                        _loanDetails.MaturityDate = _loanDetails.GrantedDate;
+                        _loanDetails.MaturityDate = _loanDetails.GrantedDate.AddMonths(1);
                         break;
                 }
             }
@@ -66,8 +69,16 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
             {
                 months /= 30;
             }
-            _loanDetails.InterestAmount = (_loanDetails.LoanAmount*_loanDetails.InterestRate/12)*months;
-            
+            if (months == 1 && _loanDetails.InterestRate < 0.1m)
+            {
+                _loanDetails.InterestAmount = _loanDetails.LoanAmount * _loanDetails.InterestRate;
+                
+            }
+            else
+            {
+                _loanDetails.InterestAmount = (_loanDetails.LoanAmount * _loanDetails.InterestRate / 12) * months;
+            }
+
             if (_loanDetails.LoanTerms == 0) return;
             _loanDetails.InterestAmortization = _loanDetails.InterestAmount/_loanDetails.LoanTerms;
 

@@ -637,7 +637,7 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
                 ModelController.AddParameter(sqlParameters, "?CO_NAME3", CoMakers[2].MemberName);
             }
 
-            var paramId = new SqlParameter("ID", voucherId);
+            var paramId = new SqlParameter("?ID", voucherId);
             string tableName = Voucher.GetTableName(voucherType);
             string query = DatabaseController.GenerateUpdateStatement(tableName, sqlParameters, paramId);
 

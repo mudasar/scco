@@ -28,7 +28,6 @@
                 </Rectangle.Effect>
             </Rectangle>
             <Border x:Name="ShineEffect"
-                    Height="16"
                     Margin="2,2,2,0"
                     VerticalAlignment="Top"
                     CornerRadius="4"
@@ -44,9 +43,6 @@
                    Stretch="Fill" />
             <Label x:Name="FormTitle"
                    Margin="34,10,0,0"
-                   HorizontalAlignment="Left"
-                   VerticalAlignment="Top"
-                   VerticalContentAlignment="Center"
                    Content="Loan Details"
                    MouseLeftButtonDown="DragWindow"
                    Style="{StaticResource FormTitle2}" />
@@ -57,7 +53,6 @@
                     Background="#00E4D2D2"
                     Click="CloseWindow"
                     Content="x"
-                    IsCancel="True"
                     IsTabStop="False"
                     Style="{DynamicResource CloseButton}"
                     TabIndex="5" />
@@ -587,10 +582,9 @@
                     <TextBlock Text="{Binding Description}" />
                 </Label>
                 <Button x:Name="btnEdit"
-                	Width="100"
                 	HorizontalAlignment="Right"
                 	Content="Edit"
-                	Style="{DynamicResource ControlButton}" VerticalAlignment="Bottom" />
+                	Style="{DynamicResource ControlButton}" VerticalAlignment="Bottom" Margin="6" />
             </Grid>
         </Border>
     </Grid>
