@@ -534,7 +534,7 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
         internal static LoanDetails ExtractFromDataRow(DataRow dataRow)
         {
             decimal loanAmount = DataConverter.ToDecimal(dataRow["LOAN_AMT"]);
-            if (loanAmount == 0) return null;
+            if (loanAmount == 0) return new LoanDetails();
 
             return new LoanDetails(dataRow);
         }
@@ -599,6 +599,7 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
             var sqlParameters = new List<SqlParameter>();
 
             ModelController.AddParameter(sqlParameters, "?RELEASE_NO", ReleaseNo);
+            ModelController.AddParameter(sqlParameters, "?RELEASED", DateReleased);
             ModelController.AddParameter(sqlParameters, "?LOAN_AMT", LoanAmount);
             if (voucherType == VoucherTypes.BG)
             {

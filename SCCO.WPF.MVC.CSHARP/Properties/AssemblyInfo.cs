@@ -10,7 +10,7 @@ using System.Windows;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Sta. Cruz Savings and Credit Cooperative")]
 [assembly: AssemblyProduct("SCCO Accounting System v2")]
-[assembly: AssemblyCopyright("Copyright ©  2013")]
+[assembly: AssemblyCopyright("Copyright © 2016")]
 [assembly: AssemblyTrademark("AV Software")]
 [assembly: AssemblyCulture("")]
 
@@ -51,5 +51,5 @@ using System.Windows;
 // [assembly: AssemblyVersion("1.0.*")]
 // [assembly: AssemblyVersion("2.0.0.0")]
 // [assembly: AssemblyFileVersion("2.0.0.0")]
-[assembly: AssemblyVersion("2.3.0.1")]
-[assembly: AssemblyFileVersionAttribute("2.3.0.1")]
+[assembly: AssemblyVersion("2.3.0.2")]
+[assembly: AssemblyFileVersionAttribute("2.3.0.2")]

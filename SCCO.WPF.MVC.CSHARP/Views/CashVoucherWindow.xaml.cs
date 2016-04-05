@@ -244,7 +244,7 @@ namespace SCCO.WPF.MVC.CS.Views
 			btnSave.IsEnabled = allowEdit;
 			btnDelete.IsEnabled = allowEdit;
 			btnCancelled.IsEnabled = allowEdit;
-			btnPrint.IsEnabled = allowEdit;
+			//btnPrint.IsEnabled = allowEdit;
 			
             if (allowEdit)
             {

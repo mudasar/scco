@@ -73,6 +73,17 @@
                              Style="{DynamicResource RoundedTextBox}"
                              Text="{Binding ReleaseNo}" />
                 </Grid>
+                <Grid x:Name="DateGrantedPanel1" Margin="2">
+                	<Grid.ColumnDefinitions>
+                		<ColumnDefinition Width=".6*" />
+                		<ColumnDefinition />
+                	</Grid.ColumnDefinitions>
+                	<Label Content="Released Date" />
+                	<DatePicker x:Name="dtpReleasedDate"
+                		Grid.Column="1"
+                		SelectedDate="{Binding DateReleased, Converter={StaticResource DateConverter2}}"
+                		Style="{DynamicResource RoundedDatePicker}" />
+                </Grid>
                 <Grid x:Name="LoanAmountPanel" Margin="2">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width=".6*" />

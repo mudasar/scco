@@ -7,7 +7,7 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
     public partial class LoanDetailsEditView
     {
         private const int MONTHS_IN_THREE_YEARS = 12*3;
-        private LoanDetails _loanDetails;
+        private readonly LoanDetails _loanDetails;
 
         public LoanDetailsEditView(LoanDetails loanDetails)
         {
@@ -45,42 +45,52 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
         private void RefreshFields()
         {
             if (_loanDetails.LoanAmount == 0) return;
-
-            if (!string.IsNullOrEmpty(_loanDetails.TermsMode))
-            {
-                switch (_loanDetails.TermsMode)
-                {
-                    case "Days":
-                    case "Day":
-                        _loanDetails.MaturityDate = _loanDetails.GrantedDate.AddDays(_loanDetails.LoanTerms);
-                        break;
-                    case "Months":
-                    case "Month":
-                        _loanDetails.MaturityDate = _loanDetails.GrantedDate.AddMonths(_loanDetails.LoanTerms);
-                        break;
-                    default:
-                        _loanDetails.MaturityDate = _loanDetails.GrantedDate.AddMonths(1);
-                        break;
-                }
-            }
-
-            var months = _loanDetails.LoanTerms;
-            if (_loanDetails.TermsMode == "Days")
-            {
-                months /= 30;
-            }
-            if (months == 1 && _loanDetails.InterestRate < 0.1m)
-            {
-                _loanDetails.InterestAmount = _loanDetails.LoanAmount * _loanDetails.InterestRate;
-                
-            }
-            else
-            {
-                _loanDetails.InterestAmount = (_loanDetails.LoanAmount * _loanDetails.InterestRate / 12) * months;
-            }
-
             if (_loanDetails.LoanTerms == 0) return;
-            _loanDetails.InterestAmortization = _loanDetails.InterestAmount/_loanDetails.LoanTerms;
+            if (string.IsNullOrEmpty(_loanDetails.TermsMode)) return;
+
+            switch (_loanDetails.TermsMode)
+            {
+                case "Days":
+                case "Day":
+                    UpdateFieldsForDayTermsMode();
+                    break;
+                default:
+                    UpdateFieldsForMonthTermsMode();
+                    break;
+            }
+        }
+
+        private void UpdateFieldsForDayTermsMode()
+        {
+            _loanDetails.MaturityDate = _loanDetails.GrantedDate.AddDays(_loanDetails.LoanTerms);
+            _loanDetails.InterestAmount = _loanDetails.LoanAmount * _loanDetails.InterestRate;
+            _loanDetails.InterestAmortization = _loanDetails.InterestAmount;
+
+            var days = _loanDetails.LoanTerms;
+
+            switch (_loanDetails.ModeOfPayment)
+            {
+                case ModeOfPayments.Daily:
+                    _loanDetails.Payment = _loanDetails.LoanAmount/_loanDetails.LoanTerms;
+                    break;
+
+                case ModeOfPayments.Weekly:
+                    _loanDetails.Payment = _loanDetails.LoanAmount/(Math.Floor(days/7m));
+                    break;
+                case ModeOfPayments.SemiMonthly:
+                    _loanDetails.Payment = _loanDetails.LoanAmount/(days/15m);
+                    break;
+                default:
+                    _loanDetails.Payment = _loanDetails.LoanAmount;
+                    break;
+            }
+        }
+
+        private void UpdateFieldsForMonthTermsMode()
+        {
+            _loanDetails.MaturityDate = _loanDetails.GrantedDate.AddMonths(_loanDetails.LoanTerms);
+            _loanDetails.InterestAmount = (_loanDetails.LoanAmount * _loanDetails.InterestRate / 12) * _loanDetails.LoanTerms;
+            _loanDetails.InterestAmortization = _loanDetails.InterestAmount / _loanDetails.LoanTerms;
 
             switch (_loanDetails.ModeOfPayment)
             {
@@ -95,7 +105,7 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
                     break;
                 case ModeOfPayments.SemiMonthly:
                     _loanDetails.Payment = _loanDetails.LoanAmount /
-                                           (GetMonthDifference(_loanDetails.GrantedDate, _loanDetails.MaturityDate)*2);
+                                           (GetMonthDifference(_loanDetails.GrantedDate, _loanDetails.MaturityDate) * 2);
                     break;
                 default:
                     _loanDetails.Payment = _loanDetails.LoanAmount /
@@ -119,6 +129,12 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
         private int GetWeekDifference(DateTime startDate, DateTime endDate)
         {
             return (endDate.Subtract(startDate)).Days/7;
+        }
+
+        private enum TermsMode
+        {
+            Days,
+            Months
         }
     }
 }
