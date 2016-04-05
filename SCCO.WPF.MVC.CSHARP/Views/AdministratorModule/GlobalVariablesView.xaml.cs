@@ -32,6 +32,7 @@ namespace SCCO.WPF.MVC.CS.Views.AdministratorModule
             _model.CodeOfUnearnedIncome.Update();
             _model.CodeOfFinesAndPenalty.Update();
             _model.RateOfTimeDepositServiceFee.Update();
+            _model.RateOfFinesAndPenalty.Update();
 
             DialogResult = true;
             Close();
