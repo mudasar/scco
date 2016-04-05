@@ -29,7 +29,6 @@
                 </Rectangle.Effect>
             </Rectangle>
             <Border x:Name="ShineEffect"
-                    Height="16"
                     Margin="2,2,2,0"
                     VerticalAlignment="Top"
                     CornerRadius="4"
@@ -45,8 +44,6 @@
                    Stretch="Fill" />
             <Label x:Name="FormTitle"
                    Margin="34,10,0,0"
-                   HorizontalAlignment="Left"
-                   VerticalAlignment="Top"
                    Content="Savings Deposit Interest Posting"
                    MouseLeftButtonDown="DragWindow"
                    Style="{DynamicResource FormTitle2}" />
@@ -57,7 +54,6 @@
                     Background="#00E4D2D2"
                     Click="CloseWindow"
                     Content="x"
-                    IsCancel="True"
                     IsTabStop="False"
                     Style="{DynamicResource CloseButton}"
                     TabIndex="5" />
@@ -69,7 +65,8 @@
                     <TextBox Focusable="True"
                              Style="{DynamicResource RoundedTextBox}"
                              Text="{Binding RateOfInterestOnSavingsDeposit,
-                                            StringFormat=\{0:P\}}" />
+                                                Converter={StaticResource PercentageConverter1},
+                                                StringFormat=\{0:P\}}" />
                 </StackPanel>
                 <StackPanel Margin="2">
                     <Label Margin="0,6,0,0" Content="Required Balance" />
@@ -94,7 +91,6 @@
                 </StackPanel>
             </StackPanel>
             <Button x:Name="btnUpdate"
-                    Width="100"
                     Margin="0,20,0,0"
                     HorizontalAlignment="Center"
                     Content="Update"

@@ -329,9 +329,13 @@ namespace SCCO.WPF.MVC.CS.Models
             {
                 GlobalVariable globalVariable = GlobalVariable.FindByKeyword(keyword);
 
-                if (keyword.ToLower().Contains("amountof") || keyword.ToLower().Contains("rateof"))
+                if (keyword.ToLower().Contains("amountof"))
                 {
-                    globalVariable.CurrentValue = string.Format("{0:N}", value);
+                    globalVariable.CurrentValue = string.Format("{0:N2}", value);
+                }
+                else if (keyword.ToLower().Contains("rateof"))
+                {
+                    globalVariable.CurrentValue = string.Format("{0:N4}", value);
                 }
                 else if (keyword.ToLower().Contains("codeof"))
                 {
