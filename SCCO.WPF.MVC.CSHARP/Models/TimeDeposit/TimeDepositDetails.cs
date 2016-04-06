@@ -238,7 +238,7 @@ namespace SCCO.WPF.MVC.CS.Models.TimeDeposit
                     new SqlParameter("?Term", Term),
                     new SqlParameter("?Rate", Rate),
                     new SqlParameter("?DateIn", DateIn),
-                    new SqlParameter("Id", voucherId)
+                    new SqlParameter("?Id", voucherId)
                 };
 
             DatabaseController.ExecuteNonQuery(queryBuilder.ToString(), parameters.ToArray());
