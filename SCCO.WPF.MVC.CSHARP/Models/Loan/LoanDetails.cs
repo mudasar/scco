@@ -534,7 +534,7 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
         internal static LoanDetails ExtractFromDataRow(DataRow dataRow)
         {
             decimal loanAmount = DataConverter.ToDecimal(dataRow["LOAN_AMT"]);
-            if (loanAmount == 0) return new LoanDetails();
+            if (loanAmount == 0) return null;
 
             return new LoanDetails(dataRow);
         }
