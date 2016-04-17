@@ -169,6 +169,13 @@
       <SubType>Component</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
+    <Compile Include="ReportFiles\time_deposit_certificate.cs">
+      <DependentUpon>time_deposit_certificate.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="ReportFiles\notice_loan_overdue.cs">
       <DependentUpon>notice_loan_overdue.rpt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -1444,6 +1451,11 @@
       <LastGenOutput>borrower_makers.cs</LastGenOutput>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
+    <None Include="ReportFiles\time_deposit_certificate.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>time_deposit_certificate.cs</LastGenOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="ReportFiles\notice_loan_overdue.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>notice_loan_overdue.cs</LastGenOutput>
@@ -1647,6 +1659,9 @@
     <None Include="ReportFiles\teller_collector_form.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>teller_collector_form.cs</LastGenOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReportFiles\time_deposit_certificate.ttx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="ReportFiles\withdrawal_validation.rpt">

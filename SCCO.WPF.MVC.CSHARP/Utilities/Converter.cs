@@ -12,6 +12,12 @@ namespace SCCO.WPF.MVC.CS.Utilities
     {
         #region --- Convert An Amount to Words ---
 
+        /// <summary>
+        /// Convert a number to a word representation
+        /// </summary>
+        /// <param name="number"></param>
+        /// <param name="currency"></param>
+        /// <returns></returns>
         public static string AmountToWords(decimal number, string currency = "Peso")
         {
             decimal originalNumber = number;
@@ -113,7 +119,7 @@ namespace SCCO.WPF.MVC.CS.Utilities
                 numberToWords = numberToWords.Replace("  ", " ");
             }
 
-            return numberToWords;
+            return numberToWords.Trim();
         }
 
         private static string GetHundredsToWords(int number)
@@ -253,6 +259,20 @@ namespace SCCO.WPF.MVC.CS.Utilities
             }
 
             return param;
+        }
+
+        /// <summary>
+        /// Returns rate in whole number
+        /// </summary>
+        /// <param name="rate"></param>
+        /// <returns></returns>
+        public static decimal ToPercentage(decimal rate)
+        {
+            if ((rate * 100) > 100)
+            {
+                return rate;
+            }
+            return rate * 100;
         }
     }
 

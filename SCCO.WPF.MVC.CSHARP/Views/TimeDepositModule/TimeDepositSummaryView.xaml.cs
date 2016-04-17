@@ -21,6 +21,7 @@ namespace SCCO.WPF.MVC.CS.Views.TimeDepositModule
             btnWithdraw.Click += (sender, args) => Withdraw();
             btnPreterminate.Click += (sender, args) => Withdraw();
             btnRollover.Click += (sender, args) => Rollover();
+            btnPrintCtd.Click += (sender, args) => PrintCertificate();
         }
 
         private void RefreshFieldValues()
@@ -50,7 +51,8 @@ namespace SCCO.WPF.MVC.CS.Views.TimeDepositModule
             }
         }
 
-        public bool HasChanged {
+        public bool HasChanged
+        {
             get { return _hasChanged; }
         }
 
@@ -68,6 +70,8 @@ namespace SCCO.WPF.MVC.CS.Views.TimeDepositModule
         private void PrintCertificate()
         {
             // Show Print Preview of CTD
+            var member = Nfmb.FindByCode(_accountDetail.MemberCode);
+            Controllers.ReportController.TimeDeposit.PrintCertificate(member, _accountDetail.TimeDepositDetails);
         }
 
         private void Preterminate()
@@ -78,7 +82,10 @@ namespace SCCO.WPF.MVC.CS.Views.TimeDepositModule
 
         private void RefreshButtons()
         {
-            if (_accountDetail.TimeDepositDetails.IsPremature(GlobalSettings.DateOfOpenTransaction))
+            var adminDate = GlobalSettings.DateOfOpenTransaction;
+            var userDate = Controllers.MainController.LoggedUser.TransactionDate;
+
+            if (_accountDetail.TimeDepositDetails.IsPremature(userDate))
             {
                 btnRollover.Visibility = Visibility.Collapsed;
                 btnWithdraw.Visibility = Visibility.Collapsed;
@@ -90,6 +97,11 @@ namespace SCCO.WPF.MVC.CS.Views.TimeDepositModule
                 btnWithdraw.Visibility = Visibility.Visible;
                 btnPreterminate.Visibility = Visibility.Collapsed;
             }
+
+            var canPerformActions = adminDate == userDate;
+            btnRollover.IsEnabled = canPerformActions;
+            btnWithdraw.IsEnabled = canPerformActions;
+            btnPreterminate.IsEnabled = canPerformActions;
         }
     }
 }

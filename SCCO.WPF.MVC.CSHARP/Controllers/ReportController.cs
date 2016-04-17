@@ -1383,6 +1383,50 @@ namespace SCCO.WPF.MVC.CS.Controllers
             return ActionController.InvokeAction(showReport);
         }
 
+        public static class TimeDeposit
+        {
+            public static Result PrintCertificate(Nfmb member, Models.TimeDeposit.TimeDepositDetails timeDepositDetails)
+            {
+                Action showReport = () =>
+                    {
+                        const string reportFile = "time_deposit_certificate.rpt";
+
+                        var sql = "SELECT @member_code as member_code, " +
+                                  "@member_name as member_name, " +
+                                  "@certificate_number as certificate_number, " +
+                                  "@amount as amount, " +
+                                  "@amount_in_words as amount_in_words, " +
+                                  "@term as term, " +
+                                  "CAST(@date_issued AS DATE) as date_issued, " +
+                                  "CAST(@due_date AS DATE) as due_date, " +
+                                  "@interest_rate as interest_rate, " +
+                                  "@authorized_signature1 as authorized_signature1, " +
+                                  "@authorized_signature2 as authorized_signature2 " +
+                                  "FROM nfmb " +
+                                  "LIMIT 1";
+                        var parameters = new[]
+                            {
+                                new SqlParameter("@member_code", member.MemberCode), 
+                                new SqlParameter("@member_name", member.MemberName),
+                                new SqlParameter("@certificate_number", timeDepositDetails.CertificateNo), 
+                                new SqlParameter("@amount", timeDepositDetails.Amount),
+                                new SqlParameter("@amount_in_words", Converter.AmountToWords(timeDepositDetails.Amount)),
+                                new SqlParameter("@term", string.Format("{0} {1}",timeDepositDetails.Term, timeDepositDetails.TermsMode)),
+                                new SqlParameter("@date_issued", timeDepositDetails.DateIn),
+                                new SqlParameter("@due_date", timeDepositDetails.Maturity), 
+                                new SqlParameter("@interest_rate", Converter.ToPercentage(timeDepositDetails.Rate)),
+                                new SqlParameter("@authorized_signature1", GlobalSettings.TimeDepositAuthorizedSignature1), 
+                                new SqlParameter("@authorized_signature2", GlobalSettings.TimeDepositAuthorizedSignature2)
+                            };
+                        var dataTable = DatabaseController.ExecuteSelectQuery(sql, parameters);
+                        dataTable.TableName = Path.GetFileNameWithoutExtension(reportFile);
+
+                        ReportItem.Load(dataTable, reportFile);
+                    };
+                return ActionController.InvokeAction(showReport);
+            }
+        }
+
         #endregion
 
         #region --- Withdrawal ---
@@ -1394,7 +1438,7 @@ namespace SCCO.WPF.MVC.CS.Controllers
                 var statement = string.Format("SELECT * FROM `cv` WHERE ID = ?ID");
                 var parameter = new SqlParameter("?ID", cashVoucher.ID);
                 var dataTable = DatabaseController.ExecuteSelectQuery(statement, parameter);
-                dataTable.Rows[0]["AMT_WORDS"] = Utilities.Converter.AmountToWords(cashVoucher.Debit);
+                dataTable.Rows[0]["AMT_WORDS"] = Converter.AmountToWords(cashVoucher.Debit);
                 dataTable.TableName = "cv";
                 return ReportItem.Load(dataTable, "withdrawal_validation.rpt");
             }

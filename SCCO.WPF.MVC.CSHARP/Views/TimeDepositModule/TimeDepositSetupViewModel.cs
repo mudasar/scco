@@ -11,6 +11,8 @@ namespace SCCO.WPF.MVC.CS.Views.TimeDepositModule
         private decimal _serviceFeeRate;
         private decimal _minimumServiceFeeApplied;
         private Account _interestExpenseAccount;
+        private string _authorizedSignature1;
+        private string _authorizedSignature2;
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged(string propertyName)
@@ -37,6 +39,19 @@ namespace SCCO.WPF.MVC.CS.Views.TimeDepositModule
             set { _minimumServiceFeeApplied = value; OnPropertyChanged("MinimumServiceFeeApplied"); }
         }
 
+        public string AuthorizedSignature1
+        {
+            get { return _authorizedSignature1; }
+            set { _authorizedSignature1 = value; OnPropertyChanged("AuthorizedSignature1"); }
+        }
+
+        public string AuthorizedSignature2
+        {
+            get { return _authorizedSignature2; }
+            set { _authorizedSignature2 = value; OnPropertyChanged("AuthorizedSignature2"); }
+        }
+
+
         public Account InterestExpenseAccount
         {
             get { return _interestExpenseAccount; }
@@ -49,6 +64,8 @@ namespace SCCO.WPF.MVC.CS.Views.TimeDepositModule
             ServiceFeeRate = GlobalSettings.RateOfTimeDepositServiceFee;
             MinimumServiceFeeApplied = GlobalSettings.AmountOfMinimumTimeDepositServiceFee;
             InterestExpenseAccount = Account.FindByCode(GlobalSettings.CodeOfInterestExpenseOnTimeDeposit);
+            AuthorizedSignature1 = GlobalSettings.TimeDepositAuthorizedSignature1;
+            AuthorizedSignature2 = GlobalSettings.TimeDepositAuthorizedSignature2;
         }
 
         public Result Update()
@@ -69,6 +86,14 @@ namespace SCCO.WPF.MVC.CS.Views.TimeDepositModule
                 GlobalSettings.Update(
                     GlobalKeys.AmountOfMinimumTimeDepositServiceFee.ToKeyword(),
                     _minimumServiceFeeApplied);
+
+                GlobalSettings.Update(
+                    GlobalKeys.TimeDepositAuthorizedSignature1.ToKeyword(),
+                    _authorizedSignature1);
+
+                GlobalSettings.Update(
+                    GlobalKeys.TimeDepositAuthorizedSignature2.ToKeyword(),
+                    _authorizedSignature2);
 
                 return new Result(true, "Time Deposit setup updated");
             }

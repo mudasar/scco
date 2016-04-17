@@ -62,22 +62,32 @@
         <StackPanel Margin="20,60,20,20"
                     Orientation="Vertical"
                     d:LayoutOverrides="Height">
-
             <StackPanel>
-                <Label Margin="0,6,0,0" Content="JV Number" />
+                <CheckBox x:Name="WithdrawableOptionBox"
+                          Content="Withdrawable Interest Earned"
+                          Style="{DynamicResource ControlCheckBox}" />
+                <Label Margin="20,0,0,6"
+                       Content="Transfer interest earned to Savings Deposit"
+                       FontSize="10.667"
+                       Opacity="0.8" />
+            </StackPanel>
+            <Border Height="12" />
+            <StackPanel>
+                <Label Content="JV Number" />
                 <TextBox x:Name="JournalVoucherNoTextBox"
                          Focusable="True"
                          Style="{DynamicResource RoundedTextBox}"
                          Text="{Binding VoucherNo}" />
             </StackPanel>
             <TextBlock />
-            <StackPanel Orientation="Horizontal">
+            <Grid>
                 <Button x:Name="PostButton"
-                        Margin="0,0,2,0"
+                        Width="Auto"
+                        Height="32"
                         Content="Post"
-                        Style="{DynamicResource ControlButton}" Width="200" />
+                        Style="{DynamicResource ControlButton}" />
 
-            </StackPanel>
+            </Grid>
 
         </StackPanel>
 

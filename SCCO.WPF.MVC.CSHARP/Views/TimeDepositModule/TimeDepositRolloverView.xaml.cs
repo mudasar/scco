@@ -105,7 +105,8 @@ namespace SCCO.WPF.MVC.CS.Views.TimeDepositModule
             {
                 return new Result(false, "Time deposit details not set.");
             }
-            var jv = new JournalVoucher
+
+             var jv = new JournalVoucher
                 {
                     MemberCode = member.MemberCode,
                     MemberName = member.MemberName,
@@ -118,6 +119,75 @@ namespace SCCO.WPF.MVC.CS.Views.TimeDepositModule
                 };
 
             var postResult = jv.Create();
+            if (!postResult.Success)
+            {
+                Rollback();
+            }
+
+            if (WithdrawableOptionBox.IsChecked == true)
+            {
+                postResult = TransferInterestEarnedToSavingsDeposit(tdDetails, interestEarned);
+            }
+
+            return postResult;
+        }
+
+        private Result TransferInterestEarnedToSavingsDeposit(TimeDepositDetails tdDetails, decimal interestEarned)
+        {
+            var td = Account.FindByCode(_accountDetail.AccountCode);
+
+            // debit side time deposit
+            var jv = new JournalVoucher
+            {
+                MemberCode = _accountDetail.MemberCode,
+                MemberName = _accountDetail.MemberName,
+                AccountCode = td.AccountCode,
+                AccountTitle = td.AccountTitle,
+                Debit = _accountDetail.EndingBalance + interestEarned,
+                VoucherDate = _voucherDocument.VoucherDate,
+                VoucherNo = _voucherDocument.VoucherNo,
+                TimeDepositDetails = tdDetails,
+            };
+
+            var postResult = jv.Create();
+            if (!postResult.Success)
+            {
+                Rollback();
+            }
+
+            // credit side savings deposit
+            var sd = Account.FindByCode(GlobalSettings.CodeOfSavingsDeposit);
+            jv = new JournalVoucher
+            {
+                MemberCode = _accountDetail.MemberCode,
+                MemberName = _accountDetail.MemberName,
+                AccountCode = sd.AccountCode,
+                AccountTitle = sd.AccountTitle,
+                Credit = interestEarned,
+                VoucherDate = _voucherDocument.VoucherDate,
+                VoucherNo = _voucherDocument.VoucherNo,
+            };
+
+            postResult = jv.Create();
+            if (!postResult.Success)
+            {
+                Rollback();
+            }
+
+            // credit side time deposit
+            jv = new JournalVoucher
+            {
+                MemberCode = _accountDetail.MemberCode,
+                MemberName = _accountDetail.MemberName,
+                AccountCode = td.AccountCode,
+                AccountTitle = td.AccountTitle,
+                Credit = _accountDetail.EndingBalance,
+                VoucherDate = _voucherDocument.VoucherDate,
+                VoucherNo = _voucherDocument.VoucherNo,
+                TimeDepositDetails = tdDetails,
+            };
+
+            postResult = jv.Create();
             if (!postResult.Success)
             {
                 Rollback();

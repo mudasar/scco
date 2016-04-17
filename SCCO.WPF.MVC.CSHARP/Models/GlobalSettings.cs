@@ -36,7 +36,9 @@ namespace SCCO.WPF.MVC.CS.Models
         RateOfTimeDepositServiceFee,
         DateOfSavingsDepositWithdrawalCashVoucher,
         MigrationStamp,
-        AmountOfShareCapitalRequiredBalance
+        AmountOfShareCapitalRequiredBalance,
+        TimeDepositAuthorizedSignature1,
+        TimeDepositAuthorizedSignature2,
     }
 
     public static class GlobalSettings
@@ -182,6 +184,21 @@ namespace SCCO.WPF.MVC.CS.Models
             {
                 const GlobalKeys key = GlobalKeys.RateOfFines;
                 return DataConverter.ToDecimal(SearchDatabase(key)["CurrentValue"]);
+            }
+        }
+
+        public static string TimeDepositAuthorizedSignature1
+        {
+            get
+            {
+                const GlobalKeys key = GlobalKeys.TimeDepositAuthorizedSignature1;
+                return DataConverter.ToString(SearchDatabase(key)["CurrentValue"]);
+            }
+        }
+
+        public static string TimeDepositAuthorizedSignature2 {
+            get { const GlobalKeys key = GlobalKeys.TimeDepositAuthorizedSignature2;
+            return DataConverter.ToString(SearchDatabase(key)["CurrentValue"]);
             }
         }
 

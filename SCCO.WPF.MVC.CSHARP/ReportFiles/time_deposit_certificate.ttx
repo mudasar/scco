@@ -1,0 +1,11 @@
+certificate_number	String	10	02725
+member_name	String	60	ALEJO, LEIANDRO S
+member_code	String	10	5581
+amount	Number		31541.00
+amount_in_words	String	255	Thirty One Thousand Five Hundred Forty One Pesos Only
+term	String	40	360 Days
+date_issued	Date		2016-04-15 00:00:00
+due_date	Date		2016-10-15 00:00:00
+interest_rate	Number		2.50
+authorized_signature1	String	100	LUZVIMINDA D. RIVERA
+authorized_signature2	String	100	MYRNA R. CLARIDADES

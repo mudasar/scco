@@ -13,7 +13,7 @@
     <views:BaseWindow.DataContext>
         <models:AccountDetail />
     </views:BaseWindow.DataContext>
-    <Grid Margin="5" Width="340">
+    <Grid Width="340" Margin="5">
         <Grid x:Name="FormLayout">
             <Rectangle x:Name="Canvass"
                        Fill="#FFCC4E5C"
@@ -87,7 +87,9 @@
                        Content="Amount" />
                 <Label x:Name="txtAmount"
                        Grid.Row="1"
-                       Grid.Column="3" Content="{Binding TimeDepositDetails.Amount, Converter={StaticResource DecimalConverter1}}" />
+                       Grid.Column="3"
+                       Content="{Binding TimeDepositDetails.Amount,
+                                         Converter={StaticResource DecimalConverter1}}" />
 
                 <Label Grid.Row="3"
                        HorizontalAlignment="Right"
@@ -141,42 +143,59 @@
                     <RowDefinition />
                     <RowDefinition />
                     <RowDefinition />
-					<RowDefinition />
-					<RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
                 </Grid.RowDefinitions>
 
                 <Label HorizontalAlignment="Right" Content="Summary Date" />
                 <Label x:Name="txtSummaryDate" Grid.Column="3">
                     <TextBlock />
                 </Label>
-				
-                <Label Grid.Row="1" HorizontalAlignment="Right" Content="Status" />
-                <Label Grid.Row="1" x:Name="txtStatus" Grid.Column="3">
+
+                <Label Grid.Row="1"
+                       HorizontalAlignment="Right"
+                       Content="Status" />
+                <Label x:Name="txtStatus"
+                       Grid.Row="1"
+                       Grid.Column="3">
                     <TextBlock />
                 </Label>
 
-                <Label Grid.Row="2" HorizontalAlignment="Right" Content="Interest Earned" />
-                <Label Grid.Row="2" x:Name="txtInterestEarned" Grid.Column="3">
+                <Label Grid.Row="2"
+                       HorizontalAlignment="Right"
+                       Content="Interest Earned" />
+                <Label x:Name="txtInterestEarned"
+                       Grid.Row="2"
+                       Grid.Column="3">
                     <TextBlock />
                 </Label>
-				
-                <Label Grid.Row="3" HorizontalAlignment="Right" Content="Service Fee" />
-                <Label Grid.Row="3" x:Name="txtServiceFee" Grid.Column="2">
+
+                <Label Grid.Row="3"
+                       HorizontalAlignment="Right"
+                       Content="Service Fee" />
+                <Label x:Name="txtServiceFee"
+                       Grid.Row="3"
+                       Grid.Column="2">
                     <TextBlock />
                 </Label>
-				<Label Grid.Row="4" HorizontalAlignment="Right" Content="Ending Balance" />
-                <Label Grid.Row="4" x:Name="txtEndingBalance" Grid.Column="2">
+                <Label Grid.Row="4"
+                       HorizontalAlignment="Right"
+                       Content="Ending Balance" />
+                <Label x:Name="txtEndingBalance"
+                       Grid.Row="4"
+                       Grid.Column="2">
                     <TextBlock />
                 </Label>
             </Grid>
             <TextBlock />
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                 <Button x:Name="btnPrintCtd"
                         Content="Print CTD"
                         Style="{DynamicResource ControlButton}" />
                 <Button x:Name="btnPreterminate"
                         Content="Preterminate"
-                        Style="{DynamicResource ControlButton}" Visibility="Collapsed" />
+                        Style="{DynamicResource ControlButton}"
+                        Visibility="Collapsed" />
                 <Button x:Name="btnWithdraw"
                         Content="Withdraw"
                         Style="{DynamicResource ControlButton}" />
