@@ -11,7 +11,6 @@
     <Grid Margin="5">
         <Grid x:Name="FormLayout">
             <Rectangle x:Name="Canvass"
-                       Margin="0,1,0,-1"
                        Fill="#FFE30B5D"
                        MouseLeftButtonDown="DragWindow"
                        RadiusX="5"

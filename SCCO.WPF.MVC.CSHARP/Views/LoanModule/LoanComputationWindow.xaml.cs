@@ -310,7 +310,6 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
                 return new Result(false, "Transaction Date is not valid or not set!");
 
             // 2. inform user if voucher information already exist, ask if to overwrite
-
             if (postingDetails.VoucherType == VoucherTypes.CV)
             {
                 ObservableCollection<CashVoucher> cvEntries =
@@ -334,7 +333,6 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
             }
 
             // 3. post transaction details
-
             _loanDetails.ReleaseNo = postingDetails.ReleaseNumber;
             _loanDetails.DateReleased = postingDetails.ReleaseDate;
 

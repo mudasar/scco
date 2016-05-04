@@ -8,6 +8,7 @@ using System.Text;
 using SCCO.WPF.MVC.CS.Controllers;
 using SCCO.WPF.MVC.CS.Database;
 using SCCO.WPF.MVC.CS.Utilities;
+using SCCO.WPF.MVC.CS.Views.SearchModule;
 
 namespace SCCO.WPF.MVC.CS.Models
 {
@@ -238,7 +239,6 @@ namespace SCCO.WPF.MVC.CS.Models
             DataTable dataTable = DatabaseController.ExecuteSelectQuery(sql, key);
             foreach (DataRow dataRow in dataTable.Rows)
             {
-
                 account.SetPropertiesFromDataRow(dataRow);
             }
             return account;
@@ -296,7 +296,10 @@ namespace SCCO.WPF.MVC.CS.Models
             return loanAccounts;
         }
 
-
+        public static bool IsExist(string code)
+        {
+            return DatabaseController.IsRecordExist(TABLE_NAME, "CODE", code);
+        }
 
         #region Commented
 
@@ -885,6 +888,16 @@ namespace SCCO.WPF.MVC.CS.Models
             var condition = new Dictionary<string, object>();
             condition.Add(columnName, value);
             return Where(condition);
+        }
+
+        public static List<SearchItem> GetSearchItems()
+        {
+            var dataTable = DatabaseController.ExecuteSelectQuery("SELECT ID, `CODE`, `TITLE` FROM chart");
+            return (from DataRow dataRow in dataTable.Rows
+                    let id = DataConverter.ToInteger(dataRow["ID"])
+                    let code = DataConverter.ToString(dataRow["CODE"])
+                    let name = DataConverter.ToString(dataRow["TITLE"])
+                    select new SearchItem(id, name) { ItemCode = code }).ToList();
         }
     }
 

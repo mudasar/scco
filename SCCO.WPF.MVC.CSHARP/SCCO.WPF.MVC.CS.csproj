@@ -139,6 +139,7 @@
       <DependentUpon>DatabaseConfigurationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Database\ScriptRunner.cs" />
+    <Compile Include="Extensions\ExtensionMethods.cs" />
     <Compile Include="Models\AModelBase.cs" />
     <Compile Include="Models\Budget.cs" />
     <Compile Include="Models\FinancialConditionReportConfiguration.cs" />
@@ -491,8 +492,25 @@
       <DependentUpon>ShareCapitalSetupView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\AdministratorModule\ShareCapitalSetupViewModel.cs" />
+    <Compile Include="Views\LoanModule\AddOnInterestLoanReconstructionViewModel.cs" />
+    <Compile Include="Views\LoanModule\AddReconstructionDetailsView.xaml.cs">
+      <DependentUpon>AddReconstructionDetailsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\LoanModule\LoanDetailsEditView.xaml.cs">
       <DependentUpon>LoanDetailsEditView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LoanModule\LoanReconstructionOptionsView.xaml.cs">
+      <DependentUpon>LoanReconstructionOptionsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LoanModule\LoanReconstructionViewModel.cs" />
+    <Compile Include="Views\LoanModule\PaidInterestReconstructionView.xaml.cs">
+      <DependentUpon>PaidInterestReconstructionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LoanModule\LoanReconstructionSetupView.xaml.cs">
+      <DependentUpon>LoanReconstructionSetupView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LoanModule\AddOnInterestLoanReconstructionView.xaml.cs">
+      <DependentUpon>AddOnInterestLoanReconstructionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SavingsDepositModule\SavingsDepositInterestPostingSetupViewModel.cs" />
     <Compile Include="Views\SavingsDepositModule\SavingsDepositInterestPostingSetup.xaml.cs">
@@ -978,9 +996,29 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\LoanModule\AddReconstructionDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\LoanModule\LoanDetailsEditView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\LoanModule\LoanReconstructionOptionsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\LoanModule\PaidInterestReconstructionView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\LoanModule\LoanReconstructionSetupView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\LoanModule\AddOnInterestLoanReconstructionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SavingsDepositModule\SavingsDepositInterestPostingSetup.xaml">
       <SubType>Designer</SubType>

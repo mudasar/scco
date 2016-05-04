@@ -1,4 +1,5 @@
-﻿using SCCO.WPF.MVC.CS.Models;
+﻿using System;
+using SCCO.WPF.MVC.CS.Models;
 using SCCO.WPF.MVC.CS.Models.Loan;
 using System.Linq;
 
@@ -37,8 +38,10 @@ namespace SCCO.WPF.MVC.CS.Controllers
             schedule.DateMaturity = grantedDate.AddMonths(termLoan);
             schedule.FirstPaymentDate = grantedDate.AddMonths(1);
 
-            var monthlyInterest = System.Math.Round((amountLoan*schedule.AnnualInterestRate)/12, 2);
-            var monthlyPayment = System.Math.Round((amountLoan/termLoan), 2);
+            var annualInterest = Math.Round(amountLoan*schedule.AnnualInterestRate, 2);
+            var monthlyInterest = Math.Round(annualInterest/12, 2);
+            var totalInterest = monthlyInterest*termLoan;
+            var monthlyPayment = Math.Round((amountLoan/termLoan), 2);
 
             schedule.MonthlyAmortization = monthlyPayment + monthlyInterest + monthlyCapitalBuildUp;
             var runningBalance = amountLoan;
@@ -63,10 +66,19 @@ namespace SCCO.WPF.MVC.CS.Controllers
             lastpayment.PaymentDate = grantedDate.AddMonths(termLoan);
             lastpayment.PaymentNo = termLoan;
             lastpayment.BeginningBalance = runningBalance;
-            lastpayment.Payment = amountLoan - schedule.PaymentSchedules.Sum(payment => payment.Payment);
-            lastpayment.Interest = monthlyInterest;
+            lastpayment.Payment = amountLoan - schedule.PaymentSchedules.Sum(s => s.Payment);
+
+            if (termLoan == 12)
+            {
+                lastpayment.Interest = annualInterest - schedule.PaymentSchedules.Sum(s => s.Interest);
+            }
+            else
+            {
+                lastpayment.Interest = totalInterest - schedule.PaymentSchedules.Sum(s => s.Interest);
+            }
+            
             lastpayment.CapitalBuildUp = monthlyCapitalBuildUp;
-            lastpayment.Amortization = lastpayment.Payment + monthlyInterest + lastpayment.CapitalBuildUp;
+            lastpayment.Amortization = lastpayment.Payment + lastpayment.Interest + lastpayment.CapitalBuildUp;
             lastpayment.EndingBalance = lastpayment.BeginningBalance - lastpayment.Payment;
             schedule.PaymentSchedules.Add(lastpayment);
 

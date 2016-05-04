@@ -248,6 +248,15 @@ namespace SCCO.WPF.MVC.CS.Database
             return sqlBuilder.ToString();
         }
 
+        public static string GenerateWhereStatement(string tableName, List<SqlParameter> parameters)
+        {
+            var queryBuilder = new StringBuilder();
+            queryBuilder.AppendFormat("SELECT * FROM `{0}` WHERE ", tableName);
+            var conditions = parameters.Select(parameter => string.Format("{0} = ?{0}", parameter.Key)).ToList();
+            queryBuilder.AppendFormat(string.Join(" AND ", conditions));
+            return queryBuilder.ToString();
+        }
+
         public static string GenerateSelectStatement(string tableName)
         {
             return string.Format("SELECT * FROM `{0}`", tableName);
@@ -826,5 +835,42 @@ namespace SCCO.WPF.MVC.CS.Database
         }
 
         #endregion
+
+        internal static bool IsRecordExist(string tableName, Dictionary<string, object> parameters )
+        {
+            var queryBuilder = new StringBuilder();
+            queryBuilder.AppendFormat("SELECT EXISTS(SELECT 1 FROM `{0}` WHERE ", tableName);
+
+            var conditions = parameters.Select(parameter => string.Format("{0} = ?{0}", parameter.Key)).ToList();
+            queryBuilder.AppendFormat(string.Join(" AND ", conditions));
+            queryBuilder.Append(")");
+
+            try
+            {
+                OpenConnection();
+                var sqlCommand = new MySqlCommand
+                {
+                    CommandType = CommandType.Text,
+                    CommandText = queryBuilder.ToString(),
+                    Connection = SharedDbConnection
+                };
+                foreach (var parameter in parameters)
+                {
+                    sqlCommand.Parameters.AddWithValue("?"+parameter.Key, parameter.Value);
+                }
+                Log(sqlCommand);
+                return Convert.ToBoolean(sqlCommand.ExecuteScalar());
+            }
+            finally
+            {
+                CloseConnection();
+            }
+        }
+
+        internal static bool IsRecordExist(string tableName, string columnName, object columnValue)
+        {
+            var columns = new Dictionary<string, object> { { columnName, columnValue } };
+            return IsRecordExist(tableName, columns);
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Linq;
 using System.Windows;
 using SCCO.WPF.MVC.CS.Database;
@@ -202,18 +203,9 @@ namespace SCCO.WPF.MVC.CS.Controllers
 
         internal static Account SearchAccount()
         {
-            var accounts = Account.CollectAll();
-            var searchItems =
-                accounts.Select(
-                    account =>
-                    new SearchItem(account.ID, account.AccountTitle)
-                        {
-                            ItemCode = account.AccountCode
-                        }).ToList();
-
+            var searchItems = Account.GetSearchItems();
             var searchByCodeWindow = new SearchByCodeWindow(searchItems);
             searchByCodeWindow.ShowDialog();
-
 
             if (searchByCodeWindow.DialogResult == false) return null;
             var searchItem = new Account();

@@ -55,6 +55,7 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
         private decimal _netProceedsAmount;
         private string _netProceedsCode;
         private string _netProceedsTitle;
+        private decimal _reconstructionAmount;
 
         #endregion
 
@@ -250,6 +251,12 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
                 _loanDetails = value;
                 OnPropertyChanged("LoanDetails");
             }
+        }
+
+        public decimal ReconstructionAmount
+        {
+            get { return _reconstructionAmount; }
+            set { _reconstructionAmount = value; OnPropertyChanged("ReconstructionAmount"); }
         }
 
         #region --- CHARGES ---
@@ -822,6 +829,7 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
         private void CalculateNetProceeds()
         {
             NetProceedsAmount = LoanAmount - ChargeAmountTotal - DeductAmountTotal;
+            ReconstructionAmount = LoanAmount + ChargeAmountTotal + DeductAmountTotal;
         }
 
         #endregion --- NET PROCEEDS ---

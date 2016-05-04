@@ -39,6 +39,8 @@ namespace SCCO.WPF.MVC.CS.Models
         AmountOfShareCapitalRequiredBalance,
         TimeDepositAuthorizedSignature1,
         TimeDepositAuthorizedSignature2,
+        CodeOfInterestRebate,
+        CodeOfSeniorMembersAssistanceProgram,
     }
 
     public static class GlobalSettings
@@ -66,6 +68,24 @@ namespace SCCO.WPF.MVC.CS.Models
             get
             {
                 const GlobalKeys key = GlobalKeys.CodeOfCompany;
+                return DataConverter.ToString(SearchDatabase(key)["CurrentValue"]);
+            }
+        }
+
+        public static string CodeOfInterestRebate
+        {
+            get
+            {
+                const GlobalKeys key = GlobalKeys.CodeOfInterestRebate;
+                return DataConverter.ToString(SearchDatabase(key)["CurrentValue"]);
+            }
+        }
+
+        public static string CodeOfSeniorMembersAssistanceProgram
+        {
+            get
+            {
+                const GlobalKeys key = GlobalKeys.CodeOfSeniorMembersAssistanceProgram;
                 return DataConverter.ToString(SearchDatabase(key)["CurrentValue"]);
             }
         }

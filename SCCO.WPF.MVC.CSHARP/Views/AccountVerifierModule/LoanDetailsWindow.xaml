@@ -6,8 +6,8 @@
                   xmlns:modelsLoanDetails="clr-namespace:SCCO.WPF.MVC.CS.Models.Loan"
                   xmlns:views="clr-namespace:SCCO.WPF.MVC.CS.Views"
                   Title="LoanDetailsWindow"
-                  Width="661"
-                  Height="520"
+                  Width="660"
+                  Height="532"
                   Style="{DynamicResource BaseWindow}"
                   WindowStartupLocation="CenterScreen"
                   mc:Ignorable="d">
@@ -563,7 +563,7 @@
                 </Label>
             </Grid>
         </Border>
-        <Grid Height="82"
+        <Grid
               Margin="12,0,12,12"
               VerticalAlignment="Bottom">
             <Grid.ColumnDefinitions>
@@ -575,8 +575,8 @@
                     BorderBrush="#3FFFFFFF"
                     BorderThickness="1"
                     CornerRadius="4"
-                    d:LayoutOverrides="VerticalAlignment">
-                <Grid Margin="1,1,-1,-1">
+                    d:LayoutOverrides="VerticalAlignment" Margin="0,0,4,0">
+                <Grid>
                     <CheckBox x:Name="WithCollateralCheckBox"
                               Width="120"
                               Margin="10,7,0,0"
@@ -614,7 +614,15 @@
                             Width="160"
                             Content="Compromise Settlement"
                             IsEnabled="False"
-                            Style="{DynamicResource ControlButton}" />
+                            Style="{DynamicResource ControlButton}" Visibility="Collapsed" />
+                    <Button x:Name="PaidReconstructionButton"
+                    	Width="160"
+                    	Content="Paid Reconstruction"
+                    	Style="{DynamicResource ControlButton}" />
+                    <Button x:Name="AddOnReconstructionButton"
+                    	Width="160"
+                    	Content="Add-On Reconstruction"
+                    	Style="{DynamicResource ControlButton}" />
                 </StackPanel>
             </Border>
         </Grid>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Windows.Media.Imaging;
@@ -456,6 +457,22 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
         }
 
         #endregion
+
+        internal static List<LoanProduct> Where(Dictionary<string, object> dictionary)
+        {
+            var sqlParameters = dictionary.Select(item => new SqlParameter(item.Key, item.Value)).ToList();
+            var sqlCommand = DatabaseController.GenerateWhereStatement(TABLE_NAME, sqlParameters);
+            var dataTable = DatabaseController.ExecuteSelectQuery(sqlCommand, sqlParameters.ToArray());
+            var loanProducts = new List<LoanProduct>();
+
+            foreach (DataRow row in dataTable.Rows)
+            {
+                var item = new LoanProduct();
+                item.SetPropertiesFromDataRow(row);
+                loanProducts.Add(item);
+            }
+            return loanProducts;
+        }
     }
 
     public class LoanProductCollection : ObservableCollection<LoanProduct>
