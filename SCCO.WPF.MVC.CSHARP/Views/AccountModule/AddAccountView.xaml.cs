@@ -11,6 +11,7 @@ namespace SCCO.WPF.MVC.CS.Views.AccountModule
         {
             InitializeComponent();
             _newItem = new Account();
+            _newItem.Nature = "D";
 
             DataContext = _newItem;
             btnAdd.Click += Add;
@@ -26,13 +27,13 @@ namespace SCCO.WPF.MVC.CS.Views.AccountModule
         private void Add(object sender, EventArgs e)
         {
             var item = Account.FindByCode(_newItem.AccountCode);
-            if (item != null)
+            if (item.AccountCode != null)
             {
                 MessageWindow.ShowAlertMessage("Account Code already exists!");
                 return;
             }
             item = Account.FindByName(_newItem.AccountTitle);
-            if (item != null)
+            if (item.AccountTitle != null)
             {
                 MessageWindow.ShowAlertMessage("Account Title already exists!");
                 return;

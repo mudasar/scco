@@ -29,15 +29,26 @@ namespace SCCO.WPF.MVC.CS.Models
             get
             {
                 var sqlParameters = new List<SqlParameter>();
-                ModelController.AddParameter(sqlParameters, "?CODE", AccountCode);
-                ModelController.AddParameter(sqlParameters, "?TITLE", AccountTitle);
-                ModelController.AddParameter(sqlParameters, "?NATURE", Nature);
-                ModelController.AddParameter(sqlParameters, "?CODE_NO", CodeNo);
-                ModelController.AddParameter(sqlParameters, "?FLOW", CashFlow);
-                ModelController.AddParameter(sqlParameters, "?SL", SubsidiaryLedger);
-                ModelController.AddParameter(sqlParameters, "?CLOSE", IsClosed);
-                ModelController.AddParameter(sqlParameters, "?SCODE", ScheduleCode);
-                ModelController.AddParameter(sqlParameters, "?CODE1", GroupCode);
+                sqlParameters.Add(new SqlParameter("?CODE", AccountCode));
+                sqlParameters.Add(new SqlParameter("?TITLE", AccountTitle));
+                sqlParameters.Add(new SqlParameter("?NATURE", Nature ?? "D"));
+                sqlParameters.Add(new SqlParameter("?CODE_NO", CodeNo ?? ""));
+                sqlParameters.Add(new SqlParameter("?FLOW", CashFlow ?? ""));
+                sqlParameters.Add(new SqlParameter("?SL", SubsidiaryLedger ?? ""));
+                sqlParameters.Add(new SqlParameter("?CLOSE", IsClosed));
+                sqlParameters.Add(new SqlParameter("?SCODE", ScheduleCode));
+                sqlParameters.Add(new SqlParameter("?CODE1", GroupCode ?? ""));
+
+
+                //ModelController.AddParameter(sqlParameters, "?CODE", AccountCode);
+                //ModelController.AddParameter(sqlParameters, "?TITLE", AccountTitle);
+                //ModelController.AddParameter(sqlParameters, "?NATURE", Nature);
+                //ModelController.AddParameter(sqlParameters, "?CODE_NO", CodeNo);
+                //ModelController.AddParameter(sqlParameters, "?FLOW", CashFlow);
+                //ModelController.AddParameter(sqlParameters, "?SL", SubsidiaryLedger);
+                //ModelController.AddParameter(sqlParameters, "?CLOSE", IsClosed);
+                //ModelController.AddParameter(sqlParameters, "?SCODE", ScheduleCode);
+                //ModelController.AddParameter(sqlParameters, "?CODE1", GroupCode);
 
                 return sqlParameters;
             }
@@ -255,6 +266,7 @@ namespace SCCO.WPF.MVC.CS.Models
             var dataTable = DatabaseController.ExecuteStoredProcedure(sp);
             return (from DataRow dataRow in dataTable.Rows select DataConverter.ToString(dataRow["CODE"])).ToList();
         }
+        
         public static List<string> GetListOfTimeDepositCode()
         {
             const string sp = "sp_list_time_deposit";
