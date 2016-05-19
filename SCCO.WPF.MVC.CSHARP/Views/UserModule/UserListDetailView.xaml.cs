@@ -73,8 +73,8 @@ namespace SCCO.WPF.MVC.CS.Views.UserModule
 
         public void Search()
         {
-            if (_viewModel.Collection == null) return;
-            if (!_viewModel.Collection.Any()) return;
+            if (_lookup == null) return;
+            if (!_lookup.Any()) return;
 
             var searchItem = txtSearch.Text;
             if (searchItem.Trim().Length == 0)
@@ -84,7 +84,8 @@ namespace SCCO.WPF.MVC.CS.Views.UserModule
             else
             {
                 var filteredItem = from item in _lookup
-                                   where item.UserName.ToLower().Contains(searchItem.ToLower())
+                                   where item.UserName.ToLower().Contains(searchItem.ToLower()) ||
+                                   item.LoginName.ToLower().Contains(searchItem.ToLower())
                                    select item;
 
                 var viewModel = new UserViewModel {Collection = new UserCollection()};
@@ -99,8 +100,8 @@ namespace SCCO.WPF.MVC.CS.Views.UserModule
 
         public void RefreshDisplay()
         {
-            _viewModel = new UserViewModel();
-            _viewModel.Collection = _lookup = User.CollectAll();
+            _lookup = User.CollectAll();
+            _viewModel = new UserViewModel {Collection = User.CollectAll()};
             DataContext = _viewModel;
         }
 
