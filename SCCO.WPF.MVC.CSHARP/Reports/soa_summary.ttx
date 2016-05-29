@@ -1,7 +1,0 @@
-member_code	String	10	1696
-member_name	String	60	ALEJO, JESUS E.
-account_code	String	10	150.01
-account_title	String	60	Commercial Loan
-ending_balance	Number		74790.00
-debit_account	Number		74790.00
-credit_account	Number		0

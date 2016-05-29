@@ -1,8 +1,0 @@
-member_code	String	10	0730
-member_name	String	60	AGNO, DANILO M.
-certificate_no	String	10	02188
-date_in	Date		10/09/2011
-maturity	Date		04/06/2012
-rate	Number		4.25
-ending_balance	Number		104021.84
-as_of	Date		01/01/2011

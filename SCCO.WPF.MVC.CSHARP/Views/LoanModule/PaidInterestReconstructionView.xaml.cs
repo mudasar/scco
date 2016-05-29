@@ -148,6 +148,11 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
                 return new Result(false, "Journal Voucher Date is invalid.");
             }
 
+            if (_viewModel.LoanDetails.Payment == 0m)
+            {
+                return new Result(false, "Loan details not yet complete. Please check.");
+            }
+
             if (_viewModel.InterestRebate != 0)
             {
                 if (string.IsNullOrEmpty(_viewModel.InterestRebateAccountCode))

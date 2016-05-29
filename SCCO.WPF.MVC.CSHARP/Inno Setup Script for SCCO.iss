@@ -21,7 +21,7 @@ AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
 DefaultDirName={pf}\{#MyAppName}
 DefaultGroupName={#MyAppName}
-OutputBaseFilename=SCCO Accounting System 2.3.0.6 Setup
+OutputBaseFilename=SCCO Accounting System 2.3.0.7 Setup
 SetupIconFile=F:\github\scco\SCCO.WPF.MVC.CSHARP\chart.ico
 Compression=lzma
 SolidCompression=yes
@@ -51,7 +51,7 @@ Source: "F:\github\scco\SCCO.WPF.MVC.CSHARP\bin\Debug\mysql.data.dll"; DestDir: 
 Source: "F:\github\scco\SCCO.WPF.MVC.CSHARP\bin\Debug\MySqlBackup.dll"; DestDir: "{app}"; Flags: ignoreversion
 
 ; Script Files
-;Source: "F:\github\scco\SCCO.WPF.MVC.CSHARP\bin\Debug\Scripts\*"; DestDir: "{app}\Scripts"; Flags: ignoreversion recursesubdirs
+Source: "F:\github\scco\SCCO.WPF.MVC.CSHARP\bin\Debug\Scripts\*"; DestDir: "{app}\Scripts"; Flags: ignoreversion recursesubdirs
 
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 

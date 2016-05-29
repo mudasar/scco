@@ -33,3 +33,4 @@ loan_status	String	10	Current
 age	Short		22
 age_bracket	String	10	1-30 DAYS
 priority	Short		1
+area	String	30	WAWANG POLO

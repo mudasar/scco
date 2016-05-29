@@ -61,6 +61,10 @@ namespace SCCO.WPF.MVC.CS.Views.AccountVerifierModule
 
             PaidReconstructionButton.Click += (sender, args) => ShowPaidInterestLoanReconstruction();
             AddOnReconstructionButton.Click += (sender, args) => ShowAddOnInterestLoanReconstruction();
+
+            var allowLoanReconstruction = MainController.LoggedUser.CanAccessJournalVoucher;
+            PaidReconstructionButton.IsEnabled = allowLoanReconstruction;
+            AddOnReconstructionButton.IsEnabled = allowLoanReconstruction;
         }
 
         public bool EnableCompromiseSettlement
