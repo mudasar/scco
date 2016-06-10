@@ -125,8 +125,10 @@ namespace SCCO.WPF.MVC.CS.Views
                 };
             if (openFileDialog.ShowDialog() != System.Windows.Forms.DialogResult.OK)
                 return;
-            _member.ContactInformation.Picture = ImageTool.GetBytesFromImageFile(openFileDialog.FileName);
-            imgPhoto.Source = ImageTool.CreateImageSourceFromBytes(_member.ContactInformation.Picture);
+            //_member.ContactInformation.Picture = ImageTool.GetBytesFromImageFile(openFileDialog.FileName);
+            var imageFile = openFileDialog.FileName;
+            imgPhoto.Source = ImageTool.CreateImageSourceFromBytes(ImageTool.GetBytesFromImageFile(imageFile));
+            _member.ContactInformation.SavePicture(imageFile);
         }
 
         private void btnBrowseSignature_Click(object sender, RoutedEventArgs e)
@@ -139,8 +141,10 @@ namespace SCCO.WPF.MVC.CS.Views
                 };
             if (openFileDialog.ShowDialog() != System.Windows.Forms.DialogResult.OK)
                 return;
-            _member.ContactInformation.Signature = ImageTool.GetBytesFromImageFile(openFileDialog.FileName);
-            imgSignature.Source = ImageTool.CreateImageSourceFromBytes(_member.ContactInformation.Signature);
+            //_member.ContactInformation.Signature = ImageTool.GetBytesFromImageFile(openFileDialog.FileName);
+            var imageFile = openFileDialog.FileName;
+            imgSignature.Source = ImageTool.CreateImageSourceFromBytes(ImageTool.GetBytesFromImageFile(openFileDialog.FileName));
+            _member.ContactInformation.SaveSignature(imageFile);
         }
 
         private void InitializeLookupControls()

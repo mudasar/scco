@@ -206,8 +206,8 @@ namespace SCCO.WPF.MVC.CS.Views.AccountVerifierModule
             lblMemberCodeName.Content =
                 string.Format("{0} - {1}", _viewModel.Member.MemberCode, _viewModel.Member.MemberName);
 
-            imgPhoto.Source =
-                ImageTool.CreateImageSourceFromBytes(Contact.FindPictureByMemberCode(_viewModel.Member.MemberCode));
+            var contact = Contact.FindByMemberCode(_viewModel.Member.MemberCode);
+            imgPhoto.Source = ImageTool.CreateImageSourceFromBytes(contact.Picture);
 
             var infoBuilder = new StringBuilder();
             if (!string.IsNullOrEmpty(_viewModel.Member.MembershipType))

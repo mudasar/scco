@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.IO;
 using SCCO.WPF.MVC.CS.Controllers;
 using SCCO.WPF.MVC.CS.Database;
 using SCCO.WPF.MVC.CS.Utilities;
@@ -25,6 +26,8 @@ namespace SCCO.WPF.MVC.CS.Models
         private string _mobilePhone;
         private string _email;
 
+        private static string _imagesFolder;
+
         #region Properties
 
         public string FirstName
@@ -42,7 +45,8 @@ namespace SCCO.WPF.MVC.CS.Models
             get
             {
                 string fullname = string.Format("{0}, {1} {2} {3}.", LastName, FirstName, Suffix,
-                                                MiddleName.Substring(0, 1));
+                    MiddleName.Substring(0, 1));
+
                 while (fullname.Contains("  "))
                 {
                     fullname = fullname.Replace("  ", " ");
@@ -70,7 +74,6 @@ namespace SCCO.WPF.MVC.CS.Models
                 OnPropertyChanged("LastName");
             }
         }
-
 
         public string AccountType
         {
@@ -200,8 +203,8 @@ namespace SCCO.WPF.MVC.CS.Models
                 ModelController.AddParameter(sqlParameters, "?FIRST_NAME", FirstName);
                 ModelController.AddParameter(sqlParameters, "?MIDDLE_NAME", MiddleName);
                 ModelController.AddParameter(sqlParameters, "?LAST_NAME", LastName);
-                ModelController.AddParameter(sqlParameters, "?PICTURE", Picture);
-                ModelController.AddParameter(sqlParameters, "?SIGNATURE", Signature);
+                //ModelController.AddParameter(sqlParameters, "?PICTURE", Picture);
+                //ModelController.AddParameter(sqlParameters, "?SIGNATURE", Signature);
                 ModelController.AddParameter(sqlParameters, "?ACCOUNT_TYPE", AccountType);
                 ModelController.AddParameter(sqlParameters, "?TELEPHONE", Telephone);
                 ModelController.AddParameter(sqlParameters, "?MOBILE_PHONE", MobilePhone);
@@ -220,12 +223,12 @@ namespace SCCO.WPF.MVC.CS.Models
         public Result Create()
         {
             Action createRecord = () =>
-                {
-                    var sqlParameter = Parameters;
+            {
+                var sqlParameter = Parameters;
 
-                    var sql = DatabaseController.GenerateInsertStatement(TABLE_NAME, sqlParameter);
-                    ID = DatabaseController.ExecuteInsertQuery(sql, sqlParameter.ToArray());
-                };
+                var sql = DatabaseController.GenerateInsertStatement(TABLE_NAME, sqlParameter);
+                ID = DatabaseController.ExecuteInsertQuery(sql, sqlParameter.ToArray());
+            };
 
             return ActionController.InvokeAction(createRecord);
         }
@@ -233,13 +236,13 @@ namespace SCCO.WPF.MVC.CS.Models
         public Result Destroy()
         {
             Action deleteRecord = () =>
-                {
-                    var key = ParamKey;
+            {
+                var key = ParamKey;
 
-                    var sql = DatabaseController.GenerateDeleteStatement(TABLE_NAME, key);
+                var sql = DatabaseController.GenerateDeleteStatement(TABLE_NAME, key);
 
-                    DatabaseController.ExecuteNonQuery(sql, key);
-                };
+                DatabaseController.ExecuteNonQuery(sql, key);
+            };
 
             return ActionController.InvokeAction(deleteRecord);
         }
@@ -247,19 +250,19 @@ namespace SCCO.WPF.MVC.CS.Models
         public Result Find(int id)
         {
             Action findRecord = () =>
+            {
+                ResetProperties();
+                ID = id;
+
+                var key = ParamKey;
+                var sql = DatabaseController.GenerateSelectStatement(TABLE_NAME, key);
+
+                DataTable dataTable = DatabaseController.ExecuteSelectQuery(sql, key);
+                foreach (DataRow dataRow in dataTable.Rows)
                 {
-                    ResetProperties();
-                    ID = id;
-
-                    var key = ParamKey;
-                    var sql = DatabaseController.GenerateSelectStatement(TABLE_NAME, key);
-
-                    DataTable dataTable = DatabaseController.ExecuteSelectQuery(sql, key);
-                    foreach (DataRow dataRow in dataTable.Rows)
-                    {
-                        SetPropertiesFromDataRow(dataRow);
-                    }
-                };
+                    SetPropertiesFromDataRow(dataRow);
+                }
+            };
 
             return ActionController.InvokeAction(findRecord);
         }
@@ -290,46 +293,37 @@ namespace SCCO.WPF.MVC.CS.Models
             MiddleName = DataConverter.ToString(dataRow["MIDDLE_NAME"]);
             Suffix = DataConverter.ToString(dataRow["SUFFIX"]);
             AccountType = DataConverter.ToString(dataRow["ACCOUNT_TYPE"]);
-            Picture = DataConverter.ToByteArray(dataRow["PICTURE"]);
-            Signature = DataConverter.ToByteArray(dataRow["SIGNATURE"]);
+            //Picture = DataConverter.ToByteArray(dataRow["PICTURE"]);
+            //Signature = DataConverter.ToByteArray(dataRow["SIGNATURE"]);
 
             Telephone = DataConverter.ToString(dataRow["TELEPHONE"]);
             MobilePhone = DataConverter.ToString(dataRow["MOBILE_PHONE"]);
             BusinessPhone = DataConverter.ToString(dataRow["BUSINESS_PHONE"]);
             Email = DataConverter.ToString(dataRow["EMAIL"]);
+
+            LoadPicture();
+            LoadSignature();
         }
 
         public Result Update()
         {
             Action updateRecord = () =>
-                {
-                    var key = ParamKey;
+            {
+                var key = ParamKey;
 
-                    var sqlParameter = Parameters;
-                    sqlParameter.Add(key);
+                var sqlParameter = Parameters;
+                sqlParameter.Add(key);
 
-                    var sql = DatabaseController.GenerateUpdateStatement(TABLE_NAME, sqlParameter,
-                                                                         key);
+                var sql = DatabaseController.GenerateUpdateStatement(TABLE_NAME, sqlParameter,
+                    key);
 
-                    DatabaseController.ExecuteNonQuery(sql, sqlParameter.ToArray());
-                };
+                DatabaseController.ExecuteNonQuery(sql, sqlParameter.ToArray());
+            };
 
             return ActionController.InvokeAction(updateRecord);
         }
 
         #endregion --- CRUD ---
-
-        //public static byte[] GetImagesByMemberCode(string memberCode)
-        //{
-        //    var sql = string.Format("SELECT * FROM `{0}` WHERE MemberCode = {1}", TableName, memberCode);
-        //    var dataTable = DatabaseController.ExecuteSelectQuery(sql);
-        //    var specimen = new Biometrics();
-        //    foreach (DataRow dataRow in dataTable.Rows)
-        //    {
-        //        specimen.SetPropertiesFromDataRow(dataRow);
-        //    }
-        //    return specimen.Picture;
-        //}
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -341,8 +335,7 @@ namespace SCCO.WPF.MVC.CS.Models
             var param = new SqlParameter("?MEM_CODE", memberCode);
             var dataTable = DatabaseController.ExecuteSelectQuery(sqlBuilder.ToString(), param);
 
-            var item = new Contact();
-            item.MemberCode = memberCode;
+            var item = new Contact {MemberCode = memberCode};
             foreach (DataRow dataRow in dataTable.Rows)
             {
                 item.SetPropertiesFromDataRow(dataRow);
@@ -364,10 +357,234 @@ namespace SCCO.WPF.MVC.CS.Models
             }
             return new byte[0];
         }
+
         protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+            if (handler != null)
+                handler(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private byte[] GetPictureBytesFromImagesFolder()
+        {
+            var image = new byte[0];
+            var imagesFolder = GetImagesFolder();
+
+            if (!Directory.Exists(imagesFolder))
+            {
+                return image;
+            }
+            var pictureFile = PictureFileName();
+            if (File.Exists(pictureFile))
+            {
+                var imageBytes = ImageTool.GetBytesFromImageFile(pictureFile);
+                var decryptedBytes = RijndaelHelper.DecryptBytes(imageBytes, "SensitivePhrase", "SodiumChloride");
+                image = decryptedBytes;
+            }
+            return image;
+        }
+
+        private byte[] GetSignatureBytesFromImagesFolder()
+        {
+            var image = new byte[0];
+            var imagesFolder = GetImagesFolder();
+
+            if (!Directory.Exists(imagesFolder))
+            {
+                return image;
+            }
+            var signatureFile = SignatureFileName();
+            if (File.Exists(signatureFile))
+            {
+                var imageBytes = ImageTool.GetBytesFromImageFile(signatureFile);
+                var decryptedBytes = RijndaelHelper.DecryptBytes(imageBytes, "SensitivePhrase", "SodiumChloride");
+                image = decryptedBytes;
+            }
+            return image;
+        }
+
+        internal void SavePicture(string imageFile)
+        {
+            var imagesFolder = CreateImagesFolder();
+            if (!string.IsNullOrEmpty(imagesFolder))
+            {
+                var imageBytes = ImageTool.GetBytesFromImageFile(imageFile);
+                var encryptedBytes = RijndaelHelper.EncryptBytes(imageBytes, "SensitivePhrase", "SodiumChloride");
+                File.WriteAllBytes(PictureFileName(), encryptedBytes);
+            }
+        }
+
+        internal void SaveSignature(string imageFile)
+        {
+            var imagesFolder = CreateImagesFolder();
+            if (!string.IsNullOrEmpty(imagesFolder))
+            {
+                var imageBytes = ImageTool.GetBytesFromImageFile(imageFile);
+                var encryptedBytes = RijndaelHelper.EncryptBytes(imageBytes, "SensitivePhrase", "SodiumChloride");
+                File.WriteAllBytes(SignatureFileName(), encryptedBytes);
+            }
+        }
+
+        internal static string GetImagesFolder()
+        {
+            if (string.IsNullOrEmpty(_imagesFolder))
+            {
+                var networkPath = Path.Combine(Properties.Settings.Default.DatabaseServer, GlobalSettings.SharedFolder);
+                _imagesFolder = @"\\" + Path.Combine(networkPath, "CONTACTS", "IMAGES");
+
+            }
+            return _imagesFolder;
+        }
+
+        internal static void RefreshImagesFolder()
+        {
+            var networkPath = Path.Combine(Properties.Settings.Default.DatabaseServer, GlobalSettings.SharedFolder);
+            _imagesFolder = @"\\" + Path.Combine(networkPath, "CONTACTS", "IMAGES");
+        }
+
+        private bool CreateFolder(string directory)
+        {
+            if (Directory.Exists(directory))
+            {
+                return true;
+            }
+            try
+            {
+                Directory.CreateDirectory(directory);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private string CreateImagesFolder()
+        {
+            var networkPath = Path.Combine(Properties.Settings.Default.DatabaseServer, GlobalSettings.SharedFolder);
+            if (string.IsNullOrEmpty(networkPath))
+            {
+                return "";
+            }
+
+            networkPath = @"\\" + networkPath;
+
+            var contactsFolder = Path.Combine(networkPath, "CONTACTS");
+            if (!CreateFolder(contactsFolder))
+            {
+                return "";
+            }
+
+            var signaturesFolder = Path.Combine(contactsFolder, "IMAGES");
+            if (!CreateFolder(signaturesFolder))
+            {
+                return "";
+            }
+            return Directory.Exists(signaturesFolder) ? signaturesFolder : "";
+        }
+
+        private string PictureFileName()
+        {
+            return Path.ChangeExtension(Path.Combine(GetImagesFolder(), MemberCode), ".pict");
+        }
+
+        private string SignatureFileName()
+        {
+            return Path.ChangeExtension(Path.Combine(GetImagesFolder(), MemberCode), ".sign");
+        }
+
+        private void LoadPicture()
+        {
+            // load if image file exist
+            if (File.Exists(PictureFileName()))
+            {
+                Picture = GetPictureBytesFromImagesFolder();
+                return;
+            }
+
+            // else check if image is in database
+            var sql = "SELECT PICTURE FROM contacts WHERE MEM_CODE = ?MemberCode";
+            var parameter = new SqlParameter("?MemberCode", MemberCode);
+            var dataTable = DatabaseController.ExecuteSelectQuery(sql, parameter);
+            if (dataTable.Rows.Count > 0)
+            {
+                var imageBytes = DataConverter.ToByteArray(dataTable.Rows[0]["PICTURE"]);
+                if (imageBytes.Length <= 0)
+                {
+                    return;
+                }
+
+                Picture = imageBytes;
+
+                // then save to image folder
+                var imagesFolder = CreateImagesFolder();
+
+                if (string.IsNullOrEmpty(imagesFolder))
+                {
+                    return;
+                }
+
+                if (!Directory.Exists(imagesFolder))
+                {
+                    return;
+                }
+
+                var encryptedBytes = RijndaelHelper.EncryptBytes(imageBytes, "SensitivePhrase", "SodiumChloride");
+                File.WriteAllBytes(PictureFileName(), encryptedBytes);
+
+                // then remove blob
+                sql = "UPDATE contacts SET PICTURE = ?Picture WHERE MEM_CODE = ?MemberCode";
+                var parameters = new List<SqlParameter> {new SqlParameter("?Picture", null), parameter};
+
+                DatabaseController.ExecuteNonQuery(sql, parameters.ToArray());
+            }
+        }
+
+        private void LoadSignature()
+        {
+            // load if image file exist
+            if (File.Exists(SignatureFileName()))
+            {
+                Signature = GetSignatureBytesFromImagesFolder();
+                return;
+            }
+
+            // else check if image is in database
+            var sql = "SELECT SIGNATURE FROM contacts WHERE MEM_CODE = ?MemberCode";
+            var parameter = new SqlParameter("?MemberCode", MemberCode);
+            var dataTable = DatabaseController.ExecuteSelectQuery(sql, parameter);
+            if (dataTable.Rows.Count > 0)
+            {
+                var imageBytes = DataConverter.ToByteArray(dataTable.Rows[0]["SIGNATURE"]);
+                if (imageBytes.Length <= 0)
+                {
+                    return;
+                }
+
+                Signature = imageBytes;
+
+                // then save to image folder
+                var imagesFolder = CreateImagesFolder();
+
+                if (string.IsNullOrEmpty(imagesFolder))
+                {
+                    return;
+                }
+
+                if (!Directory.Exists(imagesFolder))
+                {
+                    return;
+                }
+
+                var encryptedBytes = RijndaelHelper.EncryptBytes(imageBytes, "SensitivePhrase", "SodiumChloride");
+                File.WriteAllBytes(SignatureFileName(), encryptedBytes);
+
+                // then remove blob
+                sql = "UPDATE contacts SET SIGNATURE = ?Signature WHERE MEM_CODE = ?MemberCode";
+                var parameters = new List<SqlParameter> {new SqlParameter("?Signature", null), parameter};
+
+                DatabaseController.ExecuteNonQuery(sql, parameters.ToArray());
+            }
         }
     }
 }

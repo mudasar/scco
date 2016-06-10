@@ -157,6 +157,23 @@
                         <Label Margin="5,0,50,0" Content="Run Pending Migration" />
                     </StackPanel>
                 </Button>
+                <Button x:Name="MembersImagesManagementButton"
+                	Width="250"
+                	Height="62"
+                	Margin="2"
+                	Style="{DynamicResource ControlButton}">
+                    <StackPanel Width="220"
+                		Height="Auto"
+                		Margin="10,0"
+                		Orientation="Horizontal">
+                        <Image Width="20"
+                			Height="20"
+                			Margin="5,0,0,0"
+                			Source="/SCCO.WPF.MVC.CS;component/Images/conference.png"
+                			Stretch="Fill" />
+                        <Label Margin="5,0,50,0" Content="Members Images Management" />
+                    </StackPanel>
+                </Button>
             </StackPanel>
             <StackPanel Width="10" Margin="5" />
             <StackPanel Margin="5" Orientation="Vertical">

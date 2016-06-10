@@ -1,0 +1,54 @@
+﻿<Window x:Class="SCCO.WPF.MVC.CS.Utilities.FileCopy.FileCopyView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:fileCopy="clr-namespace:SCCO.WPF.MVC.CS.Utilities.FileCopy"
+        Title="File Copy"
+        ResizeMode="NoResize"
+        SizeToContent="WidthAndHeight"
+        WindowStartupLocation="CenterScreen"
+        x:ClassModifier="internal">
+
+    <Window.DataContext>
+        <fileCopy:FileCopyViewModel />
+    </Window.DataContext>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="40" />
+        </Grid.RowDefinitions>
+        <ProgressBar x:Name="ProgressBar1" VerticalAlignment="Bottom" />
+        <StackPanel x:Name="Data"
+                    Grid.Row="0"
+                    Width="300"
+                    Margin="16,16,16,32">
+            <TextBlock Margin="0,0,0,4"
+                       Text="Source Folder" />
+            <TextBlock Margin="0,0,0,20"
+                       Text="{Binding SourceFolder}" />
+            <TextBlock Margin="0,0,0,4"
+                       Text="Destination Folder" />
+            <TextBlock Margin="0,0,0,20"
+                       Text="{Binding DestinationFolder}" />
+            <TextBlock Margin="0,0,0,4"
+                       Text="Status" />
+            <TextBlock x:Name="StatusLabel" Margin="0"
+                       Text="{Binding ProgressStatus}" />
+        </StackPanel>
+        <Border Grid.Row="1" Background="#1E000000">
+            <StackPanel x:Name="Action"
+                        Margin="8"
+                        HorizontalAlignment="Right"
+                        Orientation="Horizontal">
+                <Button x:Name="btnUpdate"
+                        Width="75"
+                        Margin="0,0,4,0"
+                        Style="{DynamicResource SimpleButton}" Content="{Binding ProcessLabel}" />
+                <Button x:Name="btnCancel"
+                        Width="75"
+                        Content="Cancel"
+                        Style="{DynamicResource SimpleButton}" />
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>

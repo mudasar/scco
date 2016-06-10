@@ -41,6 +41,7 @@ namespace SCCO.WPF.MVC.CS.Models
         TimeDepositAuthorizedSignature2,
         CodeOfInterestRebate,
         CodeOfSeniorMembersAssistanceProgram,
+        SharedFolder,
     }
 
     public static class GlobalSettings
@@ -475,6 +476,15 @@ namespace SCCO.WPF.MVC.CS.Models
             {
                 const GlobalKeys key = GlobalKeys.AmountOfShareCapitalRequiredBalance;
                 return DataConverter.ToDecimal(SearchDatabase(key)["CurrentValue"]);
+            }
+        }
+
+        internal static string SharedFolder
+        {
+            get
+            {
+                const GlobalKeys key = GlobalKeys.SharedFolder;
+                return DataConverter.ToString(SearchDatabase(key)["CurrentValue"]);
             }
         }
     }

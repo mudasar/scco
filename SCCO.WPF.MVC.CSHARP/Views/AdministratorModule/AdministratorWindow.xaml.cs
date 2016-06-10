@@ -79,6 +79,12 @@ namespace SCCO.WPF.MVC.CS.Views.AdministratorModule
                         MessageWindow.ShowAlertMessage(result.Message);
                     }
                 };
+
+            MembersImagesManagementButton.Click += (sender, args) =>
+            {
+                var view = new MembersImagesManagementView();
+                view.ShowDialog();
+            };
         }
 
         private void RefreshDisplay()

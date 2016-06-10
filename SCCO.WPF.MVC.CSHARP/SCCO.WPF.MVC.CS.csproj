@@ -79,6 +79,7 @@
       <HintPath>COM\CrystalDecisions.Shared.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="MySql.Data, Version=6.9.8.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\MySql.Data.6.9.8\lib\net40\MySql.Data.dll</HintPath>
@@ -460,7 +461,12 @@
     <Compile Include="Utilities\DbfMigration\Views\MigrationProgessWindow.xaml.cs">
       <DependentUpon>MigrationProgessWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Utilities\FileCopy\FileCopyViewModel.cs" />
+    <Compile Include="Utilities\FileCopy\FileCopyView.xaml.cs">
+      <DependentUpon>FileCopyView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Utilities\MessageBuilder.cs" />
+    <Compile Include="Utilities\RijndaelHelper.cs" />
     <Compile Include="Utilities\TransactionHelper.cs" />
     <Compile Include="Views\AccountModule\AccountCategoryView.xaml.cs">
       <DependentUpon>AccountCategoryView.xaml</DependentUpon>
@@ -488,6 +494,9 @@
       <DependentUpon>LoanCompromiseAgreementView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\AccountVerifierModule\LoanCompromiseAgreementViewModel.cs" />
+    <Compile Include="Views\AdministratorModule\MembersImagesManagementView.xaml.cs">
+      <DependentUpon>MembersImagesManagementView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\AdministratorModule\ShareCapitalSetupView.xaml.cs">
       <DependentUpon>ShareCapitalSetupView.xaml</DependentUpon>
     </Compile>
@@ -966,6 +975,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Utilities\FileCopy\FileCopyView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\AccountModule\AccountCategoryView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -991,6 +1004,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountVerifierModule\LoanCompromiseAgreementView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\AdministratorModule\MembersImagesManagementView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

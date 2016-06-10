@@ -1,0 +1,168 @@
+﻿<Views:BaseWindow x:Class="SCCO.WPF.MVC.CS.Views.AdministratorModule.MembersImagesManagementView"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                  xmlns:Views="clr-namespace:SCCO.WPF.MVC.CS.Views"
+                  Title="{Binding Content,
+                                  ElementName=FormTitle}"
+                  AllowsTransparency="True"
+                  Background="{x:Null}"
+                  Icon="{Binding Source,
+                                 ElementName=WindowIcon}"
+                  ResizeMode="NoResize"
+                  SizeToContent="WidthAndHeight"
+                  WindowStartupLocation="CenterScreen"
+                  WindowStyle="None"
+                  mc:Ignorable="d">
+    <Grid Margin="5">
+        <Grid x:Name="FormLayout">
+            <Rectangle x:Name="Canvass"
+                       Fill="DarkOliveGreen"
+                       RadiusX="5"
+                       RadiusY="5"
+                       Stroke="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"
+                       StrokeLineJoin="Round">
+                <Rectangle.Effect>
+                    <DropShadowEffect BlurRadius="5" ShadowDepth="0" />
+                </Rectangle.Effect>
+            </Rectangle>
+            <Border x:Name="ShineEffect"
+                    Margin="2,2,2,0"
+                    VerticalAlignment="Top"
+                    CornerRadius="4"
+                    MouseLeftButtonDown="DragWindow"
+                    Style="{StaticResource ShineEffectStyle}" />
+            <Image x:Name="WindowIcon"
+                   Width="24"
+                   Height="24"
+                   Margin="10,10,0,0"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top"
+                   Source="/SCCO.WPF.MVC.CS;component/Images/conference.png"
+                   Stretch="Fill" />
+            <Label x:Name="FormTitle"
+                   Margin="34,10,0,0"
+                   Content="Members Images Management"
+                   FontFamily="Segoe UI"
+                   FontSize="13.333"
+                   FontWeight="SemiBold"
+                   MouseLeftButtonDown="DragWindow"
+                   Style="{DynamicResource FormTitle2}" />
+            <Button x:Name="CloseButton"
+                    Margin="0,8,8,0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Background="#00E4D2D2"
+                    Click="CloseWindow"
+                    Content="x"
+                    IsTabStop="False"
+                    Style="{StaticResource CloseButton}" />
+        </Grid>
+        <StackPanel Margin="40,60,20,20"
+                    VerticalAlignment="Top"
+                    Orientation="Vertical">
+            <StackPanel Width="300"
+                        Orientation="Vertical">
+                <StackPanel>
+                    <Label Content="Images Folder" />
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="2" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <TextBox x:Name="ImagesFolderTextBox"
+                                 IsTabStop="False"
+                                 Style="{StaticResource RoundedTextBox}" />
+                        <Button x:Name="ImagesFolderPickerButton"
+                                Grid.Column="2"
+                                Width="25"
+                                Content="..."
+                                Style="{StaticResource ControlButton}"
+                                TabIndex="1"
+                                UseLayoutRounding="False" />
+
+                        <Button x:Name="ApplyButton"
+                                Grid.Row="1"
+                                Grid.ColumnSpan="3"
+                                Margin="0,4,0,0"
+                                HorizontalAlignment="Right"
+                                Content="Apply"
+                                Style="{StaticResource ControlButton}" />
+                    </Grid>
+                </StackPanel>
+                <Separator Height="8"></Separator>
+                <StackPanel>
+                    <Label Content="Backup Folder" />
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="2" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <TextBox x:Name="BackupFolderTextBox"
+                                 IsTabStop="False"
+                                 Style="{StaticResource RoundedTextBox}" />
+                        <Button x:Name="BackupFolderPickerButton"
+                                Grid.Column="2"
+                                Width="25"
+                                Content="..."
+                                Style="{StaticResource ControlButton}"
+                                TabIndex="1"
+                                UseLayoutRounding="False" />
+
+                        <Button x:Name="BackupButton"
+                                Grid.Row="1"
+                                Grid.ColumnSpan="3"
+                                Margin="0,4,0,0"
+                                HorizontalAlignment="Right"
+                                Content="Backup"
+                                Style="{StaticResource ControlButton}" />
+                    </Grid>
+                </StackPanel>
+                <Separator Height="8"></Separator>
+                <StackPanel>
+                    <Label Content="Restore Folder" />
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="2" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <TextBox x:Name="RestoreFolderTextBox"
+                                 IsTabStop="False"
+                                 Style="{StaticResource RoundedTextBox}" />
+                        <Button x:Name="RestoreFolderPickerButton"
+                                Grid.Column="2"
+                                Width="25"
+                                Content="..."
+                                Style="{StaticResource ControlButton}"
+                                TabIndex="1"
+                                UseLayoutRounding="False" />
+
+                        <Button x:Name="RestoreButton"
+                                Grid.Row="1"
+                                Grid.ColumnSpan="3"
+                                Margin="0,4,0,0"
+                                HorizontalAlignment="Right"
+                                Content="Restore"
+                                Style="{StaticResource ControlButton}" />
+                    </Grid>
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Views:BaseWindow>
