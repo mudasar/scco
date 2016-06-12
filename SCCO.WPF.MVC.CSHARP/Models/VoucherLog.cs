@@ -183,5 +183,14 @@ namespace SCCO.WPF.MVC.CS.Models
            }
             return Update();
         }
+
+        public static Result Log(VoucherTypes voucherType, int voucherNo, DateTime voucherDate, string initials)
+        {
+            var voucherLog = new VoucherLog();
+            voucherLog.Find(voucherType.ToKeyword(), voucherNo);
+            voucherLog.Initials = initials;
+            voucherLog.Date = voucherDate;
+            return voucherLog.Save();
+        }
     }
 }

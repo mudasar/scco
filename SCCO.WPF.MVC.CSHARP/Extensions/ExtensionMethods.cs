@@ -12,5 +12,10 @@ namespace SCCO.WPF.MVC.CS.Extensions
             return Comparer<T>.Default.Compare(item, start) >= 0
                 && Comparer<T>.Default.Compare(item, end) <= 0;
         }
+
+        public static string Initials(this string text)
+        {
+            return text.Split(' ').Select(s => s[0]).Aggregate("", (current, i) => current + i);
+        }
     }
 }

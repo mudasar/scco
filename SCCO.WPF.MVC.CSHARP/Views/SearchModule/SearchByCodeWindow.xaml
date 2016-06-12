@@ -116,7 +116,7 @@
                       RowHeight="24"
                       SelectedItem="{Binding SelectedItem}"
                       SelectionMode="Single"
-                      VerticalGridLinesBrush="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}">
+                      VerticalGridLinesBrush="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}" IsSynchronizedWithCurrentItem="True">
                 <DataGrid.Columns>
                     <DataGridTextColumn Width="0.3*"
                                         Binding="{Binding ItemCode}"

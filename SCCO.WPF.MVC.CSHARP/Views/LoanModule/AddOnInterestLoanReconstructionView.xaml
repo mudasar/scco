@@ -42,7 +42,7 @@
         </Style>
     </views:BaseWindow.Resources>
     <views:BaseWindow.DataContext>
-        <local:AddOnInterestLoanReconstructionViewModel />
+        <local:LoanReconstructionViewModel />
     </views:BaseWindow.DataContext>
     <Grid Width="760" Margin="5">
         <Grid x:Name="FormLayout">
@@ -381,8 +381,8 @@
                 <Button x:Name="btnRefresh"
                         Content="Refresh"
                         Style="{DynamicResource ControlButton}" />
-                <Button x:Name="btnPost"
-                        Content="Post"
+                <Button x:Name="btnReconstruct"
+                        Content="Reconstruct"
                         Style="{DynamicResource ControlButton}" />
             </StackPanel>
         </Grid>

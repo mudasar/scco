@@ -492,13 +492,13 @@
       <DependentUpon>ShareCapitalSetupView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\AdministratorModule\ShareCapitalSetupViewModel.cs" />
-    <Compile Include="Views\LoanModule\AddOnInterestLoanReconstructionViewModel.cs" />
     <Compile Include="Views\LoanModule\AddReconstructionDetailsView.xaml.cs">
       <DependentUpon>AddReconstructionDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LoanModule\LoanDetailsEditView.xaml.cs">
       <DependentUpon>LoanDetailsEditView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\LoanModule\LoanProductViewModel.cs" />
     <Compile Include="Views\LoanModule\LoanReconstructionOptionsView.xaml.cs">
       <DependentUpon>LoanReconstructionOptionsView.xaml</DependentUpon>
     </Compile>
@@ -511,6 +511,9 @@
     </Compile>
     <Compile Include="Views\LoanModule\AddOnInterestLoanReconstructionView.xaml.cs">
       <DependentUpon>AddOnInterestLoanReconstructionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LoanModule\PaidInterestPostingView.xaml.cs">
+      <DependentUpon>PaidInterestPostingView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SavingsDepositModule\SavingsDepositInterestPostingSetupViewModel.cs" />
     <Compile Include="Views\SavingsDepositModule\SavingsDepositInterestPostingSetup.xaml.cs">
@@ -661,7 +664,6 @@
       <DependentUpon>ProductImageListDetailView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ProductImageModule\ProductImageViewModel.cs" />
-    <Compile Include="Views\LoanModule\LoanProductViewModel.cs" />
     <Compile Include="Views\ReportItemModule\AddReportItemView.xaml.cs">
       <DependentUpon>AddReportItemView.xaml</DependentUpon>
     </Compile>
@@ -1019,6 +1021,10 @@
     <Page Include="Views\LoanModule\AddOnInterestLoanReconstructionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LoanModule\PaidInterestPostingView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\SavingsDepositModule\SavingsDepositInterestPostingSetup.xaml">
       <SubType>Designer</SubType>

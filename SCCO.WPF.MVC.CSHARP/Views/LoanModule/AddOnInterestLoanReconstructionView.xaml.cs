@@ -8,11 +8,11 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
     /// </summary>
     internal partial class AddOnInterestLoanReconstructionView
     {
-        private readonly AddOnInterestLoanReconstructionViewModel _viewModel;
+        private readonly LoanReconstructionViewModel _viewModel;
 
         public Result ActionResult { get; set; }
 
-        public AddOnInterestLoanReconstructionView(AddOnInterestLoanReconstructionViewModel viewModel)
+        public AddOnInterestLoanReconstructionView(LoanReconstructionViewModel viewModel)
         {
             InitializeComponent();
             ActionResult= new Result(false, "No action");
@@ -32,7 +32,7 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
                     _viewModel.AddOrEditSmap();
                 };
 
-            btnPost.Click += (sender, args) => Post();
+            btnReconstruct.Click += (sender, args) => Reconstruct();
 
             btnRefresh.Click += (sender, args) => _viewModel.UpdateLoanDetails();
 
@@ -67,7 +67,7 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
             btnRemoveEntry.Click += (sender, args) => _viewModel.RemoveSelectedParticular();
         }
 
-        private void Post()
+        private void Reconstruct()
         {
             ActionResult = _viewModel.Validate();
             if (!ActionResult.Success)
@@ -76,17 +76,19 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
                 return;
             }
             var view = new PostJournalVoucherView(_viewModel.ReconstructionDate);
-            if (view.ShowDialog() ==false)
+            if (view.ShowDialog() == false)
             {
                 return;
             }
 
-            ActionResult = _viewModel.Post(view.JournalVoucher.VoucherNo, view.JournalVoucher.VoucherDate);
+            ActionResult = _viewModel.PostAddOnInterestReconstruction(view.JournalVoucher.VoucherNo,
+                                                                      view.JournalVoucher.VoucherDate);
             if (ActionResult.Success)
             {
                 const string message = "Posting successful!";
                 MessageWindow.ShowNotifyMessage(message);
                 ActionResult = new Result(true, message);
+                MainController.ShowJournalVoucherWindow();
                 Close();
             }
             else

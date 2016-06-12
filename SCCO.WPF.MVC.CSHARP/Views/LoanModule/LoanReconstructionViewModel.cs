@@ -1,113 +1,572 @@
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Data;
+using System.Linq;
+using System.Text;
 using SCCO.WPF.MVC.CS.Controllers;
+using SCCO.WPF.MVC.CS.Database;
+using SCCO.WPF.MVC.CS.Extensions;
 using SCCO.WPF.MVC.CS.Models;
 using SCCO.WPF.MVC.CS.Models.Loan;
+using SCCO.WPF.MVC.CS.Utilities;
 
 namespace SCCO.WPF.MVC.CS.Views.LoanModule
 {
     internal class LoanReconstructionViewModel : ViewModelBase
     {
-        private LoanDetails _loanDetails;
+        private decimal _amountForReconstruction;
+        private Account _finesAndPenaltyAccount;
+        private Account _interestRebateAccount;
+        private Account _loanAccount;
+        private decimal _loanBalance;
+        private LoanComputation _loanComputation;
+        private LoanProduct _loanProduct;
+        private List<DefaultModel> _loanProductTerms;
+        private LoanDetails _newLoanDetails;
+        private ObservableCollection<Particular> _particulars;
+        private LoanDetails _previousLoanDetails;
+        private DateTime _reconstructionDate;
+        private Particular _selectedParticular;
+        private Account _seniorMembersAssistanceProgramAccount;
+        private Account _unearnedIncomeAccount;
+        private decimal _totalChargesAndDeductions;
+        private int _orNumber;
 
-        /// <summary>
-        /// The reconstructed Loan Details
-        /// </summary>
-        public LoanDetails LoanDetails
+        public decimal LoanBalance
         {
-            get { return _loanDetails; }
-            set { _loanDetails = value; OnPropertyChanged("LoanDetails"); }
-        }
-
-        /// <summary>
-        /// Journal Voucher Number
-        /// </summary>
-        public int DocumentNumber { get; set; }
-
-        /// <summary>
-        /// Posting Date
-        /// </summary>
-        public DateTime DocumentDate { get; set; }
-
-        /// <summary>
-        /// OR number if interest and penalty are paid
-        /// </summary>
-        public string OfficialReceiptNumber { get; set; }
-
-        public decimal InterestRebate { get; set; }
-
-        public string InterestRebateAccountCode { get; set; }
-
-        public Nfmb Member { get; set; }
-
-        public Account LoanApplied { get; set; }
-
-        public ReconstructionTypes ReconstructionTypes { get; set; }
-
-        public decimal LoanBalance { get; set; }
-
-        public LoanComputation LoanComputation { get; set; }
-
-        public void ReconstructLoan()
-        {
-            switch (ReconstructionTypes)
+            get { return _loanBalance; }
+            set
             {
-                case ReconstructionTypes.PaidInterest:
-                    PaidInterestReconstruction();
-                    break;
-
-                case ReconstructionTypes.AddOnInterest:
-                    AddOnInterestReconstruction();
-                    break;
-
-                case ReconstructionTypes.Restructed:
-                    RestructureLoan();
-                    break;
+                _loanBalance = value;
+                OnPropertyChanged("LoanBalance");
             }
         }
 
-        private Result RestructureLoan()
+        public decimal AmountForReconstruction
         {
-            return new Result(false, "Not yet implemented");
+            get { return _amountForReconstruction; }
+            set
+            {
+                _amountForReconstruction = value;
+                OnPropertyChanged("AmountForReconstruction");
+            }
         }
 
-        private Result PaidInterestReconstruction()
+        public LoanDetails PreviousLoanDetails
         {
-            string explanation = GetReconstructionExplanation(ReconstructionTypes.PaidInterest);
-            var document = new VoucherDocument { Date = DocumentDate, Type = VoucherTypes.JV, Number = DocumentNumber };
+            get { return _previousLoanDetails; }
+            set
+            {
+                _previousLoanDetails = value;
+                OnPropertyChanged("PreviousLoanDetails");
+            }
+        }
 
-            // enter first loan settlement entry
+        public LoanDetails NewLoanDetails
+        {
+            get { return _newLoanDetails; }
+            set
+            {
+                _newLoanDetails = value;
+                OnPropertyChanged("NewLoanDetails");
+            }
+        }
+
+        public LoanProduct LoanProduct
+        {
+            get { return _loanProduct; }
+            set
+            {
+                _loanProduct = value;
+                OnPropertyChanged("LoanProduct");
+            }
+        }
+
+        public LoanComputation LoanComputation
+        {
+            get { return _loanComputation; }
+            set
+            {
+                _loanComputation = value;
+                OnPropertyChanged("LoanComputation");
+            }
+        }
+
+        public ObservableCollection<Particular> Particulars
+        {
+            get { return _particulars; }
+            set
+            {
+                _particulars = value;
+                OnPropertyChanged("Particulars");
+            }
+        }
+
+        public List<DefaultModel> LoanProductTerms
+        {
+            get { return _loanProductTerms; }
+            set
+            {
+                _loanProductTerms = value;
+                OnPropertyChanged("LoanProductTerms");
+            }
+        }
+
+        public Nfmb Borrower { get; set; }
+
+        public Account LoanAccount
+        {
+            get { return _loanAccount; }
+            set
+            {
+                _loanAccount = value;
+                OnPropertyChanged("LoanAccount");
+            }
+        }
+
+        public DateTime ReconstructionDate
+        {
+            get { return _reconstructionDate; }
+            set
+            {
+                _reconstructionDate = value;
+                OnPropertyChanged("ReconstructionDate");
+            }
+        }
+
+        public Account InterestRebateAccount
+        {
+            get { return _interestRebateAccount; }
+            set
+            {
+                _interestRebateAccount = value;
+                OnPropertyChanged("InterestRebateAccount");
+            }
+        }
+
+        public Account FinesAndPenaltyAccount
+        {
+            get { return _finesAndPenaltyAccount; }
+            set
+            {
+                _finesAndPenaltyAccount = value;
+                OnPropertyChanged("FinesAndPenaltyAccount");
+            }
+        }
+
+        public Account UnearnedIncomeAccount
+        {
+            get { return _unearnedIncomeAccount; }
+            set
+            {
+                _unearnedIncomeAccount = value;
+                OnPropertyChanged("UnearnedIncomeAccount");
+            }
+        }
+
+        public Account SeniorMembersAssistanceProgramAccount
+        {
+            get { return _seniorMembersAssistanceProgramAccount; }
+            set
+            {
+                _seniorMembersAssistanceProgramAccount = value;
+                OnPropertyChanged("SeniorMembersAssistanceProgramAccount");
+            }
+        }
+
+        public Particular SelectedParticular
+        {
+            get { return _selectedParticular; }
+            set
+            {
+                _selectedParticular = value;
+                OnPropertyChanged("SelectedParticular");
+            }
+        }
+
+        public User LoanManager { get; set; }
+
+        public ReconstructionTypes ReconstructionType { get; set; }
+
+        public int OrNumber
+        {
+            get { return _orNumber; }
+            set
+            {
+                _orNumber = value;
+                OnPropertyChanged("OrNumber");
+            }
+        }
+
+        public decimal TotalChargesAndDeductions
+        {
+            get { return _totalChargesAndDeductions; }
+            set { _totalChargesAndDeductions = value; OnPropertyChanged("TotalChargesAndDeductions"); }
+        }
+
+        public void InitializeContext()
+        {
+            // properties initialization
+            Borrower = Nfmb.FindByCode(PreviousLoanDetails.MemberCode);
+            LoanAccount = Account.FindByCode(PreviousLoanDetails.AccountCode);
+            ConfigureAccounts();
+
+            Particulars = new ObservableCollection<Particular>();
+            //1. find closest loan product based on previous loan details
+            SetLoanProduct();
+            SetLoanProductTerms();
+
+            //2. initialize new loan detail before setting loan computation
+            SetNewLoanDetail();
+
+            //3. let the LoanComputation model do the work for charges and deductions
+            SetLoanComputation();
+
+            InsertChargesAndDeductions();
+
+            //4. append Rebates/Penalty
+            AppendInterestRebateOrPenalty();
+
+            // insert other deductions
+            AddOrEditSmap();
+
+            //5. Update loan amount for reconstruction
+            UpdateLoanAmountForReconstruction();
+
+            //6. Update New Loan Details
+            UpdateLoanDetails();
+        }
+
+        public void RemoveSelectedParticular()
+        {
+            if (SelectedParticular != null)
+            {
+                Particulars.Remove(SelectedParticular);
+                SelectedParticular = Particulars.LastOrDefault();
+                UpdateLoanAmountForReconstruction();
+                UpdateLoanDetails();
+            }
+        }
+
+        internal Nfmb FindCoMaker(string code)
+        {
+            return Nfmb.FindByCode(code);
+        }
+
+        public void AddOrEditSmap()
+        {
+
+            if (SeniorMembersAssistanceProgramAccount == null)
+            {
+                return;
+            }
+            
+            var totalDeductions = LoanBalance;
+            Particular smap = null;
+            foreach (var particular in Particulars)
+            {
+                if (particular.AccountCode != SeniorMembersAssistanceProgramAccount.AccountCode)
+                {
+                    totalDeductions += particular.Amount;
+                }
+                else
+                {
+                    smap = particular;
+                }
+            }
+
+            var amount = 10; // default amount
+
+            // if loan term is 1 year or above
+            // smap = P1 for every P1000
+            if (NewLoanDetails.LoanTerms >= 12) //gteq 1 year
+            {
+                var jea = (int) (totalDeductions/1000);
+                amount = jea;
+            }
+            else
+            {
+                // if loan amount is P20K or above, P20, 
+                if (totalDeductions > 20000)
+                {
+                    amount = 20;
+                }
+            }
+
+            if (smap == null)
+            {
+                smap = new Particular
+                    {
+                        AccountCode = SeniorMembersAssistanceProgramAccount.AccountCode,
+                        AccountTitle = SeniorMembersAssistanceProgramAccount.AccountTitle,
+                        Amount = amount
+                    };
+                Particulars.Add(smap);
+            }
+            else
+            {
+                smap.Amount = amount;
+            }
+        }
+
+        private void SetLoanProduct()
+        {
+            var conditions = new Dictionary<string, object>
+                {
+                    {"ProductCode", PreviousLoanDetails.AccountCode},
+                    {"AnnualInterestRate", PreviousLoanDetails.InterestRate}
+                };
+            foreach (var item in LoanProduct.Where(conditions))
+            {
+                LoanProduct = item;
+                return;
+            }
+            // if no loan product was found, provide default
+            conditions = new Dictionary<string, object>
+                {
+                    {"ProductCode", PreviousLoanDetails.AccountCode},
+                };
+            foreach (var item in LoanProduct.Where(conditions))
+            {
+                LoanProduct = item;
+                return;
+            }
+        }
+
+        private void SetLoanProductTerms()
+        {
+            var terms = new List<DefaultModel>();
+            for (var i = LoanProduct.MinimumTerm; i <= LoanProduct.MaximumTerm; i++)
+            {
+                var item = new DefaultModel {ID = i, Name = string.Format("{0} {1}", i, i == 1 ? "month" : "months")};
+                terms.Add(item);
+            }
+            LoanProductTerms = terms;
+        }
+
+        private void SetNewLoanDetail()
+        {
+            NewLoanDetails = new LoanDetails
+                {
+                    MemberCode = PreviousLoanDetails.MemberCode,
+                    MemberName = PreviousLoanDetails.MemberName,
+                    AccountCode = PreviousLoanDetails.AccountCode,
+                    AccountTitle = PreviousLoanDetails.AccountTitle,
+                    LoanAmount =
+                        ReconstructionType == ReconstructionTypes.AddOnInterest
+                            ? LoanBalance
+                            : PreviousLoanDetails.LoanAmount,
+                    InterestRate = LoanProduct.AnnualInterestRate,
+                    GrantedDate = ReconstructionDate,
+                    LoanTerms =
+                        PreviousLoanDetails.LoanTerms.IsBetween(LoanProduct.MinimumTerm, LoanProduct.MaximumTerm)
+                            ? PreviousLoanDetails.LoanTerms
+                            : LoanProduct.MinimumTerm
+                };
+
+            for (var i = 0; i < 3; i++)
+            {
+                NewLoanDetails.CoMakers[i] = PreviousLoanDetails.CoMakers[i];
+            }
+        }
+
+        private void SetLoanComputation()
+        {
+            LoanComputation = new LoanComputation(NewLoanDetails, LoanProduct);
+        }
+
+        private void InsertChargesAndDeductions()
+        {
+            Particulars.Clear();
+            foreach (var charge in LoanComputation.Charges.OrderBy(t => t.AccountCode))
+            {
+                var item = new Particular
+                    {
+                        AccountCode = charge.AccountCode,
+                        AccountTitle = charge.AccountTitle,
+                        Amount = charge.Amount
+                    };
+                Particulars.Add(item);
+            }
+
+            foreach (var deduction in LoanComputation.Deductions.OrderBy(t => t.AccountCode))
+            {
+                var item = new Particular
+                    {
+                        AccountCode = deduction.AccountCode,
+                        AccountTitle = deduction.AccountTitle,
+                        Amount = deduction.Amount
+                    };
+                Particulars.Add(item);
+            }
+        }
+
+        private void AppendInterestRebateOrPenalty()
+        {
+            var model = new FinesRebateCalculatorViewModel
+                {
+                    LoanDetails = PreviousLoanDetails,
+                    ProcessDate = ReconstructionDate,
+                    LoanBalance = IsOverDue(PreviousLoanDetails.MaturityDate, ReconstructionDate) ? LoanBalance : 0
+                };
+
+            model.Calculate();
+
+            if (model.Rebate != 0)
+            {
+                var rebate = InterestRebateAccount;
+                var item = new Particular
+                    {
+                        AccountCode = rebate.AccountCode,
+                        AccountTitle = rebate.AccountTitle,
+                        Amount = Math.Abs(Math.Round(model.Rebate, 2))*-1
+                    };
+                Particulars.Add(item);
+            }
+            if (model.Fines != 0)
+            {
+                var fines = FinesAndPenaltyAccount;
+                var item = new Particular
+                    {
+                        AccountCode = fines.AccountCode,
+                        AccountTitle = fines.AccountTitle,
+                        Amount = Math.Round(model.Fines, 2)
+                    };
+                Particulars.Add(item);
+            }
+        }
+
+        private bool IsOverDue(DateTime maturityDate, DateTime presentDate)
+        {
+            return presentDate > maturityDate;
+        }
+
+        private void UpdateLoanAmountForReconstruction()
+        {
+            AmountForReconstruction = LoanBalance;
+            TotalChargesAndDeductions = 0m;
+            foreach (var particular in Particulars)
+            {
+                TotalChargesAndDeductions += particular.Amount;
+            }
+
+            if (ReconstructionType == ReconstructionTypes.AddOnInterest)
+            {
+                AmountForReconstruction += TotalChargesAndDeductions;
+            }
+        }
+
+        public void UpdateLoanDetails()
+        {
+            NewLoanDetails.LoanAmount = AmountForReconstruction;
+            var lah = LoanAmortizationController.GenerateLoanAmortization(
+                NewLoanDetails.MemberCode,
+                NewLoanDetails.AccountCode,
+                NewLoanDetails.LoanAmount,
+                NewLoanDetails.LoanTerms,
+                NewLoanDetails.InterestRate,
+                NewLoanDetails.GrantedDate,
+                LoanProduct.MonthlyCapitalBuildUp
+                );
+
+            NewLoanDetails.InterestAmount = lah.PaymentSchedules.Sum(t => t.Interest);
+            var firstPayment = lah.PaymentSchedules.First();
+
+            NewLoanDetails.InterestAmortization = 0m;
+            NewLoanDetails.Payment = 0m;
+
+            if (firstPayment != null)
+            {
+                NewLoanDetails.InterestAmortization = firstPayment.Interest;
+                NewLoanDetails.Payment = firstPayment.Payment + firstPayment.Interest;
+            }
+
+            NewLoanDetails.MaturityDate = NewLoanDetails.GrantedDate.AddMonths(NewLoanDetails.LoanTerms);
+            NewLoanDetails.CutOffDate = lah.FirstPaymentDate;
+            NewLoanDetails.ModeOfPayment = ModeOfPayments.Monthly;
+            NewLoanDetails.TermsMode = "MO";
+        }
+
+        public Result PostAddOnInterestReconstruction(int documentNumber, DateTime documentDate)
+        {
+            //1. loan
+            var document = new VoucherDocument(VoucherTypes.JV, documentNumber, documentDate);
             var jv = new JournalVoucher();
-            jv.SetMember(Member);
-            jv.SetAccount(LoanApplied);
             jv.SetDocument(document);
+            jv.SetMember(Borrower);
+            jv.SetAccount(Account.FindByCode(PreviousLoanDetails.AccountCode));
             jv.Credit = LoanBalance;
+
+            jv.IsPosted = true;
             var result = jv.Create();
-            if (result.Success)
+            if (!result.Success)
             {
-                JournalVoucher.DeleteAll(document.Number);
+                JournalVoucher.DeleteAll(documentNumber);
                 return result;
             }
 
+            //2. charges and deductions
+            foreach (var particular in Particulars)
+            {
+                jv = new JournalVoucher();
+                jv.SetDocument(document);
+                jv.SetMember(Borrower);
+                jv.AccountCode = particular.AccountCode;
+                jv.AccountTitle = particular.AccountTitle;
+                jv.Credit = particular.Amount;
+
+                jv.IsPosted = true;
+                result = jv.Create();
+                if (!result.Success)
+                {
+                    JournalVoucher.DeleteAll(documentNumber);
+                    return result;
+                }
+            }
+
+            //3. Unearned Income
             jv = new JournalVoucher();
-            jv.SetMember(Member);
-            jv.SetAccount(LoanApplied);
             jv.SetDocument(document);
-            jv.Debit = LoanBalance;
-            jv.LoanDetails = LoanDetails;
-            jv.Explanation = explanation + Environment.NewLine + LoanDetails.GenerateExplanation();
+            jv.SetMember(Borrower);
+            jv.SetAccount(UnearnedIncomeAccount);
+            jv.Credit = NewLoanDetails.InterestAmount;
+
+            jv.IsPosted = true;
             result = jv.Create();
             if (!result.Success)
             {
-                JournalVoucher.DeleteAll(document.Number);
+                JournalVoucher.DeleteAll(documentNumber);
+                return result;
+            }
+
+            //4. Reconstructed Loan
+            jv = new JournalVoucher();
+            jv.SetDocument(document);
+            jv.SetMember(Borrower);
+            jv.SetAccount(LoanAccount);
+            jv.Debit = NewLoanDetails.LoanAmount + NewLoanDetails.InterestAmount;
+
+            NewLoanDetails.ReleaseNo = ModelController.Releases.MaxReleaseNumber() + 1;
+            NewLoanDetails.DateReleased = ReconstructionDate;
+            jv.LoanDetails = NewLoanDetails;
+            jv.Explanation = "Add-On-Interest Loan Reconstruction: " + NewLoanDetails.GenerateExplanation();
+            jv.Amount = jv.Debit;
+            jv.AmountInWords = Converter.AmountToWords(jv.Debit);
+            jv.IsPosted = true;
+            result = jv.Create();
+            if (!result.Success)
+            {
+                JournalVoucher.DeleteAll(documentNumber);
                 return result;
             }
 
             #region --- Voucher Log ---
 
             var voucherLog = new VoucherLog();
-            voucherLog.Find(document.Type.ToString(), document.Number);
-            voucherLog.Date = document.Date;
-            voucherLog.Initials = MainController.LoggedUser.Initials;
+            voucherLog.Find("JV", documentNumber);
+            voucherLog.Date = ReconstructionDate;
+            voucherLog.Initials = LoanManager.Initials;
 
             voucherLog.Save();
 
@@ -116,149 +575,218 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
             return result;
         }
 
-        private Result AddOnInterestReconstruction()
+        public Result PostPaidInterestReconstruction(int documentNumber, DateTime documentDate)
         {
-            string explanation = GetReconstructionExplanation(ReconstructionTypes.PaidInterest);
-            var document = new VoucherDocument { Date = DocumentDate, Type = VoucherTypes.JV, Number = DocumentNumber };
+            //1. loan
+            var document = new VoucherDocument(VoucherTypes.JV, documentNumber, documentDate);
+            var jv = new JournalVoucher();
+            jv.SetDocument(document);
+            jv.SetMember(Borrower);
+            jv.SetAccount(Account.FindByCode(PreviousLoanDetails.AccountCode));
+            jv.Credit = LoanBalance;
 
-            // entry to settle loan
-            var result = AddVoucherEntry(LoanApplied, LoanBalance, "Credit");
-            if (result.Success)
+            jv.IsPosted = true;
+            var result = jv.Create();
+            if (!result.Success)
             {
-                JournalVoucher.DeleteAll(document.Number);
+                JournalVoucher.DeleteAll(documentNumber);
                 return result;
             }
 
-            // entry for fines/penalty
-            decimal charges = PostCharges();
-            decimal deductions = PostDeductions();
+            //2. charges and deductions
+            foreach (var particular in Particulars)
+            {
+                jv = new JournalVoucher();
+                jv.SetDocument(document);
+                jv.SetMember(Borrower);
+                jv.AccountCode = particular.AccountCode;
+                jv.AccountTitle = particular.AccountTitle;
+                jv.Credit = particular.Amount;
 
-            // entry for reconstructed loan
-            var jv = new JournalVoucher();
-            jv.SetMember(Member);
-            jv.SetAccount(LoanApplied);
+                jv.IsPosted = true;
+                result = jv.Create();
+                if (!result.Success)
+                {
+                    JournalVoucher.DeleteAll(documentNumber);
+                    return result;
+                }
+            }
+
+            //3. Unearned Income
+            jv = new JournalVoucher();
             jv.SetDocument(document);
-            jv.Debit = LoanBalance + charges + deductions;
-            jv.LoanDetails = LoanDetails;
-            jv.Explanation = explanation + Environment.NewLine + LoanDetails.GenerateExplanation();
+            jv.SetMember(Borrower);
+            jv.SetAccount(UnearnedIncomeAccount);
+            jv.Credit = NewLoanDetails.InterestAmount;
+
+            jv.IsPosted = true;
             result = jv.Create();
             if (!result.Success)
             {
-                JournalVoucher.DeleteAll(document.Number);
+                JournalVoucher.DeleteAll(documentNumber);
                 return result;
             }
 
-            #region --- Voucher Log ---
+            //4. Reconstructed Loan
+            jv = new JournalVoucher();
+            jv.SetDocument(document);
+            jv.SetMember(Borrower);
+            jv.SetAccount(LoanAccount);
+            jv.Debit = NewLoanDetails.LoanAmount + NewLoanDetails.InterestAmount + TotalChargesAndDeductions;
 
-            var voucherLog = new VoucherLog();
-            voucherLog.Find(document.Type.ToString(), document.Number);
-            voucherLog.Date = document.Date;
-            voucherLog.Initials = MainController.LoggedUser.Initials;
+            NewLoanDetails.ReleaseNo = ModelController.Releases.MaxReleaseNumber() + 1;
+            NewLoanDetails.DateReleased = ReconstructionDate;
+            jv.LoanDetails = NewLoanDetails;
+            var messageBuilder = new StringBuilder();
+            messageBuilder.AppendLine("Paid Interest Loan Reconstruction: OR# " + OrNumber);
+            messageBuilder.AppendLine(NewLoanDetails.GenerateExplanation());
+            jv.Explanation = messageBuilder.ToString();
+            jv.Amount = jv.Debit;
+            jv.AmountInWords = Converter.AmountToWords(jv.Debit);
+            jv.IsPosted = true;
+            result = jv.Create();
+            if (!result.Success)
+            {
+                JournalVoucher.DeleteAll(documentNumber);
+                return result;
+            }
 
-            voucherLog.Save();
-
-            #endregion
+            VoucherLog.Log(VoucherTypes.JV, documentNumber, ReconstructionDate, LoanManager.Initials);
             return result;
         }
 
-        private string GetReconstructionExplanation(ReconstructionTypes reconstructionTypes)
+        public List<SearchItem> GetLoanProductsSearchItems()
         {
-            switch (reconstructionTypes)
-            {
-                case ReconstructionTypes.PaidInterest:
-                    return "Paid Interest Loan Reconstruction, Reference OR#" + OfficialReceiptNumber;
-
-                case ReconstructionTypes.AddOnInterest:
-                    return "Add-On Interest Loan Reconstruction";
-
-                case ReconstructionTypes.Restructed:
-                    return "Loan Restructured";
-            }
-            return string.Empty;
+            var dataTable = DatabaseController.ExecuteSelectQuery("SELECT ID, `Name`, ProductCode FROM loan_products");
+            return (from DataRow dataRow in dataTable.Rows
+                    let id = DataConverter.ToInteger(dataRow["ID"])
+                    let name = DataConverter.ToString(dataRow["Name"])
+                    let productCode = DataConverter.ToString(dataRow["ProductCode"])
+                    select new SearchItem(id, name) {ItemCode = productCode}).ToList();
         }
 
-        private decimal PostCharges()
+        public void SetLoanProduct(LoanProduct loanProduct)
         {
-            // TODO: post to journal voucher all charges
-            var accounts = new string[6];
-            accounts[0] = LoanComputation.ChargeCode1;
-            accounts[1] = LoanComputation.ChargeCode2;
-            accounts[2] = LoanComputation.ChargeCode3;
-            accounts[3] = LoanComputation.ChargeCode4;
-            accounts[4] = LoanComputation.ChargeCode5;
-            accounts[5] = LoanComputation.ChargeCode6;
-
-            var amounts = new decimal[6];
-            amounts[0] = LoanComputation.ChargeAmount1;
-            amounts[1] = LoanComputation.ChargeAmount2;
-            amounts[2] = LoanComputation.ChargeAmount3;
-            amounts[3] = LoanComputation.ChargeAmount4;
-            amounts[4] = LoanComputation.ChargeAmount5;
-            amounts[5] = LoanComputation.ChargeAmount6;
-
-            var charges = 0m;
-            for (var i = 0; i < amounts.Length; i++)
+            LoanProduct = loanProduct;
+            LoanAccount = Account.FindByCode(LoanProduct.ProductCode);
+            SetLoanProductTerms();
+            NewLoanDetails.InterestRate = LoanProduct.AnnualInterestRate;
+            if (!NewLoanDetails.LoanTerms.IsBetween(LoanProduct.MinimumTerm, LoanProduct.MaximumTerm))
             {
-                if (amounts[i] == 0m)
-                {
-                    continue;
-                }
-                if (AddVoucherEntry(Account.FindByCode(accounts[i]), amounts[i], "Credit").Success)
-                {
-                    charges += amounts[i];
-                }
+                NewLoanDetails.LoanTerms = LoanProduct.MinimumTerm;
             }
-            return charges;
+            LoanComputation = new LoanComputation(PreviousLoanDetails, LoanProduct);
+
+            InsertChargesAndDeductions();
+            AppendInterestRebateOrPenalty();
+            AddOrEditSmap();
+            UpdateLoanAmountForReconstruction();
+            UpdateLoanDetails();
         }
 
-        private Result AddVoucherEntry(Account account, decimal amount, string nature)
+        public Result Validate()
         {
-            var document = new VoucherDocument { Date = DocumentDate, Type = VoucherTypes.JV, Number = DocumentNumber };
-
-            var jv = new JournalVoucher();
-            jv.SetMember(Member);
-            jv.SetAccount(account);
-            jv.SetDocument(document);
-            if (nature.ToUpper().Substring(1, 1) == "D")
+            if (PreviousLoanDetails == null || (PreviousLoanDetails.LoanAmount == 0m))
             {
-                jv.Debit = amount;
+                return new Result(false, "Previous Loan Details not set.");
             }
-            return jv.Create();
+            if (FinesAndPenaltyAccount == null || string.IsNullOrEmpty(FinesAndPenaltyAccount.AccountCode))
+            {
+                return new Result(false, "Fines and Penalty account not set.");
+            }
+            if (InterestRebateAccount == null || string.IsNullOrEmpty(InterestRebateAccount.AccountCode))
+            {
+                return new Result(false, "Interest Rebate account not set.");
+            }
+            if (UnearnedIncomeAccount == null || string.IsNullOrEmpty(UnearnedIncomeAccount.AccountCode))
+            {
+                return new Result(false, "Unearned Income account not set.");
+            }
+            if (SeniorMembersAssistanceProgramAccount == null ||
+                string.IsNullOrEmpty(SeniorMembersAssistanceProgramAccount.AccountCode))
+            {
+                return new Result(false, "Senior Member Assistance Program account not set.");
+            }
+            return new Result(true, "Valid");
         }
 
-        private decimal PostDeductions()
+        public void ConfigureAccounts()
         {
-            // TODO: post to journal voucher all charges
-            var accounts = new string[6];
-            accounts[0] = LoanComputation.DeductCode1;
-            accounts[1] = LoanComputation.DeductCode2;
-            accounts[2] = LoanComputation.DeductCode3;
-            accounts[3] = LoanComputation.DeductCode4;
-            accounts[4] = LoanComputation.DeductCode5;
-            accounts[5] = LoanComputation.DeductCode6;
-
-            var amounts = new decimal[6];
-            amounts[0] = LoanComputation.DeductAmount1;
-            amounts[1] = LoanComputation.DeductAmount2;
-            amounts[2] = LoanComputation.DeductAmount3;
-            amounts[3] = LoanComputation.DeductAmount4;
-            amounts[4] = LoanComputation.DeductAmount5;
-            amounts[5] = LoanComputation.DeductAmount6;
-
-            var deductions = 0m;
-            for (var i = 0; i < amounts.Length; i++)
+            var code = GlobalSettings.CodeOfFinesAndPenalty;
+            if (!string.IsNullOrEmpty(code))
             {
-                if (amounts[i] == 0m)
-                {
-                    continue;
-                }
-                if (AddVoucherEntry(Account.FindByCode(accounts[i]), amounts[i], "Credit").Success)
-                {
-                    deductions += amounts[i];
-                }
+                FinesAndPenaltyAccount = Account.FindByCode(code);
             }
-            return deductions;
+
+            code = GlobalSettings.CodeOfInterestRebate;
+            if (!string.IsNullOrEmpty(code))
+            {
+                InterestRebateAccount = Account.FindByCode(code);
+            }
+
+            code = GlobalSettings.CodeOfUnearnedIncome;
+            if (!string.IsNullOrEmpty(code))
+            {
+                UnearnedIncomeAccount = Account.FindByCode(code);
+            }
+
+            code = GlobalSettings.CodeOfSeniorMembersAssistanceProgram;
+            if (!string.IsNullOrEmpty(code))
+            {
+                SeniorMembersAssistanceProgramAccount = Account.FindByCode(code);
+            }
         }
+
+        internal void AddParticular(Particular particular)
+        {
+            Particulars.Add(particular);
+            SelectedParticular = Particulars.Last();
+            UpdateLoanAmountForReconstruction();
+            UpdateLoanDetails();
+        }
+    }
+
+    internal class Particular : ViewModelBase
+    {
+        private string _accountCode;
+        private string _accountTitle;
+        private decimal _amount;
+
+        public string AccountCode
+        {
+            get { return _accountCode; }
+            set
+            {
+                _accountCode = value;
+                OnPropertyChanged("AccountCode");
+            }
+        }
+
+        public string AccountTitle
+        {
+            get { return _accountTitle; }
+            set
+            {
+                _accountTitle = value;
+                OnPropertyChanged("AccountTitle");
+            }
+        }
+
+        public decimal Amount
+        {
+            get { return _amount; }
+            set
+            {
+                _amount = value;
+                OnPropertyChanged("Amount");
+            }
+        }
+    }
+
+    internal class DefaultModel
+    {
+        public int ID { get; set; }
+        public string Name { get; set; }
     }
 
     internal enum ReconstructionTypes

@@ -96,6 +96,14 @@ namespace SCCO.WPF.MVC.CS.Views.AccountVerifierModule
                         RefreshAccountInformation();
                     }
                 };
+
+            grdSummary.MouseDoubleClick += (sender, args) =>
+                {
+                    if (grdSummary.SelectedItem == null) return;
+                    {
+                        ShowAccount(ShownAccount.Details);
+                    }
+                };
         }
 
         private void ShowTellerCollectorWindow()
