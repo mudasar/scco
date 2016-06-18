@@ -1605,9 +1605,7 @@ namespace SCCO.WPF.MVC.CS.Controllers
                                 jvdoc1Row["SUM_OF"] = journalVoucherTable.Rows[i]["AMT_WORDS"];
                                 jvdoc1Row["CHECK"] = journalVoucherTable.Rows[i]["CHECK_NUM"];
                                 jvdoc1Row["BANK"] = journalVoucherTable.Rows[i]["BANK_TITLE"];
-                                var debit = DataConverter.ToDecimal(journalVoucherTable.Rows[i]["DEBIT"]);
-                                var credit = DataConverter.ToDecimal(journalVoucherTable.Rows[i]["CREDIT"]);
-                                jvdoc1Row["AMT"] = debit + credit;
+                                jvdoc1Row["AMT"] = journalVoucherTable.Rows[i]["AMOUNT"];
                                 jvdoc1Row["PAY_TO"] = journalVoucherTable.Rows[i]["CREDIT"];
                             }
 

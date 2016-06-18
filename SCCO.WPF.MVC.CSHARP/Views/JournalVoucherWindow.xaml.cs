@@ -238,6 +238,13 @@ namespace SCCO.WPF.MVC.CS.Views
             txtTransactionDate.Text = _voucherDate.ToString("MM/dd/yyyy");
 
             UpdateTotalDebitAndTotalCredit();
+            JournalVoucher lastItem = _currentItems.LastOrDefault();
+            if (lastItem != null && lastItem.Amount != _debitTotal)
+            {
+                lastItem.Amount = _debitTotal;
+                lastItem.AmountInWords = Converter.AmountToWords(_debitTotal);
+                lastItem.Update();
+            }
 
             lblRecordCount.Content = string.Format("Record Count: {0}", _currentItems.Count);
 
