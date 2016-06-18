@@ -200,13 +200,23 @@ namespace SCCO.WPF.MVC.CS.Models
             queryBuilder.AppendFormat("WHERE ID = ?Id");
 
             var parameters = new List<SqlParameter>
-                {
-                    new SqlParameter("?UserId", userId),
-                    new SqlParameter("?UpdatedAt", DateTime.Now),
-                    new SqlParameter("Id", voucherId)
-                };
+            {
+                new SqlParameter("?UserId", userId),
+                new SqlParameter("?UpdatedAt", DateTime.Now),
+                new SqlParameter("Id", voucherId)
+            };
 
             DatabaseController.ExecuteNonQuery(queryBuilder.ToString(), parameters.ToArray());
+        }
+
+        internal static DataTable GetExplanation(VoucherTypes voucherTypes, int documentNumber)
+        {
+            const string sql = "SELECT doc_date, doc_type, doc_num, " +
+                               "CAST(`EXPLAIN` as char(10000) CHARACTER SET utf8 ) as `explanation` " +
+                               "FROM `{0}` where doc_num = ?p1 and `EXPLAIN` is not NULL ORDER BY id desc limit 1; ";
+
+            var param = new SqlParameter("?p1", documentNumber);
+            return DatabaseController.ExecuteSelectQuery(string.Format(sql, voucherTypes), param);
         }
     }
 

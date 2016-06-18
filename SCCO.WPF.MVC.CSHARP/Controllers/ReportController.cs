@@ -464,13 +464,16 @@ namespace SCCO.WPF.MVC.CS.Controllers
                     DataTable jv = DataSource.JournalVoucher.WhereDocumentNumberEquals(documentNumber);
                     jv.TableName = "jv";
 
+                    DataTable voucher_explanation = Voucher.GetExplanation(VoucherTypes.JV, documentNumber);
+                    voucher_explanation.TableName = "voucher_explanation";
+
                     DataTable comp = Company.GetData();
                     comp.TableName = "comp";
 
                     var dataSet = new DataSet();
                     dataSet.Tables.Add(jv);
+                    dataSet.Tables.Add(voucher_explanation);
                     dataSet.Tables.Add(comp);
-
 
                     var ri = new ReportItem();
                     ri.ReportFile = "jv_attachment.rpt";
@@ -630,11 +633,15 @@ namespace SCCO.WPF.MVC.CS.Controllers
                     DataTable cv = DataSource.CashVoucher.WhereDocumentNumberEquals(documentNumber);
                     cv.TableName = "cv";
 
+                    DataTable voucher_explanation = Voucher.GetExplanation(VoucherTypes.CV, documentNumber);
+                    voucher_explanation.TableName = "voucher_explanation";
+
                     DataTable comp = Company.GetData();
                     comp.TableName = "comp";
 
                     var dataSet = new DataSet();
                     dataSet.Tables.Add(cv);
+                    dataSet.Tables.Add(voucher_explanation);
                     dataSet.Tables.Add(comp);
 
 

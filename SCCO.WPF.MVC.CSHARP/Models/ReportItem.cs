@@ -125,6 +125,10 @@ namespace SCCO.WPF.MVC.CS.Models
                 OnPropertyChanged("Title");
             }
         }
+
+        // custom attribute to hold report explanation
+        public string Explanation { get; set; }
+
         private List<SqlParameter> Parameters
         {
             get
@@ -395,7 +399,11 @@ namespace SCCO.WPF.MVC.CS.Models
                         if (ff.Name.Contains("ReportTitle"))
                         {
                             ff.Text = "'" + Title + "'";
-                            break;
+                            continue;
+                        }
+                        if (ff.Name.Contains("Explanation"))
+                        {
+                            ff.Text = "'" + Explanation + "'";
                         }
                     }
                 }

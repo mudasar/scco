@@ -1725,6 +1725,7 @@
     <None Include="ReportFiles\time_deposit_certificate.ttx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="ReportFiles\voucher_explanation.ttx" />
     <None Include="ReportFiles\withdrawal_validation.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>withdrawal_validation.cs</LastGenOutput>
