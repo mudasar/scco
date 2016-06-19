@@ -1,0 +1,29 @@
+MemberCode	String	10	1696
+MemberName	String	100	ALEJO, JESUS E
+AccountCode	String	10	150.01
+AccountTitle	String	100	Loan Receivables - Commercial Loan
+DocumentType	String	2	CV
+DocumentDate	Date		2016-06-19
+DocumentNumber	Number		12345
+ReleaseNumber	Number		563241
+ReleasedDate	Date		2016-06-19
+LoanAmount	Currency		12345.50
+Terms	Number		12
+TermsMode	String	10	Months
+ModeOfPayment	String	10	Monthly
+InterestRate	Currency		18.00
+InterestAmount	Currency		18000
+InterestAmortization	Currency		1500
+Payment	Currency		8333.33
+GrantedDate	Date		2016-06-18
+MaturityDate	Date		2017-06-19
+CutOffDate	Date		2016-07-19
+CoMakerCode1	String	10	0545
+CoMakerName1	String	100	QUIJANO, CARMENCITA R.
+Status	String	10	Current
+Age	Number		1
+AgeCategoryID	Number		1
+AgeCategoryDescription	String	15	1 - 12 months
+EndingBalance	Currency		120000
+ReportDate	Date		2016-06-19
+AreaCode	String	30	LAWA

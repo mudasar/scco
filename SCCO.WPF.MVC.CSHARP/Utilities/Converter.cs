@@ -350,6 +350,38 @@ namespace SCCO.WPF.MVC.CS.Utilities
             }
         }
 
+        public static string ToModePay(object param)
+        {
+            string value = ToString(param);
+            if (value.Length < 1)
+            {
+                return "";
+            }
+
+            string initial = value.Substring(0, 1);
+            switch (initial)
+            {
+                case "D":
+                case "d":
+                    return "DLY";
+
+                case "W":
+                case "w":
+                    return "WKL";
+
+                case "S":
+                case "s":
+                    return "SMY";
+
+                case "M":
+                case "m":
+                    return "MNY";
+
+                default:
+                    return "";
+            }
+        }
+
         public static VoucherTypes ToVoucherType(object param)
         {
             string docType = ToString(param);

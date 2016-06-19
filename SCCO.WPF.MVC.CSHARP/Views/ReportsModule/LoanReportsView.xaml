@@ -33,7 +33,7 @@
                    Margin="10,10,0,0"
                    HorizontalAlignment="Left"
                    VerticalAlignment="Top"
-                   Source="/SCCO.WPF.MVC.CS;component/Images/interest_loan.png"
+                   Source="/SCCO.WPF.MVC.CS;component/Images/other_reports.png"
                    Stretch="Fill" />
             <Label x:Name="FormTitle"
                    Margin="34,10,0,0"
@@ -51,61 +51,67 @@
                     Style="{DynamicResource CloseButton}"
                     TabIndex="5" />
         </Grid>
-        <StackPanel Margin="20,60,20,20" Orientation="Vertical">
-            <StackPanel>
-                <StackPanel Orientation="Vertical">
-                    <Label Content="Report Date" />
-                    <DatePicker x:Name="TransactionDatePicker"
-                                Margin="0,0,0,8"
-                                Style="{DynamicResource RoundedDatePicker}" />
-                    <Border Height="16"
-                            Background="#7FFFFFFF"
-                            BorderThickness="0,7" />
-                </StackPanel>
+        <StackPanel Margin="20,60,20,20" Orientation="Vertical" Width="260">
+        	<StackPanel Orientation="Vertical">
+        		<Label Content="Report Date" />
+        		<DatePicker x:Name="TransactionDatePicker"
+        			Margin="0,0,0,4"
+        			Style="{DynamicResource RoundedDatePicker}" />
+        	</StackPanel>
+        	<Separator Height="12" Margin="0"/>
+        	<Grid x:Name="LoanReleased">
+        		<Grid.ColumnDefinitions>
+        			<ColumnDefinition/>           	
+        			<ColumnDefinition/>
+        		</Grid.ColumnDefinitions>
+        		<Grid.RowDefinitions>
+        			<RowDefinition/>
+        			<RowDefinition/>
+        		</Grid.RowDefinitions>
+        		<Label Content="Loan Released"/>
+        		<Button x:Name="LoanReleasedAsOfButton"
+        			Width="Auto"
+        			Content="As Of"
+        			Style="{DynamicResource ControlButton}" Grid.Row="1" Height="36" />
+        		<Button x:Name="LoanReleasedForTheMonthButton"
+        			Width="Auto"
+        			Height="36"
+        			Content="For The Month"
+        			Style="{DynamicResource ControlButton}" Grid.Column="1" Grid.Row="1" />
+        	</Grid>
+        	<Separator Height="12" Margin="0"/>
+        	<Grid x:Name="AgingOfLoans">
+        		<Grid.ColumnDefinitions>
+        			<ColumnDefinition/>           	
+        			<ColumnDefinition/>
+        		</Grid.ColumnDefinitions>
+        		<Grid.RowDefinitions>
+        			<RowDefinition/>
+        			<RowDefinition/>
+        		</Grid.RowDefinitions>
+        		<Label Content="Aging Of Loans"/>
+        		<Button x:Name="AgingOfLoansCurrentButton"
+        			Width="Auto"
+        			Content="Current"
+        			Style="{DynamicResource ControlButton}" Grid.Row="1" Height="36" />
+        		<Button x:Name="AgingOfLoansOverdueButton"
+        			Width="Auto"
+        			Height="36"
+        			Content="Overdue"
+        			Style="{DynamicResource ControlButton}" Grid.Column="1" Grid.Row="1" />
+        	</Grid>
+        	<Separator Height="12" Margin="0"/>
+        	<Button x:Name="btnDelayAndOverdue"
+        		Height="36"
+        		Content="Delay and Overdue"
+        		Style="{DynamicResource ControlButton}" Width="Auto" />
+        	<Separator Height="12" Margin="0"/>
 
-                <Button x:Name="btnScheduleOfLoans"
-                        Width="220"
-                        Height="34"
-                        Margin="0,0,0,4"
-                        Content="Schedule of Loans"
-                        Style="{DynamicResource ControlButton}" />
-                <Border Height="16"
-                        Background="#7FFFFFFF"
-                        BorderThickness="0,7" />
-                <Button x:Name="btnAgingOfLoans"
-                        Width="220"
-                        Height="34"
-                        Margin="0,0,0,4"
-                        Content="Aging of Loans"
-                        Style="{DynamicResource ControlButton}" />
-                <Border Height="16"
-                        Background="#7FFFFFFF"
-                        BorderThickness="0,7" />
-
-                <Button x:Name="btnLoanReleasesDetailed"
-                        Width="220"
-                        Height="34"
-                        Margin="0,0,0,4"
-                        Content="Loan Releases - Detailed"
-                        Style="{DynamicResource ControlButton}" />
-                <Button x:Name="btnLoanReleasesSummary"
-                        Width="220"
-                        Height="34"
-                        Margin="0,0,0,4"
-                        Content="Loan Releases - Summary"
-                        Style="{DynamicResource ControlButton}" />
-                <Border Height="16"
-                        Background="#7FFFFFFF"
-                        BorderThickness="0,7" />
-                <Button x:Name="btnLoanNonPerforming"
-                        Width="220"
-                        Height="34"
-                        Margin="0,0,0,4"
-                        Content="Non-performing Loans"
-                        Style="{DynamicResource ControlButton}" />
-
-            </StackPanel>
-
+        	<Button x:Name="btnExpectedCollection"
+        		Height="36"
+        		Content="Expected Collection"
+        		Style="{DynamicResource ControlButton}" Width="Auto" />
+        	<Separator Height="12" Margin="0"/>
         </StackPanel>
 
     </Grid>
