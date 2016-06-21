@@ -8,12 +8,12 @@ using SCCO.WPF.MVC.CS.Models.Loan;
 
 namespace SCCO.WPF.MVC.CS.Views.ReportsModule
 {
-    public partial class AgingOfLoansCurrentView
+    public partial class AgingOfLoansOverdueView
     {
         private readonly DateTime _asOf;
         private readonly List<ReportData> _reportData;
 
-        public AgingOfLoansCurrentView(List<ReportData> reportData, DateTime asOf)
+        public AgingOfLoansOverdueView(List<ReportData> reportData, DateTime asOf)
         {
             InitializeComponent();
             _reportData = reportData;
@@ -34,16 +34,16 @@ namespace SCCO.WPF.MVC.CS.Views.ReportsModule
             try
             {
                 var filteredData = ByCodeRadioButton.IsChecked == true
-                                       ? _reportData.Where(t => t.Status == "Current")
+                                       ? _reportData.Where(t => t.Status == "Overdue")
                                                     .OrderBy(t => t.MemberCode)
                                                     .ToList()
-                                       : _reportData.Where(t => t.Status == "Current")
+                                       : _reportData.Where(t => t.Status == "Overdue")
                                                     .OrderBy(t => t.MemberName)
                                                     .ToList();
 
                 var reportTable = filteredData.ToDataTable();
                 reportTable.TableName = "loan_report_data";
-                var reportTitle = string.Format("Aging Of Current Loans As Of {0:MMMM dd, yyyy}", _asOf);
+                var reportTitle = string.Format("Aging Of Overdue Loans As Of {0:MMMM dd, yyyy}", _asOf);
 
                 var comp = Company.GetData();
                 comp.TableName = "comp";
@@ -75,16 +75,16 @@ namespace SCCO.WPF.MVC.CS.Views.ReportsModule
             try
             {
                 var filteredData = ByCodeRadioButton.IsChecked == true
-                                       ? _reportData.Where(t => t.Status == "Current")
+                                       ? _reportData.Where(t => t.Status == "Overdue")
                                                     .OrderBy(t => t.MemberCode)
                                                     .ToList()
-                                       : _reportData.Where(t => t.Status == "Current")
+                                       : _reportData.Where(t => t.Status == "Overdue")
                                                     .OrderBy(t => t.MemberName)
                                                     .ToList();
 
                 var reportTable = filteredData.ToDataTable();
                 reportTable.TableName = "loan_report_data";
-                var reportTitle = string.Format("Aging Of Current Loans By Area As Of {0:MMMM dd, yyyy}", _asOf);
+                var reportTitle = string.Format("Aging Of Overdue Loans By Area As Of {0:MMMM dd, yyyy}", _asOf);
 
                 var comp = Company.GetData();
                 comp.TableName = "comp";
@@ -116,16 +116,16 @@ namespace SCCO.WPF.MVC.CS.Views.ReportsModule
             try
             {
                 var filteredData = ByCodeRadioButton.IsChecked == true
-                                       ? _reportData.Where(t => t.Status == "Current")
+                                       ? _reportData.Where(t => t.Status == "Overdue")
                                                     .OrderBy(t => t.MemberCode)
                                                     .ToList()
-                                       : _reportData.Where(t => t.Status == "Current")
+                                       : _reportData.Where(t => t.Status == "Overdue")
                                                     .OrderBy(t => t.MemberName)
                                                     .ToList();
 
                 var reportTable = filteredData.ToDataTable();
                 reportTable.TableName = "loan_report_data";
-                var reportTitle = string.Format("Aging Of Current Loans Summary By Area As Of {0:MMMM dd, yyyy}", _asOf);
+                var reportTitle = string.Format("Aging Of Overdue Loans Summary By Area As Of {0:MMMM dd, yyyy}", _asOf);
 
                 var comp = Company.GetData();
                 comp.TableName = "comp";

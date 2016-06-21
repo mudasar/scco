@@ -149,6 +149,7 @@
     <Compile Include="Models\Collections\Collections.cs" />
     <Compile Include="Models\Loan\ComputationDetail.cs" />
     <Compile Include="Models\Loan\LoanAmortizationHeader.cs" />
+    <Compile Include="Models\Loan\MemberLoanDepositSummary.cs" />
     <Compile Include="Models\Loan\ReportData.cs" />
     <Compile Include="Models\Loan\ModeOfPayments.cs" />
     <Compile Include="Models\Loan\OutstandingLoan.cs" />
@@ -171,6 +172,20 @@
       <DependentUpon>borrower_makers.rpt</DependentUpon>
       <SubType>Component</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="ReportFiles\aging_of_loans_by_area.cs">
+      <DependentUpon>aging_of_loans_by_area.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="ReportFiles\aging_of_loans_by_area_summary.cs">
+      <DependentUpon>aging_of_loans_by_area_summary.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="ReportFiles\loan_released_consolidated.cs">
       <DependentUpon>loan_released_consolidated.rpt</DependentUpon>
@@ -541,6 +556,9 @@
     </Compile>
     <Compile Include="Views\ReportsModule\AgingOfLoansCurrentView.xaml.cs">
       <DependentUpon>AgingOfLoansCurrentView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ReportsModule\AgingOfLoansOverdueView.xaml.cs">
+      <DependentUpon>AgingOfLoansOverdueView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ReportsModule\LoanReleasedForTheMonthView.xaml.cs">
       <DependentUpon>LoanReleasedForTheMonthView.xaml</DependentUpon>
@@ -1071,6 +1089,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\ReportsModule\AgingOfLoansOverdueView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\ReportsModule\LoanReleasedForTheMonthView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1548,6 +1570,16 @@
       <LastGenOutput>borrower_makers.cs</LastGenOutput>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
+    <None Include="ReportFiles\aging_of_loans_by_area_summary.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>aging_of_loans_by_area_summary.cs</LastGenOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReportFiles\aging_of_loans_by_area.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>aging_of_loans_by_area.cs</LastGenOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="ReportFiles\loan_released_consolidated.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>loan_released_consolidated.cs</LastGenOutput>

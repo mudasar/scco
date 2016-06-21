@@ -300,7 +300,18 @@ namespace SCCO.WPF.MVC.CS.Utilities
 
         internal static DateTime ToDateTime(object param)
         {
-            return param == DBNull.Value ? new DateTime() : Convert.ToDateTime(param);
+            //return param == DBNull.Value ? new DateTime(1, 1, 1) : Convert.ToDateTime(param);
+
+            var jea = new DateTime(1, 1, 1);
+            if (param == DBNull.Value)
+            {
+                jea = new DateTime(1, 1, 1);
+            }
+            else
+            {
+                jea = Convert.ToDateTime(param);
+            }
+            return jea;
         }
 
         internal static DateTime? ToNullableDateTime(object param)

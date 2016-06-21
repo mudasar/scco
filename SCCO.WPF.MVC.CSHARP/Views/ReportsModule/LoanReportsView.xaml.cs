@@ -19,6 +19,7 @@ namespace SCCO.WPF.MVC.CS.Views.ReportsModule
             LoanReleasedForTheMonthButton.Click += (s, e) => ShowLoanReleasedForTheMonth();
 
             AgingOfLoansCurrentButton.Click += (s, e) => ShowAgingOfLoansCurrent();
+            AgingOfLoansOverdueButton.Click += (s, e) => ShowAgingOfLoansOverdue();
         }
 
         private void ShowAgingOfLoansCurrent()
@@ -27,6 +28,15 @@ namespace SCCO.WPF.MVC.CS.Views.ReportsModule
             _reportData = ReportData.GetLoanDetails(_asOf);
 
             var view = new AgingOfLoansCurrentView(_reportData, _asOf);
+            view.ShowDialog();
+        }
+
+        private void ShowAgingOfLoansOverdue()
+        {
+            if (!ValidTransactionDate()) return;
+            _reportData = ReportData.GetLoanDetails(_asOf);
+
+            var view = new AgingOfLoansOverdueView(_reportData, _asOf);
             view.ShowDialog();
         }
 

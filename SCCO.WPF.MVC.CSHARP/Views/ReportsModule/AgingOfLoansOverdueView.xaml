@@ -1,4 +1,4 @@
-﻿<Views:BaseWindow x:Class="SCCO.WPF.MVC.CS.Views.ReportsModule.AgingOfLoansCurrentView"
+﻿<Views:BaseWindow x:Class="SCCO.WPF.MVC.CS.Views.ReportsModule.AgingOfLoansOverdueView"
                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                   xmlns:Views="clr-namespace:SCCO.WPF.MVC.CS.Views"
@@ -11,7 +11,7 @@
     <Grid Margin="8" Width="340">
         <Grid x:Name="FormLayout">
             <Rectangle x:Name="Canvass"
-                       Fill="#FFAF4035"
+                       Fill="#FF9F1D35"
                        MouseLeftButtonDown="DragWindow"
                        RadiusX="5"
                        RadiusY="5"
@@ -37,7 +37,7 @@
                    Stretch="Fill" />
             <Label x:Name="FormTitle"
                    Margin="34,10,0,0"
-                   Content="Aging Of Loans - Current"
+                   Content="Aging Of Loans - Overdue"
                    MouseLeftButtonDown="DragWindow"
                    Style="{DynamicResource FormTitle2}" />
             <Button x:Name="CloseButton"
@@ -72,7 +72,7 @@
             <Button Width="Auto"
                     Height="40"
                     Style="{DynamicResource ControlButton}" />
-			<StackPanel Orientation="Horizontal" Background="#FFD46A5F" Margin="0,8,0,0" Height="26">
+			<StackPanel Orientation="Horizontal" Background="#FFCF7282" Margin="0,8,0,0" Height="26">
 				<RadioButton x:Name="ByCodeRadioButton" Content="By Code" VerticalAlignment="Center" Margin="6,0,12,0" IsChecked="True"></RadioButton>
 				<RadioButton x:Name="ByNameRadioButton" Content="By Name" VerticalAlignment="Center" Margin="6,0,12,0"></RadioButton>
 			</StackPanel>

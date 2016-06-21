@@ -60,6 +60,7 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
         public decimal EndingBalance { get; set; }
         public DateTime ReportDate { get; set; }
         public string AreaCode { get; set; }
+        public decimal Deposits { get; set; }
 
         public static List<ReportData> GetLoanDetails(DateTime asOf)
         {
@@ -106,7 +107,7 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
                     item.LoanAmount = DataConverter.ToDecimal(loanDetail[0]["LOAN_AMT"]);
                     item.Terms = DataConverter.ToInteger(loanDetail[0]["TERMS"]);
                     item.TermsMode = DataConverter.ToString(loanDetail[0]["TERMS_MODE"]);
-                    item.ModeOfPayment = DataConverter.ToString(loanDetail[0]["MODE_PAY"]);
+                    item.ModeOfPayment = DataConverter.ToModePay(loanDetail[0]["MODE_PAY"]);
 
                     item.GrantedDate = DataConverter.ToDateTime(loanDetail[0]["DATE_GRANT"]);
                     item.MaturityDate = DataConverter.ToDateTime(loanDetail[0]["MATURITY"]);
@@ -185,7 +186,7 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
 
         private static DataTable GetEndingBalance(DateTime asOf)
         {
-            const string storedProcedure = "sp_schedule_loan_by_member_name";
+            const string storedProcedure = "sp_schedule_loan_by_member_code";
             var parameter = new[] {new SqlParameter("as_of", asOf)};
             return DatabaseController.ExecuteStoredProcedure(storedProcedure, parameter);
         }
@@ -215,7 +216,7 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
 FROM
   (SELECT 
     MEM_CODE, MEM_NAME, ACC_CODE, TITLE, DOC_DATE, DOC_TYPE, DOC_NUM, RELEASE_NO, LOAN_AMT, TERMS,
-    TERMS_MODE, MODE_PAY, DATE_GRANT, MATURITY, CUT_OFF, PAYMENT, INT_RATE, INT_AMT, INT_AMORT,
+    TERMS_MODE, MODE_PAY1 as MODE_PAY, DATE_GRANT, MATURITY, CUT_OFF, PAYMENT, INT_RATE, INT_AMT, INT_AMORT,
     RELEASED, CO_CODE1, CO_NAME1, CO_CODE2, CO_NAME2, CO_CODE3, CO_NAME3
   FROM
     slbal 
@@ -264,6 +265,116 @@ SELECT
 	INNER JOIN (SELECT `CODE` FROM chart WHERE CODE1 = 'LR') as ch
 	ON `jv`.ACC_CODE = ch.`CODE`
   WHERE LOAN_AMT > 0
+";
+        }
+
+        private static string GetTotalDepositPerMemberQuery()
+        {
+            return @"
+SELECT 
+  MEM_CODE,
+  MEM_NAME,
+  SUM(END_BAL) AS DEPOSIT 
+FROM
+  (SELECT 
+    `slbal`.MEM_CODE,
+    `slbal`.MEM_NAME,
+    IF(
+      ch.Nature = 'D',
+      (
+        SUM(COALESCE(`slbal`.DEBIT, 0)) - SUM(COALESCE(`slbal`.CREDIT, 0))
+      ),
+      (
+        SUM(COALESCE(`slbal`.CREDIT, 0)) - SUM(COALESCE(`slbal`.DEBIT, 0))
+      )
+    ) AS END_BAL 
+  FROM
+    `slbal` 
+    INNER JOIN 
+      (SELECT 
+        * 
+      FROM
+        chart 
+      WHERE CODE1 IN ('SA', 'TD', 'SC')) AS ch 
+      ON `slbal`.ACC_CODE = ch.CODE 
+  GROUP BY `slbal`.MEM_CODE 
+  UNION
+  ALL 
+  SELECT 
+    `cv`.MEM_CODE,
+    `cv`.MEM_NAME,
+    IF(
+      ch.Nature = 'D',
+      (
+        SUM(COALESCE(`cv`.DEBIT, 0)) - SUM(COALESCE(`cv`.CREDIT, 0))
+      ),
+      (
+        SUM(COALESCE(`cv`.CREDIT, 0)) - SUM(COALESCE(`cv`.DEBIT, 0))
+      )
+    ) AS END_BAL 
+  FROM
+    `cv` 
+    INNER JOIN 
+      (SELECT 
+        * 
+      FROM
+        chart 
+      WHERE CODE1 IN ('SA', 'TD', 'SC')) AS ch 
+      ON `cv`.ACC_CODE = ch.`CODE` 
+  WHERE `cv`.DOC_DATE <= ?asOf 
+  GROUP BY `cv`.MEM_CODE 
+  UNION
+  ALL 
+  SELECT 
+    `jv`.MEM_CODE,
+    `jv`.MEM_NAME,
+    IF(
+      ch.Nature = 'D',
+      (
+        SUM(COALESCE(`jv`.DEBIT, 0)) - SUM(COALESCE(`jv`.CREDIT, 0))
+      ),
+      (
+        SUM(COALESCE(`jv`.CREDIT, 0)) - SUM(COALESCE(`jv`.DEBIT, 0))
+      )
+    ) AS END_BAL 
+  FROM
+    `jv` 
+    INNER JOIN 
+      (SELECT 
+        * 
+      FROM
+        chart 
+      WHERE CODE1 IN ('SA', 'TD', 'SC')) AS ch 
+      ON `jv`.ACC_CODE = ch.`CODE` 
+  WHERE `jv`.DOC_DATE <= ?asOf 
+  GROUP BY `jv`.MEM_CODE 
+  UNION
+  ALL 
+  SELECT 
+    `or`.MEM_CODE,
+    `or`.MEM_NAME,
+    IF(
+      ch.Nature = 'D',
+      (
+        SUM(COALESCE(`or`.DEBIT, 0)) - SUM(COALESCE(`or`.CREDIT, 0))
+      ),
+      (
+        SUM(COALESCE(`or`.CREDIT, 0)) - SUM(COALESCE(`or`.DEBIT, 0))
+      )
+    ) AS END_BAL 
+  FROM
+    `or` 
+    INNER JOIN 
+      (SELECT 
+        * 
+      FROM
+        chart 
+      WHERE CODE1 IN ('SA', 'TD', 'SC')) AS ch 
+      ON `or`.ACC_CODE = ch.`CODE` 
+  WHERE `or`.DOC_DATE <= ?asOf 
+  GROUP BY `or`.MEM_CODE) AS summary 
+GROUP BY MEM_CODE 
+HAVING DEPOSIT <> 0 
 ";
         }
 
