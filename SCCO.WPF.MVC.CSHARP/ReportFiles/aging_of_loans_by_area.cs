@@ -16,14 +16,14 @@ namespace SCCO.WPF.MVC.CS.ReportFiles {
     using CrystalDecisions.CrystalReports.Engine;
     
     
-    public class loan_released_detail : ReportClass {
+    public class aging_of_loans_by_area : ReportClass {
         
-        public loan_released_detail() {
+        public aging_of_loans_by_area() {
         }
         
         public override string ResourceName {
             get {
-                return "loan_released_detail.rpt";
+                return "aging_of_loans_by_area.rpt";
             }
             set {
                 // Do nothing
@@ -41,7 +41,7 @@ namespace SCCO.WPF.MVC.CS.ReportFiles {
         
         public override string FullResourceName {
             get {
-                return "SCCO.WPF.MVC.CS.ReportFiles.loan_released_detail.rpt";
+                return "SCCO.WPF.MVC.CS.ReportFiles.aging_of_loans_by_area.rpt";
             }
             set {
                 // Do nothing
@@ -66,7 +66,7 @@ namespace SCCO.WPF.MVC.CS.ReportFiles {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section DetailSection1 {
+        public CrystalDecisions.CrystalReports.Engine.Section GroupHeaderSection1 {
             get {
                 return this.ReportDefinition.Sections[2];
             }
@@ -74,7 +74,7 @@ namespace SCCO.WPF.MVC.CS.ReportFiles {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section ReportFooterSection1 {
+        public CrystalDecisions.CrystalReports.Engine.Section GroupHeaderSection2 {
             get {
                 return this.ReportDefinition.Sections[3];
             }
@@ -82,17 +82,49 @@ namespace SCCO.WPF.MVC.CS.ReportFiles {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section PageFooterSection1 {
+        public CrystalDecisions.CrystalReports.Engine.Section DetailSection1 {
             get {
                 return this.ReportDefinition.Sections[4];
+            }
+        }
+        
+        [Browsable(false)]
+        [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
+        public CrystalDecisions.CrystalReports.Engine.Section GroupFooterSection2 {
+            get {
+                return this.ReportDefinition.Sections[5];
+            }
+        }
+        
+        [Browsable(false)]
+        [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
+        public CrystalDecisions.CrystalReports.Engine.Section GroupFooterSection1 {
+            get {
+                return this.ReportDefinition.Sections[6];
+            }
+        }
+        
+        [Browsable(false)]
+        [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
+        public CrystalDecisions.CrystalReports.Engine.Section ReportFooterSection1 {
+            get {
+                return this.ReportDefinition.Sections[7];
+            }
+        }
+        
+        [Browsable(false)]
+        [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
+        public CrystalDecisions.CrystalReports.Engine.Section PageFooterSection1 {
+            get {
+                return this.ReportDefinition.Sections[8];
             }
         }
     }
     
     [System.Drawing.ToolboxBitmapAttribute(typeof(CrystalDecisions.Shared.ExportOptions), "report.bmp")]
-    public class Cachedloan_released_detail : Component, ICachedReport {
+    public class Cachedaging_of_loans_by_area : Component, ICachedReport {
         
-        public Cachedloan_released_detail() {
+        public Cachedaging_of_loans_by_area() {
         }
         
         [Browsable(false)]
@@ -129,7 +161,7 @@ namespace SCCO.WPF.MVC.CS.ReportFiles {
         }
         
         public virtual CrystalDecisions.CrystalReports.Engine.ReportDocument CreateReport() {
-            loan_released_detail rpt = new loan_released_detail();
+            aging_of_loans_by_area rpt = new aging_of_loans_by_area();
             rpt.Site = this.Site;
             return rpt;
         }

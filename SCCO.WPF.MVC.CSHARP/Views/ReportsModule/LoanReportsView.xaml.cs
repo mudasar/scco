@@ -1,211 +1,72 @@
 ﻿using System;
-using SCCO.WPF.MVC.CS.Database;
-using SCCO.WPF.MVC.CS.Models;
-using System.Data;
-
+using System.Collections.Generic;
+using SCCO.WPF.MVC.CS.Controllers;
+using SCCO.WPF.MVC.CS.Models.Loan;
 
 namespace SCCO.WPF.MVC.CS.Views.ReportsModule
 {
     public partial class LoanReportsView
     {
+        private DateTime _asOf;
+        private List<ReportData> _reportData;
+
         public LoanReportsView()
         {
             InitializeComponent();
-            TransactionDatePicker.SelectedDate = Controllers.MainController.LoggedUser.TransactionDate;
-            
-            btnScheduleOfLoans.Click += (s, e) => ShowScheduleOfLoansReport();
-            btnAgingOfLoans.Click += (s, e) => ShowAgingOfLoansReport();
+            TransactionDatePicker.SelectedDate = MainController.LoggedUser.TransactionDate;
 
-            btnLoanReleasesDetailed.Click += (s, e) => ShowLoanReleasesDetailedReport();
-            btnLoanReleasesSummary.Click += (s, e) => ShowLoanReleasesSummaryReport();
+            LoanReleasedAsOfButton.Click += (s, e) => ShowLoanReleasedAsOf();
+            LoanReleasedForTheMonthButton.Click += (s, e) => ShowLoanReleasedForTheMonth();
 
-            btnLoanNonPerforming.Click += (s, e) => ShowLoanNonPerformingReport();
+            AgingOfLoansCurrentButton.Click += (s, e) => ShowAgingOfLoansCurrent();
+            AgingOfLoansOverdueButton.Click += (s, e) => ShowAgingOfLoansOverdue();
         }
 
-        private void ShowLoanNonPerformingReport()
+        private void ShowAgingOfLoansCurrent()
         {
-            try
-            {
-                if (TransactionDatePicker.SelectedDate == null)
-                {
-                    MessageWindow.ShowAlertMessage("Please select a date.");
-                    return;
-                }
+            if (!ValidTransactionDate()) return;
+            _reportData = ReportData.GetLoanDetails(_asOf);
 
-                var asOf = (DateTime)TransactionDatePicker.SelectedDate;
-
-                var loanDetails = DatabaseController.ExecuteStoredProcedure("sp_loan_non_performing",
-                                                                            new SqlParameter("as_of", asOf));
-                loanDetails.TableName = "loan_non_performing";
-
-                DataTable comp = Company.GetData();
-                comp.TableName = "comp";
-
-                var dataSet = new DataSet();
-                dataSet.Tables.Add(loanDetails);
-                dataSet.Tables.Add(comp);
-
-                var ri = new ReportItem();
-                ri.ReportFile = "loan_non_performing.rpt";
-                ri.Title = "Non-Performing Loans as of " + asOf.ToString("MMMM dd, yyyy");
-                ri.DataSource = dataSet;
-                var result = ri.LoadReport();
-                if (!result.Success)
-                {
-                    MessageWindow.ShowAlertMessage(result.Message);
-                }
-            }
-            catch (Exception e)
-            {
-                MessageWindow.ShowAlertMessage(e.Message);
-            }
+            var view = new AgingOfLoansCurrentView(_reportData, _asOf);
+            view.ShowDialog();
         }
 
-        private void ShowLoanReleasesSummaryReport()
+        private void ShowAgingOfLoansOverdue()
         {
-            try
-            {
-                if (TransactionDatePicker.SelectedDate == null)
-                {
-                    MessageWindow.ShowAlertMessage("Please select a date.");
-                    return;
-                }
+            if (!ValidTransactionDate()) return;
+            _reportData = ReportData.GetLoanDetails(_asOf);
 
-                var asOf = (DateTime)TransactionDatePicker.SelectedDate;
-
-                var loanDetails = DatabaseController.ExecuteStoredProcedure("sp_loan_released_summary",
-                                                                            new SqlParameter("as_of", asOf));
-                loanDetails.TableName = "loan_released_summary";
-
-                DataTable comp = Company.GetData();
-                comp.TableName = "comp";
-
-                var dataSet = new DataSet();
-                dataSet.Tables.Add(loanDetails);
-                dataSet.Tables.Add(comp);
-
-                var ri = new ReportItem();
-                ri.ReportFile = "loan_released_summary.rpt";
-                ri.Title = "Loan Released - Summary " + String.Format("(for the month of {0:MMMM yyyy})", asOf);
-                ri.DataSource = dataSet;
-                var result = ri.LoadReport();
-                if (!result.Success)
-                {
-                    MessageWindow.ShowAlertMessage(result.Message);
-                }
-            }
-            catch (Exception e)
-            {
-                MessageWindow.ShowAlertMessage(e.Message);
-            }
+            var view = new AgingOfLoansOverdueView(_reportData, _asOf);
+            view.ShowDialog();
         }
 
-        private void ShowLoanReleasesDetailedReport()
+        private void ShowLoanReleasedAsOf()
         {
-            try
-            {
-                if (TransactionDatePicker.SelectedDate == null)
-                {
-                    MessageWindow.ShowAlertMessage("Please select a date.");
-                    return;
-                }
+            if (!ValidTransactionDate()) return;
+            _reportData = ReportData.GetLoanReleases();
 
-                var asOf = (DateTime)TransactionDatePicker.SelectedDate;
-
-                var loanDetails = DatabaseController.ExecuteStoredProcedure("sp_loan_released_detail",
-                                                                            new SqlParameter("as_of", asOf));
-                loanDetails.TableName = "loan_released_detail";
-
-                DataTable comp = Company.GetData();
-                comp.TableName = "comp";
-
-                var dataSet = new DataSet();
-                dataSet.Tables.Add(loanDetails);
-                dataSet.Tables.Add(comp);
-
-                var ri = new ReportItem();
-                ri.ReportFile = "loan_released_detail.rpt";
-                ri.Title = "Loan Released - Detail " + String.Format("(for the month of {0:MMMM yyyy})", asOf);
-                ri.DataSource = dataSet;
-                var result = ri.LoadReport();
-                if (!result.Success)
-                {
-                    MessageWindow.ShowAlertMessage(result.Message);
-                }
-            }
-            catch (Exception e)
-            {
-                MessageWindow.ShowAlertMessage(e.Message);
-            }
+            var view = new LoanReleasedAsOfView(_reportData, _asOf);
+            view.ShowDialog();
         }
 
-        private void ShowScheduleOfLoansReport()
+        private void ShowLoanReleasedForTheMonth()
         {
-            try
-            {
-                if (TransactionDatePicker.SelectedDate == null)
-                {
-                    MessageWindow.ShowAlertMessage("Please select a date.");
-                    return;
-                }
+            if (!ValidTransactionDate()) return;
+            _reportData = ReportData.GetLoanReleases();
 
-                var asOf = (DateTime)TransactionDatePicker.SelectedDate;
-
-                var ri = new ReportItem();
-                ri.Category = "SCHEDULES";
-                ri.Description = "Shows a list of loans arranged by Member Name";
-                ri.Title = "Schedule of Loans";
-                ri.ReportFile = "schedule.rpt";
-                ri.StoredProcedure = "sp_schedule_loan_by_member_name";
-                ri.StoredProcedureParameters = new[] {new SqlParameter("as_of", asOf)};
-                var result = ri.LoadReport();
-                if (!result.Success)
-                {
-                    MessageWindow.ShowAlertMessage(result.Message);
-                }
-            }
-            catch (Exception e)
-            {
-                MessageWindow.ShowAlertMessage(e.Message);
-            }
+            var view = new LoanReleasedForTheMonthView(_reportData, _asOf);
+            view.ShowDialog();
         }
 
-        private void ShowAgingOfLoansReport()
+        private bool ValidTransactionDate()
         {
-            try
+            if (TransactionDatePicker.SelectedDate == null)
             {
-                if (TransactionDatePicker.SelectedDate == null)
-                {
-                    MessageWindow.ShowAlertMessage("Please select a date.");
-                    return;
-                }
-
-                var asOf = (DateTime) TransactionDatePicker.SelectedDate;
-
-                var loanDetails = DatabaseController.ExecuteStoredProcedure("sp_loan_details", new SqlParameter("as_of", asOf));
-                loanDetails.TableName = "loan_details";
-
-                DataTable comp = Company.GetData();
-                comp.TableName = "comp";
-
-                var dataSet = new DataSet();
-                dataSet.Tables.Add(loanDetails);
-                dataSet.Tables.Add(comp);
-
-                var ri = new ReportItem();
-                ri.ReportFile = "aging_of_loans.rpt";
-                ri.Title = "Aging of Loans as of " + asOf.ToString("MMMM dd, yyyy");
-                ri.DataSource = dataSet;
-                var result = ri.LoadReport();
-                if (!result.Success)
-                {
-                    MessageWindow.ShowAlertMessage(result.Message);
-                }
+                MessageWindow.ShowAlertMessage("Please select a date.");
+                return false;
             }
-            catch(Exception ex)
-            {
-                MessageWindow.ShowAlertMessage(ex.Message);
-            }
+            _asOf = (DateTime) TransactionDatePicker.SelectedDate;
+            return true;
         }
     }
 }
