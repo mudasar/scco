@@ -29,13 +29,12 @@ namespace SCCO.WPF.MVC.CS.Views
 
             InitializeLookupControls();
             DataContext = _member;
-            TabItemContactInformation.DataContext = _member.ContactInformation;
-
             _member.ContactInformation = Contact.FindByMemberCode(memberCode);
+            TabItemContactInformation.DataContext = _member.ContactInformation;
 
             imgPhoto.Source = ImageTool.CreateImageSourceFromBytes(_member.ContactInformation.Picture);
             imgSignature.Source = ImageTool.CreateImageSourceFromBytes(_member.ContactInformation.Signature);
-
+            
             CrudButtons.Visibility = Visibility.Hidden;
             stbMemberNameCode.IsEnabled = false;
         }
