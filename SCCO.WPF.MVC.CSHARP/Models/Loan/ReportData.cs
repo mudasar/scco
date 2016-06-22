@@ -186,9 +186,8 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
 
         private static DataTable GetEndingBalance(DateTime asOf)
         {
-            const string storedProcedure = "sp_schedule_loan_by_member_code";
-            var parameter = new[] {new SqlParameter("as_of", asOf)};
-            return DatabaseController.ExecuteStoredProcedure(storedProcedure, parameter);
+            var parameter = new[] { new SqlParameter("?asOf", asOf) };
+            return DatabaseController.ExecuteSelectQuery(GetEndingBalanceQuery(), parameter);
         }
 
         private static DataTable GetLatestLoanDetails(DateTime asOf)
@@ -212,34 +211,75 @@ namespace SCCO.WPF.MVC.CS.Models.Loan
         private static string GetLatestLoanDetailsQuery()
         {
             return
-                @"SELECT t1.*, MAX(DOC_DATE)
+                @"
+SELECT 
+  t1.* 
 FROM
   (SELECT 
     MEM_CODE, MEM_NAME, ACC_CODE, TITLE, DOC_DATE, DOC_TYPE, DOC_NUM, RELEASE_NO, LOAN_AMT, TERMS,
-    TERMS_MODE, MODE_PAY1 as MODE_PAY, DATE_GRANT, MATURITY, CUT_OFF, PAYMENT, INT_RATE, INT_AMT, INT_AMORT,
-    RELEASED, CO_CODE1, CO_NAME1, CO_CODE2, CO_NAME2, CO_CODE3, CO_NAME3
+    TERMS_MODE, MODE_PAY1 AS MODE_PAY, DATE_GRANT, MATURITY, CUT_OFF, PAYMENT, INT_RATE, INT_AMT,
+    INT_AMORT, RELEASED, CO_CODE1, CO_NAME1, CO_CODE2, CO_NAME2, CO_CODE3, CO_NAME3 
   FROM
     slbal 
-  WHERE LOAN_AMT > 0 AND DOC_DATE <= ?asOf
+  WHERE LOAN_AMT > 0 
+    AND DOC_DATE <= ?asOf 
   UNION
   ALL 
   SELECT 
     MEM_CODE, MEM_NAME, ACC_CODE, TITLE, DOC_DATE, DOC_TYPE, DOC_NUM, RELEASE_NO, LOAN_AMT, TERMS,
     TERMS_MODE, MODE_PAY, DATE_GRANT, MATURITY, CUT_OFF, PAYMENT, INT_RATE, INT_AMT, INT_AMORT,
-    RELEASED, CO_CODE1, CO_NAME1, CO_CODE2, CO_NAME2, CO_CODE3, CO_NAME3
+    RELEASED, CO_CODE1, CO_NAME1, CO_CODE2, CO_NAME2, CO_CODE3, CO_NAME3 
   FROM
     jv 
-	WHERE LOAN_AMT > 0 AND DOC_DATE <= ?asOf
+  WHERE LOAN_AMT > 0 
+    AND DOC_DATE <= ?asOf 
   UNION
   ALL 
   SELECT 
     MEM_CODE, MEM_NAME, ACC_CODE, TITLE, DOC_DATE, DOC_TYPE, DOC_NUM, RELEASE_NO, LOAN_AMT, TERMS,
     TERMS_MODE, MODE_PAY, DATE_GRANT, MATURITY, CUT_OFF, PAYMENT, INT_RATE, INT_AMT, INT_AMORT,
-    RELEASED, CO_CODE1, CO_NAME1, CO_CODE2, CO_NAME2, CO_CODE3, CO_NAME3
-  FROM cv 
-  WHERE LOAN_AMT > 0 AND DOC_DATE <= ?asOf
-  ORDER BY MEM_CODE, ACC_CODE) t1 
-GROUP BY MEM_CODE, ACC_CODE 
+    RELEASED, CO_CODE1, CO_NAME1, CO_CODE2, CO_NAME2, CO_CODE3, CO_NAME3 
+  FROM
+    cv 
+  WHERE LOAN_AMT > 0 
+    AND DOC_DATE <= ?asOf 
+  ORDER BY MEM_CODE,
+    ACC_CODE) t1 
+  JOIN 
+    (SELECT 
+      t.MEM_CODE,
+      t.ACC_CODE,
+      MAX(DOC_DATE) AS DOC_DATE 
+    FROM
+      (SELECT 
+        MEM_CODE,  ACC_CODE, DOC_DATE 
+      FROM
+        slbal 
+      WHERE LOAN_AMT > 0 
+        AND DOC_DATE <= ?asOf 
+      UNION
+      ALL 
+      SELECT 
+        MEM_CODE, ACC_CODE, DOC_DATE 
+      FROM
+        jv 
+      WHERE LOAN_AMT > 0 
+        AND DOC_DATE <= ?asOf 
+      UNION
+      ALL 
+      SELECT 
+        MEM_CODE, ACC_CODE, DOC_DATE 
+      FROM
+        cv 
+      WHERE LOAN_AMT > 0 
+        AND DOC_DATE <= ?asOf 
+      ORDER BY MEM_CODE,
+        ACC_CODE) t 
+    GROUP BY t.MEM_CODE,
+      t.ACC_CODE) t2 
+    ON t1.MEM_CODE = t2.MEM_CODE 
+    AND t1.ACC_CODE = t2.ACC_CODE 
+    AND t1.DOC_DATE = t2.DOC_DATE 
 ";
         }
 
@@ -375,6 +415,133 @@ FROM
   GROUP BY `or`.MEM_CODE) AS summary 
 GROUP BY MEM_CODE 
 HAVING DEPOSIT <> 0 
+";
+        }
+
+        private static string GetEndingBalanceQuery()
+        {
+            return @"
+SELECT 
+  `sl_merged`.MEM_CODE AS member_code,
+  `sl_merged`.MEM_NAME AS member_name,
+  `sl_merged`.ACC_CODE AS account_code,
+  `sl_merged`.TITLE AS account_title,
+  SUM(`sl_merged`.END_BAL) AS ending_balance,
+  ?asOf AS as_of 
+FROM
+  (SELECT 
+    `slbal`.MEM_CODE,
+    `slbal`.MEM_NAME,
+    `slbal`.ACC_CODE,
+    `slbal`.TITLE,
+    IF(
+      ch.Nature = 'D',
+      (
+        SUM(COALESCE(`slbal`.DEBIT, 0)) - SUM(COALESCE(`slbal`.CREDIT, 0))
+      ),
+      (
+        SUM(COALESCE(`slbal`.CREDIT, 0)) - SUM(COALESCE(`slbal`.DEBIT, 0))
+      )
+    ) AS END_BAL 
+  FROM
+    `slbal` 
+    INNER JOIN 
+      (SELECT 
+        * 
+      FROM
+        chart 
+      WHERE CODE1 = 'LR') AS ch 
+      ON `slbal`.ACC_CODE = ch.CODE 
+  GROUP BY `slbal`.MEM_CODE,
+    `slbal`.ACC_CODE 
+  UNION
+  ALL 
+  SELECT 
+    `or`.MEM_CODE,
+    `or`.MEM_NAME,
+    `or`.ACC_CODE,
+    `or`.TITLE,
+    IF(
+      ch.Nature = 'D',
+      (
+        SUM(COALESCE(`or`.DEBIT, 0)) - SUM(COALESCE(`or`.CREDIT, 0))
+      ),
+      (
+        SUM(COALESCE(`or`.CREDIT, 0)) - SUM(COALESCE(`or`.DEBIT, 0))
+      )
+    ) AS END_BAL 
+  FROM
+    `or` 
+    INNER JOIN 
+      (SELECT 
+        * 
+      FROM
+        chart 
+      WHERE CODE1 = 'LR') AS ch 
+      ON `or`.ACC_CODE = ch.CODE 
+  WHERE `or`.DOC_DATE <= ?asOf 
+  GROUP BY `or`.MEM_CODE,
+    `or`.ACC_CODE 
+  UNION
+  ALL 
+  SELECT 
+    `jv`.MEM_CODE,
+    `jv`.MEM_NAME,
+    `jv`.ACC_CODE,
+    `jv`.TITLE,
+    IF(
+      ch.Nature = 'D',
+      (
+        SUM(COALESCE(`jv`.DEBIT, 0)) - SUM(COALESCE(`jv`.CREDIT, 0))
+      ),
+      (
+        SUM(COALESCE(`jv`.CREDIT, 0)) - SUM(COALESCE(`jv`.DEBIT, 0))
+      )
+    ) AS END_BAL 
+  FROM
+    `jv` 
+    INNER JOIN 
+      (SELECT 
+        * 
+      FROM
+        chart 
+      WHERE CODE1 = 'LR') AS ch 
+      ON `jv`.ACC_CODE = ch.CODE 
+  WHERE `jv`.DOC_DATE <= ?asOf 
+  GROUP BY `jv`.MEM_CODE,
+    `jv`.ACC_CODE 
+  UNION
+  ALL 
+  SELECT 
+    `cv`.MEM_CODE,
+    `cv`.MEM_NAME,
+    `cv`.ACC_CODE,
+    `cv`.TITLE,
+    IF(
+      ch.Nature = 'D',
+      (
+        SUM(COALESCE(`cv`.DEBIT, 0)) - SUM(COALESCE(`cv`.CREDIT, 0))
+      ),
+      (
+        SUM(COALESCE(`cv`.CREDIT, 0)) - SUM(COALESCE(`cv`.DEBIT, 0))
+      )
+    ) AS END_BAL 
+  FROM
+    `cv` 
+    INNER JOIN 
+      (SELECT 
+        * 
+      FROM
+        chart 
+      WHERE CODE1 = 'LR') AS ch 
+      ON `cv`.ACC_CODE = ch.CODE 
+  WHERE `cv`.DOC_DATE <= ?asOf  
+  GROUP BY `cv`.MEM_CODE,
+    `cv`.ACC_CODE) AS sl_merged 
+GROUP BY `sl_merged`.MEM_CODE,
+  `sl_merged`.ACC_CODE 
+HAVING SUM(`sl_merged`.END_BAL) <> 0 
+ORDER BY `sl_merged`.MEM_CODE 
 ";
         }
 

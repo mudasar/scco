@@ -34,9 +34,13 @@ namespace SCCO.WPF.MVC.CS.Views.ReportsModule
                 var filteredData = ByCodeRadioButton.IsChecked == true
                                        ? _reportData.Where(t => t.DocumentDate <= _asOf)
                                                     .OrderBy(t => t.MemberCode)
+                                                    .ThenBy(t => t.AccountCode)
+                                                    .ThenBy(t => t.DocumentDate)
                                                     .ToList()
                                        : _reportData.Where(t => t.DocumentDate <= _asOf)
                                                     .OrderBy(t => t.MemberName)
+                                                    .ThenBy(t => t.AccountCode)
+                                                    .ThenBy(t => t.DocumentDate)
                                                     .ToList();
 
                 var reportTable = filteredData.ToDataTable();
