@@ -450,11 +450,6 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
             {
                 TotalChargesAndDeductions += particular.Amount;
             }
-
-            if (ReconstructionType == ReconstructionTypes.AddOnInterest)
-            {
-                AmountForReconstruction += TotalChargesAndDeductions;
-            }
         }
 
         public void UpdateLoanDetails()
@@ -545,7 +540,7 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
             jv.SetDocument(document);
             jv.SetMember(Borrower);
             jv.SetAccount(LoanAccount);
-            jv.Debit = NewLoanDetails.LoanAmount + NewLoanDetails.InterestAmount;
+            jv.Debit = NewLoanDetails.LoanAmount + NewLoanDetails.InterestAmount + TotalChargesAndDeductions;
 
             NewLoanDetails.ReleaseNo = ModelController.Releases.MaxReleaseNumber() + 1;
             NewLoanDetails.DateReleased = ReconstructionDate;

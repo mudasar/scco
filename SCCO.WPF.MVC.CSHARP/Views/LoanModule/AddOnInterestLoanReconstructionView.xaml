@@ -354,13 +354,13 @@
                             <ColumnDefinition Width="100" />
                         </Grid.ColumnDefinitions>
 
-                        <Label Margin="2" Content="{Binding LoanAccount}" />
+                        <Label Margin="2" Content="Total Charges and Deductions" />
                         <TextBox Grid.Column="2"
                                  Margin="2"
                                  IsReadOnly="True"
                                  IsTabStop="False"
                                  Style="{DynamicResource RoundedNumberBox}"
-                                 Text="{Binding AmountForReconstruction,
+                                 Text="{Binding TotalChargesAndDeductions,
                                                 StringFormat=\{0:N\}}" />
                     </Grid>
                 </StackPanel>
