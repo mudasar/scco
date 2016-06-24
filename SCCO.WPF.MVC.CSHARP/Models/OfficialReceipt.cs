@@ -768,5 +768,27 @@ namespace SCCO.WPF.MVC.CS.Models
             }
             return listRecord;
         }
+
+        internal static OfficialReceipt LastPayment(string memberCode, string accountCode)
+        {
+            const string sql = "SELECT * FROM `or` " +
+                               "WHERE mem_code = ?MemberCode and acc_code = ?AccountCode " +
+                               "ORDER BY doc_date DESC LIMIT 1";
+
+            var sqlParameters = new[]
+            {
+                new SqlParameter("?MemberCode", memberCode),
+                new SqlParameter("?AccountCode", accountCode)
+            };
+
+            var dataTable = DatabaseController.ExecuteSelectQuery(sql, sqlParameters);
+            foreach (DataRow dataRow in dataTable.Rows)
+            {
+                var or = new OfficialReceipt();
+                or.SetPropertiesFromDataRow(dataRow);
+                return or;
+            }
+            return null;
+        }
     }
 }

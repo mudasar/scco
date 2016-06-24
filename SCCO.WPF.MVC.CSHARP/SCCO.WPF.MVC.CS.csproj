@@ -534,6 +534,9 @@
     <Compile Include="Views\LoanModule\AddReconstructionDetailsView.xaml.cs">
       <DependentUpon>AddReconstructionDetailsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\LoanModule\LoanBalanceSetupView.xaml.cs">
+      <DependentUpon>LoanBalanceSetupView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\LoanModule\LoanDetailsEditView.xaml.cs">
       <DependentUpon>LoanDetailsEditView.xaml</DependentUpon>
     </Compile>
@@ -1058,6 +1061,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\LoanModule\AddReconstructionDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\LoanModule\LoanBalanceSetupView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -100,6 +100,17 @@ namespace SCCO.WPF.MVC.CS.Views.AccountVerifierModule
                     return;
                 }
             }
+
+            var lastPayment = OfficialReceipt.LastPayment(_loanDetails.MemberCode, _loanDetails.AccountCode);
+            if (lastPayment != null)
+            {
+                var loanBalanceSetupView = new LoanBalanceSetupView(viewModel);
+                if (loanBalanceSetupView.ShowDialog() == false)
+                {
+                    return;
+                }
+            }
+
             var view = new PaidInterestReconstructionView(viewModel);
             view.ShowDialog();
             if (view.ActionResult.Success)

@@ -431,7 +431,7 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
                     {
                         AccountCode = fines.AccountCode,
                         AccountTitle = fines.AccountTitle,
-                        Amount = Math.Round(model.Fines, 2)
+                        Amount = Math.Round(model.Fines, 2) + Math.Round(model.Interest)
                     };
                 Particulars.Add(item);
             }

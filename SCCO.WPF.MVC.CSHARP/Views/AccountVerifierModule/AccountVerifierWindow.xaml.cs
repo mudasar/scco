@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using SCCO.WPF.MVC.CS.Controllers;
 using SCCO.WPF.MVC.CS.Models;
@@ -96,14 +97,6 @@ namespace SCCO.WPF.MVC.CS.Views.AccountVerifierModule
                         RefreshAccountInformation();
                     }
                 };
-
-            grdSummary.MouseDoubleClick += (sender, args) =>
-                {
-                    if (grdSummary.SelectedItem == null) return;
-                    {
-                        ShowAccount(ShownAccount.Details);
-                    }
-                };
         }
 
         private void ShowTellerCollectorWindow()
@@ -171,12 +164,38 @@ namespace SCCO.WPF.MVC.CS.Views.AccountVerifierModule
             if (process != null) process.WaitForInputIdle();
         }
 
-        // how the withdrawal and deposit displayed
-        private void grdDetails_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private void SummaryRowOnDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (grdSummary.SelectedItem == null) return;
+            {
+                ShowAccount(ShownAccount.Details);
+            }
+        }
+        private void DetailsRowOnDoubleClick(object sender, MouseButtonEventArgs e)
         {
             if (grdDetails.SelectedItem == null) return;
-            var selectedItem = (AccountDetail) grdDetails.SelectedItem;
+
+            if (_listTimeDepositCode.Contains(_viewModel.SelectedAccount.AccountCode))
+            {
+                ShowTimeDepositDetails();
+            }
+
+            if (_listLoanReceivableCode.Contains(_viewModel.SelectedAccount.AccountCode))
+            {
+                ShowLoanDetails();
+            }
+        }
+
+        private void DetailsRowOnMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            var jea = sender as DataGridRow;
+            if (jea == null)
+            {
+                return;
+            }
+            var selectedItem = (AccountDetail) jea.Item;
             selectedItem.Mark = !selectedItem.Mark;
+            e.Handled = true;
         }
 
         #region --- Members ---

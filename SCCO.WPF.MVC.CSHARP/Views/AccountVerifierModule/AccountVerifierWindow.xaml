@@ -276,7 +276,6 @@
                           HorizontalScrollBarVisibility="Visible"
                           IsReadOnly="True"
                           ItemsSource="{Binding AccountDetails}"
-                          MouseDoubleClick="grdDetails_MouseDoubleClick"
                           Opacity="0.9"
                           RowBackground="White"
                           RowHeight="26"
@@ -285,6 +284,12 @@
                           VerticalScrollBarVisibility="Visible"
                           Visibility="Hidden">
 
+                    <DataGrid.ItemContainerStyle>
+                        <Style TargetType="DataGridRow">
+                            <EventSetter Event="MouseDoubleClick" Handler="DetailsRowOnDoubleClick" />
+                            <EventSetter Event="MouseRightButtonDown" Handler="DetailsRowOnMouseRightButtonDown" />
+                        </Style>
+                    </DataGrid.ItemContainerStyle>
                     <DataGrid.Columns>
                         <DataGridTextColumn x:Name="colRemarks"
                                             Width="50"
@@ -360,6 +365,11 @@
                           VerticalGridLinesBrush="#FFA0B57D"
                           VerticalScrollBarVisibility="Visible"
                           Visibility="Hidden">
+                    <DataGrid.ItemContainerStyle>
+                        <Style TargetType="DataGridRow">
+                            <EventSetter Event="MouseDoubleClick" Handler="SummaryRowOnDoubleClick" />
+                        </Style>
+                    </DataGrid.ItemContainerStyle>
                     <DataGrid.Columns>
                         <DataGridTextColumn Width="120"
                                             Binding="{Binding AccountCode}"

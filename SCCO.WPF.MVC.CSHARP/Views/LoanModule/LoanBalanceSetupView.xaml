@@ -1,0 +1,75 @@
+﻿<views:BaseWindow x:Class="SCCO.WPF.MVC.CS.Views.LoanModule.LoanBalanceSetupView"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:local="clr-namespace:SCCO.WPF.MVC.CS.Views.LoanModule"
+                  xmlns:views="clr-namespace:SCCO.WPF.MVC.CS.Views"
+                  Title="Dividend Distribution"
+                  FontFamily="Ubuntu"
+                  SizeToContent="WidthAndHeight"
+                  Style="{DynamicResource BaseWindow}"
+                  Topmost="True"
+                  WindowStartupLocation="CenterScreen"
+                  x:ClassModifier="internal">
+    <views:BaseWindow.DataContext>
+        <local:LoanReconstructionViewModel />
+    </views:BaseWindow.DataContext>
+    <Grid Width="300" Margin="5">
+        <Grid x:Name="FormLayout">
+            <Rectangle x:Name="Canvass"
+                       Fill="#FFE03C31"
+                       MouseLeftButtonDown="DragWindow"
+                       RadiusX="5"
+                       RadiusY="5"
+                       Stroke="#FFB4B4B4"
+                       StrokeLineJoin="Round">
+                <Rectangle.Effect>
+                    <DropShadowEffect BlurRadius="10" ShadowDepth="0" />
+                </Rectangle.Effect>
+            </Rectangle>
+            <Border x:Name="ShineEffect"
+                    Margin="2,2,2,0"
+                    VerticalAlignment="Top"
+                    CornerRadius="4"
+                    MouseLeftButtonDown="DragWindow"
+                    Style="{DynamicResource ShineEffectStyle}" />
+            <Image x:Name="WindowIcon"
+                   Width="24"
+                   Height="24"
+                   Margin="10,10,0,0"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top"
+                   Source="/SCCO.WPF.MVC.CS;component/Images/percent.png"
+                   Stretch="Fill" />
+            <Label x:Name="FormTitle"
+                   Margin="34,10,0,0"
+                   Content="Loan Balance Setup"
+                   MouseLeftButtonDown="DragWindow"
+                   Style="{DynamicResource FormTitle2}" />
+            <Button x:Name="CloseButton"
+                    Margin="0,8,8,0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Background="#00E4D2D2"
+                    Click="CloseWindow"
+                    Content="x"
+                    IsTabStop="False"
+                    Style="{DynamicResource CloseButton}"
+                    TabIndex="5" />
+        </Grid>
+        <StackPanel Margin="20,60,20,20">
+            <TextBlock Foreground="#CCFFFFFF"
+                       Text="Enter the previous loan balance if member has already paid reconstruction charges."
+                       TextWrapping="Wrap" />
+            <Border Height="12" />
+            <Label Content="Loan Balance" />
+            <TextBox x:Name="LoanBalanceTextBox"
+                     Style="{DynamicResource RoundedTextBox}"
+                     Text="{Binding LoanBalance,
+                                    StringFormat=\{0:N\}}" />
+            <Border Height="12" />
+            <Button x:Name="SaveButton"
+                    Content="OK"
+                    Style="{DynamicResource ControlButton}" />
+        </StackPanel>
+    </Grid>
+</views:BaseWindow>
