@@ -159,46 +159,82 @@ namespace SCCO.WPF.MVC.CS.Controllers
                 // Generate query statement
                 var parameters = new List<SqlParameter>();
                 var queryBuilder = new StringBuilder();
-                queryBuilder.AppendLine("SELECT COLLECTOR as collector, SUM(CREDIT) as total");
-                queryBuilder.AppendLine("FROM `or`");
 
-                // set filter by document date
-                if (dateStart == dateEnd)
+
+                // set filter by collector name except 'ALL'
+                if (reportViewModel.SelectedCollector != null &&
+                    reportViewModel.SelectedCollector.CollectorName.ToUpper() != "ALL")
                 {
-                    queryBuilder.AppendLine("WHERE `DOC_DATE` = ?DateStart");
-                    parameters.Add(new SqlParameter("?DateStart", dateStart));
+                    queryBuilder.AppendLine("SELECT * FROM `or`");
+
+                    // set filter by document date
+                    if (dateStart == dateEnd)
+                    {
+                        queryBuilder.AppendLine("WHERE `DOC_DATE` = ?DateStart");
+                        parameters.Add(new SqlParameter("?DateStart", dateStart));
+                    }
+                    else
+                    {
+                        queryBuilder.AppendLine("WHERE `DOC_DATE` BETWEEN ?DateStart AND ?DateEnd");
+                        parameters.Add(new SqlParameter("?DateStart", dateStart));
+                        parameters.Add(new SqlParameter("?DateEnd", dateEnd));
+                    }
+                    queryBuilder.AppendLine("AND `COLLECTOR` = ?CollectorName");
+                    parameters.Add(new SqlParameter("?CollectorName", reportViewModel.SelectedCollector));
+
+                    var or = DatabaseController.ExecuteSelectQuery(queryBuilder.ToString(), parameters.ToArray());
+                    or.TableName = "or";
+
+                    DataTable comp = Company.GetData();
+                    comp.TableName = "comp";
+
+                    var dataSet = new DataSet();
+                    dataSet.Tables.Add(or);
+                    dataSet.Tables.Add(comp);
+
+                    var ri = new ReportItem();
+                    ri.ReportFile = "or_summary.rpt";
+                    ri.Title = titleBuilder.ToString();
+                    ri.DataSource = dataSet;
+                    ri.LoadReport();
                 }
                 else
                 {
-                    queryBuilder.AppendLine("WHERE `DOC_DATE` BETWEEN ?DateStart AND ?DateEnd");
-                    parameters.Add(new SqlParameter("?DateStart", dateStart));
-                    parameters.Add(new SqlParameter("?DateEnd", dateEnd));
+                    queryBuilder.AppendLine("SELECT COLLECTOR as collector, SUM(CREDIT) as total");
+                    queryBuilder.AppendLine("FROM `or`");
+
+                    // set filter by document date
+                    if (dateStart == dateEnd)
+                    {
+                        queryBuilder.AppendLine("WHERE `DOC_DATE` = ?DateStart");
+                        parameters.Add(new SqlParameter("?DateStart", dateStart));
+                    }
+                    else
+                    {
+                        queryBuilder.AppendLine("WHERE `DOC_DATE` BETWEEN ?DateStart AND ?DateEnd");
+                        parameters.Add(new SqlParameter("?DateStart", dateStart));
+                        parameters.Add(new SqlParameter("?DateEnd", dateEnd));
+                    }
+                    queryBuilder.AppendLine("GROUP BY COLLECTOR");
+                    queryBuilder.AppendLine("ORDER BY SUM(CREDIT) DESC");
+                    var or = DatabaseController.ExecuteSelectQuery(queryBuilder.ToString(), parameters.ToArray());
+                    or.TableName = "or_collector_summary";
+
+                    DataTable comp = Company.GetData();
+                    comp.TableName = "comp";
+
+                    var dataSet = new DataSet();
+                    dataSet.Tables.Add(or);
+                    dataSet.Tables.Add(comp);
+
+                    var ri = new ReportItem();
+                    ri.ReportFile = "or_collector_summary.rpt";
+                    ri.Title = titleBuilder.ToString();
+                    ri.DataSource = dataSet;
+                    ri.LoadReport();
+                    
                 }
 
-                // set filter by collector name except 'ALL'
-                if (reportViewModel.SelectedCollector == null || reportViewModel.SelectedCollector.CollectorName.ToUpper() != "ALL")
-                {
-                    queryBuilder.AppendLine("AND `COLLECTOR` = ?CollectorName");
-                    parameters.Add(new SqlParameter("?CollectorName", reportViewModel.SelectedCollector));
-                }
-
-                queryBuilder.AppendLine("GROUP BY COLLECTOR");
-                queryBuilder.AppendLine("ORDER BY SUM(CREDIT) DESC");
-                var or = DatabaseController.ExecuteSelectQuery(queryBuilder.ToString(), parameters.ToArray());
-                or.TableName = "or_collector_summary";
-
-                DataTable comp = Company.GetData();
-                comp.TableName = "comp";
-
-                var dataSet = new DataSet();
-                dataSet.Tables.Add(or);
-                dataSet.Tables.Add(comp);
-
-                var ri = new ReportItem();
-                ri.ReportFile = "or_collector_summary.rpt";
-                ri.Title = titleBuilder.ToString();
-                ri.DataSource = dataSet;
-                ri.LoadReport();
             }
 
             internal static void SummaryReport(Views.VoucherReportViewModel reportViewModel)
@@ -282,8 +318,32 @@ namespace SCCO.WPF.MVC.CS.Controllers
                         titleBuilder.Append(String.Format("{0:MMMM yyyy}", dateStart));
                     }
 
-                    DataTable or = DataSource.OfficialReceipt.WhereAccountCodeIsAndDateIsBetwen(accountCode, dateStart,
-                                                                                                dateEnd);
+                    var sqlParameters = new List<SqlParameter>();
+                    
+                    var queryBuilder = new StringBuilder();
+                    queryBuilder.AppendLine("SELECT * FROM `or` WHERE `ACC_CODE` = ?AccountCode");
+                    sqlParameters.Add(new SqlParameter("?AccountCode", accountCode));
+                    sqlParameters.Add(new SqlParameter("?DateStart", dateStart));
+                    if (dateStart == dateEnd)
+                    {
+                        queryBuilder.AppendLine("AND `DOC_DATE` = ?DateStart");
+                    }
+                    else
+                    {
+                        queryBuilder.AppendLine("AND `DOC_DATE` BETWEEN ?DateStart AND ?DateEnd");
+                        sqlParameters.Add(new SqlParameter("?DateEnd", dateEnd));
+                    }
+                    
+                    if (reportViewModel.SelectedCollector != null &&
+                        reportViewModel.SelectedCollector.CollectorName.ToUpper() != "ALL")
+                    {
+                        
+                        queryBuilder.AppendLine("AND `COLLECTOR` = ?CollectorName");
+                        sqlParameters.Add(new SqlParameter("?CollectorName",
+                                                           reportViewModel.SelectedCollector.CollectorName));
+                    }
+
+                    var or = DatabaseController.ExecuteSelectQuery(queryBuilder.ToString(), sqlParameters.ToArray());
                     or.TableName = "or";
 
                     DataTable comp = Company.GetData();

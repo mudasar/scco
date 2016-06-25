@@ -1,15 +1,18 @@
-﻿<Views:BaseWindow
+﻿<Views:BaseWindow x:Class="SCCO.WPF.MVC.CS.Views.VoucherReportWindow"
                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                   xmlns:Views="clr-namespace:SCCO.WPF.MVC.CS.Views"
-                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="SCCO.WPF.MVC.CS.Views.VoucherReportWindow"
-                  Title="{Binding Content, ElementName=FormTitle}"
+                  Title="{Binding Content,
+                                  ElementName=FormTitle}"
                   SizeToContent="WidthAndHeight"
                   Style="{StaticResource BaseWindow}"
-                  WindowStartupLocation="CenterScreen">
-	<Views:BaseWindow.DataContext>
-		<Views:VoucherReportViewModel/>
-	</Views:BaseWindow.DataContext>
+                  WindowStartupLocation="CenterScreen"
+                  mc:Ignorable="d">
+    <Views:BaseWindow.DataContext>
+        <Views:VoucherReportViewModel />
+    </Views:BaseWindow.DataContext>
     <Grid Margin="5">
         <Grid x:Name="FormLayout">
             <Rectangle x:Name="Canvass"
@@ -60,16 +63,20 @@
         </Grid>
         <StackPanel Margin="20,60,20,20">
             <StackPanel Orientation="Vertical">
-            	<Label Content="Transaction Date" />
-            	<DatePicker x:Name="TransactionDatePicker" Style="{DynamicResource RoundedDatePicker}" SelectedDate="{Binding TransactionDate}" />
-            	<Label Content="Range" Margin="0,8,0,0" />
-            	<ComboBox x:Name="ReportRangeComboBox"
-            		SelectedIndex="{Binding ReportRangeOption}"
-            		Style="{DynamicResource RoundedComboBox}">
-            		<ComboBoxItem Height="18" Content="For the day" />
-            		<ComboBoxItem Height="16" Content="For the month" />
-            	</ComboBox>
-            	<Border Background="#7FFFFFFF" Height="16" BorderThickness="0,7" />
+                <Label Content="Transaction Date" />
+                <DatePicker x:Name="TransactionDatePicker"
+                            SelectedDate="{Binding TransactionDate}"
+                            Style="{DynamicResource RoundedDatePicker}" />
+                <Label Margin="0,8,0,0" Content="Range" />
+                <ComboBox x:Name="ReportRangeComboBox"
+                          SelectedIndex="{Binding ReportRangeOption}"
+                          Style="{DynamicResource RoundedComboBox}">
+                    <ComboBoxItem Content="For the day" />
+                    <ComboBoxItem Content="For the month" />
+                </ComboBox>
+                <Border Height="16"
+                        Background="#7FFFFFFF"
+                        BorderThickness="0,7" />
             </StackPanel>
             <Button x:Name="btnDetailedReport"
                     Width="200"
@@ -93,35 +100,42 @@
                     Content="Voucher Attachment"
                     Style="{DynamicResource ControlButton}" />
             <StackPanel x:Name="CollectorPanel" Orientation="Vertical">
-            	<Border Background="#7FFFFFFF" Height="16" BorderThickness="0,7" />
-            	<Label Content="Collector" />
-            	<ComboBox x:Name="CollectorsComboBox"
-            		Style="{DynamicResource RoundedComboBox}" SelectedItem="{Binding SelectedCollector}" ItemsSource="{Binding Collectors}"/>
-            	<Grid Margin="0,5,0,2">
-            		<Grid.ColumnDefinitions>
-                	<ColumnDefinition />
-                	<ColumnDefinition Width="4" />
-                	<ColumnDefinition />
-					</Grid.ColumnDefinitions>
-            		<Button x:Name="CollectorDetailedReportButton"
-            			Height="30"
-            			Click="ShowAttachmentReport"
-            			Content="Detailed"
-            			Style="{DynamicResource ControlButton}" />
-            		<Button x:Name="CollectorSummaryReportButton"
-            			Height="Auto"
-            			Click="ShowAttachmentReport"
-            			Content="Summary"
-            			Style="{DynamicResource ControlButton}" Grid.Column="2" />
-            	</Grid>
+                <Border Height="16"
+                        Background="#7FFFFFFF"
+                        BorderThickness="0,7" />
+                <Label Content="Collector" />
+                <ComboBox x:Name="CollectorsComboBox"
+                          ItemsSource="{Binding Collectors}"
+                          SelectedItem="{Binding SelectedCollector}"
+                          Style="{DynamicResource RoundedComboBox}" />
+                <Grid Margin="0,5,0,2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="4" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="CollectorDetailedReportButton"
+                            Height="30"
+                            Click="ShowAttachmentReport"
+                            Content="Detailed"
+                            Style="{DynamicResource ControlButton}" />
+                    <Button x:Name="CollectorSummaryReportButton"
+                            Grid.Column="2"
+                            Height="Auto"
+                            Click="ShowAttachmentReport"
+                            Content="Summary"
+                            Style="{DynamicResource ControlButton}" />
+                </Grid>
             </StackPanel>
-            <Border Background="#7FFFFFFF" Height="16" BorderThickness="0,7" />
+            <Border Height="16"
+                    Background="#7FFFFFFF"
+                    BorderThickness="0,7" />
             <Label Content="Account Code" />
             <Grid>
                 <Grid.ColumnDefinitions>
-                	<ColumnDefinition />
-                	<ColumnDefinition Width="4" />
-                	<ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="4" />
+                    <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <TextBox x:Name="txtAccountCode"
                          Style="{DynamicResource RoundedTextBox}"
