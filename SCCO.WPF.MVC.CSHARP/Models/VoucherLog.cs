@@ -153,7 +153,7 @@ namespace SCCO.WPF.MVC.CS.Models
         public void Find(string type, int number)
         {
             ResetProperties();
-            
+
             Type = type;
             Number = number;
 
@@ -187,9 +187,12 @@ namespace SCCO.WPF.MVC.CS.Models
         public static Result Log(VoucherTypes voucherType, int voucherNo, DateTime voucherDate, string initials)
         {
             var voucherLog = new VoucherLog();
-            voucherLog.Find(voucherType.ToKeyword(), voucherNo);
-            voucherLog.Initials = initials;
+            var type = voucherType.ToString();
+            voucherLog.Find(type, voucherNo);
+            var maxLength = initials.Length <= 5 ? initials.Length : 5;
+            voucherLog.Initials = initials.Substring(0, maxLength);
             voucherLog.Date = voucherDate;
+            voucherLog.Type = type;
             return voucherLog.Save();
         }
     }

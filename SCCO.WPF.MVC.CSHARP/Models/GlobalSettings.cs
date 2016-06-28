@@ -17,6 +17,7 @@ namespace SCCO.WPF.MVC.CS.Models
         CodeOfMiscellaneousIncome,
         CodeOfSalaryAdvance,
         CodeOfGoNegosyo,
+        CodeOfCoopPurchaseOrder,
         CodeOfAccountsPayableMerchandise,
         CodeOfSavingsDeposit,
         CodeOfTimeDeposit,
@@ -132,6 +133,15 @@ namespace SCCO.WPF.MVC.CS.Models
             get
             {
                 const GlobalKeys key = GlobalKeys.CodeOfGoNegosyo;
+                return DataConverter.ToString(SearchDatabase(key)["CurrentValue"]);
+            }
+        }
+
+        public static string CodeOfCoopPurchaseOrder
+        {
+            get
+            {
+                const GlobalKeys key = GlobalKeys.CodeOfCoopPurchaseOrder;
                 return DataConverter.ToString(SearchDatabase(key)["CurrentValue"]);
             }
         }

@@ -14,40 +14,63 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
         private void InitializeControls()
         {
             stbFinesAndPenalty.Click += delegate
-                {
-                    var account = FindAccount();
-                    if (account == null) return;
-                    var jea = GlobalVariable.FindByKeyword(GlobalKeys.CodeOfFinesAndPenalty);
-                    jea.CurrentValue = account.AccountCode;
-                    jea.Update();
-                    stbFinesAndPenalty.Text = account.AccountCode;
-                };
+            {
+                var account = FindAccount();
+                if (account == null) return;
+                var settings = GlobalVariable.FindByKeyword(GlobalKeys.CodeOfFinesAndPenalty);
+                settings.CurrentValue = account.AccountCode;
+                settings.Update();
+                stbFinesAndPenalty.Text = account.AccountCode;
+            };
+
             stbInterestRebate.Click += delegate
             {
                 var account = FindAccount();
                 if (account == null) return;
-                var jea = GlobalVariable.FindByKeyword(GlobalKeys.CodeOfInterestRebate);
-                jea.CurrentValue = account.AccountCode;
-                jea.Update();
+                var settings = GlobalVariable.FindByKeyword(GlobalKeys.CodeOfInterestRebate);
+                settings.CurrentValue = account.AccountCode;
+                settings.Update();
                 stbInterestRebate.Text = account.AccountCode;
             };
+
             stbUnearnedIncome.Click += delegate
             {
                 var account = FindAccount();
                 if (account == null) return;
-                var jea = GlobalVariable.FindByKeyword(GlobalKeys.CodeOfUnearnedIncome);
-                jea.CurrentValue = account.AccountCode;
-                jea.Update();
+                var settings = GlobalVariable.FindByKeyword(GlobalKeys.CodeOfUnearnedIncome);
+                settings.CurrentValue = account.AccountCode;
+                settings.Update();
                 stbUnearnedIncome.Text = account.AccountCode;
             };
+
             stbSeniorMembersAssistanceProgram.Click += delegate
             {
                 var account = FindAccount();
                 if (account == null) return;
-                var jea = GlobalVariable.FindByKeyword(GlobalKeys.CodeOfSeniorMembersAssistanceProgram);
-                jea.CurrentValue = account.AccountCode;
-                jea.Update();
+                var settings = GlobalVariable.FindByKeyword(GlobalKeys.CodeOfSeniorMembersAssistanceProgram);
+                settings.CurrentValue = account.AccountCode;
+                settings.Update();
                 stbSeniorMembersAssistanceProgram.Text = account.AccountCode;
+            };
+
+            stbGoNegosyo.Click += delegate
+            {
+                var account = FindAccount();
+                if (account == null) return;
+                var settings = GlobalVariable.FindByKeyword(GlobalKeys.CodeOfGoNegosyo);
+                settings.CurrentValue = account.AccountCode;
+                settings.Update();
+                stbGoNegosyo.Text = account.AccountCode;
+            };
+
+            stbCoopPurchaseOrder.Click += delegate
+            {
+                var account = FindAccount();
+                if (account == null) return;
+                var settings = GlobalVariable.FindByKeyword(GlobalKeys.CodeOfCoopPurchaseOrder);
+                settings.CurrentValue = account.AccountCode;
+                settings.Update();
+                stbCoopPurchaseOrder.Text = account.AccountCode;
             };
         }
 
@@ -62,6 +85,8 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
             stbInterestRebate.Text = GlobalSettings.CodeOfInterestRebate;
             stbUnearnedIncome.Text = GlobalSettings.CodeOfUnearnedIncome;
             stbSeniorMembersAssistanceProgram.Text = GlobalSettings.CodeOfSeniorMembersAssistanceProgram;
+            stbGoNegosyo.Text = GlobalSettings.CodeOfGoNegosyo;
+            stbCoopPurchaseOrder.Text = GlobalSettings.CodeOfCoopPurchaseOrder;
         }
     }
 }

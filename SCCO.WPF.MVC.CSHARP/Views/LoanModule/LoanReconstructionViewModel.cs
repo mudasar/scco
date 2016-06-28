@@ -175,6 +175,10 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
             }
         }
 
+        public Account CoopPurchaseOrderAccount { get; set; }
+
+        public Account GoNegosyoAccount { get; set; }
+
         public Particular SelectedParticular
         {
             get { return _selectedParticular; }
@@ -256,7 +260,10 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
 
         public void AddOrEditSmap()
         {
-
+            if (IsSpecialLoan())
+            {
+                return;
+            }
             if (SeniorMembersAssistanceProgramAccount == null)
             {
                 return;
@@ -379,6 +386,12 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
         private void InsertChargesAndDeductions()
         {
             Particulars.Clear();
+
+            if (IsSpecialLoan())
+            {
+                return;
+            }
+
             foreach (var charge in LoanComputation.Charges.OrderBy(t => t.AccountCode))
             {
                 var item = new Particular
@@ -404,6 +417,12 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
 
         private void AppendInterestRebateOrPenalty()
         {
+            if (IsSpecialLoan())
+            {
+                AppendSpecialLoanCharges();
+                return;
+            }
+
             var model = new FinesRebateCalculatorViewModel
                 {
                     LoanDetails = PreviousLoanDetails,
@@ -474,7 +493,12 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
             if (firstPayment != null)
             {
                 NewLoanDetails.InterestAmortization = firstPayment.Interest;
-                NewLoanDetails.Payment = firstPayment.Payment + firstPayment.Interest;
+                var interest = firstPayment.Interest;
+                if (IsSpecialLoan())
+                {
+                    interest = 0m;
+                }
+                NewLoanDetails.Payment = firstPayment.Payment + interest;
             }
 
             NewLoanDetails.MaturityDate = NewLoanDetails.GrantedDate.AddMonths(NewLoanDetails.LoanTerms);
@@ -607,19 +631,25 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
                 }
             }
 
-            //3. Unearned Income
-            jv = new JournalVoucher();
-            jv.SetDocument(document);
-            jv.SetMember(Borrower);
-            jv.SetAccount(UnearnedIncomeAccount);
-            jv.Credit = NewLoanDetails.InterestAmount;
-
-            jv.IsPosted = true;
-            result = jv.Create();
-            if (!result.Success)
+            var interestAmount = 0m;
+            if (!IsSpecialLoan())
             {
-                JournalVoucher.DeleteAll(documentNumber);
-                return result;
+                interestAmount = NewLoanDetails.InterestAmount;
+
+                //3. Unearned Income
+                jv = new JournalVoucher();
+                jv.SetDocument(document);
+                jv.SetMember(Borrower);
+                jv.SetAccount(UnearnedIncomeAccount);
+                jv.Credit = NewLoanDetails.InterestAmount;
+
+                jv.IsPosted = true;
+                result = jv.Create();
+                if (!result.Success)
+                {
+                    JournalVoucher.DeleteAll(documentNumber);
+                    return result;
+                }
             }
 
             //4. Reconstructed Loan
@@ -627,7 +657,7 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
             jv.SetDocument(document);
             jv.SetMember(Borrower);
             jv.SetAccount(LoanAccount);
-            jv.Debit = NewLoanDetails.LoanAmount + NewLoanDetails.InterestAmount + TotalChargesAndDeductions;
+            jv.Debit = NewLoanDetails.LoanAmount + interestAmount + TotalChargesAndDeductions;
 
             NewLoanDetails.ReleaseNo = ModelController.Releases.MaxReleaseNumber() + 1;
             NewLoanDetails.DateReleased = ReconstructionDate;
@@ -702,6 +732,16 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
             {
                 return new Result(false, "Senior Member Assistance Program account not set.");
             }
+
+            if (GoNegosyoAccount == null || string.IsNullOrEmpty(GoNegosyoAccount.AccountCode))
+            {
+                return new Result(false, "Go Negosyo account not set.");
+            }
+
+            if (CoopPurchaseOrderAccount == null || string.IsNullOrEmpty(CoopPurchaseOrderAccount.AccountCode))
+            {
+                return new Result(false, "COOP Purchase Order account not set.");
+            }
             return new Result(true, "Valid");
         }
 
@@ -730,6 +770,18 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
             {
                 SeniorMembersAssistanceProgramAccount = Account.FindByCode(code);
             }
+
+            code = GlobalSettings.CodeOfGoNegosyo;
+            if (!string.IsNullOrEmpty(code))
+            {
+                GoNegosyoAccount = Account.FindByCode(code);
+            }
+
+            code = GlobalSettings.CodeOfCoopPurchaseOrder;
+            if (!string.IsNullOrEmpty(code))
+            {
+                CoopPurchaseOrderAccount = Account.FindByCode(code);
+            }
         }
 
         internal void AddParticular(Particular particular)
@@ -738,6 +790,75 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
             SelectedParticular = Particulars.Last();
             UpdateLoanAmountForReconstruction();
             UpdateLoanDetails();
+        }
+
+        /// <summary>
+        /// Loans that are 1 month in term and has special computation
+        /// </summary>
+        private bool IsSpecialLoan()
+        {
+            if (LoanAccount.AccountCode == GoNegosyoAccount.AccountCode)
+            {
+                return true;
+            }
+            if (LoanAccount.AccountCode == CoopPurchaseOrderAccount.AccountCode)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private void AppendSpecialLoanCharges()
+        {
+            if (LoanAccount.AccountCode == CoopPurchaseOrderAccount.AccountCode)
+            {
+                ApplyCoopPurchaseCharges();
+                return;
+            }
+
+            if (LoanAccount.AccountCode == GoNegosyoAccount.AccountCode)
+            {
+                ApplyGoNegosyoCharges();
+            }
+        }
+
+        private void ApplyCoopPurchaseCharges()
+        {
+            var interest = LoanBalance * (LoanProduct.AnnualInterestRate / 12m);
+            const decimal finesRate = 3.5m/100m;
+            var penalty = 0m;
+            if (IsOverDue(PreviousLoanDetails.MaturityDate, ReconstructionDate))
+            {
+                penalty = LoanBalance*finesRate;
+            }
+            var fines = FinesAndPenaltyAccount;
+
+            var item = new Particular
+            {
+                AccountCode = fines.AccountCode,
+                AccountTitle = fines.AccountTitle,
+                Amount = Math.Round(penalty, 2) + Math.Round(interest)
+            };
+            Particulars.Add(item);
+        }
+
+        private void ApplyGoNegosyoCharges()
+        {
+            const decimal finesRate = 5/100m;
+            var penalty = 0m;
+            if (IsOverDue(PreviousLoanDetails.MaturityDate, ReconstructionDate))
+            {
+                penalty = LoanBalance * finesRate;
+            }
+            var fines = FinesAndPenaltyAccount;
+
+            var item = new Particular
+            {
+                AccountCode = fines.AccountCode,
+                AccountTitle = fines.AccountTitle,
+                Amount = Math.Round(penalty, 2)
+            };
+            Particulars.Add(item);
         }
     }
 
