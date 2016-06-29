@@ -72,6 +72,16 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
                 settings.Update();
                 stbCoopPurchaseOrder.Text = account.AccountCode;
             };
+
+            stbMiscellaneousIncome.Click += delegate
+            {
+                var account = FindAccount();
+                if (account == null) return;
+                var settings = GlobalVariable.FindByKeyword(GlobalKeys.CodeOfMiscellaneousIncome);
+                settings.CurrentValue = account.AccountCode;
+                settings.Update();
+                stbMiscellaneousIncome.Text = account.AccountCode;
+            };
         }
 
         private Account FindAccount()
@@ -87,6 +97,7 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
             stbSeniorMembersAssistanceProgram.Text = GlobalSettings.CodeOfSeniorMembersAssistanceProgram;
             stbGoNegosyo.Text = GlobalSettings.CodeOfGoNegosyo;
             stbCoopPurchaseOrder.Text = GlobalSettings.CodeOfCoopPurchaseOrder;
+            stbMiscellaneousIncome.Text = GlobalSettings.CodeOfMiscellaneousIncome;
         }
     }
 }

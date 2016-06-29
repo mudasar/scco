@@ -179,6 +179,8 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
 
         public Account GoNegosyoAccount { get; set; }
 
+        public Account MiscellaneousIncomeAccount { get; set; }
+
         public Particular SelectedParticular
         {
             get { return _selectedParticular; }
@@ -206,7 +208,11 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
         public decimal TotalChargesAndDeductions
         {
             get { return _totalChargesAndDeductions; }
-            set { _totalChargesAndDeductions = value; OnPropertyChanged("TotalChargesAndDeductions"); }
+            set
+            {
+                _totalChargesAndDeductions = value;
+                OnPropertyChanged("TotalChargesAndDeductions");
+            }
         }
 
         public void InitializeContext()
@@ -268,7 +274,7 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
             {
                 return;
             }
-            
+
             var totalDeductions = LoanBalance;
             Particular smap = null;
             foreach (var particular in Particulars)
@@ -304,11 +310,11 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
             if (smap == null)
             {
                 smap = new Particular
-                    {
-                        AccountCode = SeniorMembersAssistanceProgramAccount.AccountCode,
-                        AccountTitle = SeniorMembersAssistanceProgramAccount.AccountTitle,
-                        Amount = amount
-                    };
+                {
+                    AccountCode = SeniorMembersAssistanceProgramAccount.AccountCode,
+                    AccountTitle = SeniorMembersAssistanceProgramAccount.AccountTitle,
+                    Amount = amount
+                };
                 Particulars.Add(smap);
             }
             else
@@ -320,10 +326,10 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
         private void SetLoanProduct()
         {
             var conditions = new Dictionary<string, object>
-                {
-                    {"ProductCode", PreviousLoanDetails.AccountCode},
-                    {"AnnualInterestRate", PreviousLoanDetails.InterestRate}
-                };
+            {
+                {"ProductCode", PreviousLoanDetails.AccountCode},
+                {"AnnualInterestRate", PreviousLoanDetails.InterestRate}
+            };
             foreach (var item in LoanProduct.Where(conditions))
             {
                 LoanProduct = item;
@@ -331,9 +337,9 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
             }
             // if no loan product was found, provide default
             conditions = new Dictionary<string, object>
-                {
-                    {"ProductCode", PreviousLoanDetails.AccountCode},
-                };
+            {
+                {"ProductCode", PreviousLoanDetails.AccountCode},
+            };
             foreach (var item in LoanProduct.Where(conditions))
             {
                 LoanProduct = item;
@@ -355,19 +361,19 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
         private void SetNewLoanDetail()
         {
             NewLoanDetails = new LoanDetails
-                {
-                    MemberCode = PreviousLoanDetails.MemberCode,
-                    MemberName = PreviousLoanDetails.MemberName,
-                    AccountCode = PreviousLoanDetails.AccountCode,
-                    AccountTitle = PreviousLoanDetails.AccountTitle,
-                    LoanAmount = LoanBalance,
-                    InterestRate = LoanProduct.AnnualInterestRate,
-                    GrantedDate = ReconstructionDate,
-                    LoanTerms =
-                        PreviousLoanDetails.LoanTerms.IsBetween(LoanProduct.MinimumTerm, LoanProduct.MaximumTerm)
-                            ? PreviousLoanDetails.LoanTerms
-                            : LoanProduct.MinimumTerm
-                };
+            {
+                MemberCode = PreviousLoanDetails.MemberCode,
+                MemberName = PreviousLoanDetails.MemberName,
+                AccountCode = PreviousLoanDetails.AccountCode,
+                AccountTitle = PreviousLoanDetails.AccountTitle,
+                LoanAmount = LoanBalance,
+                InterestRate = LoanProduct.AnnualInterestRate,
+                GrantedDate = ReconstructionDate,
+                LoanTerms =
+                    PreviousLoanDetails.LoanTerms.IsBetween(LoanProduct.MinimumTerm, LoanProduct.MaximumTerm)
+                        ? PreviousLoanDetails.LoanTerms
+                        : LoanProduct.MinimumTerm
+            };
 
             for (var i = 0; i < 3; i++)
             {
@@ -392,22 +398,22 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
             foreach (var charge in LoanComputation.Charges.OrderBy(t => t.AccountCode))
             {
                 var item = new Particular
-                    {
-                        AccountCode = charge.AccountCode,
-                        AccountTitle = charge.AccountTitle,
-                        Amount = charge.Amount
-                    };
+                {
+                    AccountCode = charge.AccountCode,
+                    AccountTitle = charge.AccountTitle,
+                    Amount = charge.Amount
+                };
                 Particulars.Add(item);
             }
 
             foreach (var deduction in LoanComputation.Deductions.OrderBy(t => t.AccountCode))
             {
                 var item = new Particular
-                    {
-                        AccountCode = deduction.AccountCode,
-                        AccountTitle = deduction.AccountTitle,
-                        Amount = deduction.Amount
-                    };
+                {
+                    AccountCode = deduction.AccountCode,
+                    AccountTitle = deduction.AccountTitle,
+                    Amount = deduction.Amount
+                };
                 Particulars.Add(item);
             }
         }
@@ -421,11 +427,11 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
             }
 
             var model = new FinesRebateCalculatorViewModel
-                {
-                    LoanDetails = PreviousLoanDetails,
-                    ProcessDate = ReconstructionDate,
-                    LoanBalance = IsOverDue(PreviousLoanDetails.MaturityDate, ReconstructionDate) ? LoanBalance : 0
-                };
+            {
+                LoanDetails = PreviousLoanDetails,
+                ProcessDate = ReconstructionDate,
+                LoanBalance = IsOverDue(PreviousLoanDetails.MaturityDate, ReconstructionDate) ? LoanBalance : 0
+            };
 
             model.Calculate();
 
@@ -433,22 +439,22 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
             {
                 var rebate = InterestRebateAccount;
                 var item = new Particular
-                    {
-                        AccountCode = rebate.AccountCode,
-                        AccountTitle = rebate.AccountTitle,
-                        Amount = Math.Abs(Math.Round(model.Rebate, 2))*-1
-                    };
+                {
+                    AccountCode = rebate.AccountCode,
+                    AccountTitle = rebate.AccountTitle,
+                    Amount = Math.Abs(Math.Round(model.Rebate, 2))*-1
+                };
                 Particulars.Add(item);
             }
             if (model.Fines != 0)
             {
                 var fines = FinesAndPenaltyAccount;
                 var item = new Particular
-                    {
-                        AccountCode = fines.AccountCode,
-                        AccountTitle = fines.AccountTitle,
-                        Amount = Math.Round(model.Fines, 2) + Math.Round(model.Interest)
-                    };
+                {
+                    AccountCode = fines.AccountCode,
+                    AccountTitle = fines.AccountTitle,
+                    Amount = Math.Round(model.Fines, 2) + Math.Round(model.Interest)
+                };
                 Particulars.Add(item);
             }
         }
@@ -739,6 +745,12 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
             {
                 return new Result(false, "COOP Purchase Order account not set.");
             }
+
+            if (MiscellaneousIncomeAccount == null || string.IsNullOrEmpty(MiscellaneousIncomeAccount.AccountCode))
+            {
+                return new Result(false, "Miscellaneous Income account not set.");
+            }
+
             return new Result(true, "Valid");
         }
 
@@ -766,6 +778,12 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
             if (!string.IsNullOrEmpty(code))
             {
                 SeniorMembersAssistanceProgramAccount = Account.FindByCode(code);
+            }
+
+            code = GlobalSettings.CodeOfMiscellaneousIncome;
+            if (!string.IsNullOrEmpty(code))
+            {
+                MiscellaneousIncomeAccount = Account.FindByCode(code);
             }
 
             code = GlobalSettings.CodeOfGoNegosyo;
@@ -821,41 +839,55 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
 
         private void ApplyCoopPurchaseCharges()
         {
-            var interest = LoanBalance * (LoanProduct.AnnualInterestRate / 12m);
+            // pag due may fines/penalty
             const decimal finesRate = 3.5m/100m;
-            var penalty = 0m;
             if (IsOverDue(PreviousLoanDetails.MaturityDate, ReconstructionDate))
             {
-                penalty = LoanBalance*finesRate;
+                var penalty = LoanBalance*finesRate;
+                var fines = new Particular
+                {
+                    AccountCode = FinesAndPenaltyAccount.AccountCode,
+                    AccountTitle = FinesAndPenaltyAccount.AccountTitle,
+                    Amount = Math.Round(penalty, 2)
+                };
+                Particulars.Add(fines);
             }
-            var fines = FinesAndPenaltyAccount;
 
-            var item = new Particular
+            // laging may miscellaneous income
+            var interestRate = LoanProduct.AnnualInterestRate/12m;
+            var interest = LoanBalance*interestRate;
+            var miscellaneous = new Particular
             {
-                AccountCode = fines.AccountCode,
-                AccountTitle = fines.AccountTitle,
-                Amount = Math.Round(penalty, 2) + Math.Round(interest)
+                AccountCode = MiscellaneousIncomeAccount.AccountCode,
+                AccountTitle = MiscellaneousIncomeAccount.AccountTitle,
+                Amount = Math.Round(interest, 2)
             };
-            Particulars.Add(item);
+            Particulars.Add(miscellaneous);
         }
 
         private void ApplyGoNegosyoCharges()
         {
-            const decimal finesRate = 5/100m;
-            var penalty = 0m;
-            if (IsOverDue(PreviousLoanDetails.MaturityDate, ReconstructionDate))
+            // may fines kahit indi pa due date basta nagpareconstruct
+            const decimal finesRate = 3.5m/100m;
+            var penalty = LoanBalance*finesRate;
+            var fines = new Particular
             {
-                penalty = LoanBalance * finesRate;
-            }
-            var fines = FinesAndPenaltyAccount;
-
-            var item = new Particular
-            {
-                AccountCode = fines.AccountCode,
-                AccountTitle = fines.AccountTitle,
+                AccountCode = FinesAndPenaltyAccount.AccountCode,
+                AccountTitle = FinesAndPenaltyAccount.AccountTitle,
                 Amount = Math.Round(penalty, 2)
             };
-            Particulars.Add(item);
+            Particulars.Add(fines);
+
+            // laging may miscellaneous income
+            const decimal interestRate = 1.5m/100m;
+            var interest = LoanBalance*interestRate;
+            var miscellaneous = new Particular
+            {
+                AccountCode = MiscellaneousIncomeAccount.AccountCode,
+                AccountTitle = MiscellaneousIncomeAccount.AccountTitle,
+                Amount = Math.Round(interest, 2)
+            };
+            Particulars.Add(miscellaneous);
         }
     }
 

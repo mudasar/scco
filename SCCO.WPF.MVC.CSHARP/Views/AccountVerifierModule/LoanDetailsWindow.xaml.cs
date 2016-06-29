@@ -99,6 +99,8 @@ namespace SCCO.WPF.MVC.CS.Views.AccountVerifierModule
                     setup.ShowDialog();
                     return;
                 }
+
+                return;
             }
 
             var lastPayment = OfficialReceipt.LastPayment(_loanDetails.MemberCode, _loanDetails.AccountCode);
