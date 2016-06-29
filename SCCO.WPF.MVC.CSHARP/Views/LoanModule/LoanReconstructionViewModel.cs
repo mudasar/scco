@@ -360,10 +360,7 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
                     MemberName = PreviousLoanDetails.MemberName,
                     AccountCode = PreviousLoanDetails.AccountCode,
                     AccountTitle = PreviousLoanDetails.AccountTitle,
-                    LoanAmount =
-                        ReconstructionType == ReconstructionTypes.AddOnInterest
-                            ? LoanBalance
-                            : PreviousLoanDetails.LoanAmount,
+                    LoanAmount = LoanBalance,
                     InterestRate = LoanProduct.AnnualInterestRate,
                     GrantedDate = ReconstructionDate,
                     LoanTerms =
