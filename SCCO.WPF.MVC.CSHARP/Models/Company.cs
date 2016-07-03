@@ -250,6 +250,18 @@ namespace SCCO.WPF.MVC.CS.Models
 
             return ActionController.InvokeAction(updateRecord);
         }
+
         #endregion
+
+        public static Company FirstOrDefault()
+        {
+            var dataTable = GetData();
+            var cooperative = new Company {CompanyName = COMPANY_NAME};
+            foreach (DataRow dataRow in dataTable.Rows)
+            {
+                cooperative.SetPropertiesFromDataRow(dataRow);
+            }
+            return cooperative;
+        }
     }
 }

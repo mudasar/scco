@@ -79,6 +79,10 @@
       <HintPath>COM\CrystalDecisions.Shared.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="EPPlus, Version=4.0.5.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.4.0.5\lib\net20\EPPlus.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="MySql.Data, Version=6.9.8.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -495,6 +499,7 @@
     <Compile Include="Utilities\FileCopy\FileCopyView.xaml.cs">
       <DependentUpon>FileCopyView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Utilities\FinancialReportExcelCreator.cs" />
     <Compile Include="Utilities\MessageBuilder.cs" />
     <Compile Include="Utilities\RijndaelHelper.cs" />
     <Compile Include="Utilities\TransactionHelper.cs" />
@@ -1598,6 +1603,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="ReportFiles\loan_report_data.ttx" />
+    <None Include="ReportFiles\template_financial_statement_reports.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="ReportFiles\time_deposit_certificate.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>time_deposit_certificate.cs</LastGenOutput>
