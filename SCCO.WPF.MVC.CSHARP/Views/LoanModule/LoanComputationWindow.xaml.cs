@@ -8,7 +8,6 @@ using SCCO.WPF.MVC.CS.Controllers;
 using SCCO.WPF.MVC.CS.Models;
 using SCCO.WPF.MVC.CS.Models.Loan;
 using SCCO.WPF.MVC.CS.Utilities;
-using SCCO.WPF.MVC.CS.Views.Loan;
 using SCCO.WPF.MVC.CS.Views.SearchModule;
 
 namespace SCCO.WPF.MVC.CS.Views.LoanModule

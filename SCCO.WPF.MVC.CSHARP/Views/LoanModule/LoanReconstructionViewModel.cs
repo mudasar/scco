@@ -275,19 +275,11 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
                 return;
             }
 
-            var totalDeductions = LoanBalance;
-            Particular smap = null;
-            foreach (var particular in Particulars)
-            {
-                if (particular.AccountCode != SeniorMembersAssistanceProgramAccount.AccountCode)
-                {
-                    totalDeductions += particular.Amount;
-                }
-                else
-                {
-                    smap = particular;
-                }
-            }
+            //var totalDeductions = LoanBalance;
+
+            Particular smap =
+                Particulars.FirstOrDefault(
+                    particular => particular.AccountCode == SeniorMembersAssistanceProgramAccount.AccountCode);
 
             var amount = 10; // default amount
 
@@ -295,13 +287,12 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
             // smap = P1 for every P1000
             if (NewLoanDetails.LoanTerms >= 12) //gteq 1 year
             {
-                var jea = (int) (totalDeductions/1000);
-                amount = jea;
+                amount = (int) (NewLoanDetails.LoanAmount/1000);
             }
             else
             {
                 // if loan amount is P20K or above, P20, 
-                if (totalDeductions > 20000)
+                if (NewLoanDetails.LoanAmount > 20000)
                 {
                     amount = 20;
                 }
@@ -474,6 +465,14 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
             }
         }
 
+        public void UpdateTotalChargesAndDeductions()
+        {
+            TotalChargesAndDeductions = 0m;
+            foreach (var particular in Particulars)
+            {
+                TotalChargesAndDeductions += particular.Amount;
+            }
+        }
         public void UpdateLoanDetails()
         {
             NewLoanDetails.LoanAmount = AmountForReconstruction;
@@ -703,13 +702,30 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
             {
                 NewLoanDetails.LoanTerms = LoanProduct.MinimumTerm;
             }
-            LoanComputation = new LoanComputation(PreviousLoanDetails, LoanProduct);
+            LoanComputation = new LoanComputation(NewLoanDetails, LoanProduct);
 
             InsertChargesAndDeductions();
             AppendInterestRebateOrPenalty();
             AddOrEditSmap();
             UpdateLoanAmountForReconstruction();
             UpdateLoanDetails();
+        }
+
+
+        public void UpdateChargesAndDeductions()
+        {
+            LoanComputation = new LoanComputation(NewLoanDetails, LoanProduct);
+
+            foreach (var particular in Particulars)
+            {
+                foreach (var computationDetail in LoanComputation.Charges)
+                {
+                    if (computationDetail.AccountCode == particular.AccountCode)
+                    {
+                        particular.Amount = computationDetail.Amount;
+                    }
+                }
+            }
         }
 
         public Result Validate()

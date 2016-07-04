@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Windows;
+using SCCO.WPF.MVC.CS.Models;
 
-namespace SCCO.WPF.MVC.CS.Views.Loan
+namespace SCCO.WPF.MVC.CS.Views.LoanModule
 {
-    /// <summary>
-    /// Interaction logic for LoanTransactionPosting.xaml
-    /// </summary>
     public partial class LoanPostingWindow
     {
 
@@ -14,10 +12,28 @@ namespace SCCO.WPF.MVC.CS.Views.Loan
             InitializeComponent();
         }
 
-        public LoanPostingWindow(Models.Loan.LoanPostingDetails loanPostingDetails):this()
+        public LoanPostingWindow(Models.Loan.LoanPostingDetails loanPostingDetails) : this()
         {
             _loanPostingDetails = loanPostingDetails;
             DataContext = _loanPostingDetails;
+            DocumentTypeBox.SelectionChanged += (s, e) => UpdateVoucherNumber();
+            DocumentTypeBox.Items.Clear();
+            DocumentTypeBox.Items.Add("CV");
+            DocumentTypeBox.Items.Add("JV");
+        }
+
+        private void UpdateVoucherNumber()
+        {
+            var documentType = (string)DocumentTypeBox.SelectedItem;
+            switch (documentType)
+            {
+                case "JV":
+                    _loanPostingDetails.VoucherNumber = Voucher.LastDocumentNo(VoucherTypes.JV) + 1;
+                    break;
+                case "CV":
+                    _loanPostingDetails.VoucherNumber = Voucher.LastDocumentNo(VoucherTypes.CV) + 1;
+                    break;
+            }
         }
 
         private void AcceptButtonOnClick(object sender, RoutedEventArgs e)
@@ -43,11 +59,6 @@ namespace SCCO.WPF.MVC.CS.Views.Loan
             Close();
         }
 
-        private void CancelButtonOnClick(object sender, RoutedEventArgs e)
-        {
-            Close();
-        }
-
-        private Models.Loan.LoanPostingDetails _loanPostingDetails;
+        private readonly Models.Loan.LoanPostingDetails _loanPostingDetails;
     }
 }

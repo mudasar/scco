@@ -40,7 +40,8 @@ namespace SCCO.WPF.MVC.CS.Controllers
 
             var annualInterest = Math.Round(amountLoan*schedule.AnnualInterestRate, 2);
             var monthlyInterest = Math.Round(annualInterest/12, 2);
-            var totalInterest = monthlyInterest*termLoan;
+            //var totalInterest = monthlyInterest*termLoan;
+            var totalInterest = Math.Round((amountLoan*schedule.AnnualInterestRate)/(12m/termLoan), 2);
             var monthlyPayment = Math.Round((amountLoan/termLoan), 2);
 
             schedule.MonthlyAmortization = monthlyPayment + monthlyInterest + monthlyCapitalBuildUp;

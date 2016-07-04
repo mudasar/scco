@@ -34,7 +34,9 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
             cboTerm.SelectionChanged += (sender, args) =>
             {
                 _viewModel.UpdateLoanDetails();
+                _viewModel.UpdateChargesAndDeductions();
                 _viewModel.AddOrEditSmap();
+                _viewModel.UpdateTotalChargesAndDeductions();
             };
 
             btnReconstruct.Click += (sender, args) => Reconstruct();
@@ -84,6 +86,14 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
                 MessageWindow.ShowAlertMessage(ActionResult.Message);
                 return;
             }
+
+            // Check OR Number if present
+            if (_viewModel.OrNumber <= 0)
+            {
+                MessageWindow.ShowAlertMessage("OR Number is required!");
+                return;
+            }
+
             var view = new PostJournalVoucherView(_viewModel.ReconstructionDate);
             if (view.ShowDialog() == false)
             {

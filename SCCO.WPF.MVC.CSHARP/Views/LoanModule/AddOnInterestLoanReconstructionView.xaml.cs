@@ -29,7 +29,9 @@ namespace SCCO.WPF.MVC.CS.Views.LoanModule
             cboTerm.SelectionChanged += (sender, args) =>
                 {
                     _viewModel.UpdateLoanDetails();
+                    _viewModel.UpdateChargesAndDeductions();
                     _viewModel.AddOrEditSmap();
+                    _viewModel.UpdateTotalChargesAndDeductions();
                 };
 
             btnReconstruct.Click += (sender, args) => Reconstruct();
