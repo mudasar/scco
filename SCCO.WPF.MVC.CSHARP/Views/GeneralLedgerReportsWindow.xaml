@@ -54,51 +54,64 @@
                     TabIndex="5" />
         </Grid>
         <StackPanel Width="360" Margin="50,100,50,50">
-            <StackPanel Orientation="Vertical" Margin="4">
-            	<Label Content="Transaction Date" FontSize="14.667" />
-            	<DatePicker x:Name="TransactionDatePicker"
-            		Margin="0,0,0,8"
-            		Style="{DynamicResource RoundedDatePicker}" />
-            	<Border Height="16"
-            		Background="#7FFFFFFF"
-            		BorderThickness="0,7" />
+            <StackPanel Margin="4" Orientation="Vertical">
+                <Label Content="Transaction Date" FontSize="14.667" />
+                <DatePicker x:Name="TransactionDatePicker"
+                            Margin="0,0,0,8"
+                            Style="{DynamicResource RoundedDatePicker}" />
+                <Border Height="16"
+                        Background="#7FFFFFFF"
+                        BorderThickness="0,7" />
             </StackPanel>
-            <Button x:Name="btnStatementOfOperation"
-                    Width="Auto"
-                    Height="46"
-                    Margin="2"
-                    Click="btnStatementOfOperation_Click"
-                    Content="Statement of Operation"
-                    FontSize="16"
-                    Style="{DynamicResource ControlButton}" />
-            <Button x:Name="btnStatementOfOperationPerBudget"
-                    Width="Auto"
-                    Height="46"
-                    Margin="2"
-                    Content="Statement of Operation per Budget"
-                    FontSize="16"
-                    Style="{DynamicResource ControlButton}" />
-            <Button x:Name="btnashFlow"
+            <Grid Height="46" Margin="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="6*" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Button x:Name="FinancialStatementReportsButton"
+                        Width="Auto"
+                        Height="Auto"
+                        Content="Financial Statement Reports"
+                        FontSize="16"
+                        Style="{DynamicResource ControlButton}" />
+                <Button x:Name="EditFinancialStatementReportsTemplateButton"
+                        Grid.Column="1"
+                        Width="Auto"
+                        Height="Auto"
+                        Style="{DynamicResource ControlButton}"
+                        ToolTip="Edit Report Template">
+                    <StackPanel Height="Auto"
+                                Margin="10,0"
+                                Orientation="Horizontal">
+                        <Image Width="20"
+                               Height="20"
+                               Margin="5,0,0,0"
+                               Source="/SCCO.WPF.MVC.CS;component/Images/initial_setup.png"
+                               Stretch="Fill" />
+                    </StackPanel>
+                </Button>
+            </Grid>
+            <Button x:Name="btnCashFlow"
                     Width="Auto"
                     Height="46"
                     Margin="2"
                     Click="btnashFlow_Click"
                     Content="Cash Flow"
                     FontSize="16"
+                    IsEnabled="False"
                     Style="{DynamicResource ControlButton}" />
-            <Button x:Name="btnStatementOfFinancialCondition"
+            <Button x:Name="btnFinancialOperation"
                     Width="Auto"
                     Height="46"
                     Margin="2"
-                    Click="btnStatementOfFinancialCondition_Click"
-                    Content="Statement of Financial Condition"
+                    Content="Financial Operation"
                     FontSize="16"
                     Style="{DynamicResource ControlButton}" />
-            <Button x:Name="btnTrialBalance"
+            <Button x:Name="btnFinancialCondition"
                     Width="Auto"
                     Height="46"
                     Margin="2"
-                    Content="Trial Balance"
+                    Content="Financial Condition"
                     FontSize="16"
                     Style="{DynamicResource ControlButton}" />
             <Button x:Name="btnAccountCodeVerifier"
@@ -107,35 +120,16 @@
                     Margin="2"
                     Content="Account Code Verifier"
                     FontSize="16"
+                    IsEnabled="False"
                     Style="{DynamicResource ControlButton}" />
             <Button x:Name="btnTrialBalanceDetailed"
                     Width="Auto"
                     Height="46"
                     Margin="2"
-                    Content="Trial Balance (Detailed)"
+                    Content="Trial Balance"
                     FontSize="16"
+                    IsEnabled="False"
                     Style="{DynamicResource ControlButton}" />
-
-            <TextBlock />
-
-            <Grid Margin="4">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <CheckBox x:Name="chkForTheDay"
-                          Content="For the day"
-                          FontSize="16"
-                          IsChecked="True"
-                          Style="{StaticResource ControlCheckBox}" />
-                <CheckBox x:Name="chkForTheMonth"
-                          Grid.Column="1"
-                          Content="For the month"
-                          FontSize="16"
-                          Style="{StaticResource ControlCheckBox}" />
-            </Grid>
-            <TextBlock />
-            <ProgressBar x:Name="progressBar1" Height="20" />
         </StackPanel>
     </Grid>
 </Views:BaseWindow>

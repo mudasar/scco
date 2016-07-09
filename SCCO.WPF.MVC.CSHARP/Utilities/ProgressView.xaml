@@ -1,0 +1,95 @@
+﻿<views:BaseWindow x:Class="SCCO.WPF.MVC.CS.Utilities.ProgressView"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:backgrountTasks="clr-namespace:SCCO.WPF.MVC.CS.Utilities.BackgroundTasks"
+                  xmlns:Custom="http://www.galasoft.ch/mvvmlight"
+                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                  xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                  xmlns:views="clr-namespace:SCCO.WPF.MVC.CS.Views"
+                  Width="420"
+                  Height="150"
+                  ResizeMode="NoResize"
+                  SizeToContent="WidthAndHeight"
+                  Style="{DynamicResource BaseWindow}"
+                  Topmost="True"
+                  WindowStartupLocation="CenterScreen"
+                  mc:Ignorable="d">
+
+    <views:BaseWindow.Resources>
+        <backgrountTasks:BackgroundTaskViewModel x:Key="BackgroundTaskViewModelDataSource" d:IsDataSource="True" />
+    </views:BaseWindow.Resources>
+    <views:BaseWindow.DataContext>
+        <Binding Source="{StaticResource BackgroundTaskViewModelDataSource}" />
+    </views:BaseWindow.DataContext>
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger>
+            <Custom:EventToCommand Command="{Binding ExecuteLongTask, Mode=OneWay}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+    <Grid Margin="5" d:LayoutOverrides="Width, Height">
+        <Grid x:Name="FormLayout">
+            <Rectangle x:Name="Canvass"
+                       Fill="#FF1164B4"
+                       RadiusX="5"
+                       RadiusY="5"
+                       Stroke="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"
+                       StrokeLineJoin="Round">
+                <Rectangle.Effect>
+                    <DropShadowEffect BlurRadius="5" ShadowDepth="0" />
+                </Rectangle.Effect>
+            </Rectangle>
+            <Border x:Name="ShineEffect"
+                    Height="16"
+                    Margin="2,2,2,0"
+                    VerticalAlignment="Top"
+                    CornerRadius="4"
+                    MouseLeftButtonDown="DragWindow"
+                    Style="{StaticResource ShineEffectStyle}" />
+            <Image x:Name="WindowIcon"
+                   Width="24"
+                   Height="24"
+                   Margin="10,10,0,0"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top"
+                   Source="/SCCO.WPF.MVC.CS;component/Images/Button_Sync.png"
+                   Stretch="Fill" />
+            <Label x:Name="FormTitle"
+                   Margin="34,10,0,0"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top"
+                   VerticalContentAlignment="Center"
+                   Content="Long Task Progress"
+                   FontFamily="Segoe UI"
+                   FontSize="13.333"
+                   FontWeight="SemiBold"
+                   Foreground="White"
+                   MouseLeftButtonDown="DragWindow"
+                   Style="{DynamicResource FormTitle2}" />
+            <Button x:Name="CloseButton"
+                    Margin="0,8,8,0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Background="#00E4D2D2"
+                    Click="CloseWindow"
+                    Content="x"
+                    IsCancel="True"
+                    IsEnabled="False"
+                    IsTabStop="False"
+                    Style="{StaticResource CloseButton}" />
+        </Grid>
+        <StackPanel Margin="12,60,12,12" Orientation="Vertical">
+            <StackPanel x:Name="OverallProgressPanel"
+                        Width="360"
+                        Margin="12"
+                        Orientation="Vertical">
+                <Label x:Name="OverallProgressLabel" Content="Overall Progress" />
+                <ProgressBar x:Name="OverallProgressBar"
+                             Height="24"
+                             Margin="0,6,0,0" />
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</views:BaseWindow>
