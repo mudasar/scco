@@ -81,11 +81,16 @@ namespace SCCO.WPF.MVC.CS.Views
 
             if (dlg.ShowDialog() != true) return;
             Mouse.OverrideCursor = Cursors.Wait;
-            var result = FinancialReportExcelCreator.GenerateFinancialStatementReport(_asOf, dlg.FileName);
+
+            var viewModel = new Utilities.BackgroundTasks.FinancialReportWorker(_asOf, dlg.FileName);
+            var view = new ProgressView(viewModel, "Financial Report");
+            view.ShowDialog();
+
             Mouse.OverrideCursor = Cursors.Arrow;
-            if (!result.Success)
+
+            if (!viewModel.Result.Success)
             {
-                MessageWindow.ShowAlertMessage(result.Message);
+                MessageWindow.ShowAlertMessage(viewModel.Result.Message);
                 return;
             }
 

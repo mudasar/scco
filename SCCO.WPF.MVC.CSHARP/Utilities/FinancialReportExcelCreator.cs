@@ -46,8 +46,8 @@ namespace SCCO.WPF.MVC.CS.Utilities
 
         private static void ProcessOperation(ExcelWorksheet excelWorksheet)
         {
-            const int maxRow = 80;
-            const int startRow = 10;
+            var startRow = DataConverter.ToInteger(excelWorksheet.Cells["K2"].Value);
+            var endRow = DataConverter.ToInteger(excelWorksheet.Cells["L2"].Value);
             const int colB = 2; // CODE
             const int colD = 4; // BUDGET
             const int colE = 5; // PREVIOUS MONTH
@@ -69,7 +69,7 @@ namespace SCCO.WPF.MVC.CS.Utilities
             excelWorksheet.Cells[8, colF].Value = string.Format("{0:MMM yyyy}", _asOf).ToUpper();
             excelWorksheet.Cells[8, colG].Value = "TO DATE";
 
-            for (int i = startRow; i < maxRow; i++)
+            for (int i = startRow; i < endRow; i++)
             {
                 var code = (string)excelWorksheet.Cells[i, colB].Value;
                 if (string.IsNullOrEmpty(code)) continue;
@@ -101,8 +101,8 @@ namespace SCCO.WPF.MVC.CS.Utilities
 
         private static void ProcessConditionDetails(ExcelWorksheet excelWorksheet)
         {
-            const int maxRow = 210;
-            const int startRow = 8;
+            var startRow = DataConverter.ToInteger(excelWorksheet.Cells["K2"].Value);
+            var endRow = DataConverter.ToInteger(excelWorksheet.Cells["L2"].Value);
             const int colF = 6; // AMOUNT
             const int colJ = 10; // Account Code Filter
 
@@ -111,7 +111,7 @@ namespace SCCO.WPF.MVC.CS.Utilities
             excelWorksheet.Cells["A5"].Value = string.Format("SCHEDULE OF ACCOUNTS - {0}", _branch);
             excelWorksheet.Cells["A6"].Value = string.Format("AS OF {0:MMMM dd, yyyy}", _asOf).ToUpper();
 
-            for (var i = startRow; i < maxRow; i++)
+            for (var i = startRow; i < endRow; i++)
             {
                 var codeFilter = (string)excelWorksheet.Cells[i, colJ].Value;
                 if (string.IsNullOrEmpty(codeFilter)) continue;
@@ -156,7 +156,7 @@ namespace SCCO.WPF.MVC.CS.Utilities
 
         #region --- Account Processing ---
 
-        private static decimal GetBudget(string code)
+        internal static decimal GetBudget(string code)
         {
             var sql = GetBudgetPerAccountQuery();
             var param = new SqlParameter("?AccountCode", code);
@@ -164,7 +164,7 @@ namespace SCCO.WPF.MVC.CS.Utilities
             return dataTable.Rows.Cast<DataRow>().Sum(dataRow => DataConverter.ToDecimal(dataRow["amount"]));
         }
 
-        private static decimal GetAccountSummaryBetweenDates(IEnumerable<string> codeList, DateTime startDate,
+        internal static decimal GetAccountSummaryBetweenDates(IEnumerable<string> codeList, DateTime startDate,
                                                              DateTime endDate)
         {
             var sql = GetAccountSummaryBetweenDatesQuery();
@@ -182,7 +182,7 @@ namespace SCCO.WPF.MVC.CS.Utilities
             return dataTable.Rows.Cast<DataRow>().Sum(dataRow => DataConverter.ToDecimal(dataRow["amount"]));
         }
 
-        private static decimal GetAccountSummary(IEnumerable<string> codeList, DateTime asOf)
+        internal static decimal GetAccountSummary(IEnumerable<string> codeList, DateTime asOf)
         {
             var sql = GetAccountSummaryQuery();
             var paramList = new List<SqlParameter> {new SqlParameter("?TransactionDate", asOf)};
@@ -196,7 +196,7 @@ namespace SCCO.WPF.MVC.CS.Utilities
                     .FirstOrDefault();
         }
 
-        private static decimal GetAccountForwardedBalance(IEnumerable<string> codeList)
+        internal static decimal GetAccountForwardedBalance(IEnumerable<string> codeList)
         {
             var sql = GetAccountForwardedBalanceQuery();
             var paramList = new List<SqlParameter>();
@@ -210,7 +210,7 @@ namespace SCCO.WPF.MVC.CS.Utilities
                     .FirstOrDefault();
         }
 
-        private static decimal GetAccountEndingBalance(IEnumerable<string> codeList, DateTime asOf)
+        internal static decimal GetAccountEndingBalance(IEnumerable<string> codeList, DateTime asOf)
         {
             var sql = GetAccountEndingBalanceQuery();
             var paramList = new List<SqlParameter> {new SqlParameter("?AsOf", asOf)};

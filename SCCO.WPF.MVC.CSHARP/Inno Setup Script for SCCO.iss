@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "SCCO Accounting System v2"
-#define MyAppVersion "2.3.1.6"
+#define MyAppVersion "2.3.1.9"
 #define MyAppPublisher "Sta. Cruz Savings and Credit Cooperative"
 #define MyAppURL "https://www.facebook.com/pages/Sta-Cruz-Savings-Credit-Cooperative/141420875904329/"
 #define MyAppExeName "SCCO.WPF.MVC.CS.exe"
@@ -21,7 +21,7 @@ AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
 DefaultDirName={pf}\{#MyAppName}
 DefaultGroupName={#MyAppName}
-OutputBaseFilename=SCCO Accounting System 2.3.1.6 Setup
+OutputBaseFilename=SCCO Accounting System 2.3.1.9 Setup
 SetupIconFile=F:\github\scco\SCCO.WPF.MVC.CSHARP\chart.ico
 Compression=lzma
 SolidCompression=yes
@@ -49,6 +49,14 @@ Source: "F:\github\scco\SCCO.WPF.MVC.CSHARP\bin\Debug\mysql.data.dll"; DestDir: 
 
 ; MySqlBackup
 Source: "F:\github\scco\SCCO.WPF.MVC.CSHARP\bin\Debug\MySqlBackup.dll"; DestDir: "{app}"; Flags: ignoreversion
+
+; Excel Management
+Source: "F:\github\scco\SCCO.WPF.MVC.CSHARP\bin\Debug\EPPlus.dll"; DestDir: "{app}"; Flags: ignoreversion
+
+; MVVM
+Source: "F:\github\scco\SCCO.WPF.MVC.CSHARP\bin\Debug\galaSoft.MvvmLight.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "F:\github\scco\SCCO.WPF.MVC.CSHARP\bin\Debug\GalaSoft.MvvmLight.Extras.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "F:\github\scco\SCCO.WPF.MVC.CSHARP\bin\Debug\System.Windows.Interactivity.dll"; DestDir: "{app}"; Flags: ignoreversion
 
 ; Script Files
 ;Source: "F:\github\scco\SCCO.WPF.MVC.CSHARP\bin\Debug\Scripts\*"; DestDir: "{app}\Scripts"; Flags: ignoreversion recursesubdirs
