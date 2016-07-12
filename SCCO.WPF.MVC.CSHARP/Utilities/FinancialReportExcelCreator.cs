@@ -224,6 +224,18 @@ namespace SCCO.WPF.MVC.CS.Utilities
                     .FirstOrDefault();
         }
 
+        internal static decimal GetMemberAccountEndBalance(string memberCode, string accountCode, DateTime asOf)
+        {
+            var sql = GetMemberAccountEndBalanceQuery();
+            var paramList = new List<SqlParameter>
+            {
+                new SqlParameter("?MemberCode", memberCode),
+                new SqlParameter("?AccountCode", accountCode),
+                new SqlParameter("?AsOf", asOf)
+            };
+            var dataTable = DatabaseController.ExecuteSelectQuery(sql, paramList.ToArray());
+            return dataTable.Rows.Cast<DataRow>().Sum(dataRow => DataConverter.ToDecimal(dataRow["amount"]));
+        }
         #endregion
 
         #region --- SQL ---
@@ -394,7 +406,71 @@ FROM
   INNER JOIN chart AS b 
     ON a.ACC_CODE = b.`CODE` ;
 ";
-        } 
+        }
+
+        private static string GetMemberAccountEndBalanceQuery()
+        {
+            return @"
+SELECT
+  ?MemberCode as member_code, 
+  a.ACC_CODE AS account_code,
+  IF(
+    LEFT(b.Nature, 1) = 'D',
+    (
+      SUM(COALESCE(a.debit, 0)) - SUM(COALESCE(a.credit, 0))
+    ),
+    (
+      SUM(COALESCE(a.credit, 0)) - SUM(COALESCE(a.debit, 0))
+    )
+  ) AS amount 
+FROM
+  (SELECT
+    ACC_CODE,
+    SUM(COALESCE(DEBIT, 0)) AS DEBIT,
+    SUM(COALESCE(CREDIT, 0)) AS CREDIT 
+  FROM
+    slbal 
+  WHERE MEM_CODE = ?MemberCode
+		AND ACC_CODE = ?AccountCode 
+  GROUP BY ACC_CODE 
+  UNION
+  ALL 
+  SELECT 
+    ACC_CODE,
+    SUM(COALESCE(DEBIT, 0)) AS DEBIT,
+    SUM(COALESCE(CREDIT, 0)) AS CREDIT 
+  FROM
+    `or` 
+  WHERE MEM_CODE = ?MemberCode
+		AND ACC_CODE = ?AccountCode 
+    AND DOC_DATE <= ?AsOf
+  UNION
+  ALL 
+  SELECT 
+    ACC_CODE,
+    SUM(COALESCE(DEBIT, 0)) AS DEBIT,
+    SUM(COALESCE(CREDIT, 0)) AS CREDIT 
+  FROM
+    `jv` 
+  WHERE MEM_CODE = ?MemberCode
+		AND ACC_CODE = ?AccountCode 
+    AND DOC_DATE <= ?AsOf
+  UNION
+  ALL 
+  SELECT 
+    ACC_CODE,
+    SUM(COALESCE(DEBIT, 0)) AS DEBIT,
+    SUM(COALESCE(CREDIT, 0)) AS CREDIT 
+  FROM
+    `cv` 
+  WHERE MEM_CODE = ?MemberCode
+		AND ACC_CODE = ?AccountCode 
+    AND DOC_DATE <= ?AsOf) AS a 
+  INNER JOIN chart AS b 
+    ON a.ACC_CODE = b.`CODE`
+";
+        }
+
 
         #endregion
 

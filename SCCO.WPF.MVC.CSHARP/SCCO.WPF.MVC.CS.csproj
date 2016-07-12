@@ -204,6 +204,13 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="ReportFiles\notice_loan_overdue_non_responsive.cs">
+      <DependentUpon>notice_loan_overdue_non_responsive.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="ReportFiles\loan_released_consolidated.cs">
       <DependentUpon>loan_released_consolidated.rpt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -407,13 +414,6 @@
       <SubType>Component</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="ReportFiles\notice_loan_overdue_non_responsive.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>notice_loan_overdue_non_responsive.rpt</DependentUpon>
-      <SubType>Component</SubType>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
     <Compile Include="ReportFiles\or_collector_summary.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -503,7 +503,6 @@
     <Compile Include="Utilities\BackgroundTasks\BackgroundTaskViewModel.cs" />
     <Compile Include="Utilities\BackgroundTasks\FinancialReportWorker.cs" />
     <Compile Include="Utilities\BackgroundTasks\RelayCommand.cs" />
-    <Compile Include="Utilities\Class1.cs" />
     <Compile Include="Utilities\DataTableHelper.cs" />
     <Compile Include="Utilities\DbfMigration\Helper.cs" />
     <Compile Include="Utilities\DbfMigration\Views\MigrateDbfToMySqlWindow.xaml.cs">
@@ -1606,6 +1605,11 @@
       <LastGenOutput>borrower_makers.cs</LastGenOutput>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
+    <None Include="ReportFiles\notice_loan_overdue_non_responsive.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>notice_loan_overdue_non_responsive.cs</LastGenOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="ReportFiles\aging_of_loans_by_area_summary.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>aging_of_loans_by_area_summary.cs</LastGenOutput>
@@ -1778,11 +1782,6 @@
     <None Include="ReportFiles\notice_loan_non_performing.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>notice_loan_non_performing.cs</LastGenOutput>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="ReportFiles\notice_loan_overdue_non_responsive.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>notice_loan_overdue_non_responsive.cs</LastGenOutput>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="ReportFiles\or_collector_summary.rpt">
