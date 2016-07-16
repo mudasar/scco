@@ -8,7 +8,7 @@
                   Style="{DynamicResource BaseWindow}"
                   WindowStartupLocation="CenterScreen">
     <Window.DataContext>
-        <Models:ReportItem />
+        <Models:ProductImage />
     </Window.DataContext>
     <Grid Margin="5">
         <Grid x:Name="FormLayout" Grid.RowSpan="2">
@@ -65,7 +65,7 @@
                                                    Height="28"
                                                    VerticalAlignment="Top"
                                                    IsReadOnly="True"
-                                                   Text="{Binding Title}" />
+                                                   Text="{Binding ProductCode}" />
             </StackPanel>
             <TextBlock />
             <Button x:Name="btnAdd"

@@ -40,7 +40,6 @@ namespace SCCO.WPF.MVC.CS.Views.ProductImageModule
                 MessageWindow.ShowAlertMessage(result.Message);
                 return;
             }
-
             // success
             DialogResult = true;
             Close();
@@ -50,7 +49,9 @@ namespace SCCO.WPF.MVC.CS.Views.ProductImageModule
         {
             var account = Controllers.MainController.SearchAccount();
             if (account == null) return;
+            _newItem.ProductCode = account.AccountCode;
             _newItem.Title = account.AccountCode;
+            _newItem.Description = account.AccountTitle;
         }
     }
 }

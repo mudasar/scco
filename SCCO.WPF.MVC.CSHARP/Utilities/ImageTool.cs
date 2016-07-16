@@ -55,7 +55,7 @@ namespace SCCO.WPF.MVC.CS.Utilities {
 
         public static BitmapImage CreateImageSourceFromBytes(byte[] imageBytes)
         {
-            if (imageBytes == null || imageBytes.Length == 0) return null;
+            if (imageBytes == null || imageBytes.Length <= 1) return null;
             try
             {
                 var imageSource = new BitmapImage();
