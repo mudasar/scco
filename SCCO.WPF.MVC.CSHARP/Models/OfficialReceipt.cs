@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
+using System.Linq;
 using System.Text;
 using SCCO.WPF.MVC.CS.Controllers;
 using SCCO.WPF.MVC.CS.Database;
@@ -16,6 +17,7 @@ namespace SCCO.WPF.MVC.CS.Models
         {
             ResetProperties();
         }
+
         private const string TABLE_NAME = "OR";
         private decimal _amount;
         private string _amountInWords;
@@ -63,7 +65,11 @@ namespace SCCO.WPF.MVC.CS.Models
         public decimal Amount
         {
             get { return _amount; }
-            set { _amount = value; OnPropertyChanged("Amount"); }
+            set
+            {
+                _amount = value;
+                OnPropertyChanged("Amount");
+            }
         }
 
         public string AmountInWords //AMT_WORDS
@@ -229,13 +235,21 @@ namespace SCCO.WPF.MVC.CS.Models
         public string BankDeposited
         {
             get { return _bankDeposited; }
-            set { _bankDeposited = value; OnPropertyChanged("BankDeposited"); }
+            set
+            {
+                _bankDeposited = value;
+                OnPropertyChanged("BankDeposited");
+            }
         }
 
         public int BankDepositSlipNo
         {
             get { return _bankDepositSlipNo; }
-            set { _bankDepositSlipNo = value; OnPropertyChanged("BankDepositSlipNo"); }
+            set
+            {
+                _bankDepositSlipNo = value;
+                OnPropertyChanged("BankDepositSlipNo");
+            }
         }
 
         public string BankName1
@@ -291,7 +305,11 @@ namespace SCCO.WPF.MVC.CS.Models
         public string BankTitle
         {
             get { return _bankTitle1; }
-            set { _bankTitle1 = value; OnPropertyChanged("BankTitle"); }
+            set
+            {
+                _bankTitle1 = value;
+                OnPropertyChanged("BankTitle");
+            }
         }
 
         public string Collector
@@ -407,13 +425,21 @@ namespace SCCO.WPF.MVC.CS.Models
         public DateTime DepositSlipDate
         {
             get { return _depositSlipDate; }
-            set { _depositSlipDate = value; OnPropertyChanged("DepositSlipDate"); }
+            set
+            {
+                _depositSlipDate = value;
+                OnPropertyChanged("DepositSlipDate");
+            }
         }
 
         public int DepositSlipNo
         {
             get { return _depositSlipNo; }
-            set { _depositSlipNo = value; OnPropertyChanged("DepositSlipNo"); }
+            set
+            {
+                _depositSlipNo = value;
+                OnPropertyChanged("DepositSlipNo");
+            }
         }
 
         public string Explanation
@@ -439,13 +465,21 @@ namespace SCCO.WPF.MVC.CS.Models
         public string ModePay
         {
             get { return _modePay; }
-            set { _modePay = value; OnPropertyChanged("ModePay"); }
+            set
+            {
+                _modePay = value;
+                OnPropertyChanged("ModePay");
+            }
         }
 
         public TimeDepositDetails TimeDepositDetails
         {
             get { return _timeDepositDetails; }
-            set { _timeDepositDetails = value; OnPropertyChanged("TimeDepositDetails"); }
+            set
+            {
+                _timeDepositDetails = value;
+                OnPropertyChanged("TimeDepositDetails");
+            }
         }
 
         private List<SqlParameter> SqlParameters
@@ -538,7 +572,8 @@ namespace SCCO.WPF.MVC.CS.Models
         {
             var sqlBuilder = new StringBuilder();
             sqlBuilder.AppendFormat("SELECT * FROM `{0}` WHERE DOC_NUM = ?DOC_NUM", TABLE_NAME);
-            DataTable dataTable = DatabaseController.ExecuteSelectQuery(sqlBuilder.ToString(), new SqlParameter("?DOC_NUM", documentNo));
+            DataTable dataTable = DatabaseController.ExecuteSelectQuery(sqlBuilder.ToString(),
+                                                                        new SqlParameter("?DOC_NUM", documentNo));
             var listRecord = new ObservableCollection<OfficialReceipt>();
             foreach (DataRow dataRow in dataTable.Rows)
             {
@@ -670,15 +705,15 @@ namespace SCCO.WPF.MVC.CS.Models
         public Result Update()
         {
             Action updateRecord = () =>
-            {
-                var key = new SqlParameter("?ID", ID);
+                {
+                    var key = new SqlParameter("?ID", ID);
 
-                List<SqlParameter> sqlParameters = SqlParameters;
-                string sql = DatabaseController.GenerateUpdateStatement(TABLE_NAME, sqlParameters, key);
+                    List<SqlParameter> sqlParameters = SqlParameters;
+                    string sql = DatabaseController.GenerateUpdateStatement(TABLE_NAME, sqlParameters, key);
 
-                sqlParameters.Add(key);
-                DatabaseController.ExecuteNonQuery(sql, sqlParameters.ToArray());
-            };
+                    sqlParameters.Add(key);
+                    DatabaseController.ExecuteNonQuery(sql, sqlParameters.ToArray());
+                };
 
             return ActionController.InvokeAction(updateRecord);
         }
@@ -686,10 +721,10 @@ namespace SCCO.WPF.MVC.CS.Models
         public Result Create()
         {
             Action createRecord = () =>
-            {
-                string sql = DatabaseController.GenerateInsertStatement(TABLE_NAME, SqlParameters);
-                ID = DatabaseController.ExecuteInsertQuery(sql, SqlParameters.ToArray());
-            };
+                {
+                    string sql = DatabaseController.GenerateInsertStatement(TABLE_NAME, SqlParameters);
+                    ID = DatabaseController.ExecuteInsertQuery(sql, SqlParameters.ToArray());
+                };
 
             return ActionController.InvokeAction(createRecord);
         }
@@ -697,13 +732,13 @@ namespace SCCO.WPF.MVC.CS.Models
         public Result Destroy()
         {
             Action deleteRecord = () =>
-            {
-                var key = new SqlParameter("?ID", ID);
+                {
+                    var key = new SqlParameter("?ID", ID);
 
-                string sql = DatabaseController.GenerateDeleteStatement(TABLE_NAME, key);
+                    string sql = DatabaseController.GenerateDeleteStatement(TABLE_NAME, key);
 
-                DatabaseController.ExecuteNonQuery(sql, key);
-            };
+                    DatabaseController.ExecuteNonQuery(sql, key);
+                };
 
             return ActionController.InvokeAction(deleteRecord);
         }
@@ -711,19 +746,19 @@ namespace SCCO.WPF.MVC.CS.Models
         public Result Find(int id)
         {
             Action findRecord = () =>
-            {
-                ResetProperties();
-                ID = id;
-
-                var key = new SqlParameter("?ID", ID);
-                string sql = DatabaseController.GenerateSelectStatement(TABLE_NAME, key);
-
-                DataTable dataTable = DatabaseController.ExecuteSelectQuery(sql, key);
-                foreach (DataRow dataRow in dataTable.Rows)
                 {
-                    SetPropertiesFromDataRow(dataRow);
-                }
-            };
+                    ResetProperties();
+                    ID = id;
+
+                    var key = new SqlParameter("?ID", ID);
+                    string sql = DatabaseController.GenerateSelectStatement(TABLE_NAME, key);
+
+                    DataTable dataTable = DatabaseController.ExecuteSelectQuery(sql, key);
+                    foreach (DataRow dataRow in dataTable.Rows)
+                    {
+                        SetPropertiesFromDataRow(dataRow);
+                    }
+                };
 
             return ActionController.InvokeAction(findRecord);
         }
@@ -754,11 +789,12 @@ namespace SCCO.WPF.MVC.CS.Models
         //    return docNum;
         //}
 
-        public static ObservableCollection<OfficialReceipt> FindByMemberCode(string memberCode) 
+        public static ObservableCollection<OfficialReceipt> FindByMemberCode(string memberCode)
         {
             var sqlBuilder = new StringBuilder();
             sqlBuilder.AppendFormat("SELECT * FROM `{0}` WHERE MEM_CODE = ?MEM_CODE", TABLE_NAME);
-            DataTable dataTable = DatabaseController.ExecuteSelectQuery(sqlBuilder.ToString(), new SqlParameter("?MEM_CODE", memberCode));
+            DataTable dataTable = DatabaseController.ExecuteSelectQuery(sqlBuilder.ToString(),
+                                                                        new SqlParameter("?MEM_CODE", memberCode));
             var listRecord = new ObservableCollection<OfficialReceipt>();
             foreach (DataRow dataRow in dataTable.Rows)
             {
@@ -789,6 +825,24 @@ namespace SCCO.WPF.MVC.CS.Models
                 return or;
             }
             return null;
+        }
+
+        public static int LastDocumentNo(string collectorName)
+        {
+            const string sql = @"
+SELECT 
+  doc_num 
+FROM
+  `or` 
+WHERE collector = ?CollectorName 
+ORDER BY doc_num DESC 
+LIMIT 1 ";
+
+            var sqlParameter = new SqlParameter("?CollectorName", collectorName);
+            var dataTable = DatabaseController.ExecuteSelectQuery(sql, sqlParameter);
+            return
+                (from DataRow dataRow in dataTable.Rows select DataConverter.ToInteger(dataRow["doc_num"]))
+                    .FirstOrDefault();
         }
     }
 }

@@ -20,8 +20,7 @@ namespace SCCO.WPF.MVC.CS.Views.SavingsDepositModule
         public PostSavingsDepositView(Nfmb member, Account savingsAccount) : this()
         {
             _officialReceipt = new OfficialReceipt();
-            _officialReceipt.VoucherNo = Voucher.LastDocumentNo(VoucherTypes.OR) + 1;
-
+            _officialReceipt.VoucherNo = OfficialReceipt.LastDocumentNo(MainController.LoggedUser.CollectorName) + 1;
             _officialReceipt.MemberCode = member.MemberCode;
             _officialReceipt.MemberName = member.MemberName;
 
@@ -41,11 +40,28 @@ namespace SCCO.WPF.MVC.CS.Views.SavingsDepositModule
                 MessageWindow.ShowAlertMessage("OR No. already in use.");
                 return;
             }
+            if (_officialReceipt.VoucherNo <= 0)
+            {
+                MessageWindow.ShowAlertMessage("OR Number is not valid.");
+                return;
+            }
+            if (_officialReceipt.Credit <= 0)
+            {
+                MessageWindow.ShowAlertMessage("Amount is not valid.");
+                return;
+            }
             try
             {
                 _officialReceipt.Collector = MainController.LoggedUser.CollectorName;
                 _officialReceipt.IsPosted = true;
-                _officialReceipt.Create();
+                var result = _officialReceipt.Create();
+
+                if (!result.Success)
+                {
+                    OfficialReceipt.DeleteAll(_officialReceipt.VoucherNo);
+                    MessageWindow.ShowAlertMessage(result.Message);
+                    return;
+                }
 
                 // cash on hand
                 var or = new OfficialReceipt
@@ -116,8 +132,13 @@ namespace SCCO.WPF.MVC.CS.Views.SavingsDepositModule
                 or.Collector = MainController.LoggedUser.CollectorName;
                 or.IsPosted = true;
 
-                or.Create();
-
+                result = or.Create();
+                if (!result.Success)
+                {
+                    OfficialReceipt.DeleteAll(or.VoucherNo);
+                    MessageWindow.ShowAlertMessage(result.Message);
+                    return;
+                }
                 #region --- Voucher Log ---
 
                 var voucherLog = new VoucherLog();

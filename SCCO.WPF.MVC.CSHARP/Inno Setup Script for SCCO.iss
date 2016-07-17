@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "SCCO Accounting System v2"
-#define MyAppVersion "2.3.1.9"
+#define MyAppVersion "2.3.2.0"
 #define MyAppPublisher "Sta. Cruz Savings and Credit Cooperative"
 #define MyAppURL "https://www.facebook.com/pages/Sta-Cruz-Savings-Credit-Cooperative/141420875904329/"
 #define MyAppExeName "SCCO.WPF.MVC.CS.exe"
@@ -21,7 +21,7 @@ AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
 DefaultDirName={pf}\{#MyAppName}
 DefaultGroupName={#MyAppName}
-OutputBaseFilename=SCCO Accounting System 2.3.1.9 Setup
+OutputBaseFilename=SCCO Accounting System 2.3.2.0 Setup
 SetupIconFile=F:\github\scco\SCCO.WPF.MVC.CSHARP\chart.ico
 Compression=lzma
 SolidCompression=yes
