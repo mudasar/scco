@@ -587,6 +587,9 @@
     <Compile Include="Views\ReportsModule\AgingOfLoansOverdueView.xaml.cs">
       <DependentUpon>AgingOfLoansOverdueView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ReportsModule\ScheduleOfAccountsView.xaml.cs">
+      <DependentUpon>ScheduleOfAccountsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ReportsModule\LoanReleasedForTheMonthView.xaml.cs">
       <DependentUpon>LoanReleasedForTheMonthView.xaml</DependentUpon>
     </Compile>
@@ -1125,6 +1128,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\ReportsModule\AgingOfLoansOverdueView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ReportsModule\ScheduleOfAccountsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

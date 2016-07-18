@@ -182,8 +182,8 @@ namespace SCCO.WPF.MVC.CS.Views.ReportsModule {
         }
         private void AccountScheduleReportButtonOnClick(object sender, RoutedEventArgs e)
         {
-            var schedulesReportWindow = new ReportPickerWindow("SCHEDULES");
-            schedulesReportWindow.ShowDialog();
+            var view = new ScheduleOfAccountsView();
+            view.ShowDialog();
         }
 
     }

@@ -8,7 +8,6 @@ using System.Text;
 using SCCO.WPF.MVC.CS.Controllers;
 using SCCO.WPF.MVC.CS.Database;
 using SCCO.WPF.MVC.CS.Utilities;
-using SCCO.WPF.MVC.CS.Views.SearchModule;
 
 namespace SCCO.WPF.MVC.CS.Models
 {
@@ -898,6 +897,27 @@ namespace SCCO.WPF.MVC.CS.Models
                     let code = DataConverter.ToString(dataRow["CODE"])
                     let name = DataConverter.ToString(dataRow["TITLE"])
                     select new SearchItem(id, name) { ItemCode = code }).ToList();
+        }
+
+        internal static Account FindByScheduleCode(int scheduleCode)
+        {
+            const string sql = "SELECT `CODE` FROM `chart` WHERE SCODE = ?ScheduleCode ORDER BY `CODE` LIMIT 1";
+            var parameter = new SqlParameter("?ScheduleCode", scheduleCode);
+            var dataTable = DatabaseController.ExecuteSelectQuery(sql, parameter);
+            var accountCode = "";
+            foreach (DataRow dataRow in dataTable.Rows)
+            {
+                accountCode = DataConverter.ToString(dataRow["CODE"]);
+            }
+            if (string.IsNullOrEmpty(accountCode))
+            {
+                return null;
+            }
+            if (accountCode.Contains('.'))
+            {
+                accountCode = accountCode.Split('.').First();
+            }
+            return FindByCode(accountCode);
         }
     }
 

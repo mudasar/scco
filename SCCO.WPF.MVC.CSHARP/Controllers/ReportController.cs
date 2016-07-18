@@ -944,7 +944,6 @@ namespace SCCO.WPF.MVC.CS.Controllers
             }
         }
 
-
         public static Result GenerateScheduleOfFines(DateTime asOf, string orderBy)
         {
             try
@@ -965,7 +964,6 @@ namespace SCCO.WPF.MVC.CS.Controllers
                 return new Result(false, e.Message);
             }
         }
-
 
         public static Result GenerateScheduleReports(int reportScheduleId, string reportDescription, DateTime asOf,
                                                      string orderBy)
