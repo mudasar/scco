@@ -34,7 +34,7 @@ namespace SCCO.WPF.MVC.CS.Views.AdministratorModule
 
         private void OnSetup(object sender, RoutedEventArgs e)
         {
-            var view = new ShareCapitalSetupView();
+            var view = new UnearnedInterestFromLoansSetupView();
             view.ShowDialog();
         }
 
@@ -42,17 +42,19 @@ namespace SCCO.WPF.MVC.CS.Views.AdministratorModule
         {
             _viewModel.InitializeData();
             DataContext = _viewModel;
+            UpdateTotals();
         }
 
         private void PostOnClick()
         {
             // check if share capital is set
-            var shareCapital = new ShareCapitalSetupViewModel();
-            if (string.IsNullOrEmpty(shareCapital.AccountCode))
+            var shareCapitalCode = GlobalSettings.CodeOfUnearnedIncome;
+            if (string.IsNullOrEmpty(shareCapitalCode))
             {
                 MessageWindow.ShowAlertMessage("Paid Up Share Capital - Common is not set.");
                 return;
             }
+            var shareCapitalRequiredAmount = GlobalSettings.AmountOfShareCapitalRequiredBalance;
 
             // check if can post transaction
             var postingDate = MainController.LoggedUser.TransactionDate;
@@ -68,7 +70,7 @@ namespace SCCO.WPF.MVC.CS.Views.AdministratorModule
                 return;
             }
             // get list of regular members using their share capital
-            _memberShareCapitalAccountSummary = AccountSummary.PerAccount(shareCapital.AccountCode, postingDate);
+            _memberShareCapitalAccountSummary = AccountSummary.PerAccount(shareCapitalCode, postingDate);
 
             var view = new PostJournalVoucherView(postingDate);
             if (view.ShowDialog() == true)
@@ -91,22 +93,22 @@ namespace SCCO.WPF.MVC.CS.Views.AdministratorModule
 
                     // debit side (unearned income)
                     var entry = new JournalVoucher
-                        {
-                            MemberCode = item.MemberCode,
-                            MemberName = item.MemberName,
-                            VoucherDate = jvDefault.VoucherDate,
-                            VoucherNo = jvDefault.VoucherNo,
-                            VoucherType = jvDefault.VoucherType,
-                            IsPosted = true,
-                            AccountCode = unearnedIncome.AccountCode,
-                            AccountTitle = unearnedIncome.AccountTitle,
-                            Debit = item.InterestAmortization,
-                            Credit = new decimal()
-                        };
+                    {
+                        MemberCode = item.MemberCode,
+                        MemberName = item.MemberName,
+                        VoucherDate = jvDefault.VoucherDate,
+                        VoucherNo = jvDefault.VoucherNo,
+                        VoucherType = jvDefault.VoucherType,
+                        IsPosted = true,
+                        AccountCode = unearnedIncome.AccountCode,
+                        AccountTitle = unearnedIncome.AccountTitle,
+                        Debit = item.InterestAmortization,
+                        Credit = new decimal()
+                    };
                     entry.Create();
 
                     // credit side - check membership based on share capital
-                    if (IsRegularMember(item.MemberCode, shareCapital.RequiredBalance))
+                    if (IsRegularMember(item.MemberCode, shareCapitalRequiredAmount))
                     {
                         entry.AccountCode = interestIncomeFromLoans.AccountCode;
                         entry.AccountTitle = interestIncomeFromLoans.AccountTitle;
@@ -143,7 +145,17 @@ namespace SCCO.WPF.MVC.CS.Views.AdministratorModule
             if (_viewModel.SelectedItem != null)
             {
                 _viewModel.SelectedItem.Flag = !_viewModel.SelectedItem.Flag;
+                UpdateTotals();
             }
+        }
+
+        private void UpdateTotals()
+        {
+            var selected = from item in _viewModel.Collection
+                           where item.Flag
+                           select item;
+
+            TotalLabel.Content = string.Format("Selected: {0} of {1}", selected.Count(), _viewModel.Collection.Count);
         }
     }
 }

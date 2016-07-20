@@ -7,7 +7,7 @@ using SCCO.WPF.MVC.CS.Models;
 
 namespace SCCO.WPF.MVC.CS.Views
 {
-  internal class ViewModelBase : INotifyPropertyChanged
+    public class ViewModelBase : INotifyPropertyChanged
     {
       public event PropertyChangedEventHandler PropertyChanged;
 

@@ -3,6 +3,7 @@ using SCCO.WPF.MVC.CS.Controllers;
 using SCCO.WPF.MVC.CS.Database;
 using SCCO.WPF.MVC.CS.Models;
 using System.Data;
+using SCCO.WPF.MVC.CS.Views.AccountModule;
 
 namespace SCCO.WPF.MVC.CS.Views.ReportsModule
 {
@@ -30,6 +31,23 @@ namespace SCCO.WPF.MVC.CS.Views.ReportsModule
             Button8.Click += (s, e) => ShowScheduleReport(8, Button8.Content.ToString());
             Button9.Click += (s, e) => ShowScheduleReport(9, Button9.Content.ToString());
             Button10.Click += (s, e) => ShowScheduleReport(10, Button10.Content.ToString());
+
+            Setting1.Click += (s, e) => ShowAccountsPerSchedule(1, "Schedule 1");
+            Setting2.Click += (s, e) => ShowAccountsPerSchedule(2, "Schedule 2");
+            Setting3.Click += (s, e) => ShowAccountsPerSchedule(3, "Schedule 3");
+            Setting4.Click += (s, e) => ShowAccountsPerSchedule(4, "Schedule 4");
+            Setting5.Click += (s, e) => ShowAccountsPerSchedule(5, "Schedule 5");
+            Setting6.Click += (s, e) => ShowAccountsPerSchedule(6, "Schedule 6");
+            Setting7.Click += (s, e) => ShowAccountsPerSchedule(7, "Schedule 7");
+            Setting8.Click += (s, e) => ShowAccountsPerSchedule(8, "Schedule 8");
+            Setting9.Click += (s, e) => ShowAccountsPerSchedule(9, "Schedule 9");
+            Setting10.Click += (s, e) => ShowAccountsPerSchedule(10, "Schedule 10");
+        }
+
+        private void ShowAccountsPerSchedule(int scheduleNo, string scheduleDescription)
+        {
+            var view = new AccountsPerScheduleView(scheduleNo, scheduleDescription) { Owner = this };
+            view.ShowDialog();
         }
 
         private void InitializeDisplay()

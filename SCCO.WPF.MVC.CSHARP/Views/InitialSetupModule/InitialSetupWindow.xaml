@@ -224,8 +224,21 @@
                                Height="20"
                                Source="/SCCO.WPF.MVC.CS;component/Images/list.png"
                                Stretch="Fill" />
-                        <Label Margin="5,0,50,0" Content="Loan Receivables" />
+                        <Label Margin="5,0,50,0" Content="Loan Receivable Accounts" />
                     </StackPanel>
+                </Button>
+                <Button x:Name="btnSavingsDeposits"
+                        Width="Auto"
+                        Height="40"
+                        Margin="2"
+                        Style="{DynamicResource ControlButton}">
+                	<StackPanel Width="180" Orientation="Horizontal">
+                		<Image Width="20"
+                			Height="20"
+                			Source="/SCCO.WPF.MVC.CS;component/Images/list.png"
+                			Stretch="Fill" />
+                		<Label Margin="5,0,50,0" Content="Savings Deposit Accounts" />
+                	</StackPanel>
                 </Button>
                 <Button x:Name="btnTimeDeposits"
                         Width="Auto"
@@ -237,8 +250,21 @@
                                Height="20"
                                Source="/SCCO.WPF.MVC.CS;component/Images/list.png"
                                Stretch="Fill" />
-                        <Label Margin="5,0,50,0" Content="Time Deposits" />
+                        <Label Margin="5,0,50,0" Content="Time Deposit Accounts" />
                     </StackPanel>
+                </Button>
+                <Button x:Name="btnShareCapital"
+                        Width="Auto"
+                        Height="40"
+                        Margin="2"
+                        Style="{DynamicResource ControlButton}">
+                	<StackPanel Width="180" Orientation="Horizontal">
+                		<Image Width="20"
+                			Height="20"
+                			Source="/SCCO.WPF.MVC.CS;component/Images/list.png"
+                			Stretch="Fill" />
+                		<Label Margin="5,0,50,0" Content="Share Capital" />
+                	</StackPanel>
                 </Button>
                 <Button x:Name="btnInterestOnLoans"
                         Width="Auto"
@@ -270,50 +296,10 @@
                                Content="Fines" />
                     </StackPanel>
                 </Button>
-                <Button x:Name="btnSavingsDeposits"
-                        Width="Auto"
-                        Height="40"
-                        Margin="2"
-                        Style="{DynamicResource ControlButton}">
-                    <StackPanel Width="180" Orientation="Horizontal">
-                        <Image Width="20"
-                               Height="20"
-                               Source="/SCCO.WPF.MVC.CS;component/Images/list.png"
-                               Stretch="Fill" />
-                        <Label Margin="5,0,50,0" Content="Savings Accounts" />
-                    </StackPanel>
-                </Button>
-                <Button x:Name="btnShareCapital"
-                        Width="Auto"
-                        Height="40"
-                        Margin="2"
-                        Style="{DynamicResource ControlButton}">
-                    <StackPanel Width="180" Orientation="Horizontal">
-                        <Image Width="20"
-                               Height="20"
-                               Source="/SCCO.WPF.MVC.CS;component/Images/list.png"
-                               Stretch="Fill" />
-                        <Label Margin="5,0,50,0" Content="Share Capital" />
-                    </StackPanel>
-                </Button>
-                <Button x:Name="btnBudget"
-                        Width="Auto"
-                        Height="40"
-                        Margin="2"
-                        Style="{DynamicResource ControlButton}">
-                    <StackPanel Width="180" Orientation="Horizontal">
-                        <Image Width="20"
-                               Height="20"
-                               Source="/SCCO.WPF.MVC.CS;component/Images/list.png"
-                               Stretch="Fill" />
-                        <Label Margin="5,0,50,0" Content="Budget" />
-                    </StackPanel>
-                </Button>
 
             </StackPanel>
 
             <StackPanel Width="220"
-                        Margin="0,0,0,64.12"
                         Orientation="Vertical"
                         d:LayoutOverrides="Height">
                 <Button x:Name="btnDailySavingsWithdrawal"
@@ -363,6 +349,11 @@
                         Margin="2"
                         Content="General Ledger Balance"
                         Style="{DynamicResource ControlButton}" />
+                <Button x:Name="btnBudget"
+                	Width="Auto"
+                	Height="40"
+                	Margin="2"
+                	Style="{DynamicResource ControlButton}" Content="Budget"/>
                 <TextBlock Margin="2" />
                 <Button x:Name="btnReportManagement"
                         Width="Auto"

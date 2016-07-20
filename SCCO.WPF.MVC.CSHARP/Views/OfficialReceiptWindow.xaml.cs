@@ -55,6 +55,12 @@ namespace SCCO.WPF.MVC.CS.Views
             #endregion
 
             btnDenomination.Click += (sender, args) => ShowDenomination();
+
+            btnHelp.Click += (s, e) =>
+            {
+                const string url = "https://github.com/Jeralane/scco/wiki/Official-Receipt";
+                System.Diagnostics.Process.Start(url);
+            };
         }
 
         private void ShowDenomination()

@@ -242,7 +242,7 @@
         			<TextBlock Margin="5,0,50,0"
         				VerticalAlignment="Center"
         				FontSize="12"
-        				Text="Teller and Collector Entry"
+        				Text="Teller and Collector"
         				TextWrapping="Wrap" />
         		</StackPanel>
         	</Button>
@@ -355,7 +355,7 @@
                VerticalAlignment="Top"
                Content="Accounting System Version 2"
                FontSize="14"
-               Style="{DynamicResource FormTitle2}" />
+               Style="{DynamicResource FormTitle2}" Cursor="Hand" />
         <StackPanel Width="300"
                     Margin="0,0,20,20"
                     HorizontalAlignment="Right"
@@ -366,7 +366,7 @@
                    HorizontalContentAlignment="Right"
                    Content="Sunday, January 1, 2012"
                    FontSize="14"
-                   Style="{DynamicResource FormTitle2}" />
+                   Style="{DynamicResource FormTitle2}" Cursor="Hand" />
             <Label x:Name="UserNameLabel"
                    Margin="0,0,2,0"
                    HorizontalAlignment="Stretch"
@@ -379,7 +379,7 @@
                    Foreground="White"
                    Opacity="0.5"
                    Padding="0"
-                   Style="{DynamicResource FormTitle2}" />
+                   Style="{DynamicResource FormTitle2}" Cursor="Hand" />
         </StackPanel>
         <Label x:Name="DatabaseNameLabel"
         	Margin="49,30,0,0"

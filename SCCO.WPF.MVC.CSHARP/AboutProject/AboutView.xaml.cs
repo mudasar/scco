@@ -10,17 +10,10 @@ namespace SCCO.WPF.MVC.CS.AboutProject
             AboutViewModel viewModel = new AboutViewModel();
             DataContext = viewModel;
 
-            UpdateButton.Click += (sender, args) =>
+            HelpButton.Click += (s, e) =>
             {
-                var result = AboutProject.Controller.CheckUpdates();
-                if (result.Success)
-                {
-                    AboutProject.Controller.UpdateProject();
-                }
-                else
-                {
-                    MessageWindow.ShowNotifyMessage(result.Message);
-                }
+                const string url = "https://github.com/Jeralane/scco/wiki";
+                System.Diagnostics.Process.Start(url);
             };
         }
     }

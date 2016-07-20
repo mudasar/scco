@@ -53,57 +53,248 @@
         </Grid>
         <StackPanel Margin="20,60,20,20" Orientation="Vertical">
             <Label x:Name="SubTitleLabel" Content="As of June 19, 2016" />
-            <Button x:Name="Button1"
-                    Width="Auto"
-                    Height="40"
-                    Content="Schedule #1"
-                    Style="{DynamicResource ControlButton}" />
+            <Grid Margin="0,2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Button x:Name="Button1"
+                        Width="Auto"
+                        Height="Auto"
+                        Content="Schedule #1"
+                        Style="{DynamicResource ControlButton}" />
+                <Button x:Name="Setting1"
+                        Grid.Column="1"
+                        Width="40"
+                        Height="40"
+                        VerticalAlignment="Top"
+                        Style="{DynamicResource ControlButton}">
+                    <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                        <Image Width="20"
+                               Height="20"
+                               Source="/SCCO.WPF.MVC.CS;component/Images/initial_setup.png"
+                               Stretch="Fill" />
+                    </StackPanel>
+                </Button>
 
-            <Button x:Name="Button2"
-                    Width="Auto"
-                    Height="40"
-                    Content="Schedule #2"
-                    Style="{DynamicResource ControlButton}" />
-            <Button x:Name="Button3"
-                    Width="Auto"
-                    Height="40"
-                    Content="Schedule #3"
-                    Style="{DynamicResource ControlButton}" />
-            <Button x:Name="Button4"
-                    Width="Auto"
-                    Height="40"
-                    Content="Schedule #4"
-                    Style="{DynamicResource ControlButton}" />
-            <Button x:Name="Button5"
-                    Width="Auto"
-                    Height="40"
-                    Content="Schedule #5"
-                    Style="{DynamicResource ControlButton}" />
-            <Button x:Name="Button6"
-                    Width="Auto"
-                    Height="40"
-                    Content="Schedule #6"
-                    Style="{DynamicResource ControlButton}" />
-            <Button x:Name="Button7"
-                    Width="Auto"
-                    Height="40"
-                    Content="Schedule #7"
-                    Style="{DynamicResource ControlButton}" />
-            <Button x:Name="Button8"
-                    Width="Auto"
-                    Height="40"
-                    Content="Schedule #8"
-                    Style="{DynamicResource ControlButton}" />
-            <Button x:Name="Button9"
-                    Width="Auto"
-                    Height="40"
-                    Content="Schedule #9"
-                    Style="{DynamicResource ControlButton}" />
-            <Button x:Name="Button10"
-                    Width="Auto"
-                    Height="40"
-                    Content="Schedule #10"
-                    Style="{DynamicResource ControlButton}" />
+            </Grid>
+            <Grid Margin="0,2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <Button x:Name="Button2"
+                        Width="Auto"
+                        Height="40"
+                        Content="Schedule #2"
+                        Style="{DynamicResource ControlButton}" />
+                <Button x:Name="Setting2"
+                        Grid.Column="1"
+                        Width="40"
+                        Height="40"
+                        VerticalAlignment="Top"
+                        Style="{DynamicResource ControlButton}">
+                    <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                        <Image Width="20"
+                               Height="20"
+                               Source="/SCCO.WPF.MVC.CS;component/Images/initial_setup.png"
+                               Stretch="Fill" />
+                    </StackPanel>
+                </Button>
+            </Grid>
+            <Grid Margin="0,2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Button x:Name="Button3"
+                        Width="Auto"
+                        Height="40"
+                        Content="Schedule #3"
+                        Style="{DynamicResource ControlButton}" />
+                <Button x:Name="Setting3"
+                        Grid.Column="1"
+                        Width="40"
+                        Height="40"
+                        VerticalAlignment="Top"
+                        Style="{DynamicResource ControlButton}">
+                    <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                        <Image Width="20"
+                               Height="20"
+                               Source="/SCCO.WPF.MVC.CS;component/Images/initial_setup.png"
+                               Stretch="Fill" />
+                    </StackPanel>
+                </Button>
+            </Grid>
+            <Grid Margin="0,2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Button x:Name="Button4"
+                        Width="Auto"
+                        Height="40"
+                        Content="Schedule #4"
+                        Style="{DynamicResource ControlButton}" />
+                <Button x:Name="Setting4"
+                        Grid.Column="1"
+                        Width="40"
+                        Height="40"
+                        VerticalAlignment="Top"
+                        Style="{DynamicResource ControlButton}">
+                    <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                        <Image Width="20"
+                               Height="20"
+                               Source="/SCCO.WPF.MVC.CS;component/Images/initial_setup.png"
+                               Stretch="Fill" />
+                    </StackPanel>
+                </Button>
+            </Grid>
+            <Grid Margin="0,2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Button x:Name="Button5"
+                        Width="Auto"
+                        Height="40"
+                        Content="Schedule #5"
+                        Style="{DynamicResource ControlButton}" />
+                <Button x:Name="Setting5"
+                        Grid.Column="1"
+                        Width="40"
+                        Height="40"
+                        VerticalAlignment="Top"
+                        Style="{DynamicResource ControlButton}">
+                    <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                        <Image Width="20"
+                               Height="20"
+                               Source="/SCCO.WPF.MVC.CS;component/Images/initial_setup.png"
+                               Stretch="Fill" />
+                    </StackPanel>
+                </Button>
+            </Grid>
+            <Grid Margin="0,2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Button x:Name="Button6"
+                        Width="Auto"
+                        Height="40"
+                        Content="Schedule #6"
+                        Style="{DynamicResource ControlButton}" />
+                <Button x:Name="Setting6"
+                        Grid.Column="1"
+                        Width="40"
+                        Height="40"
+                        VerticalAlignment="Top"
+                        Style="{DynamicResource ControlButton}">
+                    <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                        <Image Width="20"
+                               Height="20"
+                               Source="/SCCO.WPF.MVC.CS;component/Images/initial_setup.png"
+                               Stretch="Fill" />
+                    </StackPanel>
+                </Button>
+            </Grid>
+            <Grid Margin="0,2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Button x:Name="Button7"
+                        Width="Auto"
+                        Height="40"
+                        Content="Schedule #7"
+                        Style="{DynamicResource ControlButton}" />
+                <Button x:Name="Setting7"
+                        Grid.Column="1"
+                        Width="40"
+                        Height="40"
+                        VerticalAlignment="Top"
+                        Style="{DynamicResource ControlButton}">
+                    <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                        <Image Width="20"
+                               Height="20"
+                               Source="/SCCO.WPF.MVC.CS;component/Images/initial_setup.png"
+                               Stretch="Fill" />
+                    </StackPanel>
+                </Button>
+            </Grid>
+            <Grid Margin="0,2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Button x:Name="Button8"
+                        Width="Auto"
+                        Height="40"
+                        Content="Schedule #8"
+                        Style="{DynamicResource ControlButton}" />
+                <Button x:Name="Setting8"
+                        Grid.Column="1"
+                        Width="40"
+                        Height="40"
+                        VerticalAlignment="Top"
+                        Style="{DynamicResource ControlButton}">
+                    <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                        <Image Width="20"
+                               Height="20"
+                               Source="/SCCO.WPF.MVC.CS;component/Images/initial_setup.png"
+                               Stretch="Fill" />
+                    </StackPanel>
+                </Button>
+            </Grid>
+            <Grid Margin="0,2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Button x:Name="Button9"
+                        Width="Auto"
+                        Height="40"
+                        Content="Schedule #9"
+                        Style="{DynamicResource ControlButton}" />
+                <Button x:Name="Setting9"
+                        Grid.Column="1"
+                        Width="40"
+                        Height="40"
+                        VerticalAlignment="Top"
+                        Style="{DynamicResource ControlButton}">
+                    <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                        <Image Width="20"
+                               Height="20"
+                               Source="/SCCO.WPF.MVC.CS;component/Images/initial_setup.png"
+                               Stretch="Fill" />
+                    </StackPanel>
+                </Button>
+            </Grid>
+            <Grid Margin="0,2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Button x:Name="Button10"
+                        Width="Auto"
+                        Height="40"
+                        Content="Schedule #10"
+                        Style="{DynamicResource ControlButton}" />
+                <Button x:Name="Setting10"
+                        Grid.Column="1"
+                        Width="40"
+                        Height="40"
+                        VerticalAlignment="Top"
+                        Style="{DynamicResource ControlButton}">
+                    <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                        <Image Width="20"
+                               Height="20"
+                               Source="/SCCO.WPF.MVC.CS;component/Images/initial_setup.png"
+                               Stretch="Fill" />
+                    </StackPanel>
+                </Button>
+            </Grid>
             <StackPanel Height="26"
                         Margin="0,8,0,0"
                         Background="#7FFFFFFF"

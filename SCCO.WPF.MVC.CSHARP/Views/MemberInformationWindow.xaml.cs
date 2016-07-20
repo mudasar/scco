@@ -20,6 +20,7 @@ namespace SCCO.WPF.MVC.CS.Views
             InitializeLookupControls();
             DataContext = _member;
             TabItemContactInformation.DataContext = _member.ContactInformation;
+            stbMemberNameCode.CustomTooltip = "Edit Member Name";
         }
 
         public MemberInformationWindow(string memberCode)

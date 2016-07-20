@@ -53,6 +53,12 @@ namespace SCCO.WPF.MVC.CS.Views
             };
 
             #endregion
+
+            btnHelp.Click += (s, e) =>
+            {
+                const string url = "https://github.com/Jeralane/scco/wiki/Cash-Voucher";
+                System.Diagnostics.Process.Start(url);
+            };
         }
 
         private void OnClosing(object sender, CancelEventArgs cancelEventArgs)

@@ -17,13 +17,6 @@ namespace SCCO.WPF.MVC.CS.Views.SpecialLoansModule
         {
             InitializeComponent();
 
-            if (MainController.LoggedUser.TransactionDate != GlobalSettings.DateOfOpenTransaction)
-            {
-                MessageWindow.ShowAlertMessage("Cannot create transactions using current date settings.");
-                btnDetails.IsEnabled = btnPost.IsEnabled = false;
-                return;
-            }
-
             var code = GlobalSettings.CodeOfSalaryAdvance;
             if (string.IsNullOrEmpty(code))
             {
