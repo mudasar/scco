@@ -204,6 +204,13 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="ReportFiles\member_information_sheet.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>member_information_sheet.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
     <Compile Include="ReportFiles\notice_loan_overdue_non_responsive.cs">
       <DependentUpon>notice_loan_overdue_non_responsive.rpt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -1620,6 +1627,14 @@
       <LastGenOutput>borrower_makers.cs</LastGenOutput>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
+    <None Include="ReportFiles\member_information_sheet.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>member_information_sheet.cs</LastGenOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ReportFiles\nfmb.ttx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="ReportFiles\notice_loan_overdue_non_responsive.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>notice_loan_overdue_non_responsive.cs</LastGenOutput>
@@ -2016,6 +2031,7 @@
     <Resource Include="Images\barber_scissors.png" />
     <Resource Include="Images\document.png" />
     <Resource Include="Images\closed-stamp.png" />
+    <Resource Include="Images\dev-printer-icon.png" />
     <Content Include="Scripts\loan_deductions.sql" />
     <Content Include="Scripts\sp_account_monthly_ending_balance_by_code.sql" />
     <Content Include="Scripts\time_deposit_products.sql" />

@@ -35,7 +35,7 @@ namespace SCCO.WPF.MVC.CS.Views
 
             imgPhoto.Source = ImageTool.CreateImageSourceFromBytes(_member.ContactInformation.Picture);
             imgSignature.Source = ImageTool.CreateImageSourceFromBytes(_member.ContactInformation.Signature);
-            
+
             CrudButtons.Visibility = Visibility.Hidden;
             stbMemberNameCode.IsEnabled = false;
         }
@@ -118,11 +118,11 @@ namespace SCCO.WPF.MVC.CS.Views
         private void btnBrowsePhoto_Click(object sender, RoutedEventArgs e)
         {
             var openFileDialog = new OpenFileDialog
-                {
-                    CheckFileExists = true,
-                    Filter = string.Format("Image Files (*)|*.bmp;*.gif;*.jpg"),
-                    Title = String.Format("Picture Browser")
-                };
+            {
+                CheckFileExists = true,
+                Filter = string.Format("Image Files (*)|*.bmp;*.gif;*.jpg"),
+                Title = String.Format("Picture Browser")
+            };
             if (openFileDialog.ShowDialog() != System.Windows.Forms.DialogResult.OK)
                 return;
             //_member.ContactInformation.Picture = ImageTool.GetBytesFromImageFile(openFileDialog.FileName);
@@ -134,16 +134,17 @@ namespace SCCO.WPF.MVC.CS.Views
         private void btnBrowseSignature_Click(object sender, RoutedEventArgs e)
         {
             var openFileDialog = new OpenFileDialog
-                {
-                    CheckFileExists = true,
-                    Filter = string.Format("Image Files (*)|*.bmp;*.gif;*.jpg"),
-                    Title = String.Format("Signature Browser")
-                };
+            {
+                CheckFileExists = true,
+                Filter = string.Format("Image Files (*)|*.bmp;*.gif;*.jpg"),
+                Title = String.Format("Signature Browser")
+            };
             if (openFileDialog.ShowDialog() != System.Windows.Forms.DialogResult.OK)
                 return;
             //_member.ContactInformation.Signature = ImageTool.GetBytesFromImageFile(openFileDialog.FileName);
             var imageFile = openFileDialog.FileName;
-            imgSignature.Source = ImageTool.CreateImageSourceFromBytes(ImageTool.GetBytesFromImageFile(openFileDialog.FileName));
+            imgSignature.Source =
+                ImageTool.CreateImageSourceFromBytes(ImageTool.GetBytesFromImageFile(openFileDialog.FileName));
             _member.ContactInformation.SaveSignature(imageFile);
         }
 
@@ -216,7 +217,7 @@ namespace SCCO.WPF.MVC.CS.Views
             var memberNameSetupWindow = new MemberValidationWindow(biometrics, manipulationMode);
             memberNameSetupWindow.ShowDialog();
             if (memberNameSetupWindow.DialogResult != true) return;
-            
+
             _member.ContactInformation = memberNameSetupWindow.ValidatedBiometrics;
             _member.MemberName = _member.ContactInformation.MemberName;
             _member.MemberCode = _member.ContactInformation.MemberCode;
@@ -230,6 +231,91 @@ namespace SCCO.WPF.MVC.CS.Views
             TabItemContactInformation.DataContext = _member.ContactInformation;
             imgPhoto.Source = ImageTool.CreateImageSourceFromBytes(_member.ContactInformation.Picture);
             imgSignature.Source = ImageTool.CreateImageSourceFromBytes(_member.ContactInformation.Signature);
+        }
+
+        private void Print(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var sqlCommand = GetMemberQuery();
+                var sqlParam = new Database.SqlParameter("?MEM_CODE", _member.MemberCode);
+                var dataTable = Database.DatabaseController.ExecuteSelectQuery(sqlCommand, sqlParam);
+                foreach (System.Data.DataRow dataRow in dataTable.Rows)
+                {
+                    dataRow["PICTURE"] = _member.ContactInformation.Picture;
+                }
+
+                dataTable.TableName = "nfmb";
+                var dataSet = new System.Data.DataSet();
+                dataSet.Tables.Add(dataTable);
+                var ri = new ReportItem();
+                ri.ReportFile = "member_information_sheet.rpt";
+                ri.Title = "Member Information Sheet";
+                ri.DataSource = dataSet;
+                ri.LoadReport();
+            }
+            catch (Exception exception)
+            {
+                MessageWindow.ShowAlertMessage(exception.Message);
+            }
+        }
+
+        private string GetMemberQuery()
+        {
+            return @"
+SELECT
+nfmb.ID,
+nfmb.MEM_CODE,
+nfmb.MEM_NAME,
+IF(nfmb.MEMBER, 'Yes', 'No') as MEMBER,
+nfmb.AREA_CODE,
+nfmb.ADDRESS1,
+nfmb.ADDRESS2,
+nfmb.ADDRESS3,
+nfmb.HOUSE_STAT,
+contacts.TELEPHONE,
+contacts.MOBILE_PHONE AS MOBI_PHONE,
+contacts.BUSINESS_PHONE AS BUSI_PHONE,
+contacts.EMAIL as EMAIL,
+contacts.PICTURE,
+nfmb.BIRTHDAY,
+nfmb.BAGE,
+nfmb.BIRT_PLACE,
+nfmb.MEMBERSHIP,
+nfmb.SEX,
+nfmb.CIVIL,
+nfmb.DEGREE,
+nfmb.OCCUPATION,
+nfmb.BUSINESS,
+nfmb.INCOME1,
+nfmb.INCOME2,
+nfmb.SPOUSE_OCC,
+nfmb.SPOUSE_BUS,
+nfmb.SPOUS_INC1,
+nfmb.SPOUS_INC2,
+IF(nfmb.CLOSE_ACCT, 'Yes', 'No') as CLOSE_ACCT,
+nfmb.CLOSE_DATE,
+nfmb.BENEFIT,
+nfmb.AGE,
+nfmb.RELATION,
+nfmb.BENEFIT1,
+nfmb.AGE1,
+nfmb.RELATION1,
+nfmb.BENEFIT2,
+nfmb.AGE2,
+nfmb.RELATION2,
+nfmb.MEM_TYPE,
+IF(nfmb.DAMAYAN, 'Yes', 'No') as DAMAYAN,
+nfmb.PMS,
+nfmb.D_DATE,
+nfmb.COLLECTOR,
+nfmb.BRANCH,
+nfmb.CLASS
+FROM `nfmb`
+LEFT JOIN contacts
+on nfmb.MEM_CODE = contacts.MEM_CODE
+WHERE nfmb.MEM_CODE = ?MEM_CODE
+";
         }
     }
 }

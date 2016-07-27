@@ -336,9 +336,8 @@
                     Style="{DynamicResource CloseButton}"
                     TabIndex="5" />
             <StackPanel x:Name="CrudButtons"
-                        Width="128"
                         Height="32"
-                        Margin="0,6,50,5"
+                        Margin="0,6,60,5"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Top"
                         Orientation="Horizontal">
@@ -389,6 +388,18 @@
                                Source="/SCCO.WPF.MVC.CS;component/Images/Denided.png"
                                Stretch="Fill" />
                     </StackPanel>
+                </Button>
+                <Button x:Name="PrintButton"
+                	Width="32"
+                	Height="32"
+                	Click="Print"
+                	Foreground="#FFFFFFFF"
+                	Style="{DynamicResource ToolButton}" ToolTip="Print">
+                	<StackPanel Orientation="Horizontal">
+                		<Image Margin="4"
+                			Source="/SCCO.WPF.MVC.CS;component/Images/dev-printer-icon.png"
+                			Stretch="Fill" />
+                	</StackPanel>
                 </Button>
             </StackPanel>
         </Grid>
