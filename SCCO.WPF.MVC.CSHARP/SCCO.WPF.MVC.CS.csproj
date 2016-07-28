@@ -501,6 +501,7 @@
     <Compile Include="Resources\AccountNatureConverter.cs" />
     <Compile Include="Resources\CharBooleanConverter.cs" />
     <Compile Include="Utilities\BackgroundTasks\BackgroundTaskViewModel.cs" />
+    <Compile Include="Utilities\BackgroundTasks\SavingsDepositInterestPostingWorker.cs" />
     <Compile Include="Utilities\BackgroundTasks\FinancialReportWorker.cs" />
     <Compile Include="Utilities\BackgroundTasks\RelayCommand.cs" />
     <Compile Include="Utilities\DataTableHelper.cs" />
