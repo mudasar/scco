@@ -191,9 +191,7 @@ namespace SCCO.WPF.MVC.CS.Utilities
             var paramKeys = paramList.Select(sqlParameter => sqlParameter.Key).ToArray();
             var formattedSQL = string.Format(sql, string.Join(",", paramKeys));
             var dataTable = DatabaseController.ExecuteSelectQuery(formattedSQL, paramList.ToArray());
-            return
-                (from DataRow dataRow in dataTable.Rows select DataConverter.ToDecimal(dataRow["amount"]))
-                    .FirstOrDefault();
+            return dataTable.Rows.Cast<DataRow>().Sum(dataRow => DataConverter.ToDecimal(dataRow["amount"]));
         }
 
         internal static decimal GetAccountForwardedBalance(IEnumerable<string> codeList)
