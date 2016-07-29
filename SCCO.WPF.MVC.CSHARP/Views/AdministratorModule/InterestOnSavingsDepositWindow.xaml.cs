@@ -5,6 +5,8 @@ using SCCO.WPF.MVC.CS.Controllers;
 using SCCO.WPF.MVC.CS.Models;
 using SCCO.WPF.MVC.CS.Views.SavingsDepositModule;
 using SCCO.WPF.MVC.CS.Views.SearchModule;
+using System.Windows.Input;
+using SCCO.WPF.MVC.CS.Utilities;
 
 namespace SCCO.WPF.MVC.CS.Views.AdministratorModule
 {
@@ -59,7 +61,21 @@ namespace SCCO.WPF.MVC.CS.Views.AdministratorModule
                 MessageWindow.ShowAlertMessage("Please select a Savings Deposit account.");
                 return;
             }
-            SavingsDepositController.ProcessInterestOnSavingsDeposit(_viewModel);
+            //SavingsDepositController.ProcessInterestOnSavingsDeposit(_viewModel);
+
+            Mouse.OverrideCursor = Cursors.Wait;
+            var transactionDate = MainController.LoggedUser.TransactionDate;
+            var viewModel = new Utilities.BackgroundTasks.SavingsDepositInterestPostingWorker(_viewModel, transactionDate);
+            var view = new ProgressView(viewModel, $"Interest on Savings Deposit ({_viewModel.Quarter})");
+            view.ShowDialog();
+
+            Mouse.OverrideCursor = Cursors.Arrow;
+
+            if (!viewModel.Result.Success)
+            {
+                MessageWindow.ShowAlertMessage(viewModel.Result.Message);
+                return;
+            }
         }
 
         private void PostingButtonOnClick(object sender, RoutedEventArgs e)

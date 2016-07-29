@@ -146,6 +146,7 @@
     <Compile Include="Controllers\LoanAmortizationController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\SavingsDepositController.cs" />
+    <Compile Include="Database\QueryRepository.cs" />
     <Compile Include="Database\RestoreFromBackupWindow.xaml.cs">
       <DependentUpon>RestoreFromBackupWindow.xaml</DependentUpon>
     </Compile>
