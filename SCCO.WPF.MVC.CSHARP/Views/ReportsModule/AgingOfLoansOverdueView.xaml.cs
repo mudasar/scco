@@ -35,10 +35,12 @@ namespace SCCO.WPF.MVC.CS.Views.ReportsModule
             {
                 var filteredData = ByCodeRadioButton.IsChecked == true
                                        ? _reportData.Where(t => t.Status == "Overdue")
-                                                    .OrderBy(t => t.MemberCode)
+                                                    .OrderBy(t => t.Age)
+                                                    .ThenBy(t => t.MemberCode)
                                                     .ToList()
                                        : _reportData.Where(t => t.Status == "Overdue")
-                                                    .OrderBy(t => t.MemberName)
+                                                    .OrderBy(t => t.Age)
+                                                    .ThenBy(t => t.MemberName)
                                                     .ToList();
 
                 var reportTable = filteredData.ToDataTable();
@@ -76,10 +78,12 @@ namespace SCCO.WPF.MVC.CS.Views.ReportsModule
             {
                 var filteredData = ByCodeRadioButton.IsChecked == true
                                        ? _reportData.Where(t => t.Status == "Overdue")
-                                                    .OrderBy(t => t.MemberCode)
+                                                    .OrderBy(t => t.MaturityDate)
+                                                    .ThenBy(t => t.MemberCode)
                                                     .ToList()
                                        : _reportData.Where(t => t.Status == "Overdue")
-                                                    .OrderBy(t => t.MemberName)
+                                                    .OrderBy(t => t.MaturityDate)
+                                                    .ThenBy(t => t.MemberName)
                                                     .ToList();
 
                 var reportTable = filteredData.ToDataTable();
